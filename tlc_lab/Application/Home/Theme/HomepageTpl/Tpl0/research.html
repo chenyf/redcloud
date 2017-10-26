@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <link href="/Public/homepage/template/tpl/tpl0/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- jQuery (necessary JavaScript plugins) -->
+    <script src="/Public/homepage/template/tpl/tpl0/js/jquery.min.js"></script>
+    <!-- Custom Theme files -->
+    <script src="/Public/homepage/template/tpl/tpl0/js/masonry.js"></script>
+    <link href="/Public/homepage/template/tpl/tpl0/css/style.css" rel='stylesheet' type='text/css' />
+
+    <!-- Custom Theme files -->
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="{{ description }}" />
+    <meta name="keywords" content="{{ keywords }}" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+   <!-- start menu -->
+
+</head>
+<body>
+<div class="top">
+    <img loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/pic-error.png?5.1.4';"  src="{{ user_default_path(user.id) }}" class="avatar" alt="{{ user.nickname }}">
+    <h1>{{user.nickname}}</h1>
+    <h3>{{ profile.position }}</h3>
+</div>
+<div class="nav">
+    <div class="harf-circle-gray"></div>
+    <div class="left-nav" ><a href="./research.html">科研项目</a></div>
+    <div class="center-nav"><a href="./index.html">主页&nbsp;&nbsp;与&nbsp;&nbsp;教学</a></div>
+    <div class="right-nav"><a href="./publications.html">出版物</a></div>
+</div>
+<div class="main">
+
+    <div class="right-main-2">
+
+        {% for v in data.researches %}
+            <div class="square-2 left-7">
+                <h2>{{ v.key }}</h2>
+                <div class="border-square">
+                    {% for v2 in v.value %}
+                    <p>• {{ v2.val }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+</div>
+<div class="copyright">
+        <p>{{site.icp}}</p>
+</div>
+</body>
+<script>
+    $(function() {
+        var $container = $('.right-main-2');
+        $container.imagesLoaded(function() {
+            $container.masonry({
+                itemSelector: '.square-2',
+                isAnimated: true,
+            });
+        });
+    });
+
+</script>
+</html>

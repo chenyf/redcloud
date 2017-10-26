@@ -1,0 +1,386 @@
+{% extends '@BackManage/System/layout.html.twig' %}
+{% block title %}站点设置 - {{ parent() }}{% endblock %}
+
+{% set menu = 'site' %}
+{% set script_controller = 'setting/site' %}
+
+{% block main %}
+
+<style>
+#site-logo-container,#site-favicon-container img {max-width: 80%; margin-bottom: 10px;}
+</style>
+
+<div class="page-header"><h1>站点设置</h1></div>
+
+{{ web_macro.flash_messages() }}
+
+<form class="form-horizontal" id="site-form" method="post">
+  
+  <fieldset>
+    <legend>基础信息</legend>
+    
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="name">网站名称</label>
+      </div>
+      <div class="col-md-8 controls">
+        <input type="text" id="name" name="name" class="form-control" value="{{site.name}}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="slogan">网站副标题</label> 
+      </div>
+      <div class="col-md-8 controls">
+         <input type="text" id="slogan" name="slogan" class="form-control" value="{{site.slogan}}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label"> 
+        <label for="url">网站域名</label> 
+      </div>
+      <div class="col-md-8 controls">
+       <input type="text" id="url" name="url" class="form-control" value="{{site.url}}">
+        <p class="help-block">以"http://"或"https://"开头</p>
+      </div>
+    </div>
+
+      <div class="form-group">
+          <div class="col-md-2 control-label">
+              <label for="school_name">学校中文名</label>
+          </div>
+          <div class="col-md-8 controls">
+              <input type="text" id="school_name" name="school_name" class="form-control" value="{{site.school_name}}">
+          </div>
+      </div>
+
+      <div class="form-group">
+          <div class="col-md-2 control-label">
+              <label for="school_english_name">学校英文名</label>
+          </div>
+          <div class="col-md-8 controls">
+              <input type="text" id="school_english_name" name="school_english_name" class="form-control" value="{{site.school_english_name}}">
+          </div>
+      </div>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="logo">网站LOGO/校徽</label>
+      </div>
+      <div class="col-md-8 controls">
+        <div id="site-logo-container">{% if site.logo %}<img height="60px" src="/{{ site.logo }}">{% endif %}</div>
+        <button class="btn btn-default btn-sm" id="site-logo-upload" type="button" data-url="{{ path('admin_setting_logo_upload') }}">上传</button>
+        <button class="btn btn-default btn-sm" id="site-logo-remove" type="button" data-url="{{ path('admin_setting_logo_remove') }}" {% if not site.logo %}style="display:none;"{% endif %}>删除</button>
+       {% if isOolyTheme==1 %} <input type="checkbox" name="logoType" {% if site.logoType %}checked="true"{% endif %} value="1">  图为校徽{% endif %}
+        <p class="help-block">请上传png, gif, jpg格式的图片文件。LOGO图片建议不要超过50*250。</p>
+        <input type="hidden" name="logo" value="{{ site.logo }}">
+      </div>
+    </div>
+    
+    {% if isOolyTheme==1 %}
+    <div class="form-group">
+        <div class="col-md-2 control-label">
+            <label for="slogan">主题图片颜色配置</label> 
+            <input id="iConColorVal" type="hidden" name="themeCfg[THEME_ICON_COLOR]" value="{{site.themeCfg.THEME_ICON_COLOR}}">
+        </div>
+        <div class="col-md-8 controls">
+            <div class="all-color-box">
+                <span class="checked-color"><em {% if site.themeCfg.THEME_ICON_COLOR %} style="background:  #{{site.themeCfg.THEME_ICON_COLOR}}" {% endif %} id="showColor"></em></span>
+                <div id="colorBord" class="pic-color-box hide">
+                    <h3 id="closeColorBord"><a href="###">关闭色板</a></h3>
+                    <table border="1px solid #333">
+                        {% for data in iconColorArr %}  
+                            <tr>
+                                {% for icocolor in data %}
+                                    {% if icocolor %}
+                                        <td title="#{{icocolor}}" class="colorTd" data-color="{{icocolor}}"  style="background:#{{icocolor}};"></td>
+                                    {% else %}
+                                        <td></td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}  
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="slogan">通用主题配置</label> 
+      </div>
+      <div class="col-md-8 controls">
+            <div class="all-color-box">
+                <label style="margin:7px 10px 0 0;float:left;color:#999;" for="">网站主题色</label>
+                <div style="width:100%;height:40px;">
+                      <input style="float:left;width:90px;color:{{site.themeCfg.THEME_FRONT_COLOR}}" type="text" id="themeFontColor" name="themeCfg[THEME_FRONT_COLOR]" class="form-control" value="{{site.themeCfg.THEME_FRONT_COLOR}}">
+                      <img src="/Public/assets/libs/colorpicker/colorpicker.png" id="imgFontColor" style="cursor:pointer;margin:9px 0 0 10px;"/>
+                </div>
+            </div>
+            <div class="all-color-box">
+                <label style="margin:5px 10px 0 0;float:left;color:#999;" for="">网站辅助色</label>
+                <div style="width:100%;height:40px;">
+                       <input style="float:left;width:90px;color:{{site.themeCfg.THEME_BACK_COLOR}}" type="text" id="themeBackColor" name="themeCfg[THEME_BACK_COLOR]" class="form-control" value="{{site.themeCfg.THEME_BACK_COLOR}}">
+                       <img src="/Public/assets/libs/colorpicker/colorpicker.png" id="imgBackColor" style="cursor:pointer;margin:9px 0 0 10px;"/>
+                </div>
+            </div>
+            <div class="all-color-box">
+                <label style="margin:5px 10px 0 0;float:left;color:#999;" for="">导航条颜色</label>
+                <div style="width:100%;height:40px;">
+                    <input style="float:left;width:90px;color:{{site.themeCfg.THEME_NAV_BACK_COLOR}}" type="text" id="themeNavBackColor" name="themeCfg[THEME_NAV_BACK_COLOR]" class="form-control" value="{{site.themeCfg.THEME_NAV_BACK_COLOR}}">
+                    <img src="/Public/assets/libs/colorpicker/colorpicker.png" id="imgNavBackColor" style="cursor:pointer;margin:9px 0 0 10px;"/>
+                </div>
+            </div>
+            
+      </div>
+    </div>
+
+    
+    
+    
+    {% endif %}
+    <input id='themeType' type="hidden" value="{{isOolyTheme}}">
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="favicon">浏览器图标</label>
+      </div>
+      <div class="col-md-8 controls">
+        <div id="site-favicon-container">{% if site.favicon %}<img height="60px" src="/{{ site.favicon }}">{% endif %}</div>
+        <button class="btn btn-default" id="site-favicon-upload" type="button" data-url="{{ path('admin_setting_favicon_upload') }}">上传</button>
+        <button class="btn btn-default" id="site-favicon-remove" type="button" data-url="{{ path('admin_setting_favicon_remove') }}" {% if not site.favicon %}style="display:none;"{% endif %}>删除</button>
+        <p class="help-block">请上传ico格式的图标文件。</p>
+        <input type="hidden" name="favicon" value="{{ site.favicon }}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="seo_keywords">SEO关键词</label>
+      </div>
+      <div class="col-md-8 controls">
+        <input type="text" id="seo_keywords" name="seo_keywords" class="form-control" value="{{site.seo_keywords}}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="seo_description">SEO描述信息</label>
+      </div>
+      <div class="col-md-8 controls">
+        <input type="text" id="seo_description" name="seo_description" class="form-control" value="{{site.seo_description}}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="master_email">管理员邮箱地址</label>
+      </div>
+      <div class="col-md-8 controls">
+        <input type="text" id="master_email" name="master_email" class="form-control" value="{{site.master_email}}">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="copyright">课程内容版权方</label>
+      </div>
+      <div class="col-md-8 controls">
+        <input type="text" id="copyright" name="copyright" class="form-control" value="{{site.copyright}}">
+        <div class="help-block">您可以填写网站名称或公司名称。</div>
+      </div>
+    </div>    
+    
+    <div class="form-group">
+        <div class="col-md-2 control-label">
+          <label >友情链接设置</label>
+        </div>
+        <div style="display:none">
+                    <textarea id="friendRowHidden" style="display:none">
+                        <div class='controls col-md-12 row-lwy'>
+                        <div class='department-first ' style='display:inline;'>
+                        <span>名称&nbsp;</span>
+                        <input type='text' class='friend_name' name='friend_link[{replace}][title]' value=''>
+                        </div>
+                        <div class='banVal ' style='display:inline;'>
+                        <span>&nbsp;&nbsp; 地址&nbsp;</span>
+                        <input type='text' class='friend_url' name='friend_link[{replace}][url]' value=''>
+                        <label>
+                        <a class='plus'><i class='fa fa-plus'></i></a>
+                        <a class='remove'><i class='fa fa-remove'></i></i></a>
+                        <a class='up'><i class='fa fa-arrow-up'></i></a>
+                        <a class='down'><i class='fa fa-arrow-down'></i></a></label>
+                        </div>
+                        </div>
+                    </textarea>
+        </div>
+        <div class="controls col-md-8  box-lwy">
+            <div class="controls col-md-12 radios">
+              {{ radios('friend_link_enable', {1:'开启', 0:'关闭'}, site.friend_link_enable) }}
+            </div>
+            {% set friendId = 0 %}
+            {% for key ,value in site.friend_link %}
+                <div class="controls col-md-12 row-lwy">
+                    <div class="department-first " style="display:inline;">
+                        <span>名称&nbsp;</span>
+                        <input type="text" class='friend_name' name="friend_link[{{friendId}}][title]" value="{{site.friend_link[key]['title']}}">
+                    </div>
+                    <div class="" style="display:inline;">
+                        <span>  &nbsp;&nbsp; 地址&nbsp;</span>
+                        <input type="text" class="friend_url" name="friend_link[{{friendId}}][url]" value="{{site.friend_link[key]['url']}}">
+                        <label>
+                            <a class='plus'><i class='fa fa-plus'></i></a>
+                            <a class='remove'><i class='fa fa-remove'></i></i></a>
+                            <a class='up'><i class='fa fa-arrow-up'></i></a>
+                            <a class='down'><i class='fa fa-arrow-down'></i></a>
+                        </label> 
+                    </div>
+                </div>
+                {% set friendId = friendId+1 %}
+            {% endfor %}
+        </div>
+   </div>
+
+    <div class="form-group">
+            <div class="col-md-2 control-label">
+              <label >关于我们设置</label>
+            </div>
+            <div style="display:none">
+                    <textarea id="aboutRowHidden" style="display:none">
+                        <div class='controls col-md-12 row-lwy'>
+                        <div class='department-first edit-parent' style='display:inline;'>
+                        <input type='hidden' name='about_us[{replace}][sequence]'  value='0'>
+                        <span>目录&nbsp;</span>
+                        <input type='text' class='' name='about_us[{replace}][title]' value=''>
+                        <label>
+                        <a class='plus'><i class='fa fa-plus'></i></a>
+                        <a class='remove'><i class='fa fa-remove'></i></i></a>
+                        <a class='up'><i class='fa fa-arrow-up'></i></a>
+                        <a class='down'><i class='fa fa-arrow-down'></i></a>
+                        <a class='edit'>[编辑内容]</a>
+                        </label>
+                        </div>
+                        <div class='col-md-12 about-textarea' style='display:none'>
+                            <{textarea} id='n-{replace}' class='form-control abouttextarea' rows='16' name='about_us[{replace}][content]' data-image-upload-url='{{ path('editor_upload', {token:upload_token('default')}) }}'>
+                            </{textarea}>
+                        </div>
+                        </div>
+                    </textarea>
+                    <textarea id="textarea_str" style="display:none">
+                        <{textarea} id='n-{replace}' class='form-control abouttextarea' rows='16' name='about_us[{replace}][content]' data-image-upload-url='{{ path('editor_upload', {token:upload_token('default')}) }}'>{iframe_body_html}</{textarea}>;
+                    </textarea>
+            </div>
+            <div class="controls col-md-8  box-lwy-about">
+                <div class="controls col-md-12 radios">
+                  {{ radios('about_us_enable', {1:'开启', 0:'关闭'}, site.about_us_enable) }}
+                </div>
+                <div class="controls col-md-12 {% if about_save == 'error' %} about_us_error {% endif %}">
+                    <div class="department-first " style="display:inline;">
+                        <span>标题&nbsp;</span>
+                        <input type="text" class="" name="about_us_title" value="{{site.about_us_title}}">
+                    </div>
+                </div>
+                {% set aboutId = 0 %}
+                {% for key, value in about_us %}    
+                    <div class="controls col-md-12 row-lwy">
+                        <div class="department-first edit-parent" style="display:inline;">
+                            <input type="hidden" class="" name="about_us[{{aboutId}}][sequence]"  value="0" >
+                            <span>目录&nbsp;</span>
+                            <input type="text" class="" name="about_us[{{aboutId}}][title]" value="{{value['title']}}">
+                            <label>
+                                <a href='#' class='plus'><i class='fa fa-plus'></i></a>
+                                <a href='#' class='remove'><i class='fa fa-remove'></i></i></a>
+                                <a href='#' class='up'><i class='fa fa-arrow-up'></i></a>
+                                <a href='#' class='down'><i class='fa fa-arrow-down'></i></a>
+                                <a href='#' class='edit'>[编辑内容]</a>
+                            </label>
+                        </div>
+                        <div class='col-md-12 about-textarea' style='display:none'>
+                            <textarea id='n-{{key}}' class='form-control abouttextarea' rows='16' name='about_us[{{aboutId}}][content]' data-image-upload-url='{{ path('editor_upload', {token:upload_token('default')}) }}'>
+                                {{value['content']|e}}
+                            </textarea>
+                        </div>    
+                    </div>
+                    {% set aboutId = aboutId+1 %}
+                {% endfor %}
+        </div>
+     </div>
+
+      <div class="form-group">
+          <div class="col-md-2 control-label">
+              <label for="icp">版权/备案号</label>
+          </div>
+          <div class="col-md-8 controls">
+              <input type="text" id="icp" name="icp" class="form-control" value="{{site.icp}}">
+          </div>
+      </div>
+
+      <div class="form-group">
+          <div class="col-md-2 control-label">
+              <label for="icp">联系方式</label>
+          </div>
+          <div class="col-md-8 controls">
+              <input type="text" id="contact" name="contact" class="form-control" value="{{site.contact}}">
+          </div>
+      </div>
+
+  </fieldset>
+
+<br>
+
+  <fieldset>
+    <legend>网站统计分析代码部署</legend>
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="analytics">统计分析代码</label>
+      </div>
+      <div class="col-md-8 controls">
+
+        <textarea id="analytics" name="analytics" class="form-control" rows="4">{{site.analytics}}</textarea>
+
+        <p class="help-block">
+          建议使用下列统计分析的一种：
+          <!--<a href="http://www.google.cn/intl/zh-CN_ALL/analytics/" target="_blank">谷歌分析</a>、-->
+          <a href="http://tongji.baidu.com/" target="_blank">百度统计</a>、
+          <a href="http://ta.qq.com/" target="_blank">腾讯分析</a>、
+          <a href="http://www.cnzz.com/" target="_blank">CNZZ</a>。
+        </p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset style="display:none;">
+    <legend>站点状态</legend>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label >网站状态</label>
+      </div>
+      <div class="col-md-8 controls radios">
+        {{ radios('status', {open:'开放', closed:'关闭'}, site.status) }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-md-2 control-label">
+        <label>网站关闭公告</label>
+      </div>
+        <div class="col-md-8 controls">
+          <textarea id="closed_note" name="closed_note" class="form-control" rows="4">{{site.closed_note}}</textarea>
+        <p class="help-block">网站处于关闭状态时，用户访问网站将显示此公告，支持HTML代码。</p>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="row form-group">
+    <div class="controls col-md-offset-2 col-md-8">
+      <button type="submit" class="btn btn-primary">提交</button>
+    </div>
+  </div>
+
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+  
+</form>
+
+{% endblock %}

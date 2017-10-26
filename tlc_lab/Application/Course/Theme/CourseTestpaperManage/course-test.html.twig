@@ -1,0 +1,147 @@
+{% if app.request.get('type') == 1 %}
+    {% set menu = 'homework' %}
+    {% set typeText = '作业' %}
+{% else %}
+    {% set menu = 'test' %}
+    {% set typeText = '考试' %}
+{% endif %}
+
+
+{% set parentId = parentId | default(null) %}
+{% set script_controller = 'test-paper/index' %}
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+{% import '@Home/macro.html.twig' as macro %}
+{% block title %}{{ tyepText }}管理 - {{ parent() }}{% endblock %}
+ {% block side %}
+<div class="t-course-handle">
+    <div class="t-add-content pull-right">
+        <a type="button" class="btn btn-info btn-sm pull-right" data-toggle="modal" data-target="#modal" data-url="{{ U('/Course/CourseTestpaperManage/createCourseTestAction', {courseId:course.id,center:app.request.get('center'),type:app.request.get('type')}) }}"><i class="glyphicon glyphicon-plus mrs"></i>创建{{ typeText }}</a>
+    </div>
+    <div class="t-work-set">
+        <form class="form-inline pls">
+            <span class="text-muted mrm mlm">筛选条件</span>
+                <div class="form-group screening-condition">
+                    {{ render(controller('Course:CourseManage:selectClass', {courseId:course.id,id:app.request.get('classId')})) }}
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="form-test2" name="release">
+                        <option value="">全部状态</option>
+                        <option value="1" {% if app.request.get('release') == 1 %}selected{% endif %}>已发布</option>
+                        <option value="0" {% if app.request.get('release') == 0 and app.request.get('release') != '' %}selected{% endif %}>未发布</option>
+                    </select>
+                </div>
+                <div class="form-group t-work-search pull-right mrl">
+                    <input type="text" class="form-control pull-left" placeholder="请输入{{ typeText }}名称" name="title" value="">
+                    <span class="input-group-btn pull-left">
+                        <button class="btn btn-default" id="button-id" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block courseContent %}
+    <div class="t-course-set-box">
+        <div class="t-work-table">
+            <table class="table table-bordered" style="word-break:break-all;text-align:center;">
+                <tr class="active">
+                    <td width="30%">{{ typeText }}名称</td>
+                    <td width="15%">交卷人数/总人数</td>
+                    <td width="10%">{{ typeText }}状态</td>
+                    <td width="15%">开始/截止时间</td>
+                    <td>操作</td>
+                </tr>
+                {% for vo in list %}
+                <tr class="homework-item" data-vid="{{ vo.id }}">
+                    <td>{{ htmlspecialchars_decode(vo.title) }}</td>
+                    <td>{{ vo.finish_num }}/{{ vo.classMemberNum }}</td>
+                    <td>{% if vo.release == 1 %}已发布{% else %}未发布{% endif %}</td>
+                    <td>
+                        {% if vo.limit == 1 %}
+                            {% if vo.startTime > 0 %}{{ vo.startTime|date("Y-n-d") }}{% else %} <span class="text-muted">——</span>{% endif %}<br/>
+                            {% if vo.endTime > 0 %}{{ vo.endTime|date("Y-n-d") }}{% else %} <span class="text-muted">——</span>{% endif %}
+                        {% else %}
+                            不限时
+                        {% endif %}
+                    </td>
+                    <td>
+                            {# 试卷已完善 #}
+                            {% set methodName = 'Course/CourseTestpaperManage/' ~  vo.mode ~  'CreateCourseTestQuestions' %}
+                            {#% if vo.startTime > 0 and vo.endTime > 0 %#}
+                            {% if vo.startTime > 0  %}
+                            <div class="btn-group">
+                                <a class="btn btn-sm btn-default" target="_blank" href="{{ U('My/Testpaper/previewTest', {testId:vo.testId}) }}"> <span class="glyphicon glyphicon-eye-open"></span>&nbsp;预览{{ typeText }}</a>
+                                <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    {% if vo.show == 0 %}
+                                    <li><a href="{{ U('Course/CourseTestpaperManage/unpublishCourseTest',{id:vo.id}) }}" class="ajax-click"><i class="glyphicon glyphicon-ok"></i>&nbsp;公布答案</a></li>
+                                    {% endif %}
+                                    {# 试卷未发布 #}
+                                    {% if vo.release == 0 %}
+                                        <li><a href="{{ U('Course/CourseTestpaperManage/publishClassTest',{courseId:vo.courseId,id:vo.id,testId:vo.testId}) }}" class=" ajax-click"><i class="glyphicon glyphicon-ok"></i>&nbsp;发布{{ typeText }}</a></li>
+                                        <li><a href="{{ U(methodName,{id:vo.id,courseId:vo.courseId,type:app.request.get('type')}) }}" class=""><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑{{ typeText }}</a></li>
+                                    {% endif %}
+                                    {# 试卷已发布 #}
+                                    {% if vo.release == 1 %}
+                                            <li><a class="ajaxLoad" href="{{ U('My/Testpaper/teacherCheckInCourse',{id:course.id,testid:vo.testId,type:vo.type,status:'all'}) }}"><i class="glyphicon glyphicon-bookmark"></i>&nbsp;查看成绩</a>
+                                            </li>
+                                        {% if vo.correct == 1 %}
+                                            <li>
+                                                <a class="ajaxLoad" href="{{ U('My/Testpaper/teacherCheckInCourse',{id:course.id,testid:vo.testId,type:vo.type,status:'submitted'}) }}"><i class="glyphicon glyphicon-star"></i>&nbsp;批阅{{ typeText }}</a>
+                                            </li>
+                                        {% endif %}
+                                    {% endif %}
+                                    <li>
+                                        <a href="javascript:;" class="delete_homework_link" data-url="{{ path('course_manage_homework_remove',{'courseId':vo.courseId}) }}" data-name="{{ typeText }}"> <span class="glyphicon glyphicon-remove"></span>&nbsp;删除{{ typeText }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            {% endif %}
+
+                            {# 试卷未完善 #}
+                            {% if vo.startTime == 0 %}
+                                {# 题目未填完，跳到第二步 #}
+                                {% if vo.itemCount < vo.testCount %}
+                                    {% set jumpUrl = U(methodName,{id:vo.id,courseId:vo.courseId,type:app.request.get('type')})  %}
+                                {% else %}
+                                    {# 跳到第三步 #}
+                                    {% set jumpUrl = U(methodName,{id:vo.id,courseId:vo.courseId,type:app.request.get('type')})  %}
+                                {% endif %}
+                                        <div class="btn-group">
+                                            <a href="{{ jumpUrl }}" class="btn btn-sm btn-info"><i class="glyphicon glyphicon-retweet"></i>&nbsp; 完善{{ typeText }}</a>
+                                            <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a  target="_blank" href="{{ U('My/Testpaper/previewTest', {testId:vo.testId}) }}"> <span class="glyphicon glyphicon-eye-open"></span>&nbsp;预览{{ typeText }}</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:;" class="delete_homework_link" data-url="{{ path('course_manage_homework_remove',{'courseId':vo.courseId}) }}" data-name="{{ typeText }}"> <span class="glyphicon glyphicon-remove"></span>&nbsp;删除{{ typeText }}</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                            {% endif %}
+
+                                    </td>
+                                </tr>
+                {% else %}
+                                <tr>
+                                    <td colspan="20">
+                                        <div class="empty">还没有{{ typeText }}，请点击右上角按钮，
+                                            <a data-toggle="modal" data-target="#modal" data-url="{{ U('/Course/CourseTestpaperManage/createCourseTestAction', {courseId:course.id,center:app.request.get('center'),type:app.request.get('type')}) }}">创建一份新{{ typeText }}</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                {% endfor %}
+                            </table>
+                        </div>
+                        <div class="text-right mtl">
+            {{ web_macro.paginator(paginator) }}
+                            </div>
+                        </div>
+
+{% endblock %}
+
+
+

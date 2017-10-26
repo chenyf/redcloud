@@ -1,0 +1,30 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+{% if courseResources is empty %}
+   <div class="empty">暂无课程资料！</div>
+{% else %}
+    <h5>课程资料</h5>
+    <ul class="data-list">
+        {% for resource in courseResources %}
+            {% set type = getResourceType(resource.ext) %}
+            {% if type is empty %}
+                {% set ext = 'fa-file-o' %}
+            {% else %}
+                {% set ext = 'fa-file-'~type~'-o' %}
+            {% endif %}
+            <li class="data-item">
+                <button class="btn btn-primary pull-right mts download-course-resource" data-courseid="{{resource.courseId}}" data-id="{{resource.id}}" data-url="{{path('course_resource_download')}}">下载</button>
+                <div class="data-item-con">
+                     <p>
+                         <i class="fa mrs {{ext}}"></i>{{resource.title}}
+                     </p>
+                     <div class="text-muted text-normal mts">
+                         <span class="mrm">{{resource.size|file_size}}</span>
+                         <span class="mrm">{{getUserNameById(resource.updateUid)}}</span>
+                         <span>{{resource.updateTm|data_format}}</span>
+                     </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+    <script>app.load('course-resource/download')</script>
+{% endif %}

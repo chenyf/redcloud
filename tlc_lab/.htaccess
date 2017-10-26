@@ -1,0 +1,113 @@
+#apache
+#<IfModule mod_rewrite.c>
+#  Options +FollowSymlinks
+#  RewriteEngine On
+
+#  RewriteCond %{REQUEST_FILENAME} !-d
+#  RewriteCond %{REQUEST_FILENAME} !-f
+#  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+#</IfModule>
+
+#nginx
+location ^~ /Application/ {
+    deny all;
+}
+
+location ^~ /Runtime/ {
+    deny all;
+}
+
+location ^~ /Logs/ {
+    deny all;
+}
+
+location ^~ /Vendor/ {
+    deny all;
+}
+
+location ^~ /ThinkPHP/ {
+    deny all;
+}
+
+location ^~ /Bin/ {
+    deny all;
+}
+
+location ^~ /tools/ {
+    deny all;
+}
+
+location ~* \.(conf|md|json|sh|log|htaccess)$ {
+    deny all;
+}
+
+location ^~ /index_cli.php {
+    deny all;
+}
+
+location ^~ /version.php {
+    deny all;
+}
+
+location / {
+    if (!-e $request_filename) {
+        #rewrite  ^(.*)$  /index.php?s=$1  last;   
+        #rewrite  ^/([^/]*)/?([^/]*)/?([^/]*)/?$  /index.php?m=$1&c=$2&a=$3&$query_string  last;
+
+        rewrite ^/index.php(.*)$ /index.php?s=$1 last;
+        rewrite ^/(.*) /index.php?s=$1 last;
+
+        break;
+    }
+ }
+#~*不区分大小写匹配
+location ~* \.(jpg|jpeg|gif|png|ico|swf)$ {
+    if (!-f $request_filename) {
+        rewrite ^(.*)$ /autoimg.php last;
+        break;
+    }
+    if (-f $request_filename) {
+        expires 3y;
+        access_log off;
+        gzip off;
+    }
+}
+
+rewrite /Public/bundles/topxiaweb/img/(.*) /Public/bundles/web/img/$1 last;
+
+rewrite ^/404.html  /Public/Template/404.html last;
+
+rewrite  ^/backend_manage(/?)$  /index.php?m=BackManage&c=Default&a=indexAction&$query_string  last;
+#rewrite  ^(/?)$  /index.php?m=Home&c=Default&a=indexAction&$query_string  last;
+#导航:常见问答、关于我们
+rewrite ^/page/(.*)$ /index.php?m=Content&c=Content&a=pageShowAction&page=$1 last;
+
+#rewrite ^/files/(.*) /Public/files/$1 last;
+
+rewrite ^/mobile/MobileTest/index(/?) /mobile/MobileTest/indexAction&$query_string  last;
+
+rewrite ^/app_down/?$ /index.php?m=System&c=Mobile&a=defaultAction last;
+rewrite ^/app_down/(\d+)/(.*)$ /index.php?m=System&c=Mobile&a=downloadAction&device=$2&tm=$1 last;
+
+#rewrite ^/download/?$ /index.php?m=System&c=Mobile&a=defaultAction last;
+#rewrite ^/download/(\d+)/(.*)$ /index.php?m=System&c=Mobile&a=downloadAction&device=$2&tm=$1 last;
+
+rewrite ^/loadCss/(.*) /index.php?m=Home&c=LoadCss&a=loadCssAction&cssFileStr=$1&$query_string  last;
+
+rewrite ^/Home/Mobile/downloadQrcodeAction/code/(.*)  /index.php?m=System&c=Mobile&a=downloadQrcodeAction last;
+#支持旧的 (微信可能有缓存) qzw 2015-12-02
+rewrite ^/Home/Mobile/(.*)  /index.php?m=System&c=Mobile&a=$1&$query_string last;
+
+rewrite ^/Home/teacher  /index.php?m=User&c=Teacher&$query_string last;
+rewrite ^/Home/Group    /index.php?m=Wclass&c=Group&$query_string last;
+rewrite ^/home/article  /index.php?m=Content&c=Article&$query_string last;
+
+#AddType video/ogg ogv
+#AddType video/mp4 mp4 m4v
+#AddType video/webm webm
+#AddType audio/ogg ogg
+#AddType audio/ogg oga
+#AddType audio/wav wav
+#AddType audio/mpeg mp3
+#AddType audio/mp4 mp4
+#AddType audio/mp4 mpa

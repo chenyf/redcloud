@@ -1,0 +1,105 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+
+{% if lesson.type != 'live' %}
+<h5>课程内容简介</h5>
+<div class="lesson-about">
+	{% if lesson.summary  %}
+	  {{ lesson.summary }}
+	{% else %}
+	  此课程内容无简介。
+	{% endif %}
+</div>
+{% endif %}
+
+{% if lesson.type in ['video', 'audio'] and setting('course.student_download_media') and file %}
+<h5>课程内容音视频文件下载</h5>
+<div class="lesson-about">
+  <a href="{{ path('course_lesson_media_download', {courseId:lesson.courseId, lessonId:lesson.id,center:app.request.get('center')}) }}">{{ file.size|file_size }} (点击下载)</a>
+</div>
+{% endif %}
+
+
+<h5>课程内容资料</h5>
+
+{% if lesson.status == 'published' %}
+  {# <ul class="media-list toolbar-pane-list">
+    {% for material in materials %}
+      <li class="media list-item">
+        <div class="media-body list-item-body">
+          {% if material.link %}
+            <div class="title">
+              <a href="{{ material.link }}" target="_blank">{{ material.title }}</a>
+              <span class="glyphicon glyphicon-new-window text-muted text-sm" title="网络链接资料"></span>
+            </div>
+          {% else %}
+                  <div class="title">
+                          <a href="{{ path('course_material_download', {courseId:course.id, materialId:material.id,center:app.request.get('center')}) }}" target="_blank">{{ material.title }}</a>
+                          <span class="meta">({{ material.fileSize|file_size }})</span>
+                  </div>
+                  <div class="summary">{{ material.description }}</div>
+          {% endif %}
+        </div>
+      </li>
+      {% else %}
+        <li class="empty-item" style="text-align:left;margin-left:10px;">此课程内容无资料</li>
+    {% endfor %}
+  </ul> #}
+<ul class="data-list">
+    <li class="data-item">
+        <button class="btn btn-primary pull-right mts">下载</button>
+        <div class="data-item-con">
+             <p><i class="fa fa-file-excel-o mrs"></i>资料名称资料名称资料名称资料名称</p>
+             <div class="text-muted text-normal mts">
+                 <span class="mrm">15.34M</span><span class="mrm">上传者</span><span>2016-03-24 16:00</span>
+             </div>
+        </div>
+    </li>
+    <li class="data-item">
+        <button class="btn btn-primary pull-right mts">下载</button>
+        <div class="data-item-con">
+             <p><i class="fa fa-file-word-o mrs"></i>资料名称资料名称资料名称资料名称</p>
+             <div class="text-muted text-normal mts">
+                 <span class="mrm">15.34M</span><span class="mrm">上传者</span><span>2016-03-24 16:00</span>
+             </div>
+        </div>
+    </li>
+    <li class="data-item">
+        <button class="btn btn-primary pull-right mts">下载</button>
+        <div class="data-item-con">
+             <p><i class="fa fa-file-pdf-o mrs"></i>资料名称资料名称资料名称资料名称</p>
+             <div class="text-muted text-normal mts">
+                 <span class="mrm">15.34M</span><span class="mrm">上传者</span><span>2016-03-24 16:00</span>
+             </div>
+        </div>
+    </li>
+    <li class="data-item">
+        <button class="btn btn-primary pull-right mts">下载</button>
+        <div class="data-item-con">
+             <p><i class="fa fa-file-powerpoint-o mrs"></i>资料名称资料名称资料名称资料名称</p>
+             <div class="text-muted text-normal mts">
+                 <span class="mrm">15.34M</span><span class="mrm">上传者</span><span>2016-03-24 16:00</span>
+             </div>
+        </div>
+    </li>
+    <li class="data-item">
+        <button class="btn btn-primary pull-right mts">下载</button>
+        <div class="data-item-con">
+             <p><i class="fa fa-file-image-o mrs"></i>资料名称资料名称资料名称资料名称</p>
+             <div class="text-muted text-normal mts">
+                 <span class="mrm">15.34M</span><span class="mrm">上传者</span><span>2016-03-24 16:00</span>
+             </div>
+        </div>
+    </li>
+    <li class="data-item">
+        <button class="btn btn-primary pull-right mts">下载</button>
+        <div class="data-item-con">
+             <p><i class="fa fa-file-video-o mrs"></i>资料名称资料名称资料名称资料名称</p>
+             <div class="text-muted text-normal mts">
+                 <span class="mrm">15.34M</span><span class="mrm">上传者</span><span>2016-03-24 16:00</span>
+             </div>
+        </div>
+    </li>
+</ul>
+{% else %}
+  <div class="lesson-about">此课程内容尚未发布，不能下载课程内容资料</div>
+{% endif %}

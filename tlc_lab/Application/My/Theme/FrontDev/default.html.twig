@@ -1,0 +1,36 @@
+{#% extends '@Home/Default/layout.html.twig' %#}
+{% extends getTwigExtendsStr('/Default/layout.html.twig',"@Web") %}
+{% set containerClassBlock = 'index_container' %}
+{% set script_controller = 'test/test' %}
+{% block content %}
+<div class="wrap-bg">
+    <div class="wrap">
+        <div class="content">
+            <div class="small-phone">
+                <div class="phone">
+                    <span></span>
+                    <p></p>
+                </div>
+            </div>
+            
+            <div class="con-school">
+                <div class="con-tit">
+                    <span><img src="/Public/bundles/web/img/logo.png"  /></span><h1>河软高校云</h1>
+                </div>
+                <dl>
+                    <dt>
+                        <img src="/Public/bundles/web/img/ewm.png" />
+                    </dt>
+                    <dd>
+                        <a class="android" style="margin-bottom:20px;"><i></i><b>Android下载</b></a>
+                        <a class="iphone"><i></i><b>iPhone下载</b></a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

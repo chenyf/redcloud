@@ -1,0 +1,60 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'middle' %}
+
+{% if create == 0 %}
+    {% set opteration_text = '编辑' %}
+    {% set action = path('admin_sign_coordinate_edit') %}
+{% else %}
+    {% set opteration_text = '添加' %}
+    {% set action = path('admin_sign_coordinate_add') %}
+{% endif %}
+
+{% block title %}{{ opteration_text }}签到地点坐标{% endblock %}
+{% block body %}
+
+    <form id="coordinate-form" class="form-horizontal" method="post" action="{{ action }}">
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="name">地点坐标名称</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="name" name="name" class="form-control" value="{{ coordinate.name|default('') }}" data-widget-cid="widget-1" placeholder="请输入签到坐标名称">
+                <div class="help-block">请输入签到坐标名称，1-30个字符，不能和现有重复。</div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="code">地点坐标经度</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="longitude" name="longitude" class="form-control" value="{{ cate.longitude|default('') }}" data-widget-cid="widget-1" placeholder="请输入地点坐标经度">
+                <div class="help-block">经度必须是大于0的小数。</div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="course_code">地点坐标纬度</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="latitude" name="latitude" class="form-control" value="{{ cate.latitude|default('') }}" data-widget-cid="widget-1" placeholder="请输入地点坐标纬度">
+                <div class="help-block">纬度必须是大于0的小数</div>
+            </div>
+        </div>
+
+        {% if id is not empty %}
+            <input type="hidden" name="id" value="{{ id }}">
+        {% endif %}
+
+    </form>
+{% endblock %}
+
+
+{% block footer %}
+    <button id="save-coordinate-btn" data-submiting-text="正在提交" class="btn btn-primary pull-right" data-toggle="form-submit" data-target="#coordinate-form">保存</button>
+    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+    <script>app.load("sign/sign_coordinate_base");</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends '@Home/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/layout.html.twig',"@Web")%#}
+{% block title %}邮箱验证失败 - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 ptl">
+        <div class="panel panel-default panel-page login-success-box">
+            <div class="panel-heading">
+                <h2><b><img src="/Public/static/img/login-icon.png" /></b>邮箱验证失败</h2>
+            </div>
+            <div class="alert alert-danger">验证地址已过期！</div>
+        </div>
+    </div>
+</div>
+{% endblock %}

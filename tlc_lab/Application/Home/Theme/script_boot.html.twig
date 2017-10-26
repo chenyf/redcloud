@@ -1,0 +1,44 @@
+{% if setting('cdn.enabled') %} {% set cdnUrl = setting('cdn.url') %} {% else %} {% set cdnUrl = '' %} {% endif %}
+<script src="{{ cdnUrl }}{{ asset('assets/libs/seajs/seajs/2.2.1/sea.js') }}"></script>
+<!--script src="{{ cdnUrl }}{{ asset('assets/libs/seajs/seajs-combo/1.0.1/seajs-combo.js') }}"></script-->
+<script src="{{ cdnUrl }}{{ asset('assets/libs/seajs/seajs-log/1.0.1/seajs-log.js') }}"></script>
+<!--script src="{{ cdnUrl }}{{ asset('assets/libs/seajs/seajs-flush/1.0.1/seajs-flush.js') }}"></script-->
+<script src="{{ cdnUrl }}{{ asset('assets/libs/seajs/seajs-style/1.0.2/seajs-style.js') }}"></script>
+<script src="{{ cdnUrl }}{{ asset('assets/libs/seajs-global-config.js') }}"></script>
+<script src="{{ cdnUrl }}{{ asset('assets/libs/function.js') }}?{{ getVersion() }}"></script>
+<script src="/Public/bundles/web/js/controller/course/dashboard.js"></script>
+<script>
+  var CKEDITOR_BASEPATH = '/Public/assets/libs/ckeditor/4.6.7/';
+  seajs.config({
+      uid: '{{app.user.id |default(0)}}',
+      webCode: '{{app.webCode |default('')}}',
+      mainScript: '{{ script_main }}',
+      scripts: {{ export_scripts()|default(null)|json_encode|raw }},
+      paths: {{ js_paths()|json_encode|raw }},
+        {% if script_controller is defined %}
+      controller: '{{ script_controller }}',
+        {% endif %}
+      dashboardJs: "course/dashboard.js",
+         {% if script_arguments is defined %}
+      arguments: {{ script_arguments|json_encode|raw }},
+        {% endif %}
+      config: {{
+            {
+              api:{
+                weibo:{key:setting('login_bind.weibo_key', '')},
+                qq:{key:setting('login_bind.qq_key', '')},
+                douban:{key:setting('login_bind.douban_key', '')},
+                renren:{key:setting('login_bind.renren_key', '')}
+              },
+              cloud: {
+                video_player: parameter('cloud.video_player'),
+                video_player_watermark_plugin: parameter('cloud.video_player_watermark_plugin'),
+                video_player_fingerprint_plugin: parameter('cloud.video_player_fingerprint_plugin')
+              },
+              loading_img_path: asset('assets/img/default/loading.gif'),
+            }|json_encode|raw
+          }}
+  });
+  var app = seajs.data;
+  seajs.use(app.mainScript);
+</script>

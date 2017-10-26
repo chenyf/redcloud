@@ -1,0 +1,25 @@
+<div class="course-content-main bt3-container">
+
+    <div class="bt3-row">
+        <div class="bt3-col-sm-9 bt3-col-sm-offset-3 main-container">
+            <div class="rc-SectionWrapper" id=" ">
+                {% include '@Course/Course/course-detail2-overview.html.twig' %}
+            </div>
+            <div class="rc-SectionWrapper" id="syllabus">
+                {% include '@Course/Course/course-detail2-syllabus.html.twig' %}
+            </div>
+            <div class="rc-SectionWrapper" id="material">
+                {{ render(controller('Course:CourseResource:resourcePane',{id:app.request.get('id')})) }}
+                {#{% include '@Course/Course/course-detail2-material.html.twig' %}#}
+            </div>
+            <div class="rc-SectionWrapper" id="thread">
+                {{ render(controller('Course:CourseThread:latestBlock')) }}
+                {#{% include '@Course/Course/course-detail2-thread.html.twig' %}#}
+            </div>
+            <div class="rc-SectionWrapper" id="announce">
+                {{ render(controller('Course:CourseAnnouncement:block',{course:course,center:app.request.get('center')})) }}
+                {#{% include '@Course/Course/course-detail2-announce.html.twig' %}#}
+            </div>
+        </div>
+    </div>
+</div>

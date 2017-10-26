@@ -1,0 +1,69 @@
+{% import "@BackManage/macro.html.twig" as admin_macro %}
+
+<tr id="course-tr-{{ course.id }}">
+  <td>{{ course.id }}</td>
+  <td>
+    <a href="{{ path('course_show', {id:course.id}) }}" target="_blank"><strong>{{ course.title }}</strong></a>{% if course.type == 'live' %}<span class="label label-success live-label mls">直播</span>{% endif %}{% if course.appleForbid %}<label class="label label-danger mls">iOS禁</label>{% endif %}
+    <br>
+    <span class="text-muted text-sm">分类：{{ category.name|default('--') }}</span>
+    {% if course.recommended %}
+      <span class="label label-default">荐:{{ course.recommendedTime|date('Y-m-d') }} / 序号:{{ course.recommendedSeq }}</span>
+    {% endif %}
+  </td>
+  <td>
+    {% if course.status == 'published' %}
+      已发布
+    {% elseif course.status == 'closed' %}
+      已关闭
+    {% else %}
+      未发布
+    {% endif %}
+  </td>
+  <td>
+    {{ admin_macro.user_link(user) }}
+    <br>
+    <span class="text-muted text-sm">{{ course.createdTime|date('Y-n-d H:i') }}</span>
+  </td>
+  <td>
+    <div class="btn-group">
+      <a class="btn btn-default btn-sm" href="{{ path('course_manage', {id:course.id}) }}" target="_blank">管理</a>
+
+      <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu pull-right">
+
+        <li><a class="recommend-course" href="#modal" data-toggle="modal" data-url="{{ path('admin_course_recommend', {id:course.id, ref:'courseList'}) }}"><span class="glyphicon glyphicon-hand-up"></span> 推荐课程</a></li>
+
+        {% if course.recommended %}
+          <li><a class="cancel-recommend-course" href="javascript:" data-url="{{ path('admin_course_cancel_recommend', {id:course.id}) }}"><span class="glyphicon glyphicon-hand-right"></span> 取消推荐</a></li>
+        {% endif %}
+        <li ><a class="copy-course" id="copy-course" href="javascript:" 
+        {% if course.type == "live" %}
+        title="直播课程不支持复制"
+        style="color:#909090"
+        {% endif %}
+        data-toggle="modal" 
+        data-target="#modal"  
+        data-url="{{ path('admin_course_copy', {id:course.id}) }}" 
+        data-type="{{course.type}}"
+        ><span class="glyphicon glyphicon-plus-sign"></span> 复制课程</a></li>
+
+        <li class="divider"></li>
+
+        {% if course.status == 'published' %}
+          <li><a class="close-course" href="javascript:" data-url="{{ path('admin_course_close', {id:course.id}) }}" data-user="{{default.user_name|default('学员')}}"><span class="glyphicon glyphicon-ban-circle"></span> 关闭课程</a></li>
+        {% endif %}
+
+        {% if course.status != 'published' %}
+          <li><a class="publish-course" href="javascript:" data-url="{{ path('admin_course_publish', {id:course.id}) }}"><span class="glyphicon glyphicon-ok-circle"></span> 发布课程</a></li>
+        {% endif %}
+
+        <li><a class="delete-course" href="javascript:" data-url="{{ path('admin_course_delete', {id:course.id}) }}"
+        data-chapter="{{default.chapter_name|default('章')}}" data-part="{{default.part_name|default('节')}}" data-user="{{default.user_name|default('学员')}}"><span class="glyphicon glyphicon-trash"></span> 删除课程</a></li>
+        {#{% endif %}#}
+
+      </ul>
+    </div>
+  </td>
+</tr>

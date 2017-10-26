@@ -1,0 +1,24 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}绑定用户邮箱或手机号 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'user_acount' %}
+
+{% set script_controller = 'user/bind_email_mobile' %}
+
+{% block main %}
+    <div class="alert alert-info" id="send_tip">{{ message }}</div>
+    <div class="panel panel-default panel-col">
+
+        <div class="panel-body cc-panel-body">
+
+            <ul class="nav nav-tabline">
+                <li{% if tab_nav == 'bind_mobile' %} class="active"{% endif %}><a href="{{ path('bind_mobile') }}">绑定手机号</a></li>
+                <li{% if tab_nav == 'bind_email' %} class="active"{% endif %}><a href="{{ path('bind_email') }}">绑定邮箱</a></li>
+            </ul>
+
+            {% block main_content %}{% endblock %}
+
+        </div>
+    </div>
+{% endblock %}

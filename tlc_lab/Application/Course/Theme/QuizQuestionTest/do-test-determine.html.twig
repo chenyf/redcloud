@@ -1,0 +1,59 @@
+{% if not role|default(null) == 'teacher' %}
+
+	<div class="testpaper-question testpaper-question-fill" id="question{{ item.question.id }}">{{ role }}
+		<div class="testpaper-question-body">
+			{% include '@My/Testpaper/testpaper-question-stem.html.twig' %}
+		</div>
+
+		{% if (paperResult.status|default(null) in ['submitted', 'finished'] and setting('questions.testpaper_answers_show_mode','submitted') == 'submitted') or (setting('questions.testpaper_answers_show_mode','submitted') == 'reviewed'  and paperResult.status|default(null) == 'finished') %}
+			<div class="testpaper-question-footer clearfix">
+				<div class="testpaper-question-result">
+					{% if item.question.testResult.status == 'right' %}
+						答案是 <strong class="text-success">{% if item.question.answer[0] == 1 %} 正确 {% else %} 错误 {% endif %}</strong class="text-success">，回答正确
+					{% elseif item.question.testResult.status == 'wrong' %}
+						答案是 <strong class="text-success">{% if item.question.answer[0] == 1 %} 正确 {% else %} 错误 {% endif %}</strong>， 回答<strong class="text-danger">错误</strong>
+					{% elseif item.question.testResult.status == 'noAnswer' %}
+						答案是： <strong class="text-success">{% if item.question.answer[0] == 1 %} 正确 {% else %} 错误 {% endif %}</strong>，你未答题
+					{% endif %}
+				</div>
+
+				<div class="testpaper-question-actions pull-right">
+					{% include '@Course/QuizQuestionTest/flag.html.twig' with { flags:['favorite', 'analysis'] } %}
+				</div>
+
+			</div>
+			<div class="testpaper-question-analysis well">{{ item.question.analysis|bbCode2Html|raw }}</div>
+		{% else %}
+			<div class="testpaper-question-footer clearfix">
+				<div class="testpaper-question-determine-inputs">
+					<label class="radio-inline {% if item.question.testResult.answer[0]|default(0) == 1 %} active{% endif %}"><input type="radio" data-type="determine" name="{{ item.question.id }}" value="1" {% if item.question.testResult.answer[0]|default(0) == 1 %}checked{% endif %}> 正确</label>
+					<label class="radio-inline {% if item.question.testResult.answer[0]|default(1) == 0 %} active{% endif %}"><input type="radio" data-type="determine" name="{{ item.question.id }}" value="0" {% if item.question.testResult.answer[0]|default(1) == 0 %}checked{% endif %}>错误</label>
+				</div>
+
+				<div class="testpaper-question-actions pull-right">
+					{% include '@Course/QuizQuestionTest/flag.html.twig' with { flags:['mark', 'favorite'] } %}
+				</div>
+			</div>
+
+			{% if (paperResult.status == 'doing' and testpaperType == 0 and paperResult.userId != app.user.id) or (not app.user.isLogin() and testpaperType == 0) %}
+				{% set doingPaper = true %}
+			{% else %}
+				{% set doingPaper = false %}
+			{% endif %}
+
+			{% if ((questionPreview|default(false) and favoritePaperResult.status|default(null) == 'finished')) or (questionPreview|default(false) and setting('questions.testpaper_answers_show_mode') == 'hide')  or (setting('questions.testpaper_answers_show_mode') == 'reviewed'  and paperResult.status|default(null) == 'finished') or (app.user.isTeacher()) or doingPaper %}
+				{% if doingPaper %}<a href="javascript:;" class="toggle_anwser pull-right">查看答案</a>{% endif %}
+				<div class="anwser-and-analysis" {% if doingPaper %}style="display: none;"{% endif %}>
+					<div class="testpaper-preview-answer clearfix mtl mbl">
+						<div class="testpaper-question-result">
+							答案是 <strong class="text-success">{% if item.question.answer[0] == 1 %} 正确 {% else %} 错误 {% endif %}</strong class="text-success">
+						</div>
+					</div>
+					<div class="testpaper-question-analysis well">{{ item.question.analysis|default('无解析')|bbCode2Html|raw }}</div>
+				</div>
+			{% endif %}
+
+		{% endif %}
+	</div>
+
+{% endif %}

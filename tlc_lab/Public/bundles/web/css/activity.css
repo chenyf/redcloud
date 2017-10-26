@@ -1,0 +1,67 @@
+body,div,span,a,img,iframe,form,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,em,var,strong,input,p,textarea,select,option,table,tr,td,button{margin:0;padding:0;color:#333;font-family:Arial,"微软雅黑","宋体";text-decoration:none;}
+body{font-size:12px;background-color:#f2f2f2}
+h1, h2, h3, h4, h5, h6{font-weight:normal;font-size:12px;}
+ul,ol{list-style:none;}
+em,var,i{font-style:normal;}
+.hide {display:none;}
+
+.wrap {width:100%;background-color:#591c93;padding:25px 0;}
+.header {}
+.header h1{margin:0 30px;}
+.header h1 img,.header p img{width:100%;margin:0 auto;}
+.header p {margin:20px 100px 0;}
+.content {margin-top:20px;}
+.content-text {margin:0 10px;border-top:1px dashed #f4968a;padding-bottom:10px;}
+.content-text h3 {font-size:18px;color:#fdd750;line-height:50px;}
+.content-text p {font-size:14px;color:#f8cbfe;line-height:30px;}
+.content-text p a {font-size:14px;float:right;color:#f8cbfe;}
+.content-text p a.active {color:#fdef50}
+.content-text p span {float:left;font-size:14px;color:#fdd750;margin-right:10px;}
+.content-text p span b img{width:12px;height:12px;float:left;margin:9px 5px 0 0;}
+.content-text label {font-size:14px;color:#f8cbfe;line-height:30px;margin:50px 0 20px;overflow:hidden;display:block;}
+.content-btn {}
+.content-btn a {height:50px;line-height:50px;font-size:22px;color:#fdd750;text-align:center;background-color:#f66bff;border-radius:10px;margin: 0 auto;width:300px;display:block;border:none;cursor:pointer;}
+.content-btn a.accomplish {background-color:#8a8a8a;color:#fff;}
+
+/*** 绑定账户页面 ***/
+.login {}
+.login h3,.login-school h3{font-size:24px;color:#333;line-height:50px;text-align:center;border-bottom:1px solid #ccc;margin-bottom:30px;}
+.login p,.login label{margin:20px 0;height:40px;padding:0 20px;}
+.login p span {float:left;}
+.login p span img{width:30px;height:30px;margin:4px 20px 0 0;}
+.login p input {float:left;height:35px;line-height:35px;border:1px solid #ccc;border-radius:5px;width:70%;padding:0 10px;font-size:16px;color:#666;outline:hidden;}
+.login p input.active {border:1px solid #f00;box-shadow:0 0 5px #f00}
+.login label {height:20px;line-height:20px;text-align:left;display:block;margin:0 auto;color:#f00;width:58%;}
+.login label b {font-size:18px;float:left;margin:3px 10px 0 0;}
+
+.login-btn {margin-top:50px;}
+.login-btn p {margin-bottom:20px;}
+.login-btn p a {width:280px;height:35px;line-height:35px;text-align:center;font-size:16px;color:#fff;margin:0 auto;display:block;border-radius:4px;}
+.login-btn p a.queren {background-color:#2baf2b;}
+.login-btn p a.quxiao {background-color:#e84e40;}
+
+/*** 提示框 ***/
+.tishi {position:fixed;top:50%;left:50%;margin-left:-150px;z-index:99;margin-top:-25px;}
+.tishi p {width:300px;background-color:#f00;color:#fff;height:50px;border-radius:5px;font-size:16px;line-height:50px;text-align:center;}
+.dialog-masks {filter: alpha(opacity=60);opacity: 0.6;border: 0px;background: #000;margin: 0px;padding: 0px;position: fixed;top: 0px;left: 0px; z-index: 98;overflow: hidden;}
+.again {position:fixed;top:50%;left:50%;margin-left:-150px;z-index:99;margin-top:-60px;background-color:#fff;border-radius:5px;width:300px;}
+.again h3 {font-size:16px;text-align:center;line-height:50px;margin-bottom:10px;color:#333}
+.again h3 b {color:#f00;margin:0 5px;}
+.again p {overflow:hidden;}
+.again p span{float:left;width:80px;text-align:center;line-height:30px;font-size:16px;}
+.again p input {float:left;border:1px solid #ccc;border-radius:5px;line-height:30px;font-size:16px;color:#666;width:65%;padding:0 5px;}
+.again a {width:280px;height:35px;text-align:center;display:block;background-color:#f00;font-size:16px;color:#fff;line-height:35px;border-radius:5px;display:block;margin:25px auto;}
+.again h2 {height:40px;line-height:40px;text-align:center;font-size:20px;color:#fff;background-color:#f00;margin-bottom:20px;}
+.again label {line-height:35px;line-height:35px;display:block;font-size:18px;color:#666;margin:0 20px;}
+.again label b {color:#f00;}
+.warn,.success {position:fixed;top:50%;left:50%;margin-left:-150px;z-index:99;margin-top:-25px;width:300px;}
+.warn p,.success p{color: #b94a48;background-color: #f2dede;border-color: #eed3d7;padding:5px 10px;height:30px;line-height:30px;font-size:18px;text-align:center;border-radius:5px;}
+.success p{color: #468847;background-color: #dff0d8;border-color: #d6e9c6;}
+
+/*** 绑定学校 ***/
+.login-school {margin-bottom:20%;}
+.login-school p {margin:50px auto 0;overflow:hidden;width:280px;}
+.login-school p span {font-size:18px;line-height:35px;color:#666;margin-right:10px;}
+.login-school p select {width:280px;height:35px;line-height:35px;color:#666;border:1px solid #ccc;font-size:16px;background-color:#fff;}
+.login-school p select option {width:150px;}
+

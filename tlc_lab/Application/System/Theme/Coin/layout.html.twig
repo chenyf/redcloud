@@ -1,0 +1,50 @@
+{% extends '@Home/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/layout.html.twig',"@Web")%#}
+{% block title %}账户中心 - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="row mtl">
+  <div class="col-md-3 new-col-md-3">
+    {% block side %}
+                <div class="list-group-box">
+                    <div class="list-group-con">
+                        <div class="list-group-heading"><i class="fa fa-bars"></i>账户中心</div>
+                            <ul class="list-group">
+                                <a class="list-group-item
+                                {% if side_nav == 'my-bill' or side_nav == 'my-coin' %} active {% endif %} " 
+                     href="
+                     {% if setting('coin.coin_enabled') %}
+                      {{path('my_coin')}}
+                     {% else %}
+                      {{path('my_bill')}}
+                     {% endif %}
+                     "
+                     ><span class="my-zh-text"><i class="my-zh-icon"></i>我的账户</span>{# 我的现金账单 #}</a>  
+                <a class="list-group-item {% if side_nav == 'my-orders' %} active {% endif %} " href="{{path('my_orders',{center:0})}}">
+                    <span class="my-zh-text"><i class="my-order-icon"></i>我的订单</span></a>
+                {%if app.user.isTeacher() == 1%}
+                <a class="list-group-item {% if side_nav == 'my-cash' %} active {% endif %} " href="{{U('System/Coin/getTeacherCash',{type:0})}}">
+                    <span class="my-zh-text"><i class="my-account-icon"></i>我的结算</span></a>                  
+                {%endif%}
+                {#虚拟币#}
+              {#   {% if setting('coin.coin_enabled') %}
+                      <a class="list-group-item 
+                        {% if side_nav == 'my-coin' %} active {% endif %} " 
+                        href="{{path('my_coin')}}">我的{{setting('coin.coin_name')}}</a>
+                {% endif %} #}
+              
+            </ul>
+          </div>
+
+            
+          </div><!-- /list-group-block -->
+      
+
+
+    {% endblock %}
+  </div>
+  <div class="col-md-9 new-col-md-9">
+    {% block main %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,232 @@
+{% set menu = 'question' %}
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+{% import '@Home/macro.html.twig' as macro %}
+
+
+{% block title %}题目管理 - {{ parent() }}{% endblock %}
+
+{% set parentId = parentQuestion.id|default(0) %}
+
+{% set script_controller = 'course-manage/list' %}
+
+ {% block side %}
+<div class="t-course-handle">
+    <div class="t-add-content pull-right">
+        <a  href="{{ path('course_manage_question_recycle',{courseId:course.id,center:app.request.get('center')}) }}" class="ajaxLoad btn btn-info btn-sm"><span class="recycle-bin"></span>试题回收站</a>
+        <a href="{{ path('course_manage_question_create',{courseId:course.id,type:'choice',parentId:parentId}) }}" class="ajaxLoad btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 选择题</a>
+        <a href="{{ path('course_manage_question_create',{courseId:course.id,type:'fill',parentId:parentId}) }}" class="ajaxLoad btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 填空题</a>
+        <a href="{{ path('course_manage_question_create',{courseId:course.id,type:'determine',parentId:parentId}) }}" class="ajaxLoad btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 判断题</a>
+        <a href="{{ path('course_manage_question_create',{courseId:course.id,type:'essay',parentId:parentId}) }}" class="ajaxLoad btn btn-info btn-sm"><span class="glyphicon glyphicon-plus"></span> 问答题</a>
+    </div>
+</div>
+ {% endblock %}
+
+{% block courseContent  %}
+
+<div class="t-course-set-box" id="quiz-table-container">
+        {% include '@Course/CourseQuestionManage/question-search-layout.html.twig' %}
+        <table class="table table-striped table-hover mtm" id="quiz-table">
+            <thead>
+                <tr class="active">
+                    <th width="90px">编号</th>
+                    <th width="40%">习题名称</th>
+                    <th>题型</th>
+                    <th>最后更新</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                {% set keys = [] %}
+                    <tr data-role="item" class="tr-toggle">
+                        <td><div class="s-number">{{ question.id }}</div><span class="tk-arrow tk-arrow-right drop-down-item"></span></td>
+                        <td class="td-item-class">
+
+                            {# <a href="#modal" data-toggle="modal" data-url="{{ path('course_manage_question_preview', {id:question.id, courseId:course.id}) }}">{{ question.stem |fill_question_stem_text| plain_text(40) }}</a> #}
+                            {{ question.stem |fill_question_stem_text| plain_text(15,true) }}
+                            <div>
+                                    {% set target = targets(question.target)|default(null) %}
+                                    {% if target.type|default(null) != 'course' %}
+                                    <small class="text-muted">从属于 {{target.simple_name|default('')}}</small>
+                                    {% else %}
+                                    <small class="text-muted">从属于 本课程</small>
+                                     {% endif %}
+                                </div>
+                            </td>
+                            <td class="td-item-class">{{ dict('questionType')[question.type] }}
+                                {% if question.type == 'material'%}<br><small class="text-muted">({{ question.subCount }}子题)</small>{% endif %}
+                                </td>
+                                <td class="td-item-class">
+                                    <a href="/User/User/showAction/id/188">{{ macro.user_link(users[question.userId]) }}</a><br>
+                                    <span class="text-muted text-sm">{{question.updatedTime | date('Y-n-d H:i:s')}}</span>
+                                </td>
+                                <td class="td-item-class">
+                                {# 删除试题弹层 #}
+                                        <div class="modal fade" id="confirmDelModal-{{ question.id }}" tabindex="-1" role="dialog" 
+                                             aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content tk-popupbox">
+                                                    <button type="button" class="close position-close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h3 class="text-center">删除试题</h3>
+                                                    <p class="text-center mtl mbl">确定要把此试题放入回收站吗？</p>
+                                                    <div class="d-popupbtn text-center">
+                                                        <a class="btn btn-sm btn-default mrm mlm" data-dismiss="modal" href="###">取消</a><a class="btn btn-sm btn-primary mrm mlm" data-url="{{ path('course_manage_question_delete', {courseId:course.id, id:question.id,center:app.request.get('center')}) }}" data-role="item-delete">确定</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                {# 编辑试题弹层 #}
+                                        <div class="modal fade" id="confirmCreateModal-{{ question.id }}" tabindex="-1" role="dialog" 
+                                             aria-labelledby="myModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content tk-popupbox">
+                                                    <button type="button" class="close position-close" data-dismiss="modal" aria-hidden="true">×</button>
+                                                    <h3 class="text-center">说明</h3>
+                                                    <p class="text-center mtl mbl">该试题已被别的试卷使用，点击“继续编辑”生成新的试题！</p>
+                                                    <div class="d-popupbtn text-center">
+                                                        <a class="btn btn-sm btn-default mrm mlm" data-dismiss="modal" href="###">取消</a><a class="btn btn-sm btn-primary mrm mlm" href="{{ path('course_manage_question_create_new', {courseId:course.id,id:question.id, goto:app.request.server.get('REQUEST_URI')}) }}" >继续编辑</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="btn-group">
+                                            <div class="btn-group">
+                                                <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal" data-url="{{ path('course_manage_question_preview', {id:question.id, courseId:course.id,center:app.request.get('center')}) }}">预览</a>
+                                                <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
+                                                <ul class="dropdown-menu pull-right">
+                                            {% if question.type == 'material'%}
+                                                        <li><a href="{{ path('course_manage_question',{courseId:course.id, parentId:question.id}) }}"><span class="glyphicon glyphicon-list"></span> 管理子题</a></li>
+                                            {% endif %}
+                                            {% if question.callNumber <= 1 and question.releaseNumber == 0 %}
+                                                            <li><a href="{{ path('course_manage_question_update', {courseId:course.id,id:question.id, goto:app.request.server.get('REQUEST_URI')}) }}"><span class="glyphicon glyphicon-edit"></span> 编辑</a></li>
+                                            {% else  %}     
+                                                                <li><a href="###" data-toggle="modal" data-target="#confirmCreateModal-{{ question.id }}"  ><span class="glyphicon glyphicon-edit"></span> 编辑</a></li>   
+                                            {% endif %}
+                                            {% if question.callNumber == 0 %}
+                                                                    <li><a href="###" data-toggle="modal" data-target="#confirmDelModal-{{ question.id }}" ><span class="glyphicon glyphicon-remove-circle"></span> 删除</a></li>
+                                            {% endif %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td style="display:none;" class="td-Detaile-class" colspan=4>
+                                                            <div class="c-topic-detail">
+                                                                <div class="c-topic-tit" style="word-break: break-all;">{{ question.stem |fill_question_stem_text | plain_text }} {{ question.imgURL|bbCode2Html (true)|raw }}</div>      
+                                    {% if question.type == 'single_choice' or question.type == 'choice' %}
+                                                                <div class="c-topic-con">
+                                                                        {% for key, choice in question.metas.choices %}
+                                                                            {% set itemClass =  ((paperResult.status|default(null) in ['submitted', 'finished']) and (key in item.question.answer)) ? 'testpaper-question-choice-right' : '' %}
+                                                                            {% set choiceIndex = (65+key)|chr %}
+                                                                                {%if key in question.answer %}
+                                                                        <p class="result-active"><span>{{ choiceIndex }}.</span>{{ choice|bbCode2Html (true)|raw }}</p>
+                                                                                    {% set keys = keys|merge([choiceIndex]) %}
+                                                                                {% else %}
+                                                                        <p><span>{{ choiceIndex }}.</span>{{ choice|bbCode2Html (true)|raw }}</p>
+                                                                                {% endif %}
+                                                                        {% endfor %}
+                                                                        <br/><div class="c-topic-result">答案是<b>{{ keys|join(',') }}</b></div>
+                                                                    </div>
+                                    {% elseif question.type == 'fill' %}   
+                                                                    <div class="c-topic-con">
+                                            {% for index, answer in question.answer %}
+                                                                            <p class="result-active">
+                                                                                填空({{index+1}})： 答案是 <strong class="text-success">{{ answer|join(' 或 ') }}</strong>
+                                                                            </p>
+                                            {% endfor %}
+                                                                        </div>
+                                    {% elseif question.type == 'essay' %}
+                                                                        <div class="c-topic-con">
+                                                                            <br/><div class="c-topic-result">答案是<b>{{ question.answer[0]|bbCode2Html (true)|raw }}</b></div>
+                                                                        </div>
+                                     {% elseif question.type == 'determine' %}
+                                                                        <div class="c-topic-con">
+                                            {% if question.answer[0] == 1 %}
+                                                                                <p class="result-active"><span>A.</span>正确</p>
+                                                                                <p><span>B.</span>错误</p>
+                                            {% else %}
+                                                                                <p><span>A.</span>正确</p>
+                                                                                <p class="result-active"><span>B.</span>错误</p>
+                                            {% endif %}
+                                                                                <br/><div class="c-topic-result">答案是 <strong class="text-success">{% if question.answer[0] == 1 %} 正确 {% else %} 错误 {% endif %}</strong class="text-success"></div>
+                                                                            </div>
+
+                                      {% endif %}
+
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                {% endfor %}
+                {# 题目展开样式 #}
+
+                                                            </tbody>
+                                                        </table>
+
+
+                                                        <div class="text-right mtl">
+            {{ web_macro.paginator(paginator) }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal fade" id="showBigImage" tabindex="-1" role="dialog" 
+                                                             aria-labelledby="myModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <button type="button" class="close" data-dismiss="modal" 
+                                                                                aria-hidden="true">×
+                                                                        </button>
+                                                                        <h4 class="modal-title" id="myModalLabel">
+                                                                            试题图预览
+                                                                        </h4>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <img class="course-picture stemImg"  src="" alt="暂无图片" width="100%">
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" 
+                                                                                data-dismiss="modal">关闭
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div><!-- /.modal-dialog -->
+                                                        </div><!-- /.modal -->
+{# 在该题所在的作业或者考试中点击编辑，出现下列弹框 #}
+{#<div class="tk-popupbox" style="width:560px">
+    <button type="button" class="close position-close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 class="text-center">编辑试题</h3>
+    <p class="mtl">此试题已被以下试卷使用，点击“继续编辑将为您重新生成一道新试题”</p>
+    <table class="table table-striped table-hover mtl">
+        <thead>
+            <tr class="active">
+                <td>试卷名称</td><td>出卷人</td>
+            </tr>   
+        </thead>
+        <tbody>
+            <tr>
+                <td>1.计算机软件工程-2015132班第五次考试</td><td>出卷人姓名</td>
+            </tr> 
+            <tr>
+                <td>2.计算机软件工程-2015132班第五次考试</td><td>出卷人姓名</td>
+            </tr>
+            <tr>
+                <td>3.计算机软件工程-2015132班第五次考试</td><td>出卷人姓名</td>
+            </tr>            
+            <tr>
+                <td>4.计算机软件工程-2015132班第五次考试</td><td>出卷人姓名</td>
+            </tr>
+            <tr>
+                <td>5.计算机软件工程-2015132班第五次考试</td><td>出卷人姓名</td>
+            </tr>
+            <tr>
+                <td>6.计算机软件工程-2015132班第五次考试</td><td>出卷人姓名</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="d-popupbtn text-center">
+        <a class="btn btn-sm btn-default mrm mlm" href="###">取消编辑</a><a class="btn btn-sm btn-primary mrm mlm" href="###">继续编辑</a>
+    </div>
+</div>#}
+
+{% endblock %}
+
+
+

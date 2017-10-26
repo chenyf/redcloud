@@ -1,0 +1,40 @@
+<li class="media">
+  <div class="pull-left">
+    <span class="glyphicon glyphicon-volume-down media-object"></span>
+  </div>
+  <div class="media-body">
+    <div class="notification-body">
+        {{ notification.content.message|purify_html|raw  }}&nbsp;&nbsp;
+        {% set applyId = notification.content.applyId %}
+        {% if applyId %}
+            {% set apply = getUserApply(applyId) %}
+            {% if  apply %}
+                {% set classId = apply.groupId %}
+                {% set uid = apply.uid %}
+                {% if apply.status == '0' %}
+                    <span data-applyid="{{applyId}}">
+                        <button type="button" class="btn btn-sm btn-primary" name="joinGroup" data-status="1" data-id="{{apply.id}}" data-url="{{path('check_join_group')}}" data-goto="{{path('group_apply',{id:classId,status:1,uid:uid})}}">同意加入</button>&nbsp;&nbsp;
+                        <button type="button" class="btn btn-sm" name="joinGroup" data-status="2" data-id="{{apply.id}}" data-url="{{path('check_join_group')}}" data-goto="{{path('group_apply',{id:classId,status:2,uid:uid})}}">不同意加入</button>&nbsp;&nbsp;
+                        <a href="{{path('group_apply',{id:classId,status:'check',uid:uid})}}" target="_blank">查看详情</a>
+                    </span>
+                {% endif %}
+                {% if apply.status == '1' %}
+                    <span>
+                        <span class="text-muted">已同意加入</span>&nbsp;&nbsp;
+                        <a href="{{path('group_apply',{id:classId,status:1,uid:uid})}}" target="_blank">查看详情</a>
+                    </span>
+                {% endif %}
+                {% if apply.status == '2' %}
+                    <span>
+                        <span class="text-muted">未同意加入</span>&nbsp;&nbsp;
+                        <a href="{{path('group_apply',{id:classId,status:2,uid:uid})}}" target="_blank">查看详情</a>
+                    </span>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="notification-footer">
+      {{ notification.createdTime | date('Y-n-d H:i:s') }}
+    </div>
+  </div>
+</li>

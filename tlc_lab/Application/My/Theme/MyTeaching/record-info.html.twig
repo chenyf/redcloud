@@ -1,0 +1,90 @@
+{# 我的云课堂--记录信息 #}
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% block title %}查看详细{% endblock %}
+{% block body %}
+<h4 class="well well-sm" style="margin-bottom:10px">申请信息</h4>
+<table class="table table-bordered">
+    <tr>
+        <th>申请人：</th>
+        <td>{{ getUserNameById(applyRecordInfo.applyUid) }}</td>
+    </tr>
+    <tr>
+        <th>申请时间：</th>
+        <td>{{ applyRecordInfo.applyTm|date('Y.m.d H:i') }}</td>
+    </tr>
+    <tr>
+        <th>申请课程：</th>
+        <td style="word-break:break-all">{{ applyRecordInfo.courseName }}</td>
+    </tr>
+    <tr>
+        <th>选择课程分类：</th>
+        <td>
+            {% set cateArr = applyRecordInfo.categoryId|split(",") %}
+            {% for cateId in cateArr %}
+                {{ cateParentName(cateId) }}<br/>
+            {% endfor %}
+        </td>
+    </tr>
+    <tr>
+        <th>设置课程价格：</th>
+        <td>
+            {% if applyRecordInfo.coursePrice %}{{ applyRecordInfo.coursePrice }}
+            {% else %}0
+            {% endif %}元
+        </td>
+    </tr>
+    <tr>
+        <th>备注说明：</th>
+        <td>
+            {% if applyRecordInfo.remark %}{{applyRecordInfo.remark }}
+            {% else %}无
+            {% endif %}
+        </td>
+    </tr>
+</table>
+{% if applyRecordInfo.status != 0 %}
+<h4 class="well well-sm" style="margin-bottom:10px">审核信息</h4>
+<table class="table table-bordered">
+    <tr>
+        <th>审核人：</th>
+        <td>
+            {% if applyRecordInfo.opUid %}
+                {{ getUserNameById(applyRecordInfo.opUid) }}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>审核时间：</th>
+        <td>
+            {% if applyRecordInfo.opTm %}
+                {{ applyRecordInfo.opTm|date('Y.m.d H:i') }}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>审核结果：</th>
+        <td>
+            {% if applyRecordInfo.status == 0 %}审核中{% endif %}
+            {% if applyRecordInfo.status == 1 %}不通过，（{{ applyRecordInfo.fail }}）{% endif %}
+            {% if applyRecordInfo.status == 2 %}已通过{% endif %}
+            {% if applyRecordInfo.status == 3 %}已取消{% endif %}
+        </td>
+    </tr>
+    <tr>
+        <th>备注说明：</th>
+        <td>
+            {% if applyRecordInfo.opRemark %}{{applyRecordInfo.opRemark }}
+            {% else %}无
+            {% endif %}
+        </td>
+    </tr>
+</table>
+{% endif %}
+{% endblock %}
+{% block footer %}
+    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+    {% if applyRecordInfo.status == 0 %}
+        <button type="button" class="btn btn-primary removeApply" data-applyid="{{applyRecordInfo.id}}" data-url="{{path('course_remove_apply')}}" >取消申请</button>
+        <script>app.load('course/apply-record');</script>
+    {% endif %}
+{% endblock %}

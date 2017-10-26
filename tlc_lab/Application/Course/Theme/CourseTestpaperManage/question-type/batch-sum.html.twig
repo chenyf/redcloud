@@ -1,0 +1,23 @@
+<div class="c-choose-result mtm">
+    <div id="selectedStatistic">
+        <div class="c-result-text">
+            <span class="text-color">已选择题目数量：<b class="total-counts">0</b>道</span><span class="text-muted mll"><em>单项选择题： <span class="single_choice_count">0</span> 道</em>，<em>多项选择题： <span class="choice_count">0</span> 道</em>，<em>判断题： <span class="determine_count">0</span> 道</em>，<em>填空题： <span class="fill_count">0</span> 道</em>，<em>问答题 <span class="essay_count">0</span> 道</em></span>
+        </div>
+        {#{% if app.request.get('type') != 2 %}#}
+            {#<div class="c-result-text">#}
+                {#<span class="text-color">已选择题目分数：<b class="total-scores">0</b>分</span><span class="text-muted mll"><em>单项选择题： <span class="single_choice_score">0</span> 分</em>，<em>多项选择题： <span class="choice_score">0</span> 分</em>，<em>判断题： <span class="determine_score">0</span> 分</em>，<em>填空题： <span class="fill_score">0</span> 分</em>，<em>问答题 <span class="essay_score">0</span> 分</em></span>#}
+            {#</div>#}
+        {#{% endif %}#}
+    </div>
+    <div class="c-result-btn text-center ptm pbm">
+        <a class="btn btn-fat btn-primary mrm mlm" id="build-testpaper" data-loading-text="生成{{ typeText }}中..."  data-url="{{ U('Course/CourseTestpaperManage/finishCourseTest',{id:app.request.get('id'),type:app.request.get('type'),center:app.request.get('center')}) }}" data-build="{{ U('Course/CourseTestpaperManage/buildTestpaper',{id:app.request.get('id'),courseId:app.request.get('courseId'),type:app.request.get('type'),lessonId:app.request.get('lessonId'),center:app.request.get('center')}) }}">
+            <i class="glyphicon glyphicon-duplicate mrs"></i>确认生成{{ typeText }}
+        </a>
+        <a class="btn btn-fat btn-info mrm mlm"  data-toggle="modal" data-target="#modal" data-backdrop="static" data-url="{{ U('Course/CourseTestpaperManage/getModalAddQuestion',{courseId:course.id,id:app.request.get('id'),type:app.request.get('type'),center:app.request.get('center'),mode:mode}) }}"><i class="glyphicon glyphicon-plus mrs"></i>手动添加题目</a>
+    </div>
+        
+    <div class="modal fade" id="buildModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div>
+        
+</div>
+

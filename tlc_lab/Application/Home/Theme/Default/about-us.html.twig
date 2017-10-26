@@ -1,0 +1,55 @@
+{% extends  '@Home/Default/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/Default/layout.html.twig',"@Web")%#}
+{% set siteNav = '/' %}
+{% set bodyClass = 'homepage' %}
+{% set containerClassBlock = 'index_container' %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div id="content-container" class="m-height container mtl">
+         <div class="es-row-wrap container-gap userpage-body mbl">
+            <div class="course-list-tit">
+                <ol class="breadcrumb" style="background-color:#fff;">
+                  <li><a href="/">首页</a></li>
+                  <li class="active">{{article['title']}}</li>
+                </ol>
+            </div>
+        </div>
+        <div class="row mtl">
+            <div class="col-md-3 new-col-md-3">
+                <div class="list-group-box">
+                    <div class="list-group-con">
+                        <div class="list-group-heading">{{ site.about_us_title }}</div>
+                        <ul class="list-group">
+                            {% for key, value in list %}
+                                <li>
+                                    <a class="list-group-item {% if value.id == article.id %} active {% endif  %}" href="{{test~U('/Home/AboutUs/aboutAction',{ id:value['id'] })}}">
+                                        <span class="my-center-icon">
+                                            {{value.title}}
+                                        </span>
+                                    </a>
+                                </li>
+                            {% endfor  %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 new-col-md-9">
+                <div class="panel panel-default panel-col">
+                    <div class="panel-body">
+                        <div class="about-show" id="1" style="display: block;">
+				            <h2>{{article['title']}}</h2>
+				            <div class="about-showCon">
+                                                {{article['content'] |raw}}
+				            </div>
+			            </div>
+                    </div>
+                </div>  
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

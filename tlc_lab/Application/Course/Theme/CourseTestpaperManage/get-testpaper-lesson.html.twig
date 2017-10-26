@@ -1,0 +1,42 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set config = config|default(null) %}
+{% set modal_class = 'modal-lg' %}
+
+
+{% block title %}
+添加{{ tyepText }}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" id="config-form"  action="{{ U('Course/CourseTestpaperManage/getTestpaperLesson',{courseId:courseId,parentId:parentId, goto:app.request.server.get('REQUEST_URI'),center:app.request.get('center')}) }}" method="post">
+          <div class="row form-group">
+              <div class="col-md-2 control-label"><label for="title">标题</label></div>
+              <div class="col-md-8 controls">
+                  <input class="form-control" type="text" id="title" value="" name="title" >
+              </div>
+          </div>
+          <p></p>
+          <div class="row form-group">
+              <div class="col-md-2 control-label"><label for="testId">选择{{ tyepText }}</label></div>
+              <div class="col-md-6 controls ">
+                  <select class="form-control" name="testId" id="testId" style="float:left;width:68%">
+                      {{select_options(paperOptions, lesson.mediaId|default(0), '请选择练习')}}
+                  </select>
+                  <div class="help-block" style="clear:both">选择要用的{{ tyepText }}</div>
+              </div>
+          </div>
+          <p></p>
+      </form>
+      <script type="text/javascript">
+          app.load('testpaper/get-testpaper-lesson')
+     </script>
+
+{% endblock %}
+{% block footer %}
+          <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+          <button id="config-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#config-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

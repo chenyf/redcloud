@@ -1,0 +1,42 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% block title %}私信 - {{ parent() }}{% endblock %}
+{% set script_controller = 'message/show' %}
+{% block content %}
+
+<div class="row row-8 mtl">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default panel-page">
+      <div class="c-panel-heading">
+        <a href="{{ path('message')}}" class="btn btn-default pull-right" style="margin-top:-3px;">返回我的私信</a>
+        <h3>与{{ receiver.nickname }}的私信对话</h3>
+      </div>
+            <div class="panel-body">
+      <form id="message-reply-form" class="message-reply-form clearfix" method="post" 
+      action="{{ path('message_conversation_show', {conversationId:conversation.id}) }}">
+        <div class="form-group">
+          {#{ form_widget(form.content, {attr:{class:'form-control', rows:3, placeholder:'请输入私信内容'}}) }#}
+          <textarea id="message_reply_content" name="message_reply[content]" required="required"    class="form-control" rows="3" placeholder="请输入私信内容" ></textarea>
+        </div>
+
+        <div class="form-group">
+          {#{ form_rest(form) }#}
+        <input type="hidden" id="message_reply__token" name="message_reply[_token]"     value="c76812788a5170931e1dc8e784c3515f25eaacb9" />
+          <button id="course-reply-btn" class="btn btn-primary pull-right disabled">发送</button>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+      </form>
+
+      <ul id="append_li" class="media-list message-list">
+        {% for message in messages %}
+          {% include '@System/Message/message-item.html.twig' with {message:message} %}
+        {% endfor %}
+      </ul>
+
+      {{ web_macro.paginator(paginator) }}
+</div>
+    </div><!-- /panel -->
+  </div>
+</div>
+{% endblock %}

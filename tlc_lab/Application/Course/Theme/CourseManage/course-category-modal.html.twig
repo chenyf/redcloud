@@ -1,0 +1,19 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+{% block title %}选择课程分类{% endblock %}
+{% block body %}
+
+    <div class="set-sort-popup" data-widget-cid="widget-1"  id="select-cate"  data-url="{{ U('Home/Category/getCategoryJson',{center:app.request.get('center')}) }}" {% if app.request.get('center') == 1 %}data-multiple="false"{% endif %}>
+        <input type="hidden" name="categoryId" value="{{ categoryIds }}"/>
+    </div>
+
+{% endblock %}
+
+{% block footer %}
+    <script>
+        app.load('course-manage/course-category');
+    </script>
+    <button id="create-category-btn"  type="button" class=" btn btn-primary pull-right" data-id="{{courseid}}" data-url="{{ U('Course/CourseManage/editCategory',{center:app.request.get('center')}) }}">确定</button>
+    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+{% endblock %}

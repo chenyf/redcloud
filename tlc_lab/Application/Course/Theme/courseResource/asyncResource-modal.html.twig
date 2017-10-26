@@ -1,0 +1,12 @@
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-body">
+            <p class="tit-color">确定要同步资料“{{courseResource.title}}.{{courseResource.ext}}”吗？同步文件比较耗时，稍候同步的结果会以站内信的形式通知您</p>
+            <div class="text-right mtl">
+                <button type="button" class="btn btn-link" data-dismiss="modal">取消</button>
+                <button type="button" class=" btn btn-primary async-resource" data-url="{{path('course_resource_async_cloud')}}" data-courseid="{{courseResource.courseId}}" data-id="{{courseResource.id}}">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>app.load('course-resource/async')</script>

@@ -1,0 +1,27 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set hide_close = true %}
+{% set userGold = getUserGold(user.id) %}
+{% block title %}
+    <span class="my-gold pull-right">我的金币数：{{ userGold }}</span>
+    <span class="table-text">金币兑换确认</span>
+{% endblock %}
+{% block body %}
+    {% if userGold < courseResource.goldNum %}
+        <div class="gold-content text-center">兑换课程资料<span class="tit-color" >《{{ courseResource.title }}》</span>将花费<em>{{ courseResource.goldNum }}金币</em>，您的金币数量不足无法兑换！</div>
+    {% else %}
+        <div class="gold-content text-center">您将花费<em>{{ courseResource.goldNum }}金币</em>兑换课程资料<span class="tit-color">《{{ courseResource.title }}》</span>，请确认！</div>
+    {% endif %}
+{% endblock %}
+{% block footer %}
+    <div class="text-center mtl">
+        {% if userGold < courseResource.goldNum %}
+            <button type="button" class="btn btn-primary btn-fat" data-dismiss="modal">确定</button>
+        {% else %}
+            <button type="button" class="btn btn-primary pull-right" id="exchange-resource" data-url="{{ path('course_resource_exchange') }}" data-courseid="{{ courseResource.courseId }}" data-id="{{ courseResource.id }}">确定兑换</button>
+            <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+        {% endif %}
+    </div>
+    {% if userGold >= courseResource.goldNum %}
+        <script>app.load('course-resource/exchange')</script>
+    {% endif %}
+{% endblock %}

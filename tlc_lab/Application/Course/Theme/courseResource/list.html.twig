@@ -1,0 +1,11 @@
+{% extends '@Course/Course/dashboard-layout.html.twig' %}
+{% set script_controller = 'course-resource/download' %}
+{% if app.request.get('center') == 1 %}
+    {% set siteNav = '/Course/Course/exploreAction/center/1' %}
+{% else %}
+    {% set siteNav = '/Course/Course/exploreAction' %}
+{% endif %}
+{% block dashboard_main %}
+    {% include '@Course/Course/dashboard-nav.html.twig' with {nav:'courseResource'}%}
+    {% include '@Course/courseResource/resourcePane.html.twig' with {courseResources:courseResources,paginator:paginator,showDownloadNum:showDownloadNum,resourceIds:resourceIds}%}
+{% endblock %}

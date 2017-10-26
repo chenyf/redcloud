@@ -1,0 +1,13 @@
+<li class="media">
+  <div class="pull-left">
+    <span class="glyphicon glyphicon-volume-down media-object"></span>
+  </div>
+  <div class="media-body">
+    <div class="notification-body">
+        您还不是老师身份，目前以学生身份登录。您可以<a href="javascript:void(0)" class="user-apply-teacher" data-backdrop="static" data-toggle="modal" data-target="#modal" data-url="{{path('user_apply')}}">申请</a>成为老师或联系本校管理员，联系方式：{{setting('login_bind.login_manger_mobile')|default('未设置')}}
+    </div>
+    <div class="notification-footer">
+      {{ notification.createdTime | date('Y-n-d H:i:s') }}
+    </div>
+  </div>
+</li>

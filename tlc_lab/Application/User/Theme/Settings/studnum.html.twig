@@ -1,0 +1,129 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% block title %}
+    验证学号
+   
+{% endblock %}
+    
+{% block body %}
+<div class="content">
+<form id="studnum-form" class="form-horizontal" action="{{ U('/User/Settings/studNumAction') }}" method="post" enctype="multipart/form-data">
+
+	        {{ web_macro.flash_messages() }}
+	        		
+		  <div class="row form-group">
+                        <div class="col-md-3 control-label">
+                            <label>姓名</label>
+                        </div>
+                        <div class="col-md-7 controls radios">
+                            <input type="text" id="nickname" name="nickname" value="{{getUserNameById(uid)}}"  class="form-control">
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row form-group">
+                        <div class="col-md-3 control-label"><label for="function">学号</label></div>
+                        <div class="col-md-7 controls">
+                            <input type="text" id="studnum" name="studNum" class="form-control">
+                        </div>
+                    </div>
+                 <p></p>
+                <div class="form-group">
+	            <div id="prompt" class="col-md-7 col-md-offset-3 c-warnbox hide">
+	            </div>
+	        </div>
+                 
+               <div  class="form-group text-center" id="binding">
+                        <button type="submit" class="btn btn- btn-primary">开始绑定</button>
+                </div>
+               <div id="binding-change" class="form-group text-center hide">
+                    <button type="button" class="btn btn-default again">重新验证</button>
+                    <button type="button" class="btn btn-primary assist">请老师协助验证</button>
+               </div>
+               <div id="confirm-true" class="form-group text-center hide">
+                    <button type="button" class="btn btn- btn-primary">确定（5）</button>
+               </div>
+                    
+                 <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+	        </form>
+           
+    
+
+  
+    {#<iframe name="ajaxifr" style="display:none;"></iframe>target="ajaxifr" #}
+    <form class="form-horizontal hide"  id="teacher-from" action="{{ U('/User/Settings/studApplyAction') }}" method="post" novalidate="novalidate" data-widget-cid="widget-1" enctype="multipart/form-data">
+                    <div class="row form-group">
+                        <div class="col-md-3 control-label">
+                            <label>姓名</label>
+                        </div>
+                        <div class="col-md-7 controls radios">
+                            <input type="text" id="nickname" name="nickname" value="{{getUserNameById(uid)}}" class="form-control">
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="row form-group">
+                        <div class="col-md-3 control-label"><label for="xuehao">学号</label></div>
+                        <div class="col-md-7 controls">
+                            <input type="text" id="studnum" name="studNum" class="form-control">
+                        </div>
+                    </div>
+                    <p></p>
+                    <div class="form-group">
+                        <div class="col-md-3 control-label"><label for="class">班级</label></div>
+                        <div class="col-md-7 controls">
+                            <input id="studRemark" name="classId" type="text"  class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 control-label"><label for="remark">备注</label></div>
+                        <div class="col-md-7 controls">
+                            <textarea name="studRemark" rows="2" id="thread_content" class="form-control" data-image-upload-url="{{ path('editor_upload', {token:upload_token('default')}) }}">{{thread.content|default('')}}</textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 control-label"><label for="function">上传学生证照片</label></div>
+                        <div class="col-md-7 controls mts">
+                            <div class="c-student-photo" style="text-align:center;display:table"><div style="display: table-cell;vertical-align: middle;"><img src=""  style="margin:auto 0"/></div></div>                          
+                            <div class="c-upload-loading hide"  id="progress" style="width:200px;height:200px;">
+                            <div class="c-loading-con" >
+                                <span id="bar"><em></em><i></i></span>{#<a class="btn-link mlm" href="###">取消</a>#}
+                                <p class="mts text-muted">图片加载中，请稍候...</p>
+                            </div>
+                        </div>
+                            <input id="user-picture" type="file" name="picture" accept="image/gif,image/jpeg,image/png">
+                        </div>
+                    </div>
+                    <input type="hidden" id="userpic" name="userpic" value=''>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+                     <p></p>
+                      <p></p>
+                    <div class="form-group">
+	            <div id="prompts" class="col-md-7 col-md-offset-3 c-warnbox hide">
+	            </div>
+                    </div>
+                    
+                    <div id="teacher-change" class="form-group text-center">
+                        <button type="submit" id="teacher-submit" class="btn btn-primary">提交申请</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>
+                      
+                    <div id="confirm-true-teacher" class="form-group text-center hide">
+                    <button type="button" class="btn btn- btn-primary">确定（5）</button>
+                    </div>
+                </form>
+        </div>
+ 
+<script> app.load('settings/studnum'); </script>
+<script>
+    var count = 5;
+        var confirmClose = function(){
+                    var queding = '确定（'+ count+'）';
+                    $('#confirm-true [type="button"]').text(queding);
+                    $('#confirm-true-teacher [type="button"]').text(queding);
+                    if (count == 0) { 
+                     $('.modal-header .close').trigger("click");
+                     window.location.reload();
+                     clearInterval(countdown);
+                     } 
+                     count--;
+                 }
+</script>
+{% endblock %}

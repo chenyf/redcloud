@@ -1,0 +1,99 @@
+{% extends '@BackManage/Daily/layout.html.twig' %}
+
+{% block title %}通知管理 - {{ parent() }}{% endblock %}
+
+{% set menu = 'notice' %}
+{% set nav = 'daily' %}
+
+
+
+{% block main %}
+
+{% include '@BackManage/Daily/approval-header.html.twig' %}
+
+{% if messageList %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>消息类型</th>
+      <th>标题</th>
+      <th>接收班级</th>
+      <th>接收老师</th>
+      <th>附加抄送人</th>
+       <th>状态</th>
+      <th>任务类型</th>
+      <th>创建人</th>
+      <th>创建时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for message in messageList %}
+    <tr id="user-table-tr-{{ message.task_id }}">
+        <td>{{message.task_id}}</td>
+        <td>{{msgtype[message.msg_type]}}</td>
+        <td>{{mbSubstrLen(message.title,{len:10})}}</td>
+        <td>
+          <a href="###" data-toggle="tooltip"  data-placement="top" data-animation="false" data-list="class" data-original-title="{{getClassListByClassIds(message.class_id)|default('无')}}">
+               {% if message.classNum %}
+                  {{message.classNum}}个
+                {%else%}
+                 无
+               {% endif%}
+          </a>
+        </td>
+        <td>
+           <a href="###" data-toggle="tooltip"  data-placement="top" data-animation="false" data-list="teacher" data-original-title="{{getTeacherListByTids(message.teacher_id)|default('无')}}" >
+             {% if message.teacherNum %}
+                  {{message.teacherNum}}个
+                {%else%}
+                 无
+               {% endif%}
+             </a>
+            </td>
+            <td>
+                <a href="###" data-toggle="tooltip"  data-placement="top" data-animation="false" data-list="teacher" data-original-title="{{getCopyPeopleByMsgType(message.copy_people,{msgtype:message.msg_type})|default('无')}}" >
+                  {% if message.copyNum %}
+                  {{message.copyNum}}个
+                {%else%}
+                 无
+               {% endif%}
+             </a>
+              
+             </a>  
+            </td>
+         <!--
+        <td>{{getCopyPeopleByMsgType(message.copy_people,{msgtype:message.msg_type})}}</td>
+         -->
+          <td>{{sendStatus[message.status]}}</td>
+         <td>{% if message.noticetype ==0 %}实时通知{%else%}定时通知{% endif%}</td>
+        <td>{{getUserNameById(message.from_uid)}}</td>
+        <td>{{message.ctime | date("Y-m-d H:i:s")}}</td>
+       <td>
+        <div class="btn-group">
+      <a href="#modal" data-toggle="modal" data-url="{{ path('admin_daily_message_show', {task_id:message.task_id}) }}" data-url="" class="btn btn-default btn-sm">查看</a>
+      <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </a>
+     
+    </div>
+       </td>
+        </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{{ web_macro.paginator(paginator) }}
+{% else %}
+  <div class="empty">暂无查询的通知</div>
+{% endif %}
+{% endblock %}
+ {% set script_controller = "daily/list"%}
+{% block loadExtScripts %}
+   <script type="text/javascript">
+    app.classList = "{{classList|json_encode}}";
+    app.teacherList = "{{teacherList|json_encode}}";
+</script>
+{% endblock %} 

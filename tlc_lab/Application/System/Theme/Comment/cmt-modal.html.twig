@@ -1,0 +1,89 @@
+<div class="all-list">
+    <div class="discuss-content discuss-content-{{cmtIdStr}}">
+         <div class="userpic">
+                                <a {% if cmt.sendUid %}target="_blank" href="{{ path('user_show', {id:cmt.sendUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                    <img src="{{ user_default_path(cmt.sendUid, 'small') }}"/>
+                                </a>
+                            </div>
+         <div class="discuss-body">
+                                <div class="userinfo">
+                                    <a class="u-name" {% if cmt.sendUid %}  target="_blank" href="{{ path('user_show', {id:cmt.sendUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                        
+                                       {{cmt.sendName}}
+                                    </a>
+                                     <span class="divider">•</span><span class="u-time">{{cmt.ctm|smart_time}}</span>
+                                </div>
+                                <div class="user-content"><p>{{cmt.comment}}</p></div>
+                                <div class="user-footer">
+                                    <a class="alike mrl" href="javascript:void(0)"><i class="glyphicon glyphicon-heart-empty mrs"></i><b class='cmtApprise' data-appraiseid='cmt{{cmt.id}}'  data-type='poster'  data-vcode='{{md5Vcode('poster' , 'cmt'~cmt.id)}}'>赞(<i>0</i>)</b></a>
+                                    <a class="areply mrl reply-{{cmtIdStr}}"   href="javascript:void(0)"><i class="fa fa-reply mrs"></i>回复</a>
+                                    {% if cmt.sendUid == user.id and cmt.sendUid != 0 and cmtRule.allowDel == 1  or delPower == 1%}
+                                    <a data-id="{{cmt.id}}" class="adelete del-{{cmtIdStr}}" href="javascript:void(0)" ><i class="glyphicon glyphicon-trash mrs"></i>删除</a>
+                                    {% endif %}
+                                </div>
+                            </div>    
+    </div>
+    <div class="p-replybox reply-box" style="display:none">
+                            <form  class="reply-comment-form-{{cmtIdStr}}" {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} data-release = '1' {% else %} data-release = '0' {% endif %}  data-insert="1" action="/System/Comment/replyCommentAction" method="post" novalidate>
+                            <div class="discuss-textcon">
+                                <div class="userpic">
+                                    <a {% if user.id %}target="_blank" href="{{ path('user_show', {id:user.id,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                        <img src="{{ user_default_path(user.id, 'small') }}"/>
+                                    </a>
+                                </div>
+                                <div class="tareabox input-change-text">
+                                    <div class="tareawrap">
+                                        <div class="tareacon">
+                                            <textarea id="textareastyle-{{cmtIdStr}}" class="textareastyle textareastyle-{{cmtIdStr}}" name="content"  placeholder="请输入..." ></textarea>
+                                        </div>
+                                         {% if user.id or cmtRule.forceLogin or user.id == 0 and cmtRule.anonyNoLogin == 0  %}
+                                                         <div class="tareabtn">
+                                                             <div class="tareabtn-right"><button type="submit"  class="issuebtn issuebtn_{{cmtIdStr}}">回复</button></div>
+                                                             {#<div class="phizbox"><a class="face" href="###"></a></div>#}
+                                                             <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                                         </div>
+                                                         {% endif %}
+                                    </div>
+                                    {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} 
+                      
+                                                    <div class="anonymity-set anonymity-exit"  {% if user.nickname == '' %}style="display:none" {% endif %}>
+                                                         <div class="visitors-login">
+                                                        <button type="submit"   class="btn btn-primary issuebtn_{{cmtIdStr}}">回复</button></span></div>
+                                                        <div class="nickname" ><span><i class="glyphicon glyphicon-user mrs"></i><b class="anonyName">{{user.nickname}}</b></span><a class="exitbtn" href="javascript:void(0)">退出</a></div>
+                                                        <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                                        </div>
+
+                                                        <div class="anonymity-set anonymity-nick"  {% if user.nickname %} style="display:none" {% endif %} >
+                                                        <div class="visitors-login"><h6>以游客身份回复</h6><span>
+                                                        {% if user.nickname != '' %}
+                                                         <input type="hidden" name="sendName" value="{{user.nickname}}">
+                                                         {% else %}
+                                                        <input type="text" name="sendName" placeholder="昵称">
+                                                        {% endif %}
+                                                        <button type="submit" data-anony ="anony"   class="btn btn-primary issuebtn_{{cmtIdStr}}">回复</button></span></div>
+                                                        <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                                        </div>
+                                                    {% endif %}
+                                </div>
+                            </div>
+                             <input type="hidden" name="statId" value="{{cmt.cmtStatId}}">
+                             <input type="hidden" name="cmtId" value="{{cmt.id}}">
+                             <input type="hidden" name="cmtIdStr" value="{{cmtIdStr}}">
+                             <input type="hidden" name="cmtType" value="{{cmtType}}">
+                             <input type="hidden" name="pid" value="0">
+                             <input type="hidden" name="replyType" value="reply">
+                             <input type="hidden" name="sendUid" value="{{user.id}}">
+                             {% if user.id %}
+                              <input type="hidden" name="sendName" value="{{user.nickname}}">
+                              {% endif %}
+                              <input type="hidden" name="vcode" value="{{vcode}}">
+                             <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+                           </form>
+                          
+    </div>
+    <ul class="discuss-children">
+        <li  class="discuss-redcloud">
+                    
+        </li>
+    </ul>
+</div> 

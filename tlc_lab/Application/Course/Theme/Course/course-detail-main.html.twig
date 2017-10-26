@@ -1,0 +1,68 @@
+
+<div class="course-list-tit">
+    {% if isShowVirtualLab %}
+        <a class="pull-right btn btn-primary btn-fat only-btn mts mrs" target="_blank" href="http://www.hyids.net:3340">虚拟实验室</a>
+    {% endif %}
+        <ul class="nav nav-tabs"  id="course-nav-tabs">
+            <li class="{% if type == 'index' %}active{% endif %}">
+                <a class="btn-index" href="javascript:;" data-anchor1="course-list-pane">课程目录</a>
+            </li>
+            <li class="{% if type == 'about' %}active{% endif %}">
+                <a class="btn-index" href="javascript:;" data-anchor1="course-about-pane">课程介绍</a>
+            </li>
+            <li class="{% if type == 'resource' %}active{% endif %}">
+                <a class="btn-index" href="javascript:;" data-anchor1="course-resource-pane">课程资料</a>
+            </li>
+        </ul>
+    </div>
+<div class="panel-body">
+    {% set class = 'hide' %}
+{% embed "@Home/Bootstrap/panel.html.twig" with {'id' : 'course-list-pane','class':panelClass(type,'index')} %}
+    {% block heading %}
+        <h3 class="panel-title">课程目录</h3>
+    {% endblock %}
+    {% block body %}
+        {% include '@Course/CourseLesson/item-list-multi.html.twig' with {experience: true} %}
+    {% endblock %}
+{% endembed %}
+
+{% embed "@Home/Bootstrap/panel.html.twig" with {'id' : 'course-resource-pane','class':panelClass(type,'resource')} %}
+    {% block heading %}
+        <h3 class="panel-title">课程资料</h3>
+    {% endblock %}
+    {% block body %}
+        {{ render(controller('Course:CourseResource:resourcePane',{id:app.request.get('id')})) }}
+    {% endblock %}
+{% endembed %}
+
+{% embed "@Home/Bootstrap/panel.html.twig" with {'id' : 'course-about-pane','class':panelClass(type,'about')} %}
+    {% block heading %}
+        <h3 class="panel-title">课程介绍</h3>
+    {% endblock %}
+    {% block body %}
+
+        {% if course.about %}
+            <span style="word-break: break-all;">{{ course.about|raw }}</span>
+        {% else %}
+            <span class="text-muted">还没有课程介绍...</span>
+        {% endif %}
+        {% if tags %}
+            <div class="mtm">
+                <span class="text-muted">标签：</span>
+                {% for tag in tags %}
+                    <a href="{{ path('tag_show', {name:tag.name}) }}" class="mrs">{{ tag.name }}</a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+    {% endblock %}
+{% endembed %}
+
+</div>
+
+
+
+
+
+
+

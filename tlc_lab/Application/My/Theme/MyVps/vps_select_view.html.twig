@@ -1,0 +1,51 @@
+﻿<div class="panel" id="my_vps_body">
+<div class="c-panel-heading"><span>检测到您没有虚拟机实例，请选择虚拟机</span></div>
+	<div id="vps-container" class="panel min-h-450" style="padding: 10px;">
+		{% if vpsList is empty %}
+			<div><span class="txt-center no-tip-txt">暂无可用虚拟机</span></div>
+		{% else %}
+			<table class="table c-table text-center">
+				<thead>
+				<tr class="active  text-center">
+					<td>实例名</td>
+					<td>虚拟机状态</td>
+					<td>镜像名</td>
+					<td>规格名</td>
+					<td>选择</td>
+				</tr>
+				</thead>
+				<tbody>
+				{% for vps in vpsList %}
+					<tr class="vps_list_item text-center">
+						<td class="text-center">
+							<span>{{ vps.serverName }}</span>
+						</td>
+						<td>{{ vps.serverState }}</td>
+						<td>{{ vps.imageName }}</td>
+                        <td>{{ vps.flavorName }}</td>
+						<td><input type="radio" name="vps-choose" value="{{ vps.instanceId }}" /></td>
+					</tr>
+				{% endfor %}
+				</tbody>
+			</table>
+			<div class="text-center mtm mbm"><button id="confirm_select_btn" data-toggle="modal" data-target="#confirm_modal" disabled="disabled" class="btn btn-danger">确定选择</button></div>
+		{% endif %}
+		<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">选择确认</h4>
+					</div>
+					<div class="modal-body">确定选择该虚拟机吗？不后悔吗？</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="button" id="select_vps_btn" class="btn btn-primary" data-posturl="{{U("My/MyVps/selectVps")}}">确定</button>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal -->
+		</div>
+		<input type="hidden" name="vps_show_url" value="{{path('show_my_vps')}}" />
+		<input type="hidden" name="vps_list_url" value="{{path('show_vps_list')}}" />
+	</div>
+</div>	

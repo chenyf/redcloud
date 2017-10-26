@@ -1,0 +1,45 @@
+{% set learnStatuses = learnStatuses|default([]) %}
+{% set experience = experience|default(false) %}
+{% set deploy = intval(setting('course.chapter_deploy_enabled','0'))%}
+<div class="panel-body">
+<ul class="lesson-list sortable-list" id="course-item-list">
+    {% for id, item in items %}
+        {% if 'chapter' in id %}
+            {% if item.type == 'unit' %}
+                <li class="item-chapter item-chapter-unit clearfix {% if item.show == 0 and deploy == false %}hide{% endif %}"  style="word-break: break-all;" data-id="{{ item.id }}" data-pid="{{ item.parentId }}">
+            <div class="item-content">
+                <i class="fa fa-file-text-o pull-left"></i>第 <span class="number">{{ item.number }}</span> 节： {{ item.title }}
+            </div>
+        </li>
+            {% else %}
+                <li class="item-chapter  clearfix {% if item.show == 0 and deploy %}hide{% endif %}"  style="word-break: break-all;" data-id="{{ item.id }}" data-pid="{{ item.parentId }}">
+            <div class="item-content">
+                <i class="fa fa-list-ul pull-left"></i>第 <span class="number">{{ item.number }}</span> 章： {{ item.title }}<em class="deploy fa pull-right {% if deploy == false %}{% if id == firstItemKey %}fa-minus {% else %} fa-plus {% endif %}{% endif %}"></em>
+            </div> 
+        </li> 
+            {% endif %}
+        {% elseif 'lesson' in id %}
+            {% set lessonUrl = path('course_learn', {id:course.id}) ~ '#lesson/' ~ item.id %}
+            {% set icon = {"text":"fa-picture-o","video":"fa-play-circle-o","practice":"fa-pencil-square-o","document":"fa-file-word-o"} %}
+        
+        <li class="item-lesson clearfix {% if item.show == 0 and deploy == false %}hide{% endif %}"  style="word-break: break-all;" onclick="window.location.href='{{ lessonUrl }}'" data-id="{{ item.id }}" data-pid="{{ item.chapterId }}">
+                <div class="item-line"></div>
+                <div class="item-content pull-left">
+                    {% if item.type == 'document' and item.fileExt == 'pdf' %}
+                        <i class="fa fa-file-pdf-o pull-left"></i>
+                    {% elseif item.type == 'document' and ( item.fileExt == 'ppt' or item.fileExt == 'pptx' )  %}
+                        <i class="fa fa-file-powerpoint-o pull-left"></i>
+                    {% else %}
+                        <i class="fa {{ icon[item.type] }} pull-left"></i>
+                    {% endif %}
+                    {{ item.title }}
+                </div>
+                <em style="margin-top:7px;" class="fa {% if learnStatuses[item.id] == 'learning' %} fa-adjust {% elseif learnStatuses[item.id]== 'finished' %}fa-circle {% else %}fa-circle-o{% endif%} pull-right"></em>
+                {% if item.type == 'video' %}
+                <span class="class-hours text-muted pull-right mrm">时长：{{ item.length|duration }}</span>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+    </div>

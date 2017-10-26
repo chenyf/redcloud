@@ -1,0 +1,14 @@
+{% extends '@User/Signin/layout.html.twig' %}
+{% block title %}登录 - {{ parent() }}{% endblock %}
+{% set script_controller = 'auth/login' %}
+{% set containerClassBlock = 'index_container' %}
+{% set bodyClass='login-block' %}
+{% set two_nav = '欢迎登录' %}
+{% block content %}
+    <div class="panel panel-default panel-page login-box" style="border-radius: 4px;">
+        <div class="login-header">登录</div>
+        {% include '@User/Signin/login-form.html.twig' with {'studNumLogin':studNumLogin,'errorNum':errorNum}%}
+        <div style="overflow:hidden;clear:both;margin:0 50px;">
+        </div>
+    </div>
+{% endblock %}

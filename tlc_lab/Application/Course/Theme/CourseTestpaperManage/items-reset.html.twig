@@ -1,0 +1,38 @@
+{% set menu = 'testpaper' %}
+{% set title = '重新生成试卷题目' %}
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+{% import '@Home/macro.html.twig' as macro %}
+
+{% block title %}重新生成试卷题目 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'testpaper' %}
+{% set script_controller = 'testpaper/testpaper-form' %}
+
+
+{% block courseContent %}
+
+<div class="panel panel-default panel-col test-creator">
+
+  <div class="panel-body">
+
+    <form id="testpaper-form" class="form-horizontal" method="post" data-auto-submit="false" data-build-check-url="{{ path('course_manage_testpaper_build_check', {courseId:course.id})}}" data-have-build-fields="true">
+
+      {% include '@Course/CourseTestpaperManage/testpaper-form-build-fields.html.twig'%}
+
+      <div class="form-group">
+        <div class="col-md-8 col-md-offset-2">
+          <button type="submit" class="btn btn-primary" >保存，下一步</button>
+          <a href="{{ path('course_manage_testpaper',{courseId:course.id}) }}" class="btn btn-link  ">返回</a>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+ 

@@ -1,0 +1,14 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'middle' %}
+
+{% block title %}确认删除签到地点坐标{% endblock %}
+{% block body %}
+    <div class="text-center">确定删除该地点坐标吗？删除之后选择该地点的课程将同步移除该地点。</div>
+{% endblock %}
+
+
+{% block footer %}
+    <button id="remove-coordinate-btn" data-url="{{ path('admin_sign_coordinate_remove',{id:id}) }}" data-id="{{ id }}" data-submiting-text="正在提交" class="btn btn-primary pull-right">确定</button>
+    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+{% endblock %}

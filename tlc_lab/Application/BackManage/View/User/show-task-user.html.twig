@@ -1,0 +1,49 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class = 'modal-lg' %}
+{% block title %}任务用户详情{% endblock %}
+{% block body %}
+
+<div id="task-user-details">
+{% if taskUser %}
+    <table class="table table-bordered" >
+        <thead>
+            <tr>
+                <th>用户名</th>
+                <th>邮箱</th>
+                <th>邮箱发送状态</th>
+                <th>手机</th>
+                <th>手机发送状态</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in taskUser %}
+                <tr>
+                    <td>{{ getUserNameById(user.uid) }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        {% if user.emailSend %}成功 
+                        {% else %}失败
+                        {% endif %}
+                    </td>
+                    <td>{{ user.mobile }}</td>
+                    <td>
+                        {% if user.mobileSend %}成功 
+                        {% else %}失败
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+     </table>
+    {{ web_macro.paginator(paginator) }}
+{% else %}
+    <span>暂无数据,任务可能没开始</span>
+{% endif %}
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+{% endblock %}

@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>{{ title }}</title>
+    <link href="/Public/homepage/template/tpl/tpl2/css/bootstrap.css" rel='stylesheet' type='text/css' />
+    <!-- jQuery (necessary JavaScript plugins) -->
+    <script src="/Public/homepage/template/tpl/tpl2/js/jquery.min.js"></script>
+    <!-- Custom Theme files -->
+    <link href="/Public/homepage/template/tpl/tpl2/css/dashboard.css" rel="stylesheet">
+    <link href="/Public/homepage/template/tpl/tpl2/css/style.css" rel='stylesheet' type='text/css' />
+
+    <!-- Custom Theme files -->
+    <!--//theme-style-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="{{ description }}" />
+    <meta name="keywords" content="{{ keywords }}" />
+    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+    <!-- start menu -->
+
+</head>
+<body>
+<!-- header -->
+<div class="col-sm-3 col-md-3 sidebar">
+    <div class="sidebar_top">
+        <div class="sidebar_pic"><div><img loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/pic-error.png?5.1.4';"  src="{{ user_default_path(user.id) }}" class="avatar" alt="{{ user.nickname }}"></div></div>
+        <h1 class="yellow top-20">{{user.nickname}}</h1>
+        <h3 class="position">{{ profile.position }}</h3>
+    </div>
+    <div>
+        <div class="nav-left">
+            <ul>
+                <li><a href="./index.html"><img src="/Public/homepage/template/tpl/tpl2/images/home.png"/>主页</a></li>
+                <li><a href="./teach.html"><img src="/Public/homepage/template/tpl/tpl2/images/teach.png"/>教学</a></li>
+                <li class="active-nav"><a href="./research.html"><img src="/Public/homepage/template/tpl/tpl2/images/research.png"/>科研项目</a></li>
+                <li><a href="./publications.html"><img src="/Public/homepage/template/tpl/tpl2/images/publication.png"/>出版物</a></li>
+                <script>
+                    $(document).ready(function() {
+                        $('.popup-with-zoom-anim').magnificPopup({
+                            type: 'inline',
+                            fixedContentPos: false,
+                            fixedBgPos: true,
+                            overflowY: 'auto',
+                            closeBtnInside: true,
+                            preloader: false,
+                            midClick: true,
+                            removalDelay: 300,
+                            mainClass: 'my-mfp-zoom-in'
+                        });
+
+                    });
+                </script>
+            </ul>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+</div>
+<!---->
+<link href="/Public/homepage/template/tpl/tpl2/css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
+<script src="/Public/homepage/template/tpl/tpl2/js/jquery.magnific-popup.js" type="text/javascript"></script>
+<!---//pop-up-box---->
+<div class="col-sm-8 col-sm-offset-3 col-md-9 col-md-offset-3 main">
+    <div class="content">
+
+        <div class="skills">
+            <h3 class="clr2"><img src="/Public/homepage/template/tpl/tpl2/images/research_black.png"/>科研项目</h3>
+            {% for v in data.researches %}
+                <div class="company_details">
+                    <h4>{{ v.key }}<span></span></h4>
+                    <h6></h6>
+                    <p class="cmpny1">
+                        {% for v2 in v.value %}
+                        • {{ v2.val }}<br/>
+                        {% endfor %}
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="copywrite">
+            <p>{{ site.icp }} </p>
+        </div>
+    </div>
+</div>
+<!---->
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

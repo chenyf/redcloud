@@ -1,0 +1,122 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set school = school|default(null) %}
+
+
+{% block title %}
+    {% if school %}编辑学校{% else %}添加学校{% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <form class="form-horizontal" id="school-form"
+            {% if school.id == 0 %}
+                action="{{ U('BackManage/School/create') }}"
+            {% else %}
+                action="{{ U('BackManage/School/update') }}"
+            {% endif %}
+          method="post">
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="name">学校名称</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="name" value="{{ school.name }}" name="name" placeholder="学校中文名"></div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="webCode">webCode</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="webCode" value="{{ school.webCode }}" name="webCode" placeholder="如：hbsi"></div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="domain">其他域名</label></div>
+            <div class="col-md-8 controls">
+                <textarea name="domain" id="domain"  rows="5" class="form-control">{{ school.domain }}</textarea>
+                </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="androidApiKey">安卓推送apiKey</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="androidApiKey" value="{{ school.androidApiKey }}" name="androidApiKey"></div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="androidSecretKey">安卓推送密钥key</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="androidSecretKey" value="{{ school.androidSecretKey }}" name="androidSecretKey"></div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="iosApiKey">ios推送apiKey</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="iosApiKey" value="{{ school.iosApiKey }}" name="iosApiKey"></div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="iosSecretKey">ios推送密钥key</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="iosSecretKey" value="{{ school.iosSecretKey }}" name="iosSecretKey"></div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="signStatus">签约状态</label></div>
+            <div class="col-md-8 controls">
+                <label class="radio-inline">
+                    <input type="radio" name="signStatus" id="signStatus" value="0" {% if school.signStatus == 0 and school.signStatus is defined %}checked{% endif %}> 未签约
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="signStatus" id="signStatus" value="1" {% if school.signStatus == 1 or school.signStatus == undefined %}checked{% endif %}> 已签约
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="signStatus" id="signStatus" value="2" {% if school.signStatus == 2 %}checked{% endif %}> 过期
+                </label>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="signDate">签约时间</label></div>
+            <div class="col-md-6 controls">
+                <div class='input-group date' id='datetimepicker'>
+                    <input type='text' class="form-control" value="{{ field_value(school, 'signDate', app.request.server.get('REQUEST_TIME'))|date('Y-m-d H:i:s') }}" name="signDate"/>
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                </div>
+            </div>
+        </div>
+
+        <p></p>
+
+        <input type="hidden" name="id" value="{{ school.id|default(0) }}">
+    </form>
+
+    <script type="text/javascript">
+        app.load('school/create-school-modal')
+
+    </script>
+
+{% endblock %}
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="school-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#school-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

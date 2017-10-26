@@ -1,0 +1,31 @@
+<div class="panel" id="my_vps_body">
+	<div class="c-panel-heading">
+		<div id="vps-options" class="pull-right mlm">
+			{% if my_vps %} 
+				<button type="button" class="abtn abtn-danger vps-option-btn" data-dotxt="开机中" data-url="{{U("My/MyVps/oprationVps")}}" data-key="1" id="start_vps">开机</button>
+				<button type="button" class="abtn abtn-warning vps-option-btn" data-dotxt="关机中" data-url="{{U("My/MyVps/oprationVps")}}" data-key="2" id="stop_vps">关机</button>
+				<button type="button" class="abtn abtn-notice vps-option-btn" data-dotxt="重启中" data-url="{{U("My/MyVps/oprationVps")}}" data-key="3" id="restart_vps">重启</button>
+				<div id="t-toggle" class="dropdown t-toggle-btn" style="display: inline-block;">
+					<i class="fa fa-angle-double-down dropdown-toggle" data-toggle="dropdown"></i>
+					<ul class="dropdown-menu">
+						<li><a href="javascript:;" data-toggle="modal" data-target="#modal" data-url="{{path('message_contact_admin')}}"><i class="glyphicon glyphicon-envelope"></i>联系管理员</a></li>
+						<li class="divider"></li>
+					</ul>
+				</div>
+			{% endif %}
+		</div>
+		<span>我的虚拟机</span>
+	</div>
+	<div id="vps-container" class="panel min-h-500">
+		{% if my_vps %}
+			<div id="vps-box" class="min-h-500" style="height:100%;">
+				<iframe id="vnc_frame" src="{{vnc_url}}" class="min-h-800"  align="middle"  width="100%" height="100%" frameborder="no" border="0" marginwidth="0" marginheight="0" allowtransparency="yes">
+				</iframe>
+			</div>
+		{% else %}
+			<div class="txt-center mtm-100">
+				<span class="no-tip-txt">无可用虚拟机</span>
+			</div>
+		{% endif %}
+	</div>
+</div>

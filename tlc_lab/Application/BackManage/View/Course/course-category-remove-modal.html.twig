@@ -1,0 +1,15 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'middle' %}
+
+{% block title %}确认删除课程分类{% endblock %}
+{% block body %}
+    <div class="text-center">该分类下有{{ count }}门课程。确定删除该分类吗？删除之后该分类下的所有课程的所属分类将置为默认。</div>
+{% endblock %}
+
+
+{% block footer %}
+    <button id="remove-category-btn" data-url="{{ path('admin_category_manage_remove',{id:id}) }}" data-id="{{ id }}" data-submiting-text="正在提交" class="btn btn-primary pull-right">确定</button>
+    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+    <script>app.load("course/course-category-remove-modal");</script>
+{% endblock %}

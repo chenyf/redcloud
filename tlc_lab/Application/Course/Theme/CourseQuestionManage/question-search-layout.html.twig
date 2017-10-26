@@ -1,0 +1,69 @@
+<div class="c-tiku-head">
+    <form role="search-form" class="form-horizontal " data-get="{{U('Course/CourseTestpaperManage/getQuestionCount',{courseId:app.request.get('courseId')})}}" data-url="{{U('Course/CourseTestpaperManage/getQuestionsList',{courseId:app.request.get('courseId'),id:app.request.get('id'),type:app.request.get('type')})}}" action="" method="get" novalidate>
+        <div class="form-group" style="border-top:none;">
+            <button id="toggle" class="btn btn-default pull-right mlm" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><span>展开</span><i class="glyphicon glyphicon-menu-down mls"></i></button>
+            {% if createMethod|default('') != 'random'%}
+                <div class="t-work-search pull-right">
+                    <input type="text" id="keyword" name="keyword" class="form-control pull-left" value="{{ app.request.query.get('keyword') }}" placeholder="关键词">
+                    <span class="input-group-btn pull-left">
+                        <button class="btn btn-default searchSubmit" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            {% endif %}
+                <label class="pull-left control-label">题目范围</label>
+                <div class="course-range controls">
+                    <select class="form-control pull-left" name="startTarget" style="width: 180px;">
+                        <option value="0">本课程</option>
+                           {% for key,arr in targetChoices %}
+                        <option {% if app.request.query.get('startTarget') == arr['seq'] %} selected {% endif %}value="{{ arr['seq'] }}">{% if arr['type']== 'chapter' %}{{ arr['sort'] }}:{% elseif arr['type']== 'unit' %}&nbsp;&nbsp;{{ arr['sort'] }}:{% elseif arr == '本课程' %}本课程{% else %}&nbsp;&nbsp;&nbsp;&nbsp;{{ arr['sort']}}:{% endif %}{{ arr['title'] }}</option>
+                           {% endfor %}
+                    </select>
+                    <span name="to" style="display:none;">~</span>
+                    <select  class="form-control pull-left " name="endTarget"  style="width: 180px; {% if app.request.query.get('startTarget') == 0 %} display:none; {% endif %}">
+                           {% for key,arr in targetChoices %}
+                            <option {% if app.request.query.get('endTarget') == arr['seq'] %} selected {% endif %} value="{{ arr['seq'] }}">{% if arr['type']== 'chapter' %}{{ arr['sort'] }}:{% elseif arr['type']== 'unit' %}&nbsp;&nbsp;{{ arr['sort'] }}:{% else %}&nbsp;&nbsp;&nbsp;&nbsp;{{ arr['sort'] }}:{% endif %}{{ arr['title'] }}</option>
+                           {% endfor %}
+                    </select>
+                 </div>
+          </div>
+
+          <div class="collapse" id="collapseExample">
+                    <div class="form-group" id="questionTypeDiv">
+                        <label class="pull-left control-label" style="padding-top:5px;">题目类型</label>
+                        <div class="col-md-11 controls btn-choose">
+                            <a class="a-choose  select-Range select-all" href="javascript:void(0)" data-val="">全部</a>
+                            <a class="a-choose  select-Range" href="javascript:void(0)" data-val="single_choice">单项选择</a>
+                            <a class="a-choose  select-Range" href="javascript:void(0)" data-val="choice" >多项选择</a>
+                            <a class="a-choose  select-Range" href="javascript:void(0)" data-val="determine" >判断题</a>
+                            <a class="a-choose  select-Range" href="javascript:void(0)" data-val="fill" >填空题</a>
+                            <a class="a-choose  select-Range" href="javascript:void(0)" data-val="essay" >问答题</a>
+                            <input id="questionTypeInput" type="hidden" name="qestype" value="{{ app.request.get('qestype') }}" />
+                        </div>
+                    </div>
+                    <div class="form-group" id="difficultyDiv">
+                        <label class="pull-left control-label" style="padding-top:5px;">题目难度</label>
+                        <div class="col-md-10 controls btn-choose">
+                            <a class="a-choose  select-Difficulty select-all" href="javascript:void(0)" data-val="">全部</a>
+                            <a class="a-choose  select-Difficulty" href="javascript:void(0)" data-val="simple">简单</a>
+                            <a class="a-choose  select-Difficulty" href="javascript:void(0)" data-val="normal">一般</a>
+                            <a class="a-choose  select-Difficulty" href="javascript:void(0)" data-val="difficulty">困难</a>
+                            <input type="hidden" name="difficulty" value="{{ app.request.get('difficulty') }}" />
+                        </div>
+                    </div>
+                    {% if createMethod == 'manually' and createStep == 'twoStep' %}
+                        <div class="form-group controls" >
+                            <label class="pull-left control-label" style="padding-top:5px;">题目查看范围</label>
+                            <div class="controls ">
+                                <select  class="form-control pull-left " name="dataRange"  style="width: 180px;">
+                                    <option value="selected">查看已选择的题目</option>
+                                    <option value="selectall">查看全部搜索结果</option>
+                                </select>
+                            </div>
+                        </div>
+                    {% endif %}
+                 {% if createMethod|default('') != 'random' %}
+                    <div class="tiku-searchbtn text-center"><button id="searchSubmit" class="btn btn-fat btn-primary searchSubmit"  data-publish="1" type="submit">确认搜索</button></div>
+                 {% endif %}
+            </div>
+      </form>
+</div>

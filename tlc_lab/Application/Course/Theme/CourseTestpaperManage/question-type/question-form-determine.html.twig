@@ -1,0 +1,13 @@
+{% extends '@Course/CourseTestpaperManage/question-type/question-form-layout.html.twig' %}
+
+{% block question_extra_fields %}
+    <div class="form-group" id="answerDiv">
+        <div class="col-md-2 control-label"><label class="mts">答案</label></div>
+        <div class="col-md-8 controls radios btn-choose">
+            {#{{ radios('answer[]', {'1':'正确', '0':'错误'}, question.answer|default(['-1'])|join) }} #}
+            <a class="a-choose  select-openRange" href="javascript:void(0)" data-id="0" value='1' >正确</a>
+            <a class="a-choose  select-openRange" href="javascript:void(0)" data-id="1" value='0'>错误</a>
+            <input id="determine" type="hidden" name="answer[]" value="{{ question.answer['0']|default('1') }}" />
+        </div>          
+    </div>
+{% endblock %}

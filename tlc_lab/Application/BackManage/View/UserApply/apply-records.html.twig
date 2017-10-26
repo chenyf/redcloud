@@ -1,0 +1,50 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class = 'modal-lg' %}
+{% block title %}审核记录{% endblock %}
+{% block body %}
+<div id="login-apply-details">
+    <table class="table table-bordered" >
+        <thead>
+            <tr>
+                <th width="20%">审核时间</th>
+                <th width="30%">审核人</th>
+                <th width="10%">审核状态</th>
+                <th>备注</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    {% if apply.opTm %}
+                        {{ apply.opTm|date('Y-n-d H:i:s') }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if apply.opUid %}
+                        {{  getUserNameById(apply.opUid) }}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if apply.status == 1 %}
+                        <span class="text-success">已通过</span>
+                    {% elseif apply.status == 2 %}
+                        <span class="text-danger">未通过</span>
+                    {% elseif apply.status == 3 %}
+                        <span class="text-danger">已取消</span>
+                    {% else %}
+                        <span class="text-muted">未审核</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <p style="word-wrap:break-word;word-break:break-all">{{ apply.opRemark }}</p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+{% block footer %}
+    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+{% endblock %}

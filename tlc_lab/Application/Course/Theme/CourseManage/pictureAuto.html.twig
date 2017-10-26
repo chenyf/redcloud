@@ -1,0 +1,124 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set modal_class = 'modal-lg' %}
+{% block title %}
+    {% if picTab == 3%}上传 {% else %} 选择 {% endif %}课程图片
+   
+{% endblock %}
+
+{% block body %}
+
+{% if picTab != 3%}
+            <div class="modal-body" style="">
+               <div class="t-course-set-tit" style="padding-top:0;">
+                    <ul class="nav nav-tabs c-set-tabs">
+                        <li {% if picTab != 1 %} class="active" {% endif %} id = "picModel"><a href="#moreImg" data-toggle="tab">网站图片模版</a></li>
+                        <li {% if picTab == 1 %} class="active" {% endif %} id="picAuto"><a href="#customImg"  data-toggle="tab">上传本地图片</a></li>
+                    </ul>
+                </div>
+
+                <div class="tab-content">
+                    <div class="image-template tab-pane {% if picTab != 1 %} active {% endif %}" id="moreImg">
+                        <ul class="template-list" id="course-change-pic">
+                            {% for id,picture in loadDefaultCoursePoster() %}
+                                <li class="col-md-3 col-sm-4 col-xs-6 pic-list {% if course.selectPicture == picture %}active {% endif %}">
+                                    <span class="c-icon-checkd {% if course.selectPicture != picture %}hide{% endif %}" aria-hidden="true"></span>
+                                    <img class="course-picture" src="{{ picture }}" onerror="javascript:this.parentNode.parentNode.removeChild(this.parentNode);"  data-value="{{ tripPath(picture) }}" alt="{{ course.title }}" width="100%">
+                                </li>
+                           {% endfor %}
+                        </ul>
+                    </div>
+               {% endif %}
+                    <div class="panel panel-default panel-col tab-pane {% if picTab == 1 %} active {% endif %}" id="customImg" style="text-align: center;">
+
+                    <div class="panel-body" id="panel-body-atuto">
+                      {#<iframe name="ajaxifr" style="display:none;"></iframe>target="ajaxifr"#}
+                      <form id="course-picture-form"  method="post" action="{{ U('/Course/CourseManage/pictureAutoAction', {id:course.id,center:app.request.get('center')}) }}" enctype="multipart/form-data">
+                        {{ web_macro.flash_messages() }}
+
+                        <div class="form-group clearfix">
+                          <div class="col-md-offset-2 col-md-8 controls">
+                            <div style="min-height:200px;"><img src="{{ default_path('coursePicture',course.largePicture, '') }}" /></div>
+                            <div class="c-upload-loading hide"  id="progress" style="width:500px;height:360px;">
+                                      <div class="c-loading-con" >
+                                          <span id="bar"><em></em><i></i></span>{#<a class="btn-link mlm" href="###">取消</a>#}
+                                          <p class="mts text-muted">图片加载中，请稍候...</p>
+                                      </div>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div class="form-group clearfix">
+                          <div class="col-md-offset-2 col-md-8 controls">
+                            <input id="course-picture-field" type="file" name="picture" accept="image/gif,image/jpeg,image/png">
+
+                            <p class="help-block" style="text-align:left">你可以上传jpg, gif, png格式的文件, 图片建议尺寸至少为<font color='red'><b>768x432</b></font>，并且宽高比例为<font color='red'><b>16:9</b></font>。建议截图时截整图,文件大小不能超过<strong>2M</strong>。</p>
+
+                          </div>
+                        </div>
+
+                        <div class="form-group clearfix">
+                          <div class="col-md-offset-2 col-md-8 controls">
+                           {# <button class="btn btn-fat btn-primary" id="upload-picture-btn" type="submit">上传</button>#}
+                          </div>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+
+                      </form>
+
+                    </div>
+
+                      <div class="panel-body hide"   id="panel-body-crop" >
+                      <form id="course-picture-crops-form" method="post" action="{{ U('/Course/CourseManage/pictureCropAutoAction', {id:course.id,edit:picEdit,center:app.request.get('center')}) }}" enctype="multipart/form-data">
+                        {{ web_macro.flash_messages() }}
+
+                        <div class="form-group clearfix">
+                          <div class="col-md-offset-2 col-md-8 controls">
+                            <img src="{{ pictureUrl }}" id="course-picture-crops" width="{{scaledSize.width}}" height="{{scaledSize.height}}" data-natural-width="{{ naturalSize.width }}" data-natural-height="{{ naturalSize.height }}" />
+                            <div class="help-block">提示：请选择图片裁剪区域。</div>
+                          </div>
+                        </div>
+
+                        <div class="form-group clearfix">
+                          <div class="col-md-offset-2 col-md-8 controls">
+                            <input type="hidden" name="x">
+                            <input type="hidden" name="y">
+                            <input type="hidden" name="width">
+                            <input type="hidden" name="height">
+                            <input type="hidden" name="pictureFilePath" id="pictureFilePath" value="">
+                            <input type="hidden" name="id" value="{{course.id}}">
+                            <button class="btn btn-fat btn-primary" id="upload-picture-btn" type="submit">保存</button>
+                            <a href="javascript:;" class="go-back btn btn-link">重新选择图片</a>
+                          </div>
+                        </div>
+
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+
+                      </form>
+
+                    </div>
+
+                  </div>
+   {% if picTab != 3%}
+                 
+                </div>
+
+             </div>
+ {% endif %}
+           
+       
+
+    
+    
+ 
+<script> app.load('course-manage/picture-auto'); </script>
+{% endblock %}
+
+{% block footer %}
+{% if picTab != 3%}
+    <div id="tabRight" class="{% if picTab == 1%}hide{% endif %}">
+    <button id="create-course-btn" type="button" class=" btn btn-primary pull-right">确定</button>
+    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+    </div>
+   {% endif %}
+{% endblock %}

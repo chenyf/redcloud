@@ -1,0 +1,12 @@
+<div class="es-row-wrap  container-gap userpage-header bggray">
+  <div class="row mtl mbl">
+    <div class="col-md-12 user-avatar-link">
+      <img class="avatar"  loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/pic-error.png?5.1.4';"  src="{{ user_default_path(user.id, 'large') }}">
+      <div class="userpage-header-info">
+          <h1>{{user.nickname}} <small>{#{ user.title }#}</small></h1>
+          <div class="gender">{{ user.xingbie }}</div>
+          <div class="college">{{ user.college }} - {{ user.major }}</div>
+      </div>
+    </div>
+  </div>
+</div>

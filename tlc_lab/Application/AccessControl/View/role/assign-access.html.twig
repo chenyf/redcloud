@@ -1,0 +1,70 @@
+{% extends '@AccessControl/common/layout.html.twig' %}
+
+{% block title %}分配权限 - {{ parent() }}{% endblock %}
+
+{% set menu = 'role' %}
+
+{% set script_controller = 'access-control/assign-access' %}
+
+{% block main %}
+    <div class="page-header clearfix">
+        <button class="btn btn-info btn-sm pull-right" id="add-navigation-btn" data-toggle="modal" data-target="#modal" data-url="{{ U('AccessControl/Role/create') }}">添加新角色</button>
+        <h1 class="pull-left">分配权限</h1>
+    </div>
+    <ul class="nav nav-tabs">
+        <li role="presentation"><a href="{{ U('AccessControl/Role/index') }}">角色列表</a></li>
+        <li role="presentation" class="active"><a>分配权限{{ role.name }}</a></li>
+    </ul>
+    <p></p>
+    <form action="{{ U('AccessControl/Role/updateAccess',{id:app.request.get('id')}) }}" method="post">
+        <div class="well ">
+            <select class="form-control"  onchange="window.location.href = '{{ U('AccessControl/Role/assignAccess') }}/id/'+this.value">
+                {% for role in roles %}
+                    <option value="{{ role.id }}" {% if app.request.get('id') == role.id %} selected {% endif %}>{{ role.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% for module in nodes %}
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <label class="checkbox-inline">
+                        <input type="checkbox"  class="module" name="node_ids[]" value="{{ module.id }}_{{ module.level }}" {% if in_array(module.id,node_ids) %} checked {% endif %}>  <strong>{{ module.title }}</strong>
+                    </label>
+                </div>
+                <div class="panel-body">
+                    {% for controller in module.children %}
+                        <div class="well">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox"  class="controller" name="node_ids[]" value="{{ controller.id }}_{{ controller.level }}" {% if in_array(controller.id,node_ids) %} checked {% endif %}>{{ controller.title }}
+                                    </label>
+                                </div>
+                            </div>
+                            <p></p>
+                            {% if controller.children %}
+                                <div class="row ">
+                                    <div class="col-md-12">
+                                        <label class="checkbox-inline"></label>
+                                        {% for action in controller.children %}
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" name="node_ids[]" class="action" value="{{ action.id }}_{{ action.level }}" {% if in_array(action.id,node_ids) %} checked {% endif %}> <code>{{ action.title }}</code>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-12 affix-bottom">
+                <button type="submit" class="btn btn-primary pull-right">保存</button>
+                <a class="btn btn-link pull-right" data-dismiss="modal">取消</a>
+            </div>
+        </div>
+    </form>
+
+{% endblock %}

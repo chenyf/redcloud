@@ -1,0 +1,122 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% block title %}手动添加题目{% endblock %}
+{% set modal_class = 'modal-lg' %}
+{% if mode == 'manually'%}
+    {% set isManuallyAdd = true %}
+{% else %}
+    {% set isManuallyAdd = false %}
+{% endif %}
+{% block body %}
+
+    <div class="t-course-set-tit" style="padding-top:0;" id="title">
+        <ul class="nav nav-tabs">
+                {% if isManuallyAdd %}
+                    <li class="active"><a>录入新题目</a></li>
+                {% else %}
+                    <li class="active" ><a class="question-bank-insert" href="#tk-content" data-toggle="tab" id="tiku" data-url="{{ U('Course/CourseTestpaperManage/getModalAddQuestion',{courseId:app.request.get('courseId'),id:app.request.get('id')}) }}" >从题库中选择</a></li>
+                    <li ><a class="new-insert" href="#new-tm" data-toggle="tab" id="tianti" data-url="" >录入新题目</a></li>
+                {% endif %}
+        </ul>
+    </div>
+    <div class="tab-content">
+        <div class="tiku-content tab-pane {% if not isManuallyAdd %}active{% endif %}" id="tk-content">
+            <form data-tiku = "{{ U('Course/CourseTestpaperManage/getModalQuestionsList',{courseId:app.request.get('courseId'),id:app.request.get('id')}) }}"
+                  data-add  = "{{ U('Course/CourseTestpaperManage/createNewQuestion',{courseId:app.request.get('courseId'),id:app.request.get('id'),type:app.request.get('type')}) }}" method="" name="addquestion" action="" >
+                            <div class="c-tiku-head">
+                                <div class="form-group" style="border-top:none;">
+                                    <button id="modalToggle" class="btn btn-default pull-right mlm" type="button" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample"><span>收起</span><i class="glyphicon glyphicon-menu-up mls"></i></button>
+                                    <div class="t-work-search pull-right">
+                                        <input type="text" id="keyword" name="keyword" class="form-control pull-left" value="{{ app.request.query.get('keyword') }}" placeholder="关键词">
+                                        <span class="input-group-btn pull-left">
+                                            <button class="btn btn-default modalSearchSubmit" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                                        </span>
+                                    </div>
+                                    <label class="pull-left control-label">题目范围</label>
+                                    <div class="course-range controls">
+                                        <select class="form-control pull-left" name="startTarget" style="width: 180px;">
+                                            <option value="0">本课程</option>
+                                                   {% for key,arr in targetChoices %}
+                                            <option {% if app.request.query.get('startTarget') == arr['seq'] %} selected {% endif %}value="{{ arr['seq'] }}">{% if arr['type']== 'chapter' %}{{ arr['sort'] }}:{% elseif arr['type']== 'unit' %}&nbsp;&nbsp;{{ arr['sort'] }}:{% elseif arr == '本课程' %}本课程{% else %}&nbsp;&nbsp;&nbsp;&nbsp;{{ arr['sort']}}:{% endif %}{{ arr['title'] }}</option>
+                                                   {% endfor %}
+                                        </select>
+
+                                        <span>~</span>
+                                        <select  class="form-control pull-left " name="endTarget"  style="width: 180px; {% if app.request.query.get('startTarget') == 0 %} display:none; {% endif %}">
+                                                {% for key,arr in targetChoices %}
+                                                <option {% if app.request.query.get('endTarget') == arr['seq'] %} selected {% endif %} value="{{ arr['seq'] }}">{% if arr['type']== 'chapter' %}{{ arr['sort'] }}:{% elseif arr['type']== 'unit' %}&nbsp;&nbsp;{{ arr['sort'] }}:{% else %}&nbsp;&nbsp;&nbsp;&nbsp;{{ arr['sort'] }}:{% endif %}{{ arr['title'] }}</option>
+                                                {% endfor %}
+                                            </select>
+                                    </div>
+                                </div>
+                                <div class="collapse in" id="collapseExample1">
+                                        <div class="form-group" id="questionTypeDiv">
+                                            <label class="pull-left control-label" style="padding-top:5px;">题目类型</label>
+                                            <div class="col-md-11 controls btn-choose">
+                                                <a class="a-choose  select-Range select-all" href="javascript:void(0)" data-val="">全部</a>
+                                                <a class="a-choose  select-Range" href="javascript:void(0)" data-val="single_choice">单项选择</a>
+                                                <a class="a-choose  select-Range" href="javascript:void(0)" data-val="choice" >多项选择</a>
+                                                <a class="a-choose  select-Range" href="javascript:void(0)" data-val="determine" >判断题</a>
+                                                <a class="a-choose  select-Range" href="javascript:void(0)" data-val="fill" >填空题</a>
+                                                <a class="a-choose  select-Range" href="javascript:void(0)" data-val="essay" >问答题</a>
+                                                <input id="questionTypeInput" type="hidden" name="qestype" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="difficultyDiv">
+                                            <label class="pull-left control-label" style="padding-top:5px;">题目难度</label>
+                                            <div class="col-md-10 controls btn-choose">
+                                                <a class="a-choose  select-Difficulty select-all" href="javascript:void(0)" data-val="">全部</a>
+                                                <a class="a-choose  select-Difficulty" href="javascript:void(0)" data-val="simple">简单</a>
+                                                <a class="a-choose  select-Difficulty" href="javascript:void(0)" data-val="normal">一般</a>
+                                                <a class="a-choose  select-Difficulty" href="javascript:void(0)" data-val="difficulty">困难</a>
+                                                <input type="hidden" name="difficulty" value="" />
+                                            </div>
+                                        </div>
+                                        <div class="tiku-searchbtn text-center"><button class="btn btn-fat btn-primary modalSearchSubmit" >确认搜索</button></div>
+                                  </div>
+                            </div>
+                    </form>
+                            <div id="questionList">
+                                <center>加载试题列表中...</center>
+                            </div>
+            </div>
+                        <div class="new-timu tab-pane {% if isManuallyAdd %}active{% endif %}" id="new-tm">
+                            <div class="thread-filters clearfix" style="">
+                                <ul class="nav nav-tabline mtm">
+                                    <li class="active"><a href="#choice" role="tab" data-toggle="tab" data-type="choice">添加选择题</a></li>
+                                    <li><a href="#choice" role="tab" data-toggle="tab" name="addtype" data-type="determine">添加判断题</a></li>
+                                    <li><a href="#choice" role="tab" data-toggle="tab" name="addtype" data-type="fill">添加填空题</a></li>
+                                    <li><a href="#choice" role="tab" data-toggle="tab" name="addtype" data-type="essay">添加问答题</a></li>
+                                </ul>
+                            </div>
+                            <div class="tab-content">  
+                                <div class="tab-pane active new-ti" id="choice"> 
+                                    选择题
+                                </div>  
+                                <div class="tab-pane new-ti" id="determine">  
+                                    判断题
+                                </div>  
+
+                                <div class="tab-pane new-ti" id="fill">  
+                                    填空题
+                                </div>  
+
+                                <div class="tab-pane new-ti" id="essay">  
+                                    问答题
+                                </div>  
+                            </div>  
+                        </div>
+        </div>
+
+{% endblock %}
+{% block footer %}
+    {% if not isManuallyAdd %}
+                    <div class="isShow">
+                        <button id="create-btn" type="button" class=" btn btn-primary pull-right" >保存并添加题目</button>
+                    {#<button type="submit" data-role="submit" class="btn btn-primary submit-btn" data-submission="submit" >保存并添加题目</button>#}
+                        <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+                    </div>
+    {% endif %}
+                    <script>
+                        app.load('test-paper/add-question-to-testpaper');
+                    </script>
+{% endblock %}

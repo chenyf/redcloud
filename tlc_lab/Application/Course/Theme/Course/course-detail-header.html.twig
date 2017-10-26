@@ -1,0 +1,54 @@
+<div class="course-cover-heading">
+    <div class="col-sm-8 picture">
+        <img src="{% if course.selectPicture == "" %}{{ default_path('coursePicture', course.largePicture, 'large') }}{% else %} {{ course.selectPicture }}{% endif %}" onerror="javascript:this.src='/Public/assets/img/default/loading-error.jpg?5.1.4';"  loaderrimg="1" class="img-responsive course-picture"/>
+        {% if course.serializeMode != 'none' %}
+            <span class="tag-serial"></span>
+        {% endif %}
+    </div>
+    <div class="col-sm-4 info">
+        {% if canManage %}
+            <div class="btn-group pull-right">
+                <a class="btn btn-default btn-sm" type="button" href="{{ path('course_manage', {id:course.id,center:app.request.get('center')}) }}" title="课程管理">
+                    <i class="esicon esicon-setting"></i>
+                </a>
+            </div>
+        {% endif %}
+        <div class="c-info-txt c-course-txt">
+            <span class="text-muted">课程名称：</span>
+            <span class="c-course-name c-info-lesson-value">{{ course.title }}</span>
+        </div>
+        <div class="c-info-txt c-teacher-txt">
+            <span class="text-muted">授课老师：</span>
+            <span class="c-teacher-name c-info-lesson-value">{{ course.teacherName }}</span>
+        </div>
+        <div class="c-info-txt c-teacher-txt">
+            <span class="text-muted">课程编号：</span>
+            <span class="c-course-number c-info-lesson-value">{{ course.number }}</span>
+        </div>
+        <div class="c-info-txt c-teacher-txt">
+            <span class="text-muted">课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;时：</span>
+            <span class="c-lesson-num c-info-lesson-value">{{ course.lessonNum }}课时</span>
+        </div>
+        <div class="c-course-btn pbm">
+            {% if firstLessonId == 0 %}
+                {% set lessonUrl = path('course_learn',{id:course.id}) %}
+                <a class="btn btn-warning" disabled="disabled" href="javascript:;">暂无课程内容</a>
+            {% else %}
+                {% set lessonUrl = path('course_learn',{id:course.id,"#lesson":firstLessonId}) %}
+                <a class="btn btn-primary buy-add-btn" id="course-buy-btn" href="{{ lessonUrl }}">开始学习</a>
+            {% endif %}
+        </div>
+        {% if course.resourcePacketId > 0 %}
+        <div class="c-course-btn pbm">
+            <a class="btn btn-wireframe buy-download-btn" id="course-resource-download-btn" target="_blank" href="{{ U('/Course/CourseResourcePacket/downloadCourseResourcePacketAction',{'courseId':course.id}) }}">下载课程资源包</a>
+        </div>
+        {% endif %}
+        <div class="c-share-box mtm">
+            <div class="c-collect-txt mtm">
+                <a  id="favorite-btn" href="javascript:" data-url="{{ path('course_favorite', {id:course.id}) }}"  {% if hasFavorited %}style="display:none;"{% endif %}><i class="glyphicon glyphicon-star-empty mrs"></i>收藏课程</a>
+                <a  id="unfavorite-btn" href="javascript:" data-url="{{ path('course_unfavorite', {id:course.id}) }}" {% if not hasFavorited %}style="display:none;"{% endif %}><i class="glyphicon glyphicon-star mrs"></i>已收藏</a>
+            </div>
+            
+        </div>
+    </div>
+</div>

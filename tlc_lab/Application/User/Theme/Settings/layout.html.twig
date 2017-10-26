@@ -1,0 +1,29 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% block title %}个人中心 - {{ parent() }}{% endblock %}
+
+{% block content %}
+<div class="row mtl">
+  <div class="col-md-3 new-col-md-3">
+    {% block side %}
+          <div class="list-group-box">
+            <div class="list-group-con">
+                <div class="list-group-heading"><i class="fa fa-bars mrm"></i>个人中心</div>
+                <ul class="list-group">
+                  {% set side_nav = side_nav|default(null) %}
+
+                        <a class="list-group-item {% if side_nav == 'profile' %}active{% endif %}" href="{{ path('settings') }}"><span class="my-center-icon"><i class="glyphicon glyphicon-user"></i> 基础信息</span></a>
+
+                        <a class="list-group-item {% if side_nav == 'avatar' %}active{% endif %}" href="{{ path('settings_avatar') }}"><span class="my-center-icon"><i class="glyphicon glyphicon-picture"></i> 头像设置</span></a>
+
+                </ul>
+            </div>
+
+          </div><!-- /list-group-block -->
+    {% endblock %}
+  </div>
+  <div class="col-md-9 new-col-md-9">
+    {% block main %}{% endblock %}
+  </div>
+</div>
+{% endblock %}

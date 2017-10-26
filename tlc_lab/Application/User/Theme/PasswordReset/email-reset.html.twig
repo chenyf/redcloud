@@ -1,0 +1,54 @@
+<form id="password-reset-form" class="form-vertical" method="post" action="{{ path('password_reset_by_email') }}">
+    <div class="form-group" style="overflow:hidden">
+        <label class="col-md-3 control-label required con-tit" for="form_email">邮箱:</label>
+        <div class="col-md-8 controls">
+            <input type="text" id="form_email" name="email" required="required"  data-role="email"  class="form-control" data-url="/User/PasswordReset/checkEmailAction"/>
+        </div>
+    </div>
+        
+    <div class="form-group" style="overflow:hidden">
+        <label class="col-md-3 control-label required con-tit" for="captcha_num">验证码:</label>
+        <div class="col-md-8 controls">
+            <div class="col-md-5 col-sm-5 col-xs-5" style="padding:0">
+                 <input type="text" class="form-control" id="captcha_num" name="captcha_num" maxlength="5"  data-url="{{path('register_captcha_check')}}">
+                <p class="help-block"></p>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6 mls">
+                <img src="{{ path('register_captcha_num') }}" data-url="{{ path('register_captcha_num') }}" id="getcode_num" title="看不清，点击换一张" style="width:110px;height:32px;cursor:pointer;" >
+                <i class="fa fa-refresh mll" style="cursor:pointer;font-size:20px;color:#666;" title="看不清，点击换一张"></i>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group" style="overflow:hidden">
+        <label class="col-md-3 control-label required con-tit" for="email_code">邮件验证码:</label>
+        <div class="col-md-8 controls">
+            <div class="col-md-5 col-sm-5 col-xs-5" style="padding:0">
+                <input type="text" class="form-control" id="email_code" name="email_code" maxlength="5" required="required" data-url="{{path('email_code_check',{type:'sms_forget_password'})}}" data-widget-cid="widget-3" >
+                <p class="help-block"></p>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-6 mls">
+                <span class="btn btn-default btn-block js-email-send" data-url="{{ path('send_email_code') }}" data-widget-cid="widget-6">
+                    <span id="js-time-left-email"></span>
+                    <span id="js-fetch-btn-text-email" style="font-size:12px;">获取邮件验证码</span>
+                </span>
+            </div>           
+        </div>
+    </div>
+    
+    <div class="form-group" style="overflow:hidden;">
+        <label class="col-md-3 control-label required con-tit" for="email_password">请设置新密码:</label>
+        <div class="col-md-8 controls">
+            <div class="login-list">
+                <input type="password" id="email_password" name="email_password"  class="form-control" >
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="controls">
+            <button type="submit" class="btn btn-primary login-again btn-block" data-loading-text="提交中..." style="width:200px">重置密码</button>
+        </div>
+    </div>
+        
+</form>

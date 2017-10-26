@@ -1,0 +1,71 @@
+<table class="table mtm newFileMenu" id="teacherinfo_edit_main_table">
+    <caption>相关资料上传</caption>
+    <tr>
+        <td width="50%" class="upload-item-td txt-center">
+            <div>
+                <label for="file_upload_start0" class="menuitem txt-center" data-action="upload" data-type="resume" title="">
+                    <span class="svg icon icon-upload"></span><span class="displayname">上传简历</span>
+                </label>
+            </div>
+            <div class="uploaded-show">
+                <ul class="list-group">
+
+                </ul>
+            </div>
+        </td>
+        <td width="50%" class="upload-item-td txt-center">
+            <div>
+                <label for="file_upload_start1" class="menuitem txt-center" data-action="upload" data-type="teach" title="">
+                    <span class="svg icon icon-upload"></span><span class="displayname">上传教学内容</span>
+                </label>
+            </div>
+            <div class="uploaded-show">
+                <ul class="list-group">
+
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td width="50%" class="upload-item-td txt-center">
+            <div>
+                <label for="file_upload_start2" class="menuitem txt-center" data-action="upload" data-type="scientific" title="">
+                    <span class="svg icon icon-upload"></span><span class="displayname">上传科研项目</span>
+                </label>
+            </div>
+            <div class="uploaded-show">
+                <ul class="list-group">
+
+                </ul>
+            </div>
+        </td>
+        <td width="50%" class="upload-item-td txt-center">
+            <div>
+                <label for="file_upload_start3" class="menuitem txt-center" data-action="upload" data-type="paper" title="">
+                    <span class="svg icon icon-upload"></span><span class="displayname">上传期刊</span>
+                </label>
+            </div>
+            <div class="uploaded-show">
+                <ul class="list-group">
+
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <tr></tr>
+</table>
+
+
+<input type="hidden" name="data_params_url" value="{{ path('uploadfile_params', {storage:'local', targetType:'teacher_info', targetId:0}) }}" />
+<div class="hiddenuploadfield">
+    <input type="file" id="file_upload_start0" class="hiddenuploadfield" name="files[]" multiple="multiple">
+</div>
+<div class="hiddenuploadfield">
+    <input type="file" id="file_upload_start1" class="hiddenuploadfield" name="files[]" multiple="multiple">
+</div>
+<div class="hiddenuploadfield">
+    <input type="file" id="file_upload_start2" class="hiddenuploadfield" name="files[]" multiple="multiple">
+</div>
+<div class="hiddenuploadfield">
+    <input type="file" id="file_upload_start3" class="hiddenuploadfield" name="files[]" multiple="multiple">
+</div>

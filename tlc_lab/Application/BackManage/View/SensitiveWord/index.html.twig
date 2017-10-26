@@ -1,0 +1,45 @@
+{% extends '@BackManage/Content/layout.html.twig' %}
+
+{% block title %} 敏感词管理 {% endblock %}
+{% set script_controller = 'sensitive-word/index' %}
+
+{% set menu = 'sensitive_word' %}
+
+{% block main %}
+
+    <div class="page-header clearfix">
+        <h1 class="pull-left">敏感词管理</h1>
+    </div>
+    <div class="rows" id="sensitive_words_panel">
+        <div class="t-add-explain">
+            <div class="c-tit-search"><h3>请输入敏感词汇：</h3></div>
+            <p>
+                1.请添加敏感词语，用英文或中文输入法下的逗号（,或，）隔开；
+            </p>
+            <p>
+                2.一次最多添加100个敏感词；
+            </p>
+            <p>
+                3.每个敏感词最好不要超过20个字。
+            </p>
+        </div>
+        <div class="t-add-textarea">
+            <textarea class="form-control" rows="4" placeholder="请添加敏感词语，用英文或中文输入法下的逗号（,或，）隔开" name="words" id="words"></textarea>
+        </div>
+        <div class="t-add-btn text-right mbl">
+            <button id="words_add_btn" class="btn btn-fat btn-primary" data-goto="{{path('admin_sensitive_word_add')}}" data-submiting-text="提交中...">添加敏感词语</button>
+        </div>
+    </div>
+    <div class="well">
+        <button class="btn btn-info all-word-select-btn mrs" type="button">全选</button>
+        <button class="btn btn-warning word-select-remove-btn mrs" type="button">删除</button>
+        <span class="select-count-span" style="display: none;">选择了 <strong class="select-count">0</strong> 项</span>
+        <input type="hidden" name="word_ids">
+        <input type="hidden" name="word_remove_url" value="{{ path('admin_sensitive_word_delete') }}">
+        <input type="hidden" name="word_list_url" value="{{ path('admin_sensitive_word_list') }}">
+    </div>
+    <div class="rows clearfix" id="word_list_div">
+        {% include '@BackManage/SensitiveWord/list.html.twig' with {wordList:wordList} %}
+    </div>
+
+{% endblock %}

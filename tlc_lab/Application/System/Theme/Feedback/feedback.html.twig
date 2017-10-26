@@ -1,0 +1,72 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% block title %}
+    意见反馈
+{% endblock %}
+
+{% block body %}
+ <div class="modal-body" >
+                <form class="form-horizontal" id="problem-form" action="/System/Feedback/indexAction" method="post" >
+                    <div class="form-group"> 
+                        <div class="col-md-3 control-label"><label for="function"><b style="color:red;margin-right: 5px;font-size:20px;float:left;">*</b>问题类型</label></div>
+                        <div class="col-md-7 controls">
+                            <select id="keywordType" name="keywordType" noautochange="1" class="form-control">
+                                <option value="">--请选择--</option>
+                                {% for key,type in types %} 
+                                <option  value="{{key}}">{{type}}</option>
+                                {% endfor %} 
+                            </select>
+                            <p class="help-block" id="type-error" style="color:red;"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 control-label"><label for="function"><b style="color:red;margin-right: 5px;font-size:20px;float:left;">*</b>问题描述</label></div>
+                        <div class="col-md-7 controls">
+                            <textarea rows="5" name="content" class="form-control" placeholder="请详细描述一下你所遇到的问题，不得超过500字！"></textarea>
+                            <p class="help-block" id="content-error" style="color:red;"></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-3 control-label"><label for="function">上传图片</label></div>
+                        <div class="col-md-7 controls mts">
+                            <div class="c-student-photo problem-photo" style="text-align:center;display:table"><div style="display: table-cell;vertical-align: middle;"><img src=""  style="margin:auto 0"/></div></div>
+                            <input type="file" id="problem-picture" name="problem-picture" accept="image/gif,image/jpeg,image/png">
+                            <p class="help-block hide" id="pic-error" style="color:red;"></p>
+                            <p class="help-block">你可以上传JPG、GIF或PNG格式的文件，文件大小不能超过<strong>1M</strong>。</p>
+                        </div>
+                    </div>
+                    <input type="hidden" id="problemPic" name="problemPic" value=''>
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+                    <div  class="form-group text-center">
+                        <button type="submit" id="problem-submit" class="btn btn-primary">提交</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    </div>    
+                        
+                        
+                </form>
+                 
+            </div>
+    
+            <div class="text-center t-students-popupbox hide" id="success-sub" style="padding:50px 0 80px;">
+                <h2 class="t-text-succeed"><i class="glyphicon glyphicon-ok-sign mrm"></i>意见提交成功</h2>
+                <p>感谢您的支持，我们会尽快处理！</p>
+                <a class="btn btn-primary mtl mbl pture">确定（5）</a>
+            </div>
+    
+    
+ 
+<script>
+    var pcount = 5;
+        var problemClose = function(){
+                    var queding = '确定（'+ pcount+'）';
+                    $('#success-sub .pture').text(queding);
+                    if (pcount == 0) { 
+                     $('.modal-header .close').trigger("click");
+                     window.location.reload();
+                     clearInterval(window.pcountdown);
+                     } 
+                     pcount--;
+                 }
+</script>
+<script> app.load('feedback/feedback'); </script>
+{% endblock %}

@@ -1,0 +1,49 @@
+<div class="form-group">
+      <div class="col-md-2 control-label">
+        <label for="banner" class="lunbo">轮播图{{i}}</label>
+      </div>
+      <div class="col-md-8 controls">
+         
+        <div class="mobile-banner-container" id="mobile-banner{{i}}-container"></div>
+
+        <button class="btn btn-default btn-sm mobile-banner-upload" data-num="{{i}}"  id="mobile-banner{{i}}-upload" type="button" data-url="{{ path('admin_setting_mobile_picture_upload', {type:'banner'~i}) }}">上传</button>
+      {#  <button class="btn btn-default btn-sm mobile-banner-remove" id="mobile-banner{{i}}-remove" type="button" data-url="{{ path('admin_setting_mobile_picture_remove', {type:'banner'~i}) }}" style="display:none;">删除</button>#}
+
+        <p class="help-block">请上传png, gif, jpg格式的图片文件。</p>
+
+
+
+        
+        <div class="banner-setting banner-key hide" role="banner{{i}}}-setting">
+            <div class="department-first " style="display:inline;">
+        		<span>规则：</span>
+        		<select class="banKey" name="banKey{{i}}">
+                            {% for key,rule in bannerRule %} 
+                                <option  value="{{key}}"  data-cat="{{rule.isConcat}}" data-tip="{{rule.tip}}">{{rule.memo}}</option>
+                            {% endfor %} 
+        		</select>
+            </div>
+               
+            <div class="banVal hide" style="display:inline;">
+                 <span>  &nbsp;&nbsp; 值：</span>
+                 <input type="text" class="banValue" name="banVal{{i}}"  value=" ">
+            </div>
+            
+        <div class="banner-title col-xs-12">
+          
+          <div class="row">
+            <span>标题：</span>
+            <div >
+              <input type="text"   name="title{{i}}" class="form-control banTitle" value="" placeholder="请填写标题" />
+            </div>  
+          </div>
+          
+        </div>
+      </div>     
+        
+        <input class="banName" type="hidden" name="banner{{i}}}" value="">
+      </div>
+      <div class="col-md-1 controls">
+            <p class="text-center"><button type="button" class="btn btn-large btn-info delBanner">删除</button></p>  
+      </div>
+    </div>

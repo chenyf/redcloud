@@ -1,0 +1,57 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set version = version|default(null) %}
+
+
+{% block title %}
+{% if version %}编辑配置{% else %}添加配置{% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <form class="form-horizontal" id="version-form" {{version.id}}
+            {% if version.id == 0 %}
+                action="{{ path('admin_mobile_info_cfg_create') }}"
+            {% else %}
+                action="{{ path('admin_mobile_info_cfg_edit', {id:version.id}) }}"
+            {% endif %}
+          method="post">
+       
+            <div class="row form-group">
+                <div class="col-md-2 control-label"><label for="name">配置键</label></div>
+                <div class="col-md-9 controls">
+                    <select  class="form-control" onchange="return findcfgKey(this.value)" name="cfgKey" style="margin-bottom:10px;width:80%;">
+                        {% for key,type in info %}
+                        <option value="{{ key }}" {% if key == version.cfgKey %} selected {% endif %}>{{ type.mean }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            <p></p>
+           </div>
+       {% if version.cfgKey != 'ADMIN_MOBILE'%}     
+        <div class="row form-group" id="cfgValue" >
+            <div class="col-md-2 control-label"><label for="function">配置值</label></div>
+            <div class="col-md-9 controls">
+                <textarea name="cfgValue"  cols="30" rows="6" class="form-control">{{ version.cfgValue }}</textarea>
+            </div>
+        </div>
+       {% endif %}       
+        <input type="hidden" name="id" value="{{ version.id|default(0) }}">
+
+    </form>
+<script type="text/javascript">
+            var findcfgKey = function(value){
+                if(value == 'ADMIN_MOBILE'){
+                    $('#cfgValue').hide();
+                }else{
+                    $('#cfgValue').show();
+                }
+            }
+    </script>
+{% endblock %}
+{% block footer %}
+<button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="version-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#version-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

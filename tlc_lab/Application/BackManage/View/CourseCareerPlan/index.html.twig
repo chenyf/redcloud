@@ -1,0 +1,36 @@
+{% extends '@BackManage/CourseCareerPlan/layout.html.twig' %}
+
+{% block title %}职业规划管理 - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'course_career/index' %}
+
+{% set submenu = 'career_plan' %}
+
+{% block main %}
+
+    <div class="page-header">
+        <a  href="#modal" data-toggle="modal" data-url="{{ path('admin_career_course_plan_base', {id:0,create:1,type:0,cid:0}) }}" class="btn btn-info btn-sm pull-right">创建职业</a>
+        <h1>职业规划管理</h1>
+    </div>
+
+    <table class="table table-striped table-hover" id="course-table" style="word-break:break-all;">
+        <thead>
+        <tr>
+            <th>编号</th>
+            <th width="30%">名称</th>
+            <th>阶段数</th>
+            <th>总课程数</th>
+            <th>创建时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for career in careers %}
+            {% include '@BackManage/CourseCareerPlan/career_tr.html.twig' with {career:career} %}
+        {% else %}
+            <tr><td colspan="20"><div class="empty">暂无职业记录</div></td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

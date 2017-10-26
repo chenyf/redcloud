@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        {% if testpaperType != 2  %}
+            <span class="testpaper-card-timer"><small class="text-muted" style="font-size:14px;">题目浏览中</small></span>
+        {% endif %}
+    </div>
+    <div class="panel-body">
+        {% for type in paper.metas.question_type_seq %}
+            {% for item in items[type] %}
+                {% if item.questionType != 'material' %}
+                    <a href="javascript:;" data-anchor="#question{{ item.questionId }}" class="btn btn-default btn-index pull-left {% if item.question.testResult|default(null) %}active{% endif %}">{{ item.seq }}</a>
+                {% else %}
+                    {% for item in item.items|default([]) %}
+                        <a href="javascript:;" data-anchor="#question{{ item.questionId }}" class="btn btn-default btn-index pull-left {% if item.question.testResult|default(null) %}active{% endif %}">{{ item.seq }}</a>
+                    {% endfor %}
+                {% endif %}
+
+            {% endfor %}
+            <div class="clearfix mtm mbm"></div>
+        {% endfor %}
+    </div>
+    <div class="panel-footer test-paper-btn">
+        {% if testpaperType != 2 and testResultId > 0 and not isCommit and not isMaster%}
+            <button class="btn btn-success btn-block do-test" id="finishPaper" data-ajax="{{ path('course_manage_submit_test', { id: testResultId }) }}" data-url="{{ path('course_manage_finish_test', { id: testResultId }) }}" data-goto="{{ path('course_manage_test_results', { id: testResultId}) }}">提交作业</button>
+        {% endif %}
+    </div>
+</div>

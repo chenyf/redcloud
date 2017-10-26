@@ -1,0 +1,16 @@
+<template id="component-research">
+    <two_list :datas.sync="researches" id="addResearch" title="科研" title_id="myModalResearch"></two_list>
+</template>
+
+
+<script>
+    var Research = Vue.extend({
+        template: '#component-research',
+        props:{
+            researches: Array
+        },
+        components:{
+            two_list: TwoList
+        }
+    });
+</script>

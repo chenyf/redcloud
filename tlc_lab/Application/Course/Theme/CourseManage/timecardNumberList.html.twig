@@ -1,0 +1,76 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+{% set menu = 'class' %}
+
+{% set script_controller = 'course-manage/cardtime' %}
+
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+
+{% block title %}考勤管理 - {{ parent() }}{% endblock %}
+
+
+{% block courseContent %}
+
+<div class="panel panel-default panel-col">
+
+  <div class="panel-body">  
+        <div class="form-group" style="width:60%;display:inline-block">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th width="10%">日期</th>
+                <th width="10%">打卡时间段</th>
+                <th width="10%">打卡情况</th>
+              </tr>
+            </thead>
+                <tr>
+                    <td class="media">
+                        {{ numberList.stm|date("Y-m-d") }}
+                  </td>
+
+                    <td style="vertical-align:middle">{{ numberList.stm|date("H:i:s") }} - {% if numberList.etm != '' %} {{ numberList.etm|date("H:i:s") }} {% endif %}</td>
+                    <td style="vertical-align:middle">{{ numberList.signInNum }} / {{ numberList.totalNum }}</td>
+                </tr>
+          </table>
+        
+        </div>
+       <div class="pull-right" style="display:inline-block">
+          <a class="btn btn-info btn-sm pull-right mhs" href="{{ path('course_manage_timecard_number_csv', {courseId:courseId,classId:classId,number:number,center:app.request.get('center')}) }}"><i class="glyphicon glyphicon-export"></i> 导出{% if setting('default.user_name') %}{{setting('default.user_name')|default('学员')}}{% else %}学员{% endif %}</a>
+      </div>
+       <div class="pull-right" style="display:inline-block">
+                 <select class="form-control" id="selectStu" data-url="{{ U('Course/CourseManage/timecardNumberList',{courseId:courseId,classId:classId,number:number,center:app.request.get('center')}) }}">
+                     <option value='0' {% if type == 0 %} selected="selected" {% endif %} >全部人员</option>
+                        <option value='2' {% if type == 2 %} selected="selected" {% endif %} >已打卡学员</option>
+                        <option value='1' {% if type == 1 %} selected="selected" {% endif %} >未打卡学员</option>
+                </select>
+      </div>
+    <table class="table table-striped" id="course-student-list">
+      <thead>
+        <tr>
+          <th width="20%">姓名</th>
+          <th width="20%">班级</th>
+          <th width="15%">学号</th>
+          <th width="10%">是否打卡</th>
+          <th width="35%">打卡时间</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for allMember in allMemberList %}
+          <tr>
+              <td class="media">{{ allMember.userName  }}</td>
+              <td style="vertical-align:middle">{{ allMember.className  }}</td>
+              <td style="vertical-align:middle">{{ allMember.studNum  }}</td>
+              <td style="vertical-align:middle">{% if allMember.isSignIn %}<label class="label label-success mls">是</label>{% else %} <label class="label label-danger mls">否</label> {% endif %}</td>
+              <td style="vertical-align:middle">{% if allMember.tm %}{{ allMember.tm|date("Y-m-d H:i:s")  }}{% endif %}</td>
+          </tr>
+        {% else %}
+          <tr ><td colspan="20"><div class="empty"> 无{% if setting('default.user_name') %}{{setting('default.user_name')|default('学员')}}{% else %}学员{% endif %}打卡记录</div></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {{ web_macro.paginator(paginator) }}
+
+  </div>
+
+</div>
+{% endblock %}

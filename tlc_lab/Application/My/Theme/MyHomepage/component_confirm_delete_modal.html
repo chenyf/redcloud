@@ -1,0 +1,36 @@
+<template id="component-confirm-delete-modal">
+    <div class="modal fade" id="[[ id ]]" tabindex="-1" role="dialog" aria-labelledby="[[ title_id ]]">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="[[ title_id ]]">提示</h4>
+                </div>
+                <div  class="modal-body">
+                    <h5>你确定要删除“[[ title ]]”项吗？</h5>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button @click="confirmDelete" type="button" data-dismiss="modal" class="btn btn-primary btn-danger">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    var ConfirmDeleteModal = Vue.extend({
+        template: '#component-confirm-delete-modal',
+        methods: {
+            confirmDelete: function () {
+                this.$dispatch('confirm-delete', this.index);
+                $('.modal').modal('hide');
+            }
+        },
+        props:{
+            id: String,
+            title: String,
+            title_id: String,
+            index: Number
+        }
+    });
+</script>

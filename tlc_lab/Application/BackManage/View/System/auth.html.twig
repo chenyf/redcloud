@@ -1,0 +1,195 @@
+{% extends '@BackManage/System/user_set.layout.html.twig' %}
+
+{% block title %}注册设置 - {{ parent() }}{% endblock %}
+
+{% set submenu = 'auth' %}
+{% set script_controller = 'setting/auth' %}
+{% set width = 120 %}
+
+{% block maincontent %}
+
+<div class="page-header"><h1>注册设置</h1></div>
+
+{{ web_macro.flash_messages() }}
+
+<form  id="auth-form" class="form-horizontal" method="post" novalidate>
+    <input type="hidden" name="setting_time"  value="{{setting('auth.setting_time') }}" >
+        
+    <div class="form-group" style="overflow:hidden;">
+        <label class="col-md-3 control-label">注册、密码重置页面展示图</label>
+        <div class="col-md-8 controls">
+            <ul class="cc-pic-list" id="register-poster-pic">
+                <li style="width:81px;height:128px;margin-right:15px;" class="col-md-2 pic-list  {% if auth.registerPosterBackgroundPicIndex in [0] %}active{% endif%}">
+                    <span class="c-icon-checkd {% if auth.registerPosterBackgroundPicIndex in [1,2,3] %}hide{% endif %}" aria-hidden="true"></span>
+                    <img style="height:128px;" class="picture register-poster-picture" src="{% if auth.registerPosterBackgroundPicIndex in [0,1,2,3] %}{{register_poster_select_pic_path(width)}}{% endif %}" data-value="0" width="100%">
+                </li>
+                <li style="width:81px;height:128px;margin-right:15px;" class="col-md-2 pic-list {% if auth.registerPosterBackgroundPicIndex == 1 %}active{% endif%}">
+                    <span class="c-icon-checkd {% if auth.registerPosterBackgroundPicIndex != 1 %}hide{% endif %}" aria-hidden="true"></span>
+                    <img style="height:128px;" class="picture register-poster-picture" src="{{register_poster_default_pic_path('1',width)}}" data-value="1" width="100%">
+                </li>
+                <li style="width:81px;height:128px;margin-right:15px;" class="col-md-2 pic-list {% if auth.registerPosterBackgroundPicIndex == 2 %}active{% endif%}">
+                    <span class="c-icon-checkd {% if auth.registerPosterBackgroundPicIndex != 2 %}hide{% endif %}" aria-hidden="true"></span>
+                    <img style="height:128px;" class="picture register-poster-picture" src="{{register_poster_default_pic_path('2',width)}}" data-value="2" width="100%">
+                </li>
+                <li style="width:81px;height:128px;margin-right:15px;" class="col-md-2 pic-list {% if auth.registerPosterBackgroundPicIndex == 3 %}active{% endif%}">
+                    <span class="c-icon-checkd {% if auth.registerPosterBackgroundPicIndex != 3 %}hide{% endif %}" aria-hidden="true"></span>
+                    <img style="height:128px;" class="picture register-poster-picture" src="{{register_poster_default_pic_path('3',width)}}" data-value="3" width="100%">
+                </li>
+            </ul>
+            <div class="c-add-img">
+                <a href="javascript:;" data-url="/BackManage/Setting/pictureAutoAction/tab/1/type/registerPoster" data-backdrop="static" data-toggle="modal" data-target="#modal">＋ 添加本地图片</a>
+            </div> 
+        </div>
+        <input type="hidden" id="registerPosterBackgroundPicIndex" name="registerPosterBackgroundPicIndex" value="{{auth.registerPosterBackgroundPicIndex}}">
+        <input type="hidden" id="registerPosterBackgroundPic" name="registerPosterBackgroundPic" value="{{auth.registerPosterBackgroundPic}}">
+    </div>
+        
+    <div class="form-group" style="overflow:hidden;">
+        <label class="col-md-3 control-label">注册成功、密码重置成功背景图</label>
+        <div class="col-md-8 controls">
+            <ul class="cc-pic-list" id="register-success-pic">
+                <li class="col-md-2 pic-list  {% if auth.registerSuccessBackgroundPicIndex in [0,3,4,5] %}active{% endif%}">
+                    <span class="c-icon-checkd {% if auth.registerSuccessBackgroundPicIndex in [1,2] %}hide{% endif %}" aria-hidden="true"></span>
+                    <img class="picture register-success-picture" src="{% if auth.registerSuccessBackgroundPicIndex in [0,1,2] %}{{register_success_select_pic_path(width)}}{% endif %}{% if auth.registerSuccessBackgroundPicIndex in [3,4,5] %}{{register_success_default_pic_path(auth.registerSuccessBackgroundPicIndex,width)}}{% endif %}" {% if auth.registerSuccessBackgroundPicIndex in [0,1,2] %}data-value="0"{% endif %}{% if auth.registerSuccessBackgroundPicIndex in [3,4,5] %}data-value="{{auth.registerSuccessBackgroundPicIndex}}"{% endif %}  width="100%">
+                </li>
+                <li class="col-md-2 pic-list {% if auth.registerSuccessBackgroundPicIndex == 1 %}active{% endif%}">
+                    <span class="c-icon-checkd {% if auth.registerSuccessBackgroundPicIndex != 1 %}hide{% endif %}" aria-hidden="true"></span>
+                    <img class="picture register-success-picture" src="{{register_success_default_pic_path('1',width)}}" data-value="1" width="100%">
+                </li>
+                <li class="col-md-2 pic-list {% if auth.registerSuccessBackgroundPicIndex == 2 %}active{% endif%}">
+                    <span class="c-icon-checkd {% if auth.registerSuccessBackgroundPicIndex != 2 %}hide{% endif %}" aria-hidden="true"></span>
+                    <img class="picture register-success-picture" src="{{register_success_default_pic_path('2',width)}}" data-value="2" width="100%">
+                </li>
+                <li class="col-md-2 c-more-img">
+                    <a href="javascript:;" id="addpicture" data-url="/BackManage/Setting/pictureAutoAction/tab/0/type/registerSuccess" data-backdrop="static" data-toggle="modal" data-target="#modal">更多图片 &gt;</a>
+                </li>
+            </ul> 
+            <div class="c-add-img">
+                <a href="javascript:;" data-url="/BackManage/Setting/pictureAutoAction/tab/1/type/registerSuccess" data-backdrop="static" data-toggle="modal" data-target="#modal">＋ 添加本地图片</a>
+            </div> 
+        </div>
+        <input type="hidden" id="registerSuccessBackgroundPicIndex" name="registerSuccessBackgroundPicIndex" value="{{auth.registerSuccessBackgroundPicIndex}}">
+        <input type="hidden" id="registerSuccessBackgroundPic" name="registerSuccessBackgroundPic" value="{{auth.registerSuccessBackgroundPic}}">
+    </div>
+        
+    <div class="form-group">
+        <div class="col-md-3 control-label">
+            <label >允许用户申请老师身份</label>
+        </div>
+        <div class="controls col-md-8 radios">
+            {{ radios('apply_teacher_enabled', {'0':'开启', '1':'关闭'}, auth.apply_teacher_enabled) }}
+        </div>
+    </div>
+    <div class="help-block" style="margin-left:250px;margin-top:-15px;">开启后,注册用户可申请成为老师身份。</div>
+    
+    <fieldset>
+        <legend>新用户激活邮件设置</legend>
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <label for="email_activation_title" >新用户激活邮件标题</label>
+            </div>
+            <div class="controls col-md-8">
+                <input type="text" id="email_activation_title" name="email_activation_title" class="form-control" value="{{auth.email_activation_title}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <label for="email_activation_body">新用户激活邮件内容</label>
+            </div>
+            <div class="controls col-md-8">
+                <textarea id="email_activation_body" name="email_activation_body" class="form-control" rows="5">{{auth.email_activation_body}}</textarea>
+                <div class="help-block">
+                    {% verbatim %}
+                        <div>变量说明：</div>
+                        <ul>
+                            <li>{{nickname}} 为接收方用户姓名</li>
+                            <li>{{sitename}} 为网站名称</li>
+                            <li>{{siteurl}} 为网站的地址</li>
+                            <li>{{verifyurl}} 为邮箱验证地址</li>
+                         </ul>
+                    {% endverbatim %}
+                </div>
+            </div>
+        </div>
+    </fieldset>
+  
+    <fieldset>
+        <legend>欢迎信息设置</legend>
+        <div class="form-group" style="display:none;">
+            <div class="col-md-3 control-label">
+                <label>发送欢迎信息</label>
+            </div>
+            <div class="controls col-md-8 checkboxs">
+                {{ checkboxs('welcome_methods', {'message':'站内私信', 'email':'电子邮件'}, auth.welcome_methods) }}
+                <div class="help-block">新用户邮件激活开启时，电子邮件的发送欢迎信息方式无效。</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <label for="welcome_title">发送欢迎信息</label>
+            </div>
+            <div class="controls col-md-8 radios">
+                {{ radios('welcome_enabled', {'opened':'开启', 'closed':'关闭'}, auth.welcome_enabled) }}
+                <div class="help-block">欢迎信以站内私信的方式，发送给新用户。</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <label for="welcome_sender">欢迎信息发送方</label>
+            </div>
+            <div class="controls col-md-8">
+                <input type="text" id="welcome_sender" name="welcome_sender" class="form-control" value="{{auth.welcome_sender}}">
+                <div class="help-block">通常为这个网站的管理员，请输入用户账号。</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <label for="welcome_title">欢迎信息标题</label>
+            </div>
+            <div class="controls col-md-8">
+                <input type="text" id="welcome_title" name="welcome_title" class="form-control" value="{{auth.welcome_title}}">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <label for="welcome_body">欢迎信息内容</label>
+            </div>
+            <div class="controls col-md-8">
+                <textarea id="welcome_body" name="welcome_body" class="form-control" rows="5">{{auth.welcome_body}}</textarea>
+                <div class="help-block">
+                    {% verbatim %}
+                        <div>注意： 私信长度不能超过1000个字符</div>
+                        <div>变量说明：</div>
+                        <ul>
+                            <li>{{nickname}} 为接收方用户姓名</li>
+                            <li>{{sitename}} 为网站名称</li>
+                            <li>{{siteurl}} 为网站的地址</li>
+                        </ul>
+                    {% endverbatim %}
+                </div>
+            </div>
+        </div>
+    </fieldset>
+
+    <fieldset>
+        <legend>服务条款设置</legend>
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <label for="user_terms_body">条款内容</label>
+            </div>
+            <div class="controls col-md-8">
+                <textarea class="form-control" id="user_terms_body" rows="16" name="user_terms_body" data-image-upload-url="{{ path('editor_upload', {token:upload_token('default')}) }}">{{ auth.user_terms_body }}</textarea>
+            </div>
+        </div>
+     </fieldset>   
+        
+    <div class="form-group">
+        <div class="col-md-3 control-label"></div>
+        <div class="controls col-md-8">
+            <button type="submit" class="btn btn-primary">提交</button>  
+        </div>
+     </div>
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+</form>
+
+{% endblock %}

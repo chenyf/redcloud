@@ -1,0 +1,67 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}编辑个人主页 - {{ parent() }}{% endblock %}
+{% set side_nav = 'homepage_edit' %}
+{% set script_controller = 'my/homepage' %}
+{% block main %}
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/homepage.css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('bundles/web/css/elegant_font.css') }}" />
+    <script src="{{ asset('assets/libs/vuejs/vue.min.js') }}"></script>
+    <div class="panel panel-default panel-col lesson-manage-panel">
+        <div class="c-panel-heading">
+            <a class="cc-cancel pull-right text-muted" id="go_back_link" href="{{ path('teacher_homepage_index') }}" target="_blank"><i class="fa fa-eye mrs"></i>查看主页</a>
+            <span>个人主页设置</span>
+        </div>
+        {% include "MyHomepage/vue_config.html" %}
+        {% include "MyHomepage/component_add_modal.html" %}
+        {% include "MyHomepage/component_confirm_delete_modal.html" %}
+        {% include "MyHomepage/component_fileupload_modal.html" %}
+        {% include "MyHomepage/component_two_list.html" %}
+        {% include "MyHomepage/component_contact.html" %}
+        {% include "MyHomepage/component_intro.html" %}
+        {% include "MyHomepage/component_teach.html" %}
+        {% include "MyHomepage/component_research.html" %}
+        {% include "MyHomepage/component_publication.html" %}
+        {% include "MyHomepage/component_select_tpl.html" %}
+        <div id="edit_hompage_div" class="panel-body edit_hompage_div"  data-initurl="{{ path('teacher_homepage_initData') }}" data-saveurl="{{ path('teacher_homepage_save') }}" data-previewurl="{{ path('teacher_homepage_preview') }}">
+            <ul class="nav nav-tabline cc-found-nav nav-tabs">
+                <li role="presentation" class="active"><a href="#home" data-toggle="tab">主页</a></li>
+                <li role="presentation"><a href="#teach" data-toggle="tab">教学</a></li>
+                <li role="presentation"><a href="#research" data-toggle="tab">科研</a></li>
+                <li role="presentation"><a href="#publication" data-toggle="tab">出版物</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade in active info-item-box" id="home">
+                    <contact :contacts.sync="contacts"></contact>
+                    <intro :intros.sync="intros"></intro>
+                </div>
+                <div class="tab-pane fade info-item-box" id="teach">
+                    <teach :teaches.sync="teaches"></teach>
+                </div>
+                <div class="tab-pane fade info-item-box" id="research">
+                    <research :researches.sync="researches"></research>
+                </div>
+                <div class="tab-pane fade info-item-box" id="publication">
+                    <publication :publications.sync="publications"></publication>
+                </div>
+            </div>
+
+            <hr>
+            <select_tpl :tpl.sync="tpl"></select_tpl>
+            <div class="row" style="padding-bottom: 20px;">
+                <div class="form-group">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-2">
+                        <button @click="saveHomePage" id="save_btn" class="btn btn-block btn-warning" data-submiting-text="正在保存，请稍候...">保存</button>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-2">
+                        <button @click="previewHomePage" id="preview_btn" class="btn btn-block btn-info">预览</button>
+                    </div>
+                    <a href="/My/MyHomepage/previewAction" target="_blank" style="display: none;width:0;height:0;" id="preview_achor"></a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set modal_class = 'modal-lg' %}
+{% set width = 177 %}
+{% block title %}
+    {% if type == "login" %}
+        登录背景图
+    {% endif %}
+    {% if type == "registerSuccess" %}
+        注册成功、密码重置成功背景图
+    {% endif %}
+    {% if type == "registerPoster" %}
+        注册、密码重置页面展示图
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+{# table #}
+{% if type != "registerPoster" %}
+<div class="t-course-set-tit" style="padding-top:0;">
+    <ul class="nav nav-tabs c-set-tabs">
+            <li {% if tab == 0 %} class="active" {% endif %} id="picModel">
+                <a href="#moreImg" data-toggle="tab">网站图片模版</a>
+            </li>
+        <li {% if tab != 0 %} class="active" {% endif %} id="picAuto">
+            <a href="#customImg"  data-toggle="tab">上传本地图片</a>
+        </li>
+    </ul>
+</div>
+ {% endif %}
+
+<div class="tab-content">
+    {# 网站图片模版 #}
+    <input type="hidden" id="type" value="{{type}}"/>
+    {% if type == "login" %}
+        {% include '@BackManage/System/login-background-pic.html.twig' with {'tab':tab,'index':index,'width':width}%}
+    {% endif %}
+    {% if type == "registerSuccess" %}
+        {% include '@BackManage/System/register-success-background-pic.html.twig' with {'tab':tab,'index':index,'width':width}%}
+    {% endif %}
+    {# 上传本地图片 #}
+    <div class="panel panel-default panel-col tab-pane {% if tab != 0 %}active{% endif %}" id="customImg" style="text-align: center;">
+        {# 上传图片 #}
+        <div class="panel-body" id="panel-body-atuto">
+            <form id="login-picture-form"  method="post" action="{{ U('/BackManage/Setting/pictureAutoAction/type/'~type) }}" enctype="multipart/form-data">
+                <div class="form-group clearfix">
+                    <div class="col-md-offset-2 col-md-8 controls">
+                        <div style="min-height:200px;">
+                            <img src="{{ default_path('coursePicture',course.largePicture, '') }}" />
+                        </div>
+                        <div class="c-upload-loading hide"  id="progress" style="width:500px;height:360px;">
+                            <div class="c-loading-con" >
+                                <span id="bar">
+                                    <em></em>
+                                    <i></i>
+                                </span>
+                                <p class="mts text-muted">图片加载中，请稍候...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group clearfix" id="select-pic">
+                    <div class="col-md-offset-2 col-md-8 controls">
+                        <input id="login-picture-field" type="file" name="picture" accept="image/gif,image/jpeg,image/png">
+                        <p class="help-block" style="color:#737373;text-align:left" >你可以上传jpg, gif, png格式的文件, 图片建议尺寸<font color='red'><b>{% if type != "registerPoster" %}1920*797{% else %}256*405{% endif%}</b></font>，宽高比为<font color='red'><b>{% if type != "registerPoster" %}12:5{% else %}5:8{% endif%}</b></font>。建议截图时截整图,文件大小不能超过<strong>2M</strong>。</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        {# 截取图片 #}
+        <div class="panel-body hide" id="panel-body-crop" >
+            <form id="login-picture-crops-form" method="post" action="{{ U('/BackManage/Setting/pictureCropAutoAction') }}" enctype="multipart/form-data">
+                <div class="form-group clearfix">
+                    <div class="col-md-offset-2 col-md-8 controls">
+                        <img src="{{ pictureUrl }}" id="login-picture-crops" width="{{scaledSize.width}}" height="{{scaledSize.height}}" data-natural-width="{{ naturalSize.width }}" data-natural-height="{{ naturalSize.height }}" />
+                        <div class="help-block">提示：请选择图片裁剪区域。</div>
+                    </div>
+                </div>
+                <div class="form-group clearfix">
+                    <div class="col-md-offset-2 col-md-8 controls">
+                        <input type="hidden" name="type" value="{{type}}">
+                        <input type="hidden" name="x">
+                        <input type="hidden" name="y">
+                        <input type="hidden" name="width">
+                        <input type="hidden" name="height">
+                        <input type="hidden" name="pictureFilePath" id="pictureFilePath">
+                        <button class="btn btn-fat btn-primary" id="upload-picture-btn" type="submit">保存</button>
+                        <a href="javascript:;" class="go-back btn btn-link">重新选择图片</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script> 
+    app.load('setting/picture-auto'); 
+</script>
+{% endblock %}
+
+{% block footer %}
+    <div id="tabRight" class="{% if tab != 0%}hide{% endif %}">
+        <button id="create-login-btn" type="button" class="btn btn-primary pull-right">确定</button>
+        <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+    </div>
+{% endblock %}

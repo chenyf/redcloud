@@ -1,0 +1,12 @@
+.new-group-media{border: 1px solid #ddd;padding:10px;margin:20px 0 0;cursor: pointer}
+.new-group-media:hover{
+    -webkit-box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    -webkit-transform: translate3d(0, -2px, 0);transform: translate3d(0, -2px, 0);
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+.new-group-media .media-object{width: 56px;height:56px;border-radius: 50%;}
+.new-group-media .new-group-text{color: #333;font-size: 14px;}
+.specialty-text{height:40px;overflow: hidden;}
+.n-media-body{padding-left:66px;height:110px;}

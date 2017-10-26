@@ -1,0 +1,37 @@
+<div class="page-header">
+    <button class="btn btn-info btn-sm pull-right" id="add-navigation-btn" data-toggle="modal" data-target="#modal" data-url="{{path('admin_daily_create',{submenu:submenu})}}" >
+        {% if submenu =="realtime" %}
+           新建实时通知
+          {%else%}
+           新建定时通知
+          {% endif%}
+    </button>
+    <h1>发送通知
+    </h1>
+</div>
+<ul class="nav nav-tabs">
+  <li {% if submenu == 'realtime' %} class="active" {% endif %} >
+    <a  href="{{ path('admin_daily', {"submenu":'realtime'}) }}">实时通知</a>
+  </li>
+  <li {% if submenu == 'bantch' %} class="active" {% endif %} >
+    <a  href="{{ path('admin_daily',{'submenu':'bantch'})}}">定时通知</a>
+  </li>
+</ul>
+<br>
+
+<form id="daily-search-form" class="form-inline well well-sm" action="" method="get" novalidate>  
+  <div class="form-group">
+    <select id="keywordType" class="form-control" name="keywordType">
+          {% set options = {'':'--通知类型--','1':'短信','2':'邮件','3':'客户端推送','4':'站内信'} %}
+          {{ select_options(options, app.request.get('keywordType')) }}
+    </select>
+
+  </div>
+
+  <div class="form-group">
+   <input type="hidden" name="submenu" value="{{submenu}}"/>
+    <input type="text" id="keyword" name="keyword" class="form-control" value="{{ app.request.query.get('keyword') }}" placeholder="标题关键词">
+  </div>
+  <button class="btn btn-primary searchNotice">搜索</button>
+
+</form>

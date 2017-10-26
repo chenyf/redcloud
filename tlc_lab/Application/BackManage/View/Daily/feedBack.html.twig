@@ -1,0 +1,98 @@
+{% extends '@BackManage/Daily/layout.html.twig' %}
+
+{% block title %}意见反馈 - {{ parent() }}{% endblock %}
+
+{% set menu = 'feedBack' %}
+{% set nav = 'daily' %}
+
+{% block main %}
+<form id="user-search-form" class="form-inline well well-sm" action="" method="get" novalidate>
+
+  <div class="form-group">
+    <select  class="form-control" noautochange="1" name="type">
+        {% set options = {'':'--类型--',1:'系统建议',2:'系统问题',3:'课程建议',4:'课程纠错',6:'App类问题',5:'其他'} %}
+        {{ select_options(options, app.request.get('type')) }}
+    </select>
+  </div>
+  <div class="form-group">
+    <select  class="form-control" noautochange="1" name="roles">
+        {% set options = {'':'--角色--',2:'学生',3:'老师'} %}
+        {{ select_options(options, app.request.get('roles')) }}
+    </select>
+  </div>
+  <div class="form-group">
+    <select  class="form-control" noautochange="1" name="from">
+        {% set options = {'':'--来源--',1:'Web',2:'iPhone',3:'Android',4:'iPad',5:'Apad'} %}
+        {{ select_options(options, app.request.get('from')) }}
+    </select>
+  </div>
+  
+  <button class="btn btn-primary">搜索</button>
+</form>
+
+{% if feedBacks %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>用户</th>
+      <th>角色</th>
+      <th>类型</th>
+      <th>来源</th>
+      <th>反馈时间</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for feedBack in feedBacks %}
+    <tr id="user-table-tr-{{ feedBack.id }}" href="javascript:;"  data-url="/BackManage/Daily/problemShowAction/id/{{ feedBack.id }}" data-backdrop="static" data-toggle="modal" data-target="#modal">
+        <td>{{feedBack.id }}</td>
+        <td>
+            {% if feedBack.uid == 0%}
+                无
+            {% else %}
+                {{ getUserNickNameById(feedBack.uid) }}
+            {% endif %}
+        </td>
+        <td>
+            {% if feedBack.roles == 1 %} 学生 {% else %} 老师 {% endif %}
+        </td>
+        <td>
+            {% if feedBack.type == 0 %} 
+                系统建议
+            {% elseif feedBack.type == 1 %}
+                系统问题
+            {% elseif feedBack.type == 2 %}
+                课程建议
+            {% elseif feedBack.type == 3 %}
+                课程纠错
+            {% elseif feedBack.type == 4 %}
+                其他
+            {% elseif feedBack.type == 5 %}
+                App类问题
+            {% endif %}
+        </td>
+        <td>
+            {% if feedBack.from == 0 %} web {% endif %}
+            {% if feedBack.from == 1 %} iPhone {% endif %}
+            {% if feedBack.from == 2 %} android {% endif %}
+            {% if feedBack.from == 3 %} iPad {% endif %}
+            {% if feedBack.from == 4 %} apad {% endif %}
+        </td>
+        <td>{{ feedBack.ctm|date('Y-m-d H:i:s') }}</td>
+        
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{{ web_macro.paginator(paginator) }}
+{% else %}
+  <div class="empty">暂无反馈</div>
+{% endif %}
+<script>
+    
+        function tanchu(e){
+                   alert(e);
+                 }
+</script>
+{% endblock %}

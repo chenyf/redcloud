@@ -1,0 +1,82 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}
+        {% if setting('default.user_name') %}{{ setting('default.user_name')|default('学员') }}{% else %}学员{% endif %}问答
+        {% set side_nav = 'my-teaching-questions' %}
+- {{ parent() }}
+
+{% endblock %}
+{% set side_nav = 'my-teaching-questions' %}
+
+{% set script_controller = 'my/threads' %}
+{% block main %}
+
+{% set type = type|default('unanswered') %}
+<div class="panel panel-default panel-col">
+        {% if isOpenPublicCourse() %}
+        <div class="course-list-tit">
+        </div>
+        {% endif %} 
+
+        <div class="panel-body">
+            {{ render(controller('My:MyTeaching:stuThreadMenu')) }}
+            {% if type != 'posted' %}
+                <div class="ask-student-data mtl clearfix">
+                    <form id="search-course" action="{% if type == 'reply' or type == 'append' or type == 'locked'  %}{{ U('My/MyTeaching/relatedThread',{type:app.request.get('type')}) }}{% else %}{{ U('My/MyTeaching/threads',{type:app.request.get('type')}) }}{% endif %}" method="GET" >
+                        <p>
+                            <b>所属课程：</b>
+                            <select class="form-control" name="courseId" >
+                                <option value="0">全部课程</option>
+                                {% for course in courseList %}
+                                <option value="{{ course.id }}" {% if courseId == course.id %}selected{% endif %}>{{ course.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </p>
+                    </form>
+                    {% if type == "unanswered" %}
+                    <div class="ask-refresh mtl">
+                        <button class="btn btn-default pull-right" id="refresh">刷新问题列表</button>
+                    </div>
+                    {% endif %}
+                </div>
+            {% else %}
+                <form id="search-course" action="{{ U('My/MyTeaching/postedThread',{type:app.request.get('type')}) }}" method="GET" >
+                    <div class="ask-student-data mtl clearfix">
+                        <p style="width:30%;">
+                            <b>开始时间：</b>
+                            <input style="width:60%;" class="form-control" type="text" name="startTime" value="{{ app.request.get('startTime') }}">
+                        </p>
+                        <p style="width:30%;">
+                            <b>结束时间：</b>
+                            <input style="width:60%;" class="form-control" type="text" name="endTime" value="{{ app.request.get('endTime') }}">
+                        </p>
+                        <p style="width:40%;">
+                            <b>所属课程：</b>
+                            <select class="form-control" name="courseId" >
+                                <option value="0">全部课程</option>
+                                        {% for course in courseList %}
+                                <option value="{{ course.id }}" {% if courseId == course.id %}selected{% endif %}>{{ course.title }}</option>
+                                        {% endfor %}
+                            </select>
+                        </p>   
+                    </div>
+                </form>
+                <div class="my-ask-list">
+                    <ul>
+                        <li>回答问题总个数：{{ dataStatistics.num|default('0') }} 个</li>
+                        <li>回答平均得分： {{ dataStatistics.avgScore|default('0') }}分</li>
+                        <li>被选最佳回答数：{{ dataStatistics.bestAnswerNum|default('0') }} 个</li>
+                        <li>平均提问响应时间：{{ dataStatistics.avgReponseTime|default('0') }}s</li>
+                    </ul>
+                    <ul>
+                        <li>回答问题总次数：{{ dataStatistics.count|default('0') }}次</li>
+                        <li>回答追问总次数：{{ dataStatistics.replyAppendCounts|default('0') }}次</li>
+                        <li>回复问题总次数：{{ dataStatistics.replyCounts|default('0') }}次</li>
+                        <li>平均追问响应时间：{{ dataStatistics.avgReplyTime|default('0') }}s</li>
+                    </ul>
+                </div>
+            {% endif %}
+            {% include '@My/MyTeaching/threads-list.html.twig' %}
+        </div>
+    </div>
+{% endblock %}

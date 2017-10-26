@@ -1,0 +1,607 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% block title %} 支付中心 - {{ parent() }}{% endblock %}
+
+
+{% block content %}
+<div class="container order-pay pay-center">
+    <div class="row">
+        <div class="col-md-12 ptl">
+            <div class="text">
+                <h2>在线网银支付额度</h2>
+            </div>
+            <div class="limit">
+                <table>
+                    <tr class="tr-first"><th>序号</th><th>银行名称</th><th>客户类型</th><th>卡种</th><th>单笔金额</th><th>每日限额</th></tr>
+                    <tr>
+                        <td>1</td>
+                        <td>中国工商银行</td>
+                        <td>
+                            <ul>
+                                <li>电子银行口令卡+未开通手机短信认证</li>
+                                <li>电子银行口令卡+已开通手机短信认证</li>
+                                <li class="li-last">办理U盾</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡/信用卡</li>
+                                <li>借记卡/信用卡</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>500</li>
+                                <li>1000</li>
+                                <li class="li-last">1000</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>1000</li>
+                                <li>5000</li>
+                                <li class="li-last">信用卡透支额度</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>中国建设银行</td>
+                        <td>
+                            <ul>
+                                <li>非签约用户</li>
+                                <li>动态口令卡</li>
+                                <li class="li-last">USB-KEY/USB-KEY+口令卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡/信用卡</li>
+                                <li>借记卡/信用卡</li>
+                                <li class="li-last">借记卡/信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5000</li>
+                                <li>1万</li>
+                                <li class="li-last">80万</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>1万</li>
+                                <li>1万</li>
+                                <li class="li-last">80万</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>中国农业银行</td>
+                        <td>
+                            <ul>
+                                <li>浏览器证书+动态口令卡</li>
+                                <li class="li-last">Key宝总行证书	</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡/准贷记卡</li>
+                                <li class="li-last">借记卡/准贷记卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>1000</li>
+                                <li class="li-last">无限额</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>3000</li>
+                                <li class="li-last">无限额</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>招商银行</td>
+                        <td>
+                            <ul>
+                                <li>大众版</li>
+                                <li>专业版</li>
+                                <li class="li-last">信用卡支付</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li>借记卡</li>
+                                <li class="li-last">借记卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>500</li>
+                                <li>客户自设限额</li>
+                                <li class="li-last">500</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>500</li>
+                                <li>客户自设限额</li>
+                                <li class="li-last">自行设置</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>中国银行</td>
+                        <td>专业版密码器</td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5万</li>
+                                <li class="li-last">1000</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>10万</li>
+                                <li class="li-last">5000</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>交通银行</td>
+                        <td>
+                            <ul>
+                                <li>手机注册</li>
+                                <li class="li-last">证书支付</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li class="li-last">借记卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5000</li>
+                                <li class="li-last">5万</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5000</li>
+                                <li class="li-last">5万</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>中国邮政储蓄银行</td>
+                        <td>手机动态密码版</td>
+                        <td>借记卡</td>
+                        <td>3000</td>
+                        <td>3000</td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>上海浦东发展银行</td>
+                        <td>
+                            <ul>
+                                <li>动态密码版</li>
+                                <li>数字证书版</li>
+                                <li class="li-last">专业版</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li>借记卡</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>20万</li>
+                                <li>无限额</li>
+                                <li class="li-last">500</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>20万</li>
+                                <li>无限额</li>
+                                <li class="li-last">1000</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>广发银行</td>
+                        <td>
+                            <ul>
+                                <li>动态密码支付</li>
+                                <li class="li-last">U盾</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li>信用卡</li>
+                                <li>借记卡</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>无</li>
+                                <li>无</li>
+                                <li>无</li>
+                                <li class="li-last">无</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>3000</li>
+                                <li>2000</li>
+                                <li>5000</li>
+                                <li class="li-last">2000</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>中国光大银行</td>
+                        <td>
+                            <ul>
+                                <li>手机动态密码</li>
+                                <li>令牌动态密码</li>
+                                <li>阳光网盾</li>
+                                <li class="li-last">动态密码/阳光网盾</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li>借记卡</li>
+                                <li>借记卡</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5000</li>
+                                <li>50万</li>
+                                <li>50万</li>
+                                <li class="li-last">300</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5000</li>
+                                <li>50万</li>
+                                <li>50万</li>
+                                <li class="li-last">300</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>11</td>
+                        <td>平安银行</td>
+                        <td>
+                            <ul>
+                                <li>手机动态密码</li>
+                                <li class="li-last">网上直接申请</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5万</li>
+                                <li class="li-last">2000</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5万</li>
+                                <li class="li-last">2000</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>12</td>
+                        <td>兴业银行</td>
+                        <td>
+                            <ul>
+                                <li>非证书用户</li>
+                                <li class="li-last">证书用户</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li class="li-last">借记卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>自选1000/5000</li>
+                                <li class="li-last">无限额</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>自选1000/5000</li>
+                                <li class="li-last">无限额</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>13</td>
+                        <td>中国民生银行</td>
+                        <td>
+                            <ul>
+                                <li>大众版</li>
+                                <li>贵宾版浏览器证书</li>
+                                <li class="li-last">贵宾版（U宝）</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li>借记卡</li>
+                                <li class="li-last">借记卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>无限额</li>
+                                <li>累计300</li>
+                                <li class="li-last">5000</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>无限额</li>
+                                <li>累计300</li>
+                                <li class="li-last">5000</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>14</td>
+                        <td>中信银行</td>
+                        <td>
+                            <ul>
+                                <li>文件证书</li>
+                                <li class="li-last"></li>
+                                <li>文件证书+动态口令</li>
+                                <li class="li-last">USBKey数字证书</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li>信用卡</li>
+                                <li>借记卡</li>
+                                <li>信用卡</li>
+                                <li>借记卡</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>1000</li>
+                                <li>500</li>
+                                <li>1万</li>
+                                <li>500</li>
+                                <li>100万</li>
+                                <li class="li-last">500</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>1000</li>
+                                <li>5000</li>
+                                <li>5万</li>
+                                <li>5000</li>
+                                <li>100万</li>
+                                <li class="li-last">1万</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>15</td>
+                        <td>深圳发展银行</td>
+                        <td>
+                            <ul>
+                                <li>刮刮卡</li>
+                                <li>编码器</li>
+                                <li class="li-last">证书支付</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡/信用卡</li>
+                                <li>借记卡/信用卡</li>
+                                <li class="li-last">借记卡/信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5000</li>
+                                <li>无限额</li>
+                                <li class="li-last">无限额</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5000</li>
+                                <li>无限额</li>
+                                <li class="li-last">无限额</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>16</td>
+                        <td>北京农村商业银行</td>
+                        <td>
+                            <ul>
+                                <li>手机认证</li>
+                                <li class="li-last">证书客户</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li class="li-last">借记卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>10万</li>
+                                <li class="li-last">50万</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>20万</li>
+                                <li class="li-last">100万</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>17</td>
+                        <td>上海银行</td>
+                        <td>
+                            <ul>
+                                <li>账（卡）号支付</li>
+                                <li class="li-last"></li>
+                                <li>文件证书</li>
+                                <li class="li-last"></li>
+                                <li class="li-last">易签宝（USBKey证书）</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>信用卡</li>	
+                                <li>借记卡</li>
+                                <li>信用卡</li>
+                                <li>借记卡</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>3000</li>
+                                <li>5000</li>
+                                <li>3000</li>
+                                <li>5万</li>
+                                <li class="li-last">5000</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>6000</li>
+                                <li>5000</li>
+                                <li>6000</li>
+                                <li>5万</li>
+                                <li class="li-last">1万</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>18</td>
+                        <td>宁波银行</td>
+                        <td>
+                            <ul>
+                                <li>动态密码令牌/短信动态密码</li>
+                                <li class="li-last">USBKey移动证书</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li class="li-last">借记卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5万</li>
+                                <li class="li-last">无限额</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>5万</li>
+                                <li class="li-last">无限额</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>19</td>
+                        <td>杭州银行</td>
+                        <td>
+                            <ul>
+                                <li>大众版</li>
+                                <li>专业版</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>借记卡</li>
+                                <li>借记卡</li>
+                                <li class="li-last">信用卡</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>300</li>
+                                <li>100万</li>
+                                <li class="li-last">500</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li>300</li>
+                                <li>500万</li>
+                                <li class="li-last">500</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>20</td>
+                        <td>上海农商银行</td>
+                        <td>专业版</td>
+                        <td>借记卡</td>
+                        <td>100万</td>
+                        <td>500万</td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">注：网银支付限额请以银行实际设置的限额为准，如支付限额出现问题，请和银行联系。</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

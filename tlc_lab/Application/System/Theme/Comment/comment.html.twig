@@ -1,0 +1,21 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% block title %}{{ course.title }} - {{ parent() }}{% endblock %}
+{% set script_controller = 'poster/show' %}
+
+
+{% block content %}
+
+
+<div class="comment" data-cmttype="Poster" data-cmtid="999" data-vcode="{{md5Comment('Poster','999','220')}}"></div>
+
+
+
+
+{% endblock %}
+
+{% block bottom %}
+<div id="course-modal" class="modal"></div>
+<div id="course-edit-modal" class="modal"></div>
+{% endblock %}
+

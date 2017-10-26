@@ -1,0 +1,33 @@
+{% import "@BackManage/macro.html.twig" as admin_macro %}
+
+<tr id="career-tr-{{ career.id }}">
+    <td class="td-center">
+        {{ career.id }}
+    </td>
+    <td class="td-center">
+        <a href="/Course/CareerCoursePlan/showAction/id/{{ career.id }}"><strong>{{ career.name }}</strong></a>
+    </td>
+    <td class="td-center">
+        {{ career.stages|length }}
+    </td>
+    <td class="td-center">
+        {{ career.courseCount }}
+    </td>
+    <td class="td-center">
+        <span class="text-muted text-sm">{{ career.createdTime|date('Y-n-d H:i') }}</span>
+    </td>
+    <td class="td-center">
+        <div class="btn-group">
+            <a class="btn btn-default btn-sm" href="{{ path('admin_career_course_plan_show', {id:career.id}) }}">查看/管理</a>
+
+            <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu pull-right">
+                <li><a class="view-career-stage" href="#modal" data-toggle="modal" data-url="{{ path('admin_career_course_plan_preview_stage', {id:career.id}) }}"><span class="glyphicon glyphicon-hand-up"></span>查看阶段</a></li>
+                <li><a class="edit-career" href="#modal" data-toggle="modal" data-url="{{ path('admin_career_course_plan_base', {id:career.id,create:0,type:0,cid:0}) }}"><span class="glyphicon glyphicon-edit"></span>编辑</a></li>
+                <li><a class="remove-career" data-id="{{ career.id }}" data-url="{{ path('admin_career_course_plan_remove') }}" href="javascript:;"><span class="glyphicon glyphicon-remove-circle"></span>删除</a></li>
+            </ul>
+        </div>
+    </td>
+</tr>

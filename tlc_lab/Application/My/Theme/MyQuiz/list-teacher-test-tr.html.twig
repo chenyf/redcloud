@@ -1,0 +1,51 @@
+<tr class="home-work-list-item">
+    <td>
+        {{ web_macro.user_link(student) }} <br>
+        {% if paperResult.status == 'finished' or paperResult.status == 'submitted' %}
+            <small class="text-muted">{{ paperResult.submitTime|date("Y年n月d日 H:i") }} 提交</small>
+        {% endif %}
+    </td>
+    <td>
+        <span class="text-muted">学号：{{ getUserInfo(paperResult.userId,'userNum')['userNum'] | default('暂无学号') }}</span>
+    </td>
+
+    <td>
+        {% if paperResult.isMember == 1 %}
+            <span>授课班成员</span>
+        {% elseif classIds is empty %}
+            <span>该课程无授课班</span>
+        {% else %}
+            <span>非授课班成员</span>
+        {% endif %}
+    </td>
+
+    <td>
+
+        {% if paperResult.status == 'doing' %}
+            <button class="btn btn-danger btn-sm pull-right" disabled>未交{% if app.request.get('type') == 1 %}作业{% else %}试卷{% endif %} </button>
+        {% elseif paperResult.status == 'submitted' %}
+            <a href="{{ path('course_manage_test_teacher_check', {id:paperResult.id}) }}" class="btn btn-default btn-sm pull-right" target="_blank">批阅</a>
+        {% elseif paperResult.status == 'finished' %}
+            <a href="{{ path('course_manage_test_results', {id:paperResult.id}) }}" class="btn btn-success btn-sm pull-right" target="_blank">查看详情</a>
+        {% endif %}
+
+        <div>
+            {% if paperResult.status == 'doing' %}
+                <div class="text-success">
+                    <small>未交{% if app.request.get('type') == 1 %}作业{% else %}试卷{% endif %}</small>
+                </div>
+            {% elseif paperResult.status == 'submitted' %}
+                <div class="text-success">
+                    <small>待批阅</small>
+                </div>
+            {% elseif paperResult.status == 'finished' %}
+                <div class="text-success">
+                    <small>得分：{{ paperResult.score }}</small>
+                </div>
+                <div class="text-success">
+                    <small>{{ teacher.nickname|default('系统') }} 批于{{ paperResult.checkedTime|date("Y年n月d日 H:i") }}</small>
+                </div>
+            {% endif %}
+        </div>
+    </td>
+</tr>

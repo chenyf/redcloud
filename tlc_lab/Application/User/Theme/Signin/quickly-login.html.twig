@@ -1,0 +1,66 @@
+{% extends getTwigExtendsStr('layout.html.twig',"@Web")%}
+{% block title %} 快捷登录 - {{ parent() }}{% endblock %}
+{% set script_controller = 'auth/quickly-login' %}
+{% set containerClassBlock = 'index_container' %}
+{% block content %}
+<div class="login-bg">
+    <div class="redcloud-bggray">
+        <div class="container">
+            <div class="row row-6 mtl">
+            <div class="col-md-6 col-md-offset-3 pull-right">      
+                <div class="panel panel-default panel-page login-quickly-box">
+                    <div class="panel-heading"><h2>快捷登录</h2></div>
+                        {% if error %} <div id="alertxx" class="alert alert-danger">{{ error }}</div> {% endif %}
+                        <form id="quickly-login-form" class="form-vertical" method="post" action="{{ path('quickly_login_check') }}">
+                            <div class="form-group">
+                                {#<label class="control-label" for="phone">手机号</label>#}
+                                <div class="controls">
+                                    <input type="text" class="form-control" id="phone"  name="phone"  required data-url="/User/PasswordReset/checkMobileAction" placeholder="请输入手机号"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="yzm-layer" style="display: none">
+                                    <p>发送之前，请先输入下方的验证码</p>
+                                    <label>
+                                        <input type="text" class="form-control" id="captcha_num" name="captcha_num" maxlength="5" data-explain="输入验证码" required="required"  data-url="{{path('register_captcha_check')}}" data-widget-cid="widget-7">
+                                        <b><img src="{{ path('register_captcha_num') }}" data-url="{{ path('register_captcha_num') }}" id="getcode_num" title="看不清，点击换一张" style="max-width:100%;height:32px;cursor:pointer;" ></b>
+                                    </label>
+                                    <p class="help-block" name="captcha_err"></p>
+                                    <button class="btn btn-primary btn-block mts" name="btn-code">确定</button>
+                                </div>
+                                {#<label class="control-label" for="password">动态密码</label>#}
+                                <div class="controls row" >
+                                    <div class="col-md-8 col-sm-8 col-xs-8" >
+                                        <input type="password" class="form-control" id="password"  name="password"  required  maxlength="6" data-url="{{path('sms_pwd_check')}}" placeholder="请输入动态密码"/>
+                                        <p class="help-block"></p>
+                                    </div>
+                                    <div class="col-md-4 col-sm-4 col-xs-4">
+                                        <span class="btn btn-default btn-block js-sms-send" data-url="{{ path('send_sms_pwd') }}">
+                                            <span id="js-time-left"></span>
+                                            <span id="js-fetch-btn-text" >获取动态密码</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="controls">
+                                    <button type="submit" class="btn btn-fat btn-primary btn-large btn-block">登录</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="ptl" style="margin:0 40px;">
+                            <a href="{{ path('password_reset') }}">找回密码</a>
+                            <span class="text-muted mhs">|</span>
+                            <a href="{{ path('login') }}">普通登录</a>
+                        </div>
+
+                    <div class="social-logins"></div>
+              </div>   
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% set menu = 'class' %}
+
+{% set script_controller = 'course-manage/students' %}
+
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+
+{% block title %}授课班管理 - {{ parent() }}{% endblock %}
+
+ {% block side %}
+     <div class="t-course-handle">
+         <div class="t-add-content pull-right">
+             <a class="btn btn-info btn-sm pull-right" href="{{ path('class_add') }}" role="button"><i class="glyphicon glyphicon-plus"></i>添加授课班</a>
+         </div>
+     </div>
+ {% endblock %}
+
+{% block courseContent %}
+    <div class="panel-body" style="padding:0;">
+
+        {% include '@Wclass/my-class/class_list_table.html.twig' with {'class':class,'course':course,'paginator':paginator} %}
+
+    </div>
+
+{% endblock %}

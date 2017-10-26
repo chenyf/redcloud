@@ -1,0 +1,42 @@
+{% extends '@System/PCSSD/ssd_layout.html.twig' %}
+
+{% block title %}课程资源包下载记录查看 - {{ parent() }}{% endblock %}
+
+{% set submenu = 'pocket_download_record' %}
+
+{% block maincontent %}
+    <div class="page-header clearfix" style="padding: 10px;margin-top: 0px;">
+        <h3 class="pull-left">课程资源包下载记录查看（共{{ records|length }}条下载记录）</h3>
+    </div>
+    {% if is_binded != 1 %}
+        <div class="alert alert-warning" style="margin: 10px 20px;">
+            <a href="#" class="close" data-dismiss="alert">
+                &times;
+            </a>
+            您的账号未绑定SSD口袋云盘的SN码，无法重新下载课程资源包，重新绑定SN码才可以进行下载。
+        </div>
+    {% endif %}
+    <div class="page-body">
+        <div class="panel panel-default" style="margin: 10px;padding: 20px;">
+            <table id="recharge-record-table" class="table table-striped table-hover table-center">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>课程名称</th>
+                    <th>资源包大小</th>
+                    <th>下载时间</th>
+                    <th width="15%">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for record in records %}
+                    {% include '@System/PCSSD/download_record_table_tr.html.twig' with {record:record} %}
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ web_macro.paginator(paginator) }}
+        </div>
+    </div>
+
+
+{% endblock %}

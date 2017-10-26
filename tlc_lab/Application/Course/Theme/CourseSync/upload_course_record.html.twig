@@ -1,0 +1,38 @@
+{% extends '@Course/CourseSync/course_sync_layout.html.twig' %}
+
+{% block title %}上传课程记录 - {{ parent() }}{% endblock %}
+
+{% set tab_nav = 'record' %}
+
+{% set script_controller = 'course_sync/upload_course_record' %}
+
+{% block main_content %}
+    <ul class="clearfix">
+        {% if records is not empty %}
+            {% for record in records %}
+                <li class="course-grid col-md-4 col-sm-6 clearfix">
+                    <div class="course-con">
+                        <div class="course-grid-img">
+                            <a href="{{ path('course_show', {id:record.course.id}) }}" class="grid-body">
+                                <img src="{{ default_path('coursePicture',record.course.largePicture, 'large') }}"  class="img-responsive thumb">
+                            </a>
+                        </div>
+                        <a href="{{ path('course_show', {id:record.course.id}) }}" class="title">{{ record.course.title }}</a>
+                        <div class="learn-status">
+                            上传日期:{{ record.createdTime|date('n月j日 H:i') }}
+                            <div class="action clearfix">
+                                <a href="javascript:;" data-url="{{ path('course_sync_record_delete') }}" data-id="{{ record.course.id }}" data-goto="{{ path('course_sync_record') }}" class="pull-right delete_upload_course" style="margin-left: 10px;margin-top: 2px;">删除课程</a>
+                                <span class="btn btn-primary btn-sm pull-right"><a href="{{ path('course_show', {id:record.course.id}) }}" style="color:#ffffff;">查看课程</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        {% else %}
+            <div class="empty-center">
+                暂无上传课程记录
+            </div>
+        {% endif %}
+    </ul>
+
+{% endblock %}

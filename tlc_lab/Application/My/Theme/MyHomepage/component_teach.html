@@ -1,0 +1,16 @@
+<template id="component-teach">
+    <two_list :datas.sync="teaches" id="addTeach" title="教学" title_id="myModalTeach"></two_list>
+</template>
+
+
+<script>
+    var Teach = Vue.extend({
+        template: '#component-teach',
+        props:{
+            teaches: Array
+        },
+        components:{
+            two_list: TwoList
+        }
+    });
+</script>

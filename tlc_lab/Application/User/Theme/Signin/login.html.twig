@@ -1,0 +1,121 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=7;IE=9;IE=10;IE=Edge;IE=8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {%- block title -%}
+            {{ setting('site.name', 'redcloud') }}
+        {%- endblock -%}
+    </title>
+    <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+    <meta name="description" content="{% block description %}{% endblock %}" />
+    <meta content="{{ csrf_token('site') }}" name="csrf-token" />
+    {{ setting('login_bind.verify_code', '')|raw }}
+    {% if setting('site.favicon') %}
+        <link href="/{{ setting('site.favicon') }}" rel="shortcut icon" />
+    {% endif %}
+    {% block stylesheets %}
+        {#<link href="{{ asset('assets/libs/gallery2/bootstrap/3.1.1/css/bootstrap.css') }}" rel="stylesheet" />#}
+        {#<link rel="stylesheet" media="screen" href="{{ asset('assets/css/common.css') }}?{{ getVersion() }}" />#}
+        {#<link rel="stylesheet" media="screen" href="{{ asset('assets/css/font-awesome.min.css') }}?{{ getVersion() }}" />#}
+        <!--[if lt IE 8]>
+        <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
+        <![endif]-->
+        <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/login_v2.css"/>
+    {% endblock %}
+    <!--[if lt IE 9]>
+    <script src="{{ asset('assets/libs/html5shiv.js') }}"></script>
+    <![endif]-->
+
+    <!--[if IE 8]>
+    <script src="{{ asset('assets/libs/respond.min.js') }}"></script>
+    <![endif]-->
+
+    {% block head_scripts %}{% endblock %}
+
+    {% set script_controller = 'auth/login' %}
+</head>
+<script>
+    window.webVersion = "{{ getVersion() }}";
+</script>
+<body>
+<div class="wrapper">
+    <div class="left-img">
+        <img src="{{ asset('static/img/login-v2/left.png') }}"/>
+    </div>
+    <div class="right-content">
+        <div>
+            <h1 class="title"><img src="{{ asset('static/img/login-v2/logo.png') }}"/><a href="/">瑞德口袋云</a></h1>
+            <div class="login-form panel panel-default panel-page">
+                <div class="form">
+                    <form id="login-form" data-url="{{ path('check_login') }}" data-trigger="{{ trigger|default('') }}" data-goto="{% if goto_url %}{{ goto_url }}{% else %}{{ path('my') }}{% endif %}">
+                        <div class="form-group">
+                            <input type="text" placeholder="请输入账号" class="form-input" name="username" id="login_username"/>
+                            <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                                <i class="glyphicon pull-left"></i>
+                                <span class="text-danger mls"></span>
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" placeholder="请输入密码" class="form-input" name="password" id="login_password"/>
+                            <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                                <i class=" glyphicon pull-left"></i>
+                                <span class="text-danger mls"></span>
+                            </p>
+                        </div>
+                        <div class="form-group dl-box {% if errorNum < 3 %}hide{% endif %}" data-errornum="{{errorNum}}">
+                            <div class="controls row">
+                                <div class="col-md-6 col-sm-6 col-xs-6" >
+                                    <input type="text" class="form-input" placeholder="请输入验证码" id="captcha_num" name="captcha_num" maxlength="5"  data-url="{{path('register_captcha_check')}}">
+                                    <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                                        <i class=" glyphicon pull-left"></i>
+                                        <span class="text-danger mls"></span>
+                                    </p>
+                                </div>
+                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                    <img src="{{ path('register_captcha_num') }}" data-url="{{ path('register_captcha_num') }}" id="getcode_num" title="看不清，点击换一张" style="max-width:100%;height:50px;cursor:pointer;margin-top: 23px;" >
+                                </div>
+                                <div class="col-md-2 col-sm-2 col-xs-2">
+                                    <i class="fa fa-refresh" style="cursor:pointer;font-size:20px;color:#666;margin-top:5px;"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="button" value="登录" id="login-btn" class="form-btn"/>
+                        <div class="side-btn">
+                            <div class="left-text">
+                                <input id="remember-pwd" class="remember-pwd" type="checkbox"><label for="remember-pwd">记住密码</label>
+                                <a class="forget-pwd" href="#">忘记密码？</a>
+                            </div>
+                            <a href="#" class="register-btn">
+                                <img src="{{ asset('static/img/login-v2/arrow-icon2.png') }}"/>注册
+                            </a>
+                        </div>
+                    </form>
+                </div>
+                <div class="share_block">
+                    <p>快速登录</p>
+                    <img src="{{ asset('static/img/login-v2/weibo.png') }}"/>
+                    <img src="{{ asset('static/img/login-v2/qq.png') }}"/>
+                    <img src="{{ asset('static/img/login-v2/wechat.png') }}"/>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p class="line"></p>
+        <p class="copyright-text">{{ setting('site.icp') }} &nbsp;&nbsp;{% if setting('site.contact') %}联系方式：{{ setting('site.contact') }}{% endif %}</p>
+        <p class="line"></p>
+    </div>
+</div>
+
+{% include '@Home/script_boot.html.twig' with {script_main: asset('bundles/web/js/app.js')} %}
+
+</body>
+</html>

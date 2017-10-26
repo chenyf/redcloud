@@ -1,0 +1,31 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% set script_controller = 'demo/index' %}
+
+
+{% block content %}
+
+
+<div id="playerzmblbkjP_wrapper" style="width:800;height:1280;position:relative;">
+		<object name="playerzmblbkjP" width="100%" height="100%" id="playerzmblbkjP" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" style="position:absolute;top:0;left:0;">
+			<param name="movie" value="jwplayer.flash.swf">
+			<param name="src" value="jwplayer.flash.swf">
+			<param name="AllowScriptAccess" value="always">
+		</object>
+</div>
+
+	
+	
+
+	
+
+
+
+
+{% endblock %}
+
+{% block bottom %}
+<div id="course-modal" class="modal"></div>
+<div id="course-edit-modal" class="modal"></div>
+{% endblock %}
+

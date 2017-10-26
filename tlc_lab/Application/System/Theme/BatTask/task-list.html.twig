@@ -1,0 +1,37 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class = 'modal-lg' %}
+{% block title %}{{name}}任务列表{% endblock %}
+{% block body %}
+
+<div>
+{% if taskList %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                {% for taskTh in task %}
+                    <th>{{ taskTh }}</th>
+                {% endfor %}
+                 <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for taskItem in taskList %}
+                {% include '@System/BatTask/task-list-tr.html.twig' %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="empty">暂无记录</div>
+{% endif %}
+{{ web_macro.paginator(paginator) }}
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+<script>seajs.use("web/batProcess/batProcess_event",function(event){
+    event.run();
+});</script>
+{% endblock %}

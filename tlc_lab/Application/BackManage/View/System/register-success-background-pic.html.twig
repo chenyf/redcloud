@@ -1,0 +1,24 @@
+ <div class="image-template tab-pane {% if tab == 0 %}active{% endif %}" id="moreImg">
+    <ul class="template-list" id="register-success-change-pic">
+        <li class="col-md-3 col-sm-4 col-xs-6 pic-list {% if index in [0,1] %}active{% endif %}">
+            <span class="c-icon-checkd {% if (index!=0) and (index!=1) %}hide {% endif %}" aria-hidden="true"></span>
+            <img class="register-success-picture" src="{{register_success_default_pic_path('1',width)}}" data-value="1" width="100%">
+        </li>
+        <li class="col-md-3 col-sm-4 col-xs-6 pic-list {% if index == 2 %}active{% endif %}">
+            <span class="c-icon-checkd {% if index != 2 %}hide {% endif %}" aria-hidden="true"></span>
+            <img class="register-success-picture" src="{{register_success_default_pic_path('2',width)}}" data-value="2" width="100%">
+        </li>
+        <li class="col-md-3 col-sm-4 col-xs-6 pic-list {% if index == 3 %}active{% endif %}">
+            <span class="c-icon-checkd {% if index != 3 %}hide {% endif %}" aria-hidden="true"></span>
+            <img class="register-success-picture" src="{{register_success_default_pic_path('3',width)}}" data-value="3" width="100%">
+        </li>
+        <li class="col-md-3 col-sm-4 col-xs-6 pic-list {% if index == 4 %}active{% endif %}">
+            <span class="c-icon-checkd {% if index != 4 %}hide {% endif %}" aria-hidden="true"></span>
+            <img class="register-success-picture" src="{{register_success_default_pic_path('4',width)}}" data-value="4" width="100%">
+        </li>
+        <li class="col-md-3 col-sm-4 col-xs-6 pic-list {% if index == 5 %}active{% endif %}">
+            <span class="c-icon-checkd {% if index != 5 %}hide {% endif %}" aria-hidden="true"></span>
+            <img class="register-success-picture" src="{{register_success_default_pic_path('5',width)}}" data-value="5" width="100%">
+        </li>
+    </ul>
+</div>   

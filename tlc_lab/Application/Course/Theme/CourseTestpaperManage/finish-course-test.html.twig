@@ -1,0 +1,100 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set config = config|default(null) %}
+{% set modal_class = 'modal-lg' %}
+{% if app.request.get('type') == 1 %}
+    {% set menu = 'homework' %}
+    {% set typeText = '作业' %}
+{% else %}
+    {% set menu = 'test' %}
+    {% set typeText = '考试' %}
+{% endif %}
+{% block title %}
+发布{{ typeText }}
+{% endblock %}
+
+{% block body %}
+{# 发布{{ typeText }} #}
+<form id="publish" class="form-horizontal" action="{{ U('Course/CourseTestpaperManage/finishCourseTest',{id:app.request.get('id'),courseId:courseId,mode:mode}) }}" method="post"
+      data-preview = "{{ U('My/Testpaper/previewTest',{testId:testId,mode:mode}) }}"
+      data-list = "{{ U('Course/CourseTestpaperManage/courseTest',{courseId:courseId,type:type,mode:mode}) }}"
+      data-publish = "{{ U('Course/CourseTestpaperManage/publishClassTest',{courseId:courseId,id:id,testId:testId,mode:mode}) }}"
+      >
+
+    <input type="hidden" name="id" value="{{ app.request.get('id') }}">
+    <input type="hidden" name="mode" value="{{ mode }}" />
+
+    {% if mode != 'file' %}
+    <div class="c-choose-result mtm">
+        <div id="finishSelectedStatistic">
+            <div class="c-result-text">
+                <span class="text-color"><center>数据加载中。。。</center></span>
+            </div>
+         </div>
+    </div>
+    {% endif %}
+
+    <div class="form-group" style="margin-right:0;">
+        <label class="col-md-2 control-label">交作业起止时间段</label>
+        <div class="col-md-4 controls" style="padding-right: 0;">
+            <div class='input-group date datetimepicker'style="padding: 0;margin-top: 0;">
+                <span class="add-on input-group-addon">
+                    <i style="top:0;" class="glyphicon glyphicon-calendar fa fa-calendar mrs"></i>开始时间
+                </span>                                        
+                <input type='text' class="form-control pull-left" value="{% if edit == 1 %} {{ course_test.startTime |date('Y-m-d H:i:s') }} {% else %} {{ app.request.server.get('REQUEST_TIME')|date('Y-m-d H:i:s') }} {% endif %}" name="startTime"/>
+            </div> 
+        </div>
+        <div class="col-md-4 controls" style="padding-right: 0;">
+            <div class='input-group date datetimepicker'style="padding: 0;margin-top: 0;">
+                <span class="add-on input-group-addon">
+                    <i style="top:0;" class="glyphicon glyphicon-calendar fa fa-calendar mrs"></i>结束时间
+                </span>                                        
+                <input type='text' class="form-control pull-left " value="{% if edit == 1 %} {{ course_test.startTime |date('Y-m-d H:i:s') }} {% else %} {{ app.request.server.get('REQUEST_TIME')|date('Y-m-d H:i:s') }} {% endif %}" name="endTime"/>
+            </div>
+        </div>
+        <div class="col-md-3 controls btn-choose col-md-offset-2" style="padding-right: 0;margin-top:15px;">
+            <a style="height:34px;line-height: 34px;" class="a-choose select-time" href="javascript:void(0)" data-val="">不限制时间<em class="fa fa-check-square-o selected-icon"></em></a>
+        </div>
+        <input type="hidden" name="correct" value="1">
+        <input type="hidden" name="timeLimit" value="0"/>
+        <input type="hidden" name="show" value="1"/>
+        <input type="hidden" name="testCount" value="{{ itemCount }}">
+    </div>
+
+    {% if mode != 'file' %}
+    <div class="form-group" style="margin-right:0;">
+        <label class="col-md-2 control-label">学生查看答案</label>
+        <div class="col-md-9 controls btn-choose" style="padding-right: 0;">
+            <a style="height:34px;line-height: 34px;width:auto;" class="a-choose is-show  active" href="javascript:void(0)" data-val="1">提交{{ typeText }}后，学生能立即查看答案<em class="fa fa-check-square-o selected-icon"></em></a>
+            <a style="height:34px;line-height: 34px;width:auto;" class="a-choose is-show " href="javascript:void(0)" data-val="0">公布答案后，学生才能查看答案</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="issue-work-hint">
+        <h3>提示事项</h3>
+        {% if mode != 'file' %}
+        <p class="text-muted text-normal">
+            1）如果设置交{{ typeText }}时间段，学生必须在该时间段内完成并提交{{ typeText }}，提前或超过时间段则不能做{{ typeText }} 或提交{{ typeText }}。<br/>
+            2）如果设置了老师公布答案后学生才能看见答案，需要您届时到{{ typeText }}管理下，点击公布答案，否则学生不能看到答案。<br/>
+            3）{{ typeText }}中客观题（选择、判断、填空），系统能自动批改并计算分数；主观题（简答题），需要您在{{ typeText }}管理下手动批改并打分。
+        </p>
+        {% else %}
+            <p class="text-muted text-normal">
+                1）如果设置交作业时间段，学生必须在该时间段内完成并提交作业，提前或超过时间段则不能做作业 或提交作业。<br/>
+            </p>
+        {% endif %}
+    </div>    
+
+    <div class="modal-footer text-center">    
+        <button name="publish" type="button" class=" btn btn-primary pull-right" data-loading-text="发布中...">发布{{ typeText }}</button>
+        <button name="save" type="button" class="btn btn-link pull-right" data-loading-text="保存中..." data-dismiss="modal" >暂不发布</button>
+        {% if mode != 'file' %}
+        <button type="button" class="btn btn-info pull-left" data-dismiss="modal" >继续添加题目</button>
+        {% endif %}
+    </div>
+</form>
+
+<script>
+    app.load('course-test/finish-course-test');
+</script>
+{% endblock %}

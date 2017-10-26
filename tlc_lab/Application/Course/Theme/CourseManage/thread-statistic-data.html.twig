@@ -1,0 +1,18 @@
+<table>
+    <tr><th>答疑老师姓名</th><th>回答问题数量</th><th>回答问题次数</th><th>被选最佳回答数</th><th>平均得分</th><th>提问平均响应时间</th><th>回答追问次数</th><th>追问平均响应时间</th><th>放弃回答问题数</th></tr>
+    {% for teacherPost in teacherPosts %}
+        <tr>
+           <td>{{ teacherPost.nickname }}</td>
+           <td>{{ teacherPost.num|default('0') }}</td>
+           <td>{{ teacherPost.count|default('0') }}</td>
+           <td>{{ teacherPost.bestAnswerNum|default('0') }}</td>
+           <td>{{ teacherPost.avgScore|default('0') }}</td>
+           <td>{{ teacherPost.avgReponseTime|default('0') }}s</td>
+           <td>{{ teacherPost.replyAppendCounts|default('0') }}</td>
+           <td>{{ teacherPost.avgReplyTime|default('0') }}s</td>
+           <td>{{ teacherPost.giveUpCounts|default('0')}}</td>
+        </tr>
+    {% else %}
+        <tr><td colspan="9">暂时没有老师答复信息</td></tr>
+    {% endfor %}
+</table>

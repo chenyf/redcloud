@@ -1,0 +1,35 @@
+{% extends '@User/layout.html.twig' %}
+{% block title %}密码重置 - {{ parent() }}{% endblock %}
+{% set script_controller = 'auth/password-reset' %}
+{% set containerClassBlock = 'index_container' %}
+{% set two_nav = '密码重置' %}
+{% block content %}
+<div class="login-bg" style="background-image:url();">
+    <div class="container">
+        <div class="col-md-10 col-md-offset-1 ptl">
+            <div class="panel panel-default panel-page register-box">
+                <ul class="nav nav-tabs course-tabs-sort">
+                    <li class="js-find-by-email {% if type=='email' %}active{% endif %}" data-type="{{type}}">
+                        <a class="btn-index" href="{{ path('password_reset',{type:'email'}) }}">邮箱重置密码</a>
+                    </li>
+                    <li class="js-find-by-mobile {% if type=='mobile' %}active{% endif %}" data-type="{{type}}">
+                        <a class="btn-index borN" href="{{ path('password_reset',{type:'mobile'}) }}">手机重置密码</a>
+                    </li>
+                </ul>
+                <div class="col-md-8 login-left">
+                    {% if type=='email' %}
+                        {% include '@User/PasswordReset/email-reset.html.twig' %}
+                    {% endif %}
+                    {% if type=='mobile' %}
+                        {% include '@User/PasswordReset/mobile-reset.html.twig' %}
+                    {% endif %}
+                </div> 
+                {#右侧banner#}
+                <div class="login-zc-banner col-md-4" style="padding:0">
+                    <img src="{{register_poster_pic_path()}}">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

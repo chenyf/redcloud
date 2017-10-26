@@ -1,0 +1,55 @@
+{% set menu = 'testpaper' %}
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+{% import '@Home/macro.html.twig' as macro %}
+
+{% block title %}试卷管理 - {{ parent() }}{% endblock %}
+
+{% set parentId = parentId | default(null)%}
+{% set script_controller = 'test-paper/index' %}
+
+{% block courseContent %}
+
+  <div class="panel-body " id="quiz-table-container" style="padding:0;">
+
+  <table class="table table-striped table-hover" id="quiz-table">
+  {{ web_macro.flash_messages() }}
+    <thead>
+    <tr>
+        <th><input type="checkbox"  autocomplete="off"  data-role="batch-select"></th>
+        <th>名称</th>
+        <th>类型</th>
+        <!--<th>批阅状态</th>
+        <th>是否显示解析</th>-->
+        <th>状态</th>
+        <th>题目统计</th>
+        <th>时间限制</th>
+        <th>更新人/时间</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+      {% for testpaper in testpapers %}
+        {% set user = users[testpaper.updatedUserId] %}
+        {% include '@Course/CourseTestpaperManage/tr.html.twig' %}
+      {% else %}
+        <tr><td colspan="20"><div class="empty">还没有试卷，请点击右上角按钮，<a href="{{ path('course_manage_testpaper_create',{courseId:course.id}) }}">创建一个新试卷</a></div></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div>
+    <label class="checkbox-inline"><input type="checkbox"  autocomplete="off" data-role="batch-select"> 全选</label>
+    <button class="btn btn-default btn-sm mlm" data-role="batch-delete"  data-name="试卷" data-url="{{ path('course_manage_testpaper_deletes',{courseId:course.id}) }}">删除</button>
+  </div>
+
+  {{ web_macro.paginator(paginator) }}
+
+  <div class="text-muted mtl">提示：只有已发布的试卷才能被添加到课程中去，试卷一旦发布后将不能修改。</div>
+
+
+  </div>
+
+
+{% endblock %}
+
+
+

@@ -1,0 +1,20 @@
+<ul class="nav nav-tabs mbl">
+    <li role="presentation" {% if type == 1 %}class="active"{% endif %}><a href="{{ path('mobile_module',{type:1,mainModule:mainModule}) }}">安卓</a></li>
+    <li role="presentation" {% if type == 2 %}class="active"{% endif %}><a href="{{ path('mobile_module',{type:2,mainModule:mainModule}) }}">IOS</a></li>
+    {% if currentModule %}
+    <li role="presentation" class="pull-right dropdown">
+        <div class="btn-group">
+            <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal" data-url="{{ path('mobile_module_edit',{pid:currentModule.pid,type:currentModule.type,id:currentModule.id}) }}"><span class="glyphicon glyphicon-cog prs"></span>{{ currentModule.title }}  </button>
+            <button class="btn btn-primary dropdown-toggle  btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+                {% for vo in mainModules %}
+                    <li><a href="{{ path('mobile_module',{type:type,mainModule:vo.name}) }}">{{ vo.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </li>
+    {% endif %}
+</ul>

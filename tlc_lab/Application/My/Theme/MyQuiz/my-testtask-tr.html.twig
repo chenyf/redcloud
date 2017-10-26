@@ -1,0 +1,73 @@
+{% if myTestpaper %}
+<tr>
+  <td>
+  	{{ myTestpaperResult.title|plain_text(60) }}
+  	<div>
+  	  <small class="text-muted">来自课程《{{ course.title }}》</small>
+      <small class="text-muted">发布时间：{{ myTestpaperResult.createdTime | date('m.d H:i') }}</small>
+        <br>
+        
+        {% if myTestpaperResult.limit == 0 %}
+            <small class="text-primary">不限时间</small>
+        {% else %}
+            <small class="text-primary">答题时间：{{ myTestpaperResult.startTime | date('m.d H:i') }} ~ {{ myTestpaperResult.endTime | date('m.d H:i') }}</small>
+        {% endif %}
+  	</div>
+  </td>
+	<td  style="text-align: center" width="40%">
+            {% if myTestpaperResult.status == 'submitted' %}
+                {% if myTestpaperResult.submitTime > 0 %}
+                    <div>
+                        <small class="text-muted">交于{{ myTestpaperResult.submitTime | date('Y年m月d日 H:i') }}</small>
+                    </div>
+                {% endif %}
+                <div>
+                    <small class="text-warning">老师批阅中</small>
+                </div>
+            {% elseif myTestpaperResult.status == 'finished' %}
+                {% if myTestpaperResult.submitTime > 0 %}
+                    <div>
+                        <small class="text-muted">交于{{ myTestpaperResult.submitTime | date('Y年m月d日 H:i') }}</small>
+                    </div>
+                {% endif %}
+                {% if myTestpaperResult.checkedTime %}
+                    <div>
+                        <small class="text-muted">作业得分：{{ myTestpaperResult.score | default('0.0') }} 分</small>
+                    </div>
+                    <div>
+                        <small class="text-success">老师批于{{ myTestpaperResult.checkedTime | date('Y年m月d日 H:i') }}</small>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div>
+                    <small class="text-warning">未交作业</small>
+                </div>
+            {% endif %}
+	</td>
+	<td  width="20%" style="vertical-align: middle;">
+		{% if myTestpaperResult.status in ['doing'] %}
+            {% if myTestpaperResult.startTime > nowTime and myTestpaperResult.endTime > nowTime%}
+                <a class="btn btn-primary btn-sm"  href="{{ path('course_manage_show_test', {id:myTestpaperResult.id}) }}" class="btn btn-default btn-sm">继续{{ typeText }}</a>
+            {% else %}
+                    <button class="btn btn-default btn-sm">已结束</button>
+            {% endif %}
+		{% else %}
+            {% if myTestpaperResult.show =="1" %}
+                <a  class="btn btn-info btn-sm" href="{{ path('course_manage_test_results', {id:myTestpaperResult.id}) }}" class="btn btn-default btn-sm">查看结果</a>
+            {% else %}
+                <span class="text-muted">未公布答案</span>
+            {% endif %}
+		{% endif %}
+	</td>
+</tr>
+{% else %}
+
+<tr>
+	<td colspan="3">
+		<a href="javascript:;">{{ myTestpaperResult.paperName }}</a> 
+		<br>
+		<small>该{{ typetext }}已删除</small>
+	</td>
+</tr>
+
+{% endif %}

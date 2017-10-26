@@ -1,0 +1,37 @@
+{% extends '@User/layout.html.twig' %}
+{% block title %}注册成功 - {{ parent() }}{% endblock %}
+{% set script_controller = 'auth/second-down' %}
+{% set containerClassBlock = 'index_container' %}
+{% set two_nav = '注册成功' %}
+{% block content %}
+<div class="redcloud-bggray login-bg" style="background-image:url({{register_success_pic_path()}});">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 ptl">
+                <div class="panel panel-default panel-page m-register-success login-success-box">
+                    <div class="panel-heading">
+                        <h2><b><img src="/Public/static/img/login-icon-success.png" /></b>注册成功</h2>
+                    </div>
+                    <div id="email-send-success">
+                        <p class="text-success">恭喜您，手机号码<strong>{{mobile }}</strong>的账号注册成功！</p>
+                        <div class="text-other">
+                            <a class="returnbtn" href="{{path('register',{type:'mobile'})}}">返回原页面 ( <i class="second-down">60</i>S )</a>
+                            <a class="browsebtn" href="{{ path('homepage') }}">浏览首页</a>
+                        </div>
+                        {% if applyTeacherEnabled == 0 %}
+                        <div class="alert" style="line-height:24px;">
+                            <ul>
+                                <li>1.您的账号当前为学生身份，仅可使用学生相关功能。</li>
+                                <li>2.若您为本校老师，想成老师身份并使用老师相关功能，请<a href="javascript:" style="color:#0078d0" class="user-apply-teacher" data-backdrop="static" data-toggle="modal" data-target="#modal" data-url="{{path('user_apply',{uid:uid})}}">申请</a>或联系管理员。<br/> 
+                                    <p style="color:#0093f0">管理员联系方式：{{setting('login_bind.login_manger_mobile')|default('未设置')}}</p>
+                                </li>
+                            </ul>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

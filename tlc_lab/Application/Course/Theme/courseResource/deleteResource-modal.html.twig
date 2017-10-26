@@ -1,0 +1,12 @@
+<div class="modal-dialog modal-sm">
+    <div class="modal-content">
+        <div class="modal-body">
+            <p class="tit-color">确定要删除资料“{{courseResource.title}}.{{courseResource.ext}}”吗？删除后学员将不能再继续下载该资料！</p>
+            <div class="text-right mtl">
+                <button type="button" class="btn btn-link" data-dismiss="modal">取消</button>
+                <button type="button" class=" btn btn-primary del-resource" data-url="{{path('course_resource_delete')}}" data-courseid="{{courseResource.courseId}}" data-id="{{courseResource.id}}">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>app.load('course-resource/delete')</script>

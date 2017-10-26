@@ -1,0 +1,31 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+
+{% block title %}选择课程资源包{% endblock %}
+{% block body %}
+
+    <div class="page-header clearfix" style="margin: 0px;">
+        <h5>当前路径：<span id="current_path">{{ current_path }}</span></h5>
+        <p>选择文件：<span id="file_choice"></span></p>
+    </div>
+
+    <div id="file_list_block" data-url="{{ path('course_sync_get_file_list') }}">
+        <ul>
+            <li class="first"><span class="glyphicon glyphicon-folder-open"></span><a href="javascript:;" class="file-item file-type-catagory backward" data-name="..." data-path="{{ backward_path }}">...</a></li>
+            {% for file in fileList %}
+                {% if file.type == "file" %}
+                    <li class="item"><span class="glyphicon glyphicon-file"></span><a href="javascript:;" class="file-item file-type-file" data-name="{{ file.nametruth }}" data-path="{{ file.abs }}">{{ file.namebrief }}</a></li>
+                {% elseif file.type == "catagory" %}
+                    <li class="item"><span class="glyphicon glyphicon-folder-open"></span><a href="javascript:;" class="file-item file-type-catagory" data-name="{{ file.nametruth }}" data-path="{{ file.abs }}">{{ file.namebrief }}</a></li>
+                {% else %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+{% block footer %}
+    <button id="sure-select-file" type="button" class="btn btn-primary pull-right">确定</button>
+    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+{% endblock %}

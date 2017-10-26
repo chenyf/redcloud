@@ -1,0 +1,66 @@
+{% extends '@Home/Default/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/Default/layout.html.twig',"@Web") %#}
+
+{% set siteNav = '/Course/Course/exploreAction' %}
+{% set type = app.request.get('type')|default('course') %}
+{% set jumpUrl  = U('/Course/Course/exploreAction') %}
+{% block title %}{% if not category.id %}全部课程{% else %}{{ category.name }} 课程{% endif %} 第{{ app.request.get('page', 1) }}页- {{ parent() }}{% endblock %}
+
+{% block keywords %}{% if category.id %}{{ category.name }}{% endif %} {{ setting('site.name') }}{% endblock %}
+{% block description %}{% if category.id %}{{ category.name }}的{% endif %}课程列表，第{{ app.request.get('page', 1) }}页。{% endblock %}
+
+{% block content %}
+    <div class="row row-3-9 mtl mbl">
+        <div class="col-md-3">
+            {{ render(controller('Widget:Category:sideCategory',{param:{url:'Course/Course/explore',cateid:category.id}})) }}
+        </div>
+        <div class="col-md-9">
+            {#<div class="category-major-list" style="padding: 10px;">#}
+                {#<label for="">课程编号：</label>#}
+                {#{% set selectedCourseNumber = getCourseNumberList() %}#}
+                {#<a class="{% if not courseNumber %}activeShow{% else %}normalShow{% endif %}" href="{{ U('Course/Course/explore') }}">全部</a>#}
+                {#{% for number in selectedCourseNumber %}#}
+                    {#<a class="{% if courseNumber == number.number %}activeShow{% else %}normalShow{% endif %}" href="{{ U('Course/Course/explore', {category:category.id|default(0),number:number.number,sort:sort|default('')}) }}">{{ number.number }}</a>#}
+                {#{% endfor %}#}
+            {#</div>#}
+            <div class="panel panel-default panel-col lesson-manage-panel">
+            <div class="panel-body">
+                <div id="myTabContent" class="tab-content">
+                    {% if type == 'class' %}
+                    {%if category.id%}
+                        <div class="category-filters" {% if app.request.get('category') == '' %}style="border-bottom:0px;"{% endif %}>
+                            {{ getBread(category.id,'class',true) }}
+                        </div>
+                    {%endif%}
+                    {% else %}
+                        <div class="category-filters">
+                            <div class="category-filters-rt">
+                            {% if select_course_cate_sort %}
+                                {% for data in  select_course_cate_sort  %}
+                                    <a href="{{ path('course_explore', {category:category.id|default(category.id), sort:data.sortkey}) }}" {% if sort == data.sortkey %}class="selected"{% endif %}>{{data.sortname}}</a>
+                                {% endfor %}
+                            {% else %}
+                                    <a href="{{ path('course_explore', {category:category.id|default(category.id), sort:'latest'}) }}" {% if sort == 'latest' %}class="selected"{% endif %}>最新</a>
+                                    <a href="{{ path('course_explore', {category:category.id|default(category.id), sort:'popular'}) }}" {% if sort == 'popular' %}class="selected"{% endif %}>热门</a>
+                                    <a href="{{ path('course_explore', {category:category.id|default(category.id), sort:'recommendedSeq'}) }}" {% if sort == 'recommendedSeq' %}class="selected"{% endif %}>推荐</a>
+                            {% endif %}
+                            </div>
+                            {{ getBread(category.id) }}
+                        </div>
+                            {% if courses %}
+                                {{ render(controller('Course:Course:coursesBlock', {courses:courses, view: 'list',mode:'mini'})) }}
+                                {{ web_macro.paginator(paginator) }}
+                            {% else %}
+                                <div class="empty">该分类下无课程</div>
+                            {% endif %}
+                     {% endif %}
+                </div>
+            </div>
+        </div>
+       </div>
+            
+    </div>
+
+{% endblock %}
+
+

@@ -1,0 +1,25 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+
+{% block title %}生成课程资源包{% endblock %}
+{% block body %}
+
+    <div class="clearfix" style="margin: 0px;">
+
+        {% if msg %}
+            <p>{{ msg }}</p>
+        {% elseif resourcePacket is not empty%}
+            <p>确定重新生成课程资源包吗？之前的资源包将会被覆盖！</p>
+        {% else %}
+            <p>确定生成课程资源包吗？</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block footer %}
+    {% if not msg %}
+        <button id="sure-generate-packet" type="button" data-url="{{ path('course_resource_packet_generate') }}" data-id="{{ course.id }}" data-goto="{{ path("course_resource_packet_manage",{id:course.id}) }}" class="btn btn-primary pull-right">确定生成</button>
+    {% endif %}
+    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+{% endblock %}

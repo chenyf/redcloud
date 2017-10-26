@@ -1,0 +1,48 @@
+<!--课程管理 数据统计 -->
+<div class="ask-manage-box">
+    <div class="ask-manage-data mtl">
+        <div class="clearfix">
+            <h2>老师回答统计：</h2>
+            <form id="search-form"  action="{{ U('Course/CourseThread/statistic',{courseId:courseId,cneter:app.request.get('center')}) }}" method="post">
+                <div class="ask-data-status">
+                    <p>
+                        <b>时间段：</b>
+                        <input type="text" name="endTime"   class="form-control" style="width:40%;" placeholder="">
+                        <input type="text" name="startTime" class="form-control" style="width:30%;" placeholder="">
+                        
+                    </p>
+                </div>
+            </form>
+            <div class="ask-data-table mtl" id="scrollbar">
+                  数据正在统计中，请耐心等待。。。
+            </div>
+            <a href="{{ U('Course/CourseThread/statisticResultCsv',{courseId:courseId}) }}" ><button class="btn btn-primary mtl pull-right">导出结果到Excel</button></a>
+        </div>
+
+        <div class="clearfix">
+            <h2 class="mtl">课程问答总体统计：</h2>
+            <div class="ask-data-table mtl" id="scrollbar2">
+                <table>
+                    <tr><th>日期</th><th>提问数(总/本课学员）</th><th>老师回答总次数</th><th>老师回复总次数</th><th>追问总次数</th><th>回答追问总次数</th><th>同学回答总次数</th><th>同学回复总次数</th></tr>
+                    {% for statistic in statistics %}
+                        <tr><td>{{ statistic.statisticDate }}</td>
+                            <td>{{ statistic.threadNum }} / {{ statistic.courseMemberNum }}</td>
+                            <td>{{ statistic.teaPostCounts }}</td>
+                            <td>{{ statistic.teaReplyCounts }}</td>
+                            <td>{{ statistic.appendCounts }}</td>
+                            <td>{{ statistic.replyAppendCounts }}</td>
+                            <td>{{ statistic.stuPostCounts }}</td>
+                            <td>{{ statistic.stuReplyCounts }}</td>
+                        </tr>
+                    {% else %}
+                        <tr><td colspan="10">暂无提问</td></tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+
+    </div>
+        <script>
+                app.load('thread/thread-statistic');
+            </script>
+</div>

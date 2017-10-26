@@ -1,0 +1,20 @@
+
+    <div>
+    {% if isShowVirtualLab %}
+            <a class="pull-right btn btn-primary btn-fat only-btn mts mrs" target="_blank" href="http://www.hyids.net:3340">虚拟实验室</a>
+    {% endif %}
+            <div class="course-list-tit" style="padding:0;">
+                <ul class="nav nav-tabs" id="course-tabs">
+            {% block course_dashboard_nav %}
+                        <li class="{% if nav == 'lesson' %}active{% endif %}"><a class="js-nav" href="{{ path('course_show', {id:course.id}) }}">课程目录</a></li>
+                        <li class="{% if nav == 'courseResource' %}active{% endif %}"><a class="js-nav" href="{{ U('Course/Course/show', {id:course.id,type:'resource'}) }}">课程资料</a></li>
+                        <li class="{% if nav == 'homework' %}active{% endif %}"><a class="js-nav" href="{{ U('Course/CourseTestpaper/index',{id:course.id,type:1}) }}">课程作业</a></li>
+                        <li class="{% if nav == 'thread' %}active{% endif %}"><a class="js-nav" href="{{ path('course_threads', {id:course.id}) }}">课程问答</a></li>
+                        <li class="{% if nav == 'info' %}active{% endif %}"><a class="js-nav" href="{{ path('course_info', {id:course.id}) }}">课程介绍</a></li>
+            {% endblock %}
+                                </ul>
+                            </div>
+
+
+
+                        </div>

@@ -1,0 +1,75 @@
+{% extends '@Home/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/layout.html.twig',"@Web")%#}
+{% block title %}{{ paper.name }} - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'quiz-question/do-test' %}
+{% block content %}
+
+<div class="testpaper-heading exam-index-box">
+    <div class="row">
+        <div class="col-sm-12">
+            <ol class="breadcrumb mtl">
+                <li><a href="{{ path('course_show', {id:courseId}) }}">课程</a></li>
+                <li class="active">{{ paper.name }}</li>
+            </ol>
+            <div class="testpaper-titbox">
+                <div class="testpaper-titlebar clearfix pbs">
+                    <h1 class="testpaper-title">{{ paper.name }}</h1>
+                    <div class="testpaper-status"><div class="label label-primary testpaper-status-doing">题目浏览中</div></div>
+                </div>
+                {% block testpaper_heading_content %}{% endblock %}
+
+                {% if showTestpaperNavbar|default('on') == 'on' %}
+                    <div id="testpaper-navbar" class="testpaper-navbar" data-spy="affix" data-offset-top="200">
+                        <ul class="nav nav-tabline navbar-nav testpaper-tabs">
+                            {% for type in paper.metas.question_type_seq %}
+                                <li ><a href="#testpaper-questions-{{ type }}">{{dict('questionType')[type]}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mtl">
+    <div class="col-md-9">
+        {% if isEarly %}
+            <div class="alert alert-danger mbm">还没到作业的开始时间，您只能预览作业题，无法提交作业</div>
+        {% endif %}
+
+        {% if isLater %}
+            <div class="alert alert-danger mbm">作业截止时间已过，您只能预览作业题，无法提交作业</div>
+        {% endif %}
+        <div class="testpaper-body" oncopy="return false;" oncut="return false;" onselectstart="return false">
+            {% include '@Course/QuizQuestionTest/do-test.html.twig' %}
+        </div>
+    </div>
+    <div class="col-md-3">
+        {% block testpaper_body_sidebar %}{% endblock %}
+    </div>
+</div>
+
+    {% block testpaperFinishedDialog %}
+        <div class="testpaper-finished-dialog-layout">
+            <div id="testpaper-finished-dialog" class="modal in" aria-hidden="false" style="display: none;">
+                <div class="modal-dialog modal-dialog-small">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">确认提交作业</h4>
+                        </div>
+                        <div class="modal-body">
+                            <h4 class="text-primary">您真的要提交吗？</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="javascript:;" class="btn btn-link" data-dismiss="modal">取消</a>
+                            <button class="btn btn-primary" id="testpaper-finish-btn" data-saving-text="正在提交, 请稍等...">确认提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+{% endblock %}

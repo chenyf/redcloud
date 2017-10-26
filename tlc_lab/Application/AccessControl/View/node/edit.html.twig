@@ -1,0 +1,68 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set access = access|default(null) %}
+
+
+{% block title %}
+    {% if data %}编辑节点{% else %}添加节点{% endif %}
+{% endblock %}
+
+{% block body %}
+    <form class="form-horizontal" id="access-form"
+            {% if data.id == 0 %}
+                action="{{ U('AccessControl/Node/create') }}"
+            {% else %}
+                action="{{ U('AccessControl/Node/edit',{id:data.id}) }}"
+            {% endif %}
+          method="post">
+        {% if data.id == 0 %}
+            <div class="row form-group">
+                <div class="col-md-2 control-label">
+                    <label for="pid">上级模块</label>
+                </div>
+                <div class="col-md-8 controls">
+                    <select class="form-control" name="pid" id="pid">
+                        <option value="0">作为主模块</option>
+                        {% for node in nodes %}
+                            {% if node.level < 3 %}
+                                <option  {% if app.request.get('pid') == node.id %} selected {% endif %} value="{{ node.id }}">{% if node.pid !=0 %} {% for i in 0..(node.level-1)*2 %}&nbsp;&nbsp;{% endfor %}└─{% endif %}{{ node.title }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        {% endif %}
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="title">节点名称</label>
+            </div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" placeholder="中文名称" name="title" id="title" value="{{ data.title }}">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="name">节点编码</label>
+            </div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" placeholder="英文名称" name="name" id="name" value="{{ data.name }}">
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="remark">节点简介</label>
+            </div>
+            <div class="col-md-8 controls">
+                <textarea name="remark" id="remark" rows="5" class="form-control">{{ data.remark }}</textarea>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{{ data.id|default(0) }}">
+    </form>
+    <script type="text/javascript">app.load('access-control/edit-node')</script>
+{% endblock %}
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="access-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#access-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

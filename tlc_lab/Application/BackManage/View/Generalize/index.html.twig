@@ -1,0 +1,73 @@
+{% extends '@BackManage/Course/layout.html.twig' %}
+{% set script_controller = 'generalize/admin-index' %}
+{% set menu = 'Generalize' %}
+{% block main %}
+
+  <div class="page-header clearfix">
+    <h1>推广人员管理</h1>
+  </div>
+    <form class="form-inline well well-sm"> 
+        <div class="form-group">
+          <input type="text" name="username" value="{{ app.request.get('username') }}"  class="form-control" placeholder="姓名">
+        </div>
+
+        <div class="form-group">
+          <input class="form-control" id="phone" type="text" placeholder="手机号码" name="phone" value="{{ app.request.get('phone') }}">
+        </div>
+        <div class="form-group">
+             <select  class="form-control" noautochange="1"  name="level">
+                         <option value="">请选择</option>
+                          {% for list in res %}
+                         <option value="{{list.levelCode}}" {% if code==list.levelCode %} selected="selected" {% endif %}>{{list.title}}</option>
+                   {% endfor %}
+             </select>
+        </div>
+            
+        <button class="btn btn-primary">搜索</button>
+      </form>
+
+  <table class="table table-striped table-hover" id="order-table">
+    <thead>
+      <tr>
+        <th>姓名</th>
+        <th>手机号码</th>
+        <th>人员等级</th>
+        <th>归属人员</th>
+        <th>是否禁用</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for generalizeUser in GeneralizeUsers %}
+       <tr>
+           <td>{{ generalizeUser.nickname}}</td>
+           <td>{{ generalizeUser.verifiedMobile}}</td>
+           <td> <select class="sel" data-url="{{U('Generalize/updateLevel')}}" data-id="{{ generalizeUser.id}}">
+                {% for list in res %}
+                <option value="{{list.levelCode}}" {% if generalizeUser.levelId==list.levelCode %} selected="selected" {% endif %}>{{list.title}}</option>
+                {% endfor %}
+                 </select>
+           </td>
+
+           <td>{{  getUserNameById(generalizeUser.pUid) }}</td>
+           <td>
+            {% if generalizeUser.status ==0 %}
+            <div class="btn btn-success btn-sm btn-status" data-id="{{generalizeUser.id}}" data-status="{{generalizeUser.status}}" data-url="{{U('Generalize/editStatus')}}">未禁止</div>
+            {% else %}
+            <div class="btn btn-danger btn-sm btn-status"  data-id="{{generalizeUser.id}}" data-status="{{generalizeUser.status}}" data-url="{{U('Generalize/editStatus')}}">禁止</div>
+            {% endif %}
+           </td>
+           <td><a href="{{ U('Generalize/buylist',{puid :generalizeUser.uid}) }}">查看购买详情</a> |
+               <a href="{{ U('Generalize/reglist',{puid :generalizeUser.uid}) }}">查看注册详情</a>  
+           </td>
+       </tr>
+      {% else %}
+        <tr><td colspan="20"><div class="empty">暂无提现记录</div></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {{ web_macro.paginator(paginator) }}
+
+{% endblock %}
+

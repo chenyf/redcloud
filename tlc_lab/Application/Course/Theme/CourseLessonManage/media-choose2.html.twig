@@ -1,0 +1,172 @@
+<div id="media-choosers">
+
+<span id="data-setting"
+      data-endpoint="{{ storageSetting.cloud_url }}"
+      data-writetoken="{{ storageSetting.write_token }}"
+      data-readtoken="{{ storageSetting.read_token }}"
+      data-polycatid="{{ storageSetting.poly_catid }}"
+></span>
+
+    {#video start#}
+    <div class="file-chooser" id="video-chooser" style="display:none;"
+         data-params-url="{{ path('uploadfile_params', {storage:'local', targetType:targetType, targetId:targetId}) }}"
+         data-hls-encrypted="{{ setting('developer.hls_encrypted', 1) }}"
+         data-targetType="{{targetType}}"
+         data-targetId="{{targetId}}"
+    >
+        <div class="file-chooser-bar" style="display:none;">
+            <span data-role="placeholder"></span>
+            <button class="btn btn-link btn-sm" type="button" data-role="trigger"><i class="glyphicon glyphicon-edit"></i> 编辑</button>
+            {% if  polyvUrl != '' and app.user.isAdmin() %}
+                <input type="text"  class="form-control" value="{{ polyvUrl }}" disabled />
+            {% endif %}
+            <div class="alert alert-warning" data-role="waiting-tip" style="display:none;">正在转换视频格式，转换需要一定的时间，期间将不能播放该视频。<br />转换完成后将以站内消息通知您。</div>
+        </div>
+        <div class="file-chooser-main" >
+            <ul class="nav nav-tabline" style="border-bottom:none;">
+                <li class="active"><a class="file-chooser-uploader-tab polyv-cloud" href="#video-chooser-upload-pane" data-toggle="tab" id="upload-cloud-video">上传云视频</a></li>
+                <li><a href="#video-chooser-import-polyv-pane" data-toggle="tab">导入云视频</a></li>
+            </ul>
+            <div class="tab-content">
+                <!-- 保利威视 start-->
+                <div class="tab-pane " id="video-polyv-upload-pane">
+                    <div class="file-chooser-uploader">
+                        <div class="file-chooser-uploader-label">选择你要上传的视频文件：</div>
+                        <div class="file-chooser-uploader-control">
+                            <input   type="file" value="上传"/>
+                        </div>
+                        <div class="progress" id="polyv-video-chooser-progress" style="display:none;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <ul>
+                                <li>支持<strong>mp4, avi, flv, wmv, mov等</strong>格式的视频文件上传，文件大小不能超过<strong>2 GB</strong>。</li>
+                                <li>支持<strong>断点续传</strong></li>
+                                <li>视频将上传到<strong>云视频服务器</strong>，上传之后会对视频进行格式转换，转换过程需要一定的时间，在这个过程中视频将无法播放。转换完成后将以站内消息通知您。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- 保利威视 end-->
+                <div class="tab-pane active" id="video-chooser-upload-pane">
+                    <div class="file-chooser-uploader">
+                        <div class="file-chooser-uploader-label">选择你要上传的视频文件：</div>
+                        <div class="file-chooser-uploader-control">
+                        <span id="video-choose-uploader-btn"
+                              data-role="uploader-btn"
+                              data-filetypes="*.mp4;*.avi;*.flv;*.wmv;*.mov"
+                              data-button-image="{{ asset('assets/img/common/swfupload-btn.png') }}"
+                              data-callback="{% if storageSetting.upload_mode == 'cloud' %}{{ path('uploadfile_cloud_callback', {targetType:targetType, targetId:targetId, lazyConvert:1,center:app.request.get('center')}) }}{% endif %}"
+                              data-progressbar="#video-chooser-progress"
+                              data-storage-type="cloud"
+                              data-get-media-info="{{path('uploadfile_cloud_get_media_info',{type:'video',center:app.request.get('center')})}}"
+                        >
+                        <a class="uploadBtn btn btn-default btn-lg">上传</a>
+                        <div style="display:none">
+                            <input data-role="fileSelected" class="filePrew" type="file" />
+                        </div>
+                      </span>
+                        </div>
+                        <div class="progress" id="video-chooser-progress" style="display:none;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <ul>
+                                <li>支持<strong>mp4, avi, flv, wmv, mov等</strong>格式的视频文件上传，文件大小不能超过<strong>2 GB</strong>。</li>
+                                <li>支持<strong>断点续传</strong></li>
+                                <li>视频将上传到<strong>云视频服务器</strong>，上传之后会对视频进行格式转换，转换过程需要一定的时间，在这个过程中视频将无法播放。转换完成后将以站内消息通知您。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane" id="video-chooser-course-file">
+                    <div id="file-browser-video" data-role="course-file-browser"
+                         data-url="{{ path('uploadfile_browsers', {targetType:targetType, targetId:targetId, type:'video',center:app.request.get('center')}) }}"
+                         data-empty="暂无视频文件，请先上传。">
+                    </div>
+                </div>
+                <div class="tab-pane" id="video-chooser-import-pane">
+                    <div class="input-group">
+                        <input class="form-control" type="text" placeholder="支持优酷、土豆、网易资源课程库的视频页面地址导入" data-role="import-url" >
+                    <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" data-role="import" data-url="{{ path('course_manage_media_import', {id:course.id,center:app.request.get('center')}) }}" data-loading-text="正在导入，请稍等">导入</button>
+                    </span>
+                    </div>
+                </div>
+                <div class="tab-pane" id="video-chooser-import-polyv-pane">
+                    <div class="input-group">
+                        <input class="form-control polyvid" type="text" placeholder="支持保利威视（视频id）或（swf格式视频地址）导入"  >
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default"  data-url="{{ path('course_manage_media_import', {id:course.id,center:app.request.get('center')}) }}" data-loading-text="正在导入，请稍等">导入</button>
+                    </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#video start#}
+
+
+
+
+    {#document start#}
+<div class="file-chooser" id="document-chooser" style="display:none;"
+         data-params-url="{{ path('uploadfile_params', {storage:storageSetting.upload_mode, targetType:targetType, targetId:targetId, convertor:'document'}) }}"
+         data-targetType="{{targetType}}"
+         data-targetId="{{targetId}}">
+        <div class="file-chooser-bar"  style="display:none;">
+            <span data-role="placeholder"></span>
+            <button class="btn btn-link btn-sm" type="button" data-role="trigger"><i class="glyphicon glyphicon-edit"></i> 编辑</button>
+        </div>
+        <div class="file-chooser-main">
+            <ul class="nav nav-pills nav-pills-mini mbs file-chooser-tabs">
+                <li class="active"><a class="file-chooser-uploader-tab" href="#document-chooser-upload-pane" data-toggle="tab">上传文档</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane active" id="document-chooser-upload-pane">
+                    <div class="file-chooser-uploader">
+                        <div class="file-chooser-uploader-label">选择你要上传的文档：</div>
+                        <div class="file-chooser-uploader-control">
+                        <span id="document-choose-uploader-btn"
+                              data-role="uploader-btn"
+                              data-button-image="{{ asset('assets/img/common/swfupload-btn.png') }}"
+                              data-filetypes="*.doc;*.docx;*.pdf;*.ppt;*.pptx"
+                              data-callback=""
+                              data-storage-type="{{storageSetting.upload_mode}}"
+                              data-progressbar="#document-chooser-progress">
+                        <a class="uploadBtn btn btn-default btn-lg">
+                          上传
+                        </a>
+                        <div style="display:none">
+                            <input data-role="fileSelected" class="filePrew" type="file" />
+                        </div>
+                      </span>
+                        </div>
+                        <div class="progress" id="document-chooser-progress" style="display:none;">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                            </div>
+                        </div>
+                        <div class="alert alert-info">
+                            <ul>
+                                <li>支持<strong> pdf,doc,docx,ppt,pptx </strong>格式的文档上传，且文件大小不能超过<strong>200 MB</strong>。</li>
+                                <li>所有格式的文档都将被转换成 <strong>pdf</strong> 格式</li>
+                                <li>文档转码需要一些时间，请您稍等片刻</li>
+                                {#<li>文档将上传到<strong>本地服务器</strong></li>#}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane" id="document-chooser-course-file">
+                    <div id="file-browser-document" data-role="course-file-browser"
+                         data-url="{{ path('uploadfile_browser', {targetType:targetType, targetId:targetId, type:'document',center:app.request.get('center')}) }}" data-empty="暂无文档，请先上传。"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {#document end#}
+
+
+</div>

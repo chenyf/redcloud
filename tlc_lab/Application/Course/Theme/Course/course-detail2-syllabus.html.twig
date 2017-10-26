@@ -1,0 +1,67 @@
+<div class="rc-SectionTitle">
+    <div class="inner-container headline-3-text">
+        <div class="full-underline-wrapper"></div>
+        <span class="title-wrapper">授课大纲</span>
+    </div>
+</div>
+
+<div class="rc-Syllabus">
+    <div class="rc-TogglableContent syllabus collapsed">
+        <div class="content" style="height:200px;">
+            <div class="content-inner">
+                <div class="rc-ChapterView">
+                    {% for id,group in groupedItems %}
+                    {% if group.type == 'chapter' %}
+                        {% set chapter = group.data %}
+                    <div class="chapter-item">
+                        {% if chapter.type != 'unit' %}
+                        <div class="chapter-heading body-2-text">第 <span class="number">{{ chapter.number }}</span> 章</div>
+                        <div class="chapter-body">
+                            <div class="rc-ModuleView">
+                                {% if chapter.type == 'unit' %}
+                                <div class="module-name headline-2-text">{{ chapter.title }}</div>
+                                <div class="module-desc body-1-text">
+                                    <span>
+                                        <span>{{ chapter.description }}</span>
+                                         <span>&nbsp;</span>
+                                        <button class="button-link">更多</button>
+                                    </span>
+                                </div>
+                                {% endif %}
+                                <div class="rc-ModuleSummary">
+                                    <div class="summary horizontal-box">
+                                        <i class="cif-stacked-file icon"></i>
+                                        <div class="desc body-1-text">
+                                             <span>
+                                                 <span>{{ chapter.units|length }}节内容</span>
+                                             </span>
+                                        </div>
+                                        {% if chapter.units|length > 0 %}
+                                        <button class="button button-link">expand</button>
+                                        {% endif %}
+                                    </div>
+                                    <ol class="items-summary-section">
+                                        {% for index,unit in chapter.units %}
+                                            <li class="item-row">
+                                                <span class="item-name">
+                                                    <a href="">{{ unit.title }}</a>
+                                                </span>
+                                            </li>
+                                        {% endfor %}
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="overlay"></div>
+        </div>
+        <div class="toggle-button-wrapper">
+            <button class="toggle-button cdp-view-all-button passive">查看全部授课大纲</button>
+        </div>
+    </div>
+</div>

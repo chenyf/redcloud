@@ -1,0 +1,15 @@
+<div class="form-group">
+    <label class="col-md-3 control-label">姓名</label>
+    <div class="col-md-9 controls">
+        <input type="text" id="profile_truename" name="profile[truename]" class="form-control" value="{{ profile.truename|default('') }}">
+        <div class="help-block" style="display:none;"></div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-md-3 control-label">性别</label>
+    <div class="col-md-9 controls">
+        <input type="radio" name="profile[gender]" value="male" {% if profile.sex == '男' %}checked="checked"{% endif %} /> 男
+        <input type="radio" name="profile[gender]" value="female" {% if profile.sex == '女' %}checked="checked"{% endif %} /> 女
+        <div class="help-block" style="display:none;"></div>
+    </div>
+</div>

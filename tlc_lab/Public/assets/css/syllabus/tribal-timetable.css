@@ -1,0 +1,90 @@
+﻿
+.timetable
+{
+	background-color:#fff;
+        padding: 0px;
+        margin: 0px;
+	position:relative;
+}
+.tt-times
+{
+	position:absolute;
+	margin:0px;
+	padding: 0px 0px 0px 116px;
+        border-width: 0px;
+	border-bottom: 1px solid #e4e4e4;
+	display: table;
+	z-index:1;
+       
+}
+.tt-time
+{
+	float: left;
+	padding: 5px;
+        margin: 0px;
+        border-width: 0px;
+	border-right: 1px solid #e4e4e4;;
+	display: table-row;
+	overflow:hidden;
+        text-align: center;
+}
+.tt-times .tt-time:last-child
+{
+	border-right: 0px;
+}
+.tt-days
+{
+	position:relative;
+        padding: 0px;
+        margin: 0px;
+        border-width: 0px;
+	border-right: 1px solid #e4e4e4;
+	display: table;
+	z-index:0;
+}
+.tt-day
+{
+/*	display: table-row;*/
+/*	overflow:hidden;
+	text-overflow: ellipsis;*/
+        margin: 0px;
+        border-width: 0px;
+	padding:5px;
+	height:48px;
+        line-height: 38px;
+	border-bottom: 1px solid #e4e4e4;
+}
+.tt-days .tt-day:last-child
+{
+	border-bottom: 0px;
+}
+.tt-events
+{
+	position:absolute;
+	list-style: none;
+	list-style-position: outside;
+	display: table-row;
+	z-index:2;
+	margin:0px;
+	padding:0px;
+}
+
+.tt-event
+{
+	font-size:smaller;
+	line-height:normal;
+	position:absolute;
+	overflow:hidden;
+	padding:3px;
+	white-space: nowrap;
+	text-shadow: none;
+        color: #fff;
+        text-align: center;
+        cursor: pointer;
+        font-size: 14px;
+}
+
+.icon-overlap {cursor: pointer;position:absolute;z-index:10;width:28px;height:28px;background:url(/Public/static/img/icon-overlap.png) 0 0 no-repeat;}
+.icon-overlap span{display: block;width: 14px;height:20px;line-height:20px;text-align: center;margin-left:14px;color:#fff;font-size:12px;overflow: hidden;}
+
+

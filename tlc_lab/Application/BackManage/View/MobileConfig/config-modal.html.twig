@@ -1,0 +1,144 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set config = config|default(null) %}
+{% set modal_class = 'modal-lg' %}
+
+
+{% block title %}
+    {% if config %}编辑配置{% else %}添加配置{% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <form class="form-horizontal" id="config-form"
+            {% if config.id == 0 %}
+                action="{{ path('mobile_config_create') }}"
+            {% else %}
+                action="{{ path('mobile_config_edit', {id:config.id}) }}"
+            {% endif %}
+          method="post">
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="name">配置标识</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="name" value="{{ config.name }}" name="name" >
+                <div class="help-block">最好为大写英文字母+下划线,且不能重复.如: INDEX_HEADER</div>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="title">配置标题</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="title" value="{{ config.title }}" name="title" >
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="type">配置分组</label></div>
+            <div class="col-md-6 controls ">
+                <select class="form-control" name="type" id="type">
+                    <option value="">不分组</option>
+                    {% if group %}
+                        {% for key,v in group %}
+                            <option value="{{ key }}" {% if key == config.group %} selected {% endif %}>{{ v }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+                <div class="help-block">配置分组 用于批量设置 不分组则不会显示在系统设置中</div>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="type">配置类型</label></div>
+            <div class="col-md-6 controls ">
+                <select class="form-control" name="type" id="type">
+                    {% if types %}
+                        {% for key,type in types %}
+                            <option value="{{ key }}" {% if key == config.type %} selected {% endif %}>{{ type }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+                <div class="help-block">系统会根据不同类型解析配置值</div>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="sort">排序</label></div>
+            <div class="col-md-4 controls">
+                <input class="form-control" type="text" id="sort" value="{{ config.sort|default(0) }}" name="sort"  >
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="value">配置值</label></div>
+            <div class="col-md-8 controls">
+                <textarea name="value" id="value" cols="30" rows="3" class="form-control">{{ config.value }}</textarea>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="extra">配置项</label></div>
+            <div class="col-md-8 controls">
+                <textarea name="extra" id="extra" cols="30" rows="3" class="form-control">{{ config.extra }}</textarea>
+                <div class="help-block">如果是单选框或者下拉类型 需要配置该项 （例：1:启用;2:关闭）</div>
+            </div>
+
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="remark">配置说明</label></div>
+            <div class="col-md-8 controls">
+                <textarea name="remark" id="remark" cols="30" rows="5" class="form-control">{{ config.remark }}</textarea>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label>是否启用</label>
+            </div>
+            <div class="col-md-8 controls radios">
+                <div>
+                    <input type="radio" name="status" value="1"
+                            {% if config.status == 1 or config.status == undefined %} checked="checked" {% endif %}>
+                    <label>是</label>
+                    <input type="radio" name="status" value="0"
+                            {% if config.status == 2 %} checked="checked" {% endif %}>
+                    <label>否</label>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" name="id" value="{{ config.id|default(0) }}">
+
+    </form>
+    <script type="text/javascript">
+        {% if config.id  == 0  %}
+        app.load('mobile/create-config-modal')
+        {% else %}
+        app.load('mobile/edit-config-modal')
+        {% endif %}
+    </script>
+
+{% endblock %}
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="config-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#config-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

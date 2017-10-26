@@ -1,0 +1,61 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+{% set menu = 'class' %}
+
+{% set script_controller = 'course-manage/students' %}
+
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+
+{% block title %}考勤管理 - {{ parent() }}{% endblock %}
+
+ {% block side %}
+     <div class="t-course-handle">
+         <div class="t-add-content pull-right">
+             <a href="{{ U('Course/CourseManage/class',{id:course.id,center:app.request.get('center')}) }}" class="btn btn-link btn-sm ajaxLoad pull-right"><i class="fa fa-reply mrs"></i>返回授课班管理</a>
+             <a class="btn btn-info btn-sm pull-right " href="{{ path('course_manage_class_timecard_csv', {courseId:course.id,classId:classId,center:app.request.get('center')}) }}"><i class="glyphicon glyphicon-export"></i> 导出全部打卡数据</a>
+         </div>
+     </div>
+ {% endblock %}
+
+{% block courseContent %}
+
+  <div class="panel-body" style="padding:0;"> 
+    <table class="table table-striped" id="course-student-list">
+      <thead>
+        <tr>
+          <th width="30%">日期</th>
+          <th width="20%">打卡时间段</th>
+          <th width="15%">打卡情况</th>
+          <th width="35%">操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for attend in attendance %}
+          <tr>
+              <td class="media">
+                    {{ attend.stm|date("Y-m-d") }}
+              </td>
+              
+              <td style="vertical-align:middle"> {% if attend.stm != '' %} {{ attend.stm|date("H:i:s") }} {% endif %} - {% if attend.etm != '' %} {{ attend.etm|date("H:i:s") }} {% endif %}</td>
+              <td style="vertical-align:middle"> {{ attend.signInNum }} / {{ attend.totalNum }}</td>
+              <td style="vertical-align:middle">
+                  
+            <div class="btn-group" role="group" >
+                <a href="{{ U('Course/CourseManage/timecardNumberList',{courseId:attend.courseId,classId:attend.classId,number:attend.number,center:app.request.get('center')}) }}" class="btn btn-default btn-sm ajaxLoad">查看详细打卡信息</a>
+             </div>
+                
+              </td>
+          </tr>
+        {% else %}
+          <tr ><td colspan="20"> <div class="empty">无{% if setting('default.user_name') %}{{setting('default.user_name')|default('学员')}}{% else %}学员{% endif %}打卡记录</div></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    {{ web_macro.paginator(paginator) }}
+
+  </div>
+
+
+
+
+{% endblock %}

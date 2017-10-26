@@ -1,0 +1,74 @@
+{% extends '@BackManage/Daily/layout.html.twig' %}
+
+{% block title %}消息推送日志 - {{ parent() }}{% endblock %}
+
+{% set menu = 'pushlog' %}
+{% set nav = 'daily' %}
+
+
+
+{% block main %}
+
+{% include '@BackManage/Daily/pushlog-header.html.twig' %}
+
+{% if pushLogList %}
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>设备channel_id</th>
+      <th>班级</th>
+    
+      <th>标题</th>
+      <th>平台</th>
+     
+      <th>发送时间</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for message in pushLogList %}
+    <tr id="user-table-tr-{{ message.id }}">
+        <td>{{message.id}}</td>
+        <td>
+        <a href="###" data-toggle="tooltip"  data-placement="top" data-animation="false" data-list="teacher" data-original-title="{{explodeChannelStr(message.channel_ids)|default('无')}}" >
+             {% if message.channel_ids_num %}
+                  {{message.channel_ids_num}}个
+                {%else%}
+                 无
+               {% endif%}
+             </a>          
+      </td>
+        <td>{%if message.class_name%}{{message.class_name}}{%else%}无 {% endif%}</td>
+     
+      
+        <td>{{mbSubstrLen(message.title,{len:10})}}</td>
+           <td>{% if message.platform =="android"%}安卓{%else%}苹果 {%endif%}</td>
+        <td>{{message.ctime | date("Y-m-d H:i:s")}}</td>
+       <td>
+        <div class="btn-group">
+      <a href="#modal" data-toggle="modal" data-url="{{ path('admin_daily_pushlog_show', {id:message.id}) }}" data-url="" class="btn btn-default btn-sm">查看</a>
+      <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+        <span class="caret"></span>
+      </a>
+     
+    </div>
+       </td>
+        </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{{ web_macro.paginator(paginator) }}
+{% else %}
+  <div class="empty">暂无查询的推送日志</div>
+{% endif %}
+{% endblock %}
+ {% set script_controller = "daily/list"%}
+{% block loadExtScripts %}
+   <script type="text/javascript">
+    app.classList = "{{classList|json_encode}}";
+    app.teacherList = "{{teacherList|json_encode}}";
+</script>
+{% endblock %} 

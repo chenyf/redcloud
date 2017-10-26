@@ -1,0 +1,276 @@
+<form id="lesson-note-plugin-form" method="post" action="{{ path('course_lesson_plugin_note_save') }}">
+	<div class="form-group note-content">
+            <div class="controls">
+                <textarea id="note_content" name="note[content]" data-image-upload-url="{{ path('editor_upload', {token:upload_token('course')}) }}" >{{noteContent}}</textarea>
+            </div>
+	</div>
+
+	<div class="form-group note-actions">
+            <div class="controls clearfix">
+              <input type="hidden" name="_csrf_token" value="5a4db9136f5485576c0513422dfafc4a7fffe80c">
+              <span class="text-muted pull-left" data-role="saved-message"></span>
+              {% if not isCloseUserWrite() %}
+                <button id="save" class="btn btn-primary btn-sm" type="submit">保存笔记</button>
+              {% endif %}
+            </div>
+	</div>
+
+	<input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+    <input type="hidden" name="courseId" value="{{ courseId }}">
+    <input type="hidden" name="lessonId" value="{{ lessonId }}">
+</form>
+{% if isCloseUserWrite %}
+    <div class="overlay-dark">
+        {% include '@Home/Default/message-modal.html.twig' with {hide_close:true,hide_footer:true,modal_class:'responsable-modal',title:'笔记功能已关闭',message:'笔记功能已关闭',goto:'',duration:0} %}
+    </div>
+{% endif %}
+{% if not isLogin %}
+    <div class="overlay-dark">
+        <div id="pane-login-box">
+            {% set lessonUrl = path('course_learn',{id:courseId,"#lesson":lessonId}) %}
+            {% include '@User/Signin/login-form.html.twig' with {goto_url:lessonUrl,trigger:'paneTabRenderTrigger("note")'} %}
+        </div>
+    </div>
+    <script>
+        function paneTabRenderTrigger(plugin){
+            var target = $('#lesson-toolbar-primary').find('li[data-plugin="'+plugin+'"]');
+            if(target.length > 0){
+                target.removeClass('active');
+                target.trigger('click');
+            }
+        }
+
+        $(function(){
+
+            //=============login part==============
+            var usernameEle = $("#login_username");
+            var usernameBox = usernameEle.parents(".form-group");
+            var usernameErrorEle = usernameBox.find(".help-block");
+            var usernameSign = usernameErrorEle.find("i");
+            var usernameErrorDanger = usernameErrorEle.find(".text-danger");
+
+            var passwordEle = $("#login_password");
+            var passwordBox = passwordEle.parents(".form-group");
+            var passwordErrorEle = passwordBox.find(".help-block");
+            var passwordSign = passwordErrorEle.find("i");
+            var passwordErrorDanger = passwordErrorEle.find(".text-danger");
+
+            var captchaEle = $("#captcha_num");
+            var captchaBox = captchaEle.parents(".form-group");
+            var captchaErrorEle = captchaBox.find(".help-block");
+            var captchaSign = captchaErrorEle.find("i");
+            var captchaErrorDanger = captchaErrorEle.find(".text-danger");
+
+            //账号和密码都为空
+            var inputEmpty = function(){
+                usernameBox.addClass("has-error");
+                usernameErrorEle.removeClass("hide");
+                usernameSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign").addClass("glyphicon-minus-sign");
+                usernameErrorDanger.html("请输入账号");
+                passwordBox.addClass("has-error");
+                passwordErrorEle.removeClass("hide");
+                passwordSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign").addClass("glyphicon-minus-sign");
+                passwordErrorDanger.html("请输入密码");
+            }
+
+            //账号为空、密码不为空
+            var accountEmpty = function(errorCode,error){
+                if(errorCode == "accountEmpty" )
+                    var phicons = "glyphicon-minus-sign";
+                else
+                    var phicons = "glyphicon-remove-sign";
+                usernameBox.addClass("has-error");
+                usernameErrorEle.removeClass("hide");
+                usernameSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign").addClass(phicons);
+                usernameErrorDanger.html(error);
+                passwordBox.removeClass("has-error");
+                passwordErrorEle.addClass("hide");
+                passwordSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign");
+                passwordErrorDanger.html("");
+            }
+
+            //密码为空、账号不为空
+            var passwordEmpty = function(errorCode,error){
+                if(errorCode == "passwordEmpty" )
+                    var phicons = "glyphicon-minus-sign";
+                else
+                    var phicons = "glyphicon-remove-sign";
+                usernameBox.removeClass("has-error");
+                usernameErrorEle.addClass("hide");
+                usernameSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign");
+                usernameErrorDanger.html("");
+                passwordBox.addClass("has-error");
+                passwordErrorEle.removeClass("hide");
+                passwordSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign").addClass(phicons);
+                passwordErrorDanger.html(error);
+            }
+
+            //账号和密码都不为空
+            var noEmpty = function(){
+                usernameBox.removeClass("has-error");
+                usernameErrorEle.addClass("hide");
+                usernameSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign");
+                usernameErrorDanger.html("");
+                passwordBox.removeClass("has-error");
+                passwordErrorEle.addClass("hide");
+                passwordSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign");
+                passwordErrorDanger.html("");
+            }
+
+            //验证码不为空
+            var captchaEmpty = function(errorCode,error){
+                if(errorCode == "captchaEmpty")
+                    var phicons = "glyphicon-minus-sign";
+                else
+                    var phicons = "glyphicon-remove-sign";
+                captchaBox.addClass("has-error");
+                captchaErrorEle.removeClass("hide");
+                captchaSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign").addClass(phicons);
+                captchaErrorDanger.html(error);
+            }
+
+            //回车验证
+            $("#login-form").on("keydown","#login_username,#login_password,#captcha_num",function(event){
+                if(event.keyCode == 13)
+                    $("#login-btn").trigger("click");
+            });
+
+            //点击登录
+            $("#login-form").on("click","#login-btn",function(){
+                //获取值
+                var account = usernameEle.val();
+                var password = passwordEle.val();
+                var remember = $("#login_remember").is(":checked");
+                remember = remember ? 1 : 0 ;
+                var trigger = $("#login-form").data("trigger");
+                var url =  $("#login-form").data("url");
+                var goto = $("#login-form").data("goto");
+                var codeErr = 0;
+
+                //账号和密码都为空
+                if( (!account) && (!password)  ){
+                    inputEmpty();
+                    return false;
+                }
+
+                //账号为空、密码不为空
+                if( (!account) && (password)  ){
+                    accountEmpty('accountEmpty','请输入账号');
+                    return false;
+                }
+
+                //密码为空、账号不为空
+                if( (account) && (!password)  ){
+                    passwordEmpty('passwordEmpty','请输入密码');
+                    return false;
+                }
+
+                //账号和密码都不为空
+                if( account && password  ){
+                    noEmpty();
+                    var data = {account:account,password:password,remember:remember};
+
+                    //验证码
+                    if(!captchaBox.is(":hidden")){
+                        var captchaNum = captchaEle.val();
+                        if(!captchaNum){
+                            captchaEmpty("captchaEmpty","请输入验证码");
+                            return false;
+                        }
+                        $.ajax({
+                            url : captchaEle.data("url"),
+                            data : {value:captchaNum},
+                            async : false,
+                            dataType : "json",
+                            success : function(result){
+                                if(result.success == false){
+                                    codeErr = 1;
+                                    captchaEmpty("codeError","验证码错误");
+                                    return false;
+                                }
+                            }
+                        });
+                        data.captchaNum = captchaNum;
+                    }
+                    if(codeErr === 1) return false;
+                    if($("#login-btn").data('lock') == 1) return false;
+                    $("#login-btn").data('lock',1);
+                    $("#login-btn").attr('disabled',true).html("登录中...");
+                    $.ajax({
+                        url : url,
+                        type : 'post',
+                        data: data,
+                        dataType : 'json',
+                        success : function(result){
+                            $("#login-btn").data('lock',0);
+                            if(result.status){
+                                if(trigger != undefined && trigger != ''){
+                                    eval(trigger);
+                                }else{
+                                    window.location.href = goto;
+                                }
+                            }else{
+                                $("#login-btn").attr('disabled',false).html("登录");
+                                if(result.errorCode == "methodError"){
+                                    Notify.danger(result.error);
+                                }
+                                if(result.errorCode == "empty"){
+                                    inputEmpty();
+                                }
+                                if(result.errorCode == "accountEmpty" || result.errorCode == "accountLock"){
+                                    accountEmpty(result.errorCode,result.error);
+                                }
+                                if(result.errorCode == "passwordEmpty" || result.errorCode == "inputError"){
+                                    passwordEmpty(result.errorCode,result.error);
+                                    if(result.errorNum){
+                                        $("#getcode_num").trigger("click");
+                                        captchaBox.removeClass("hide");
+                                    }
+                                }
+                                if(result.errorCode == "codeError"){
+                                    captchaEmpty(result.errorCode,result.error);
+                                }
+                                return false;
+                            }
+                        }
+                    });
+
+                }
+
+            });
+
+            //账号和密码、验证码获取焦点
+            $("#login-form").on("focus","#login_username",function(){
+                usernameBox.removeClass("has-error");
+                usernameErrorEle.addClass("hide");
+                usernameSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign");
+                usernameErrorDanger.html("");
+            });
+
+            $("#login-form").on("focus","login_password",function(){
+                passwordBox.removeClass("has-error");
+                passwordErrorEle.addClass("hide");
+                passwordSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign");
+                passwordErrorDanger.html("");
+            });
+
+            $("#login-form").on("focus","#captcha_num",function(){
+                captchaBox.removeClass("has-error");
+                captchaErrorEle.addClass("hide");
+                captchaSign.removeClass("glyphicon-minus-sign glyphicon-remove-sign");
+                captchaErrorDanger.html("");
+            });
+
+            //验证码
+
+            $("#login-form").on("click",".fa-refresh",function(){
+                $("#getcode_num").trigger("click");
+            });
+            $("#login-form").on("click","#getcode_num",function(){
+                $(this).attr("src",$("#getcode_num").data("url")+ "?" + Math.random());
+            });
+
+            //============login end=======================
+        });
+    </script>
+{% endif %}

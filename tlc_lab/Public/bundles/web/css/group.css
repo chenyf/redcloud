@@ -1,0 +1,351 @@
+
+.grouplist img{
+   
+    border: 0px none;
+    width: 48px;
+    height: 48px;
+   border-radius: 50%;
+
+
+}
+.grouplist{
+    height:100px;width: 76px; float: left;text-align:center;margin: 10px 0 0;
+}
+
+
+.mvs{
+    text-align: center;
+}
+
+
+
+.post-comment-delete-btn {
+    visibility: hidden;
+}
+
+.media-comment:hover .post-comment-delete-btn {
+    visibility: visible;
+}
+.thread-img img{
+    height: 55px;
+    width: 55px;
+}
+.media-body img{max-width: 100%; height: auto;}
+.page img{max-width: 100%; height: auto;}
+
+.checkboxs{
+    height: 18px;
+    width: 18px;
+}
+.title-thread{
+    background: #fff6ee;
+}
+.bottom-thread-post{
+    margin-bottom: 0px;
+}
+.label {
+    padding: .2em .6em .2em;
+}
+.pagination li{
+    cursor: pointer;
+}
+
+.group-header {}
+
+.group-header-inner {
+    border-radius: 5px;
+    height: 150px;
+    position: relative;
+
+}
+
+.group-header .media {
+    background-color: rgba(255, 255, 255, 0.70);
+    filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#ccffffff,endcolorstr=#ccffffff);
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    border-radius: 3px;
+    padding: 10px;
+    min-width: 20%;
+}
+
+.group-header .media-object {
+    width: 48px;
+    height: 48px;
+}
+
+.media .media-object {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.group-header .media-heading {
+    font-size: 18px;
+    font-weight: bold;
+    }
+
+.group-header .media-metas {
+    font-size: 12px;
+    color: #666;
+
+}
+
+.group-header .nav {
+    position: absolute;
+    bottom: 0;
+    left: 15px;
+}
+
+.group-header .nav-pills > li > a {
+    background-color: rgba(255, 255, 255, 0.70);
+    filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#ccffffff,endcolorstr=#ccffffff);
+    color: #444;
+    padding:6px 15px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+
+.group-header .nav-pills>li.active>a, 
+.group-header .nav-pills>li.active>a:hover, 
+.group-header .nav-pills>li.active>a:focus {
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.90);
+    color: #444;
+    font-weight: bold;
+}
+
+
+.group-main > .panel {
+    /*min-height: 500px;*/
+}
+
+.group-grids .grid > p{
+    text-align: center;
+}
+
+.group-grids .grid > p.title {
+    height: 40px;
+    overflow: hidden;
+
+}
+
+.group-grids .logo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.group-thread .panel-heading h2 {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px 0;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+.group-thread .panel-heading .thread-list  {
+    float: right;
+    margin-top:-9px;
+}
+
+.group-thread .panel-heading .metas {
+    font-size: 12px;
+    color: #888;
+}
+
+.group-thread .panel-heading .metas .divider {
+    color: #bbb;
+    margin: 0 5px;
+
+}
+
+.group-post-list .metas {
+    font-size: 12px;
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.group-post-list .metas .floor {
+    float: right;
+
+}
+
+.group-post-list .content {
+    margin-bottom: 10px;
+    word-break:break-all;
+}
+
+.group-post-list .actions {
+    text-align: right;
+    font-size: 12px;
+    margin: 5px 0; 
+}
+
+.group-post-list .well {
+    background: #f9f9f9;
+}
+
+.group-post-list .well .media {
+
+}
+
+.group-post-list .well .actions {
+    text-align: left;
+    margin: 15px 0;
+}
+
+
+#post-action img{
+    max-width: 100%;
+}
+
+#post-action {
+    word-break:break-all;
+}
+
+
+.group-logo-sm {
+    width: 50px;
+    height: 50px;
+}
+
+.alert {
+    word-break:break-all;
+}
+.alert img{
+    max-width:100%;
+}
+
+.nav nav-pills li{
+    background-color: rgba(255, 255, 255, 0.70);
+    filter: progid:DXImageTransform.Microsoft.gradient(startcolorstr=#ccffffff,endcolorstr=#ccffffff);
+}
+
+.hideContent{
+
+    border: 1px solid #999;
+    padding: 10px;
+
+}
+.hideContent h4{
+    color:#999;
+    text-align: center;
+    font-size:14px;
+}
+
+.c-member-box h4{padding-bottom:10px;border-bottom:1px solid #ddd;margin-bottom: 20px;line-height: 30px;}
+
+/*** 新版班级圈 ***/
+.cRed{color:#ff0000 !important;}
+
+.new-class-content .panel-heading h1{font-size: 18px;line-height:34px;}
+.class-breadcrumb .breadcrumb{margin-bottom:0;}
+
+.new-class-list{margin:0 0 0 -20px;}
+.new-class-list .col-md-4{padding:0 0 0 20px;}
+.application-class .application-heading{padding:5px 15px;border-bottom: 1px solid #ddd;}
+.new-class-list .media-body{line-height:20px;}
+
+
+/*** 搜索框 ***/
+.aption{position: relative;z-index: 11;}
+.s-search-guide{position: absolute;top:40px;left: 0;width:100%;padding-right: 40px;}
+.s-search-guide ul{border:1px solid #ccc;background: #fff;list-style: none;box-shadow: 1px 1px 3px rgba(0,0,0,0.2);-webkit-box-shadow: 1px 1px 3px rgba(0,0,0,0.2);}
+.s-search-guide ul li{height:30px;line-height:30px;padding:0 5px;overflow:hidden;cursor: pointer}
+.s-search-guide ul li.active,.s-search-guide ul li:hover{background: #f5f5f5;}
+.s-search-guide ul li a{color: #777;}
+.s-search-guide ul li a:hover{text-decoration: none;}
+.s-search-guide ul li a b{float: left;width:30%;margin:0 5px;}
+.s-search-guide ul li a span{font-weight: normal;display: inline-block;width:60%;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+
+/*** 班级主页 ***/
+.group-header-top{padding:0 15px 10px;border-bottom: 1px solid #ddd;}
+.group-header-top h1{font-size: 18px;line-height:34px;font-weight: bold;}
+.group-header-bot{background:#fff;border-radius: 6px 6px 0 0;position: relative;}
+.group-header-content{width: 100%;position: relative;z-index: 6;}
+.my-class-pic{padding:0 20px;margin-top: -70px;}
+.my-class-pic .media-object{width:180px;height:180px;border-radius: 50%;}
+.hd-class-info{padding:30px 20px 20px 220px;}
+.hd-class-info .set-default-class{font-size:14px;font-weight: normal;}
+.class-exit-btn{position: absolute;top:5px;right:5px;}
+.set-class-link{padding:15px 10px 0 0;}
+.set-class-link a:hover{text-decoration: none;}
+
+.user-like{padding:3px 0;width:60px;margin-right: 30px;overflow: hidden;}
+.user-like a:hover{text-decoration: none;}
+.user-like span{display: block;}
+
+.topics-list-box ul.media-list li.media{}
+.topic-content p{margin-right: 80px;overflow: hidden;word-break: break-all;}
+
+.group-side{word-wrap: break-word;}
+.class-team-side{}
+.class-team-box{border-bottom: 1px solid #ddd;margin-bottom: 15px;}
+.class-team-box h3{font-size: 16px;line-height:30px}
+.class-team-box ul{padding: 10px 0 5px;}
+.class-team-box ul li{width: 23%;}
+
+.group-header .hd-class-info .media-body{margin-right: 150px;}
+.group-header .hd-class-info .media-heading {
+    font-size: 18px;font-weight: bold;
+    }
+.group-header .hd-class-info .media-body .media-heading .m-class-name{max-width: 300px;overflow: hidden;text-overflow:ellipsis;white-space:nowrap;}
+
+/*** 话题详情 ***/
+.topics-details-box .media-object{width: 48px;height:48px;border-radius: 50%;}
+.topics-details-tit{font-size:14px;color:#333;margin:5px 0;line-height:24px;font-weight: bold;word-break: break-all;}
+.topics-details-top p{color:#666;margin:15px 0;word-break: break-all;}
+
+.topics-details-bot{border-top: 1px solid #eee;padding-top:15px;}
+.topics-details-bot a.btn{width: 70px;text-align:center;}
+.topics-details-bot a.btn i.glyphicon{top:2px;}
+
+.group-post-list .well{padding:5px 15px;}
+.group-post-list .well .media {border-bottom: 1px solid #eee}
+
+.group-post-list .media-list .media-body,.topics-details-box .media-body{width: auto;display: block;}
+
+
+/*** 班级相册 ***/
+.photo-list{list-style: none;margin-left: -20px;}
+.photo-list li{padding:0 0 0 20px;margin-top:15px;}
+.photo-list-con{border:1px solid #ddd;position: relative;}
+.photo-list-con:hover{-webkit-box-shadow: 0 10px 15px rgba(0,0,0,0.1);box-shadow: 0 10px 15px rgba(0,0,0,0.1);-webkit-transform: translate3d(0, -2px, 0);transform: translate3d(0, -2px, 0);-webkit-transition: all 0.2s linear;transition: all 0.2s linear;}
+.photo-pic{padding:5px;height:160px;overflow: hidden;}
+.photo-table{display: table;width:100%;height:160px;text-align: center;vertical-align: middle;}
+.photo-table-cell{display: table-cell;vertical-align: middle;}
+.photo-table-cell img{max-width:100%;}
+.photo-list-con .p-delete-btn{position: absolute;top: 10px;right: 10px;width: 60px;height:24px;line-height: 24px;text-align: center;border-radius: 0;}
+.photo-list-con:hover  .p-delete-btn{display: block;}
+.photo-tit{height:30px;line-height:30px;padding:0 5px;background:#f5f5f5;text-align: center;overflow: hidden;text-overflow:ellipsis;white-space:nowrap;}
+.photo-tit a{font-size:14px;font-weight: bold;}
+
+.photo-preview{border: 1px solid #ddd; padding: 10px;height:360px;overflow:hidden;}
+.preview-table{width:100%;height:350px;text-align: center;display: table;vertical-align: middle;}
+.preview-table-cell{display: table-cell;vertical-align: middle;}
+
+.photo-preview img{max-width: 100%;}
+.photo-preview span{font-size:120px;color:#ddd;-moz-user-select: none; -webkit-user-select: none; -ms-user-select: none; -khtml-user-select: none; user-select: none;}
+.photo-preview span em{font-style: normal;display:block;font-size: 20px;}
+
+/*** 切换班级列表 ***/
+.handover-add-class{padding-top:10px;}
+
+/*** 创建班级、班级设置 ***/
+.class-logo-box{border-top: 1px solid #DDD;padding-top: 15px;}
+.current-class-icon{line-height: 180px;overflow: hidden;}
+.current-class-icon span,.new-class-icon span{width:80px;text-align: right;}
+.new-icon-upload{padding-left:100px;}
+.class-background-box{border-top: 1px solid #DDD;padding-top: 15px;}
+.class-background-box .current-class-icon{line-height: 80px;overflow: hidden;}
+.class-set-btn{padding:20px 0;border-top:2px solid #ddd;}
+
+/*** 班级成员 ***/
+.class-member-box{border-bottom:1px solid #ddd;margin:10px 0 20px;}
+.class-member-tit h4{line-height: 34px;font-size:16px;}
+
+.class-course-box{padding:0 10px;}
+.grouplist .c-class-name{line-height: 30px;overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}

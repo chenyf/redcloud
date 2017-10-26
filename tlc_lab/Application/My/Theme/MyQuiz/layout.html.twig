@@ -1,0 +1,20 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}我的考试 - {{ parent() }}{% endblock %}
+{% set side_nav = 'my-testtask' %}
+
+{% block main %}
+    <div class="panel panel-default panel-col">
+        <div class="panel-heading">
+            我的收藏
+        </div>
+        <div class="panel-body">
+            <ul class="nav nav-pills tabs-border">
+                <li class="{{ myQuizActive|default('') }}"><a href="{{U('My/Testpaper/myTesttask',{type:app.request.get('type')})}}">作业记录</a></li>
+                <li class="{{ favoriteActive|default('') }}"><a href="{{ path('my_show_favorite_question',{type:app.request.get('type')}) }}">收藏的题目</a></li>
+            </ul>
+            <br>
+            {% block list %}{% endblock %}
+        </div>
+    </div>
+{% endblock %}

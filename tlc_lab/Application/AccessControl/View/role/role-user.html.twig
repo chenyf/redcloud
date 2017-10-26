@@ -1,0 +1,70 @@
+{% extends '@AccessControl/common/layout.html.twig' %}
+{% block title %}角色用户管理{% endblock %}
+
+{% set menu = "role" %}
+
+{% block main %}
+
+    <div class="page-header clearfix">
+        <button class="btn btn-info btn-sm pull-right" id="add-navigation-btn" data-toggle="modal" data-target="#modal"
+                data-url="{{ U('AccessControl/Role/createUser',{id:app.request.get('id')}) }}">添加用户
+        </button>
+        <h1 class="pull-left">角色用户管理</h1>
+
+    </div>
+    <div class="well ">
+        <select class="form-control"  onchange="window.location.href = '{{ U('AccessControl/Role/user') }}/id/'+this.value">
+            {% for role in roles %}
+                <option value="{{ role.id }}" {% if app.request.get('id') == role.id %} selected {% endif %}>{{ role.name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a>用户列表</a></li>
+    </ul>
+    <p></p>
+
+    <table id="user-table" class="table  table-hover" data-search-form="#user-search-form">
+        <thead>
+        <tr>
+            <th width="15%">用户名</th>
+            <th width="30%">手机/邮箱</th>
+            <th width="20%">加入时间</th>
+            <th width="15%">操作人</th>
+            <th width="20%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>
+                    {{ user.user_name }}
+                </td>
+                <td>
+                    {{ user.mobile | default(user.email) }}
+                </td>
+                <td> {{ user.updated_time|date('Y-m-d H:i:s') }}  </td>
+                <td>{{ user.operator_name }}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-default btn-sm ajax-click"
+                           href="{{ U('AccessControl/Role/deleteUser',{id:app.request.get('id'),user_id:user.user_id})}}"><i class="fa fa-ban"></i>
+                            删除用户
+                        </a>
+                    </div>
+
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="5">
+                    <div class="empty">
+                        该角色暂无用户,请点击右上角添加
+                    </div>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

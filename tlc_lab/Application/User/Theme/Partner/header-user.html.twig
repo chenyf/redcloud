@@ -1,0 +1,27 @@
+{% if user %}
+
+    <li class="hidden-xs"><a href="{{ path('search') }}"><span class="glyphicon glyphicon-search nav-top-icon" title="搜索" data-placement="bottom"  data-toggle="tooltip"></span></a></li>
+
+
+    <li class="visible-lt-ie8 hidden-xs"><a href="{{ path('settings') }}">{{ user.nickname }}</a></li>
+    <li class="dropdown hidden-lt-ie8">
+        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" style="margin-top: -2px;">{{ user.nickname }} <b class="caret"></b></a>
+        <ul class="dropdown-menu">
+            <li><a href="{{ path('user_show', {id:user.id}) }}"><i class="glyphicon glyphicon-home"></i> 我的主页</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ path('settings') }}"><i class="glyphicon glyphicon-user"></i> 个人中心</a></li>
+            <li class="divider"></li>
+            <li><a href="{{ path('user_show', {id:user.id}) }}"><i class="glyphicon glyphicon-book"></i> 我的课程</a></li>
+            <li class="divider"></li>
+            {% if is_userRole() %}
+                <li><a href="{{ path('admin') }}"><i class="glyphicon glyphicon-dashboard"></i> 管理后台</a></li>
+                <li class="divider"></li>
+            {% endif %}
+            <li><a href="{{ path('logout') }}"><i class="glyphicon glyphicon-off"></i> 退出</a></li>
+        </ul>
+    </li>
+{% else %}
+
+    <li class="hidden-xs"><a href="{{ path('search') }}"><span class="glyphicon glyphicon-search"></span> 搜索</a></li>
+    <li><a href="{{ path('login') }}">登录</a></li>
+{% endif %}

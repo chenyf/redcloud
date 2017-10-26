@@ -1,0 +1,18 @@
+{% set side_nav = 'my-teaching-courses' %}
+{% set menu = 'thread' %}
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+{% set script_controller = 'course-manage/thread' %}
+ {% block side %}
+    <div id="threadSelect">
+        <ul class="nav nav-tabline">
+            <li class="active" name="check_manage" data-url="{{ path('course_thread_check_manage', {courseId:course.id, id:thread.id}) }}">   <a href="javascript:;">所有提问</a></li>
+            <li class="" name="statistic" data-url="{{ path('course_thread_statistic', {courseId:course.id, id:thread.id}) }}"><a href="javascript:;">数据统计</a></li>
+            {#<li class="" name="setting" data-url="{{ path('course_thread_setting', {courseId:course.id, id:thread.id}) }}">  <a href="javascript:;"  >问答设置</a></li>#}
+        </ul>
+    </div>
+ {% endblock %}
+{% block courseContent %}
+<div class="t-course-set-box">
+        
+</div>
+{% endblock %}

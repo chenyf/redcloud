@@ -1,0 +1,70 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+
+<div class="course-detail-box-top mbl">
+    <div class="container">
+        <div class="course-cover-heading course-cover-sm-heading">
+            <div class="col-sm-3 picture">
+                <a href="{{ path('course_show', {id:course.id,center:app.request.get('center')}) }}">
+                    <img class="img-responsive course-picture" loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/loading-error.jpg?5.1.4';"  src="{{ default_path('coursePicture', course.middlePicture, 'large') }}" />
+                </a>
+            </div>
+            <div class="col-sm-9 info">
+                <div class="c-info-txt c-course-txt">
+                    <span class="text-muted">课程名称：</span>
+                    <span class="c-course-name">{{ course.title }}</span>
+                </div>
+                <div class="c-info-txt c-teacher-txt">
+                    <span class="text-muted">授课老师：</span>
+                    <span class="c-teacher-name">{{ teacher.nickname }}</span>
+                </div>
+                <div class="c-info-txt c-course-txt">
+                    <span class="text-muted pull-left">学习进度：</span>
+                    <div class="progress-con pull-left mlm">
+                        <div class="progress pull-left mrl">
+                            <div class="progress-bar" style="width: {{ progress.percent }}"></div>
+                        </div>
+                        <div class="pull-left">
+                            <span class="text-muted">
+                                {% if progress.percent == '100%' %}
+                                您已完成全部课程内容的学习
+                                {% else %}
+                                已学内容: <strong class="text-success">{{ progress.number }}</strong> / <strong>{{ progress.total }}</strong>
+                                {% endif %}
+                            </span>
+                            {% if not member.deadline|default(0) == 0 %}
+                                <span class="text-muted">有效期： <strong class="text-success" title="从 {{ member.createdTime|date('Y-m-d H:i') }} 到 {{ member.deadline|date('Y-m-d H:i') }}">还有{{ member.deadline|remain_time }}</strong></span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="toolbar hidden-xs hidden-lt-ie8">
+                {% if app.request.get('center') == 1 and isTurnPrivate(course.id,app.user.id,app.webCode) %}
+                    <a class="btn btn-link"   href="{{ U('Center/PublicCourseToPrivate/createApply',{courseId:course.id,webCode:app.webCode}) }}" title="成为我的在教课程">
+                        <i class="glyphicon glyphicon-book mrs"></i>成为我的在教课程
+                    </a>
+                {% endif %}
+                {% if canManage %}
+                <a class="btn btn-link" type="button" href="{{ path('course_manage', {id:course.id,center:app.request.get('center')}) }}" title="课程管理">
+                    <i class="glyphicon glyphicon-cog mrs"></i>编辑课程
+                </a>
+                {% endif %}
+                <div class="btn-group" data-role="tooltip" title="分享到" data-placement="left">
+                    <button class="btn btn-link dropdown-toggle" data-toggle="dropdown"><i class="esicon esicon-share mrs"></i>分享课程</button>
+                    <ul class="dropdown-menu pull-right shares-dropdown-menu js-social-shares">
+                        <li><div class="share" data-bdText="{{ courseShareContent }}"></div></li>
+                    </ul>
+                    <div id="course-social-share-params" data-title="课程 《{{ course.title }}》" data-picture="{{ default_path('coursePicture',course.largePicture, 'large', true) }}" data-url="{{ url('course_show', {id:course.id,center:app.request.get('center')}) }}"></div>
+                </div>
+                <a class="btn btn-link" href="{{ U('My/MyCourse/learning',{center:app.request.get('center')}) }}"><i class="fa fa-reply mrs"></i>返回</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

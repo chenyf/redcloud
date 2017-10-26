@@ -1,0 +1,39 @@
+/* 
+BOOTSTRAP STYLE修改-扩展
+*/
+
+/* label{font-weight: normal;} */
+
+.btn-fat{padding:6px 20px;}
+.modal-body{padding: 20px 30px}
+/*** 边框按钮 ***/
+.btn-wireframe{color: #0078d0;border-color: #0093f0;background: none;}
+.btn-wireframe:focus,.btn-wireframe:hover{color: #0078d0;border-color: #0093f0;background-color: #f6f6f6;}
+
+.btn-width{font-size: 14px;width: 100px;text-align: center;padding: 0;height:25px;line-height: 25px;overflow: hidden;margin:5px 5px 0 0; }
+.btn-width em{color: #f8b541;}
+
+.btn-width:focus,.btn-width:hover{color: #fff;background-color: #0093f0;}
+.btn-width:focus em,.btn-width:hover em{color:#fffc00;}
+
+/*** 按钮颜色 ***/
+.btn-primary {
+  color: #fff;
+  background-color: #0093f0;
+  border-color: #0093f0;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+  color: #fff;
+  background-color: #0078d0;
+  border-color: #0078d0;
+}
+.btn-primary:hover {
+  color: #fff;
+  background-color: #0078d0;
+  border-color: #0078d0;
+}
+
+.c-table > thead > tr > th, .c-table > tbody > tr > th, .c-table > tfoot > tr > th, .c-table > thead > tr > td, .c-table > tbody > tr > td, .c-table > tfoot > tr > td{vertical-align: middle;}
+.c-table > thead > tr > th,.c-table > tbody > tr > td{text-align:center;}
+.c-table > thead > tr > th:first-child,.c-table > tbody > tr > td:first-child{text-align:left;}

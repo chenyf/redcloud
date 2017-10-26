@@ -1,0 +1,24 @@
+{% extends '@BackManage/Content/layout.html.twig' %}
+
+{% block title %} 敏感词管理 {% endblock %}
+{% set script_controller = 'sensitive-word/index' %}
+
+{% set menu = 'sensitive_word' %}
+
+{% block main %}
+    <div class="page-header clearfix">
+        <h1 class="pull-left">敏感词列表</h1>
+    </div>
+    <div class="well">
+        <button class="btn btn-info all-word-select-btn mrs" type="button">全选</button>
+        <button class="btn btn-warning word-select-remove-btn mrs" type="button">删除</button>
+        <span class="select-count-span" style="display: none;">选择了 <strong class="select-count">0</strong> 项</span>
+        <input type="hidden" name="word_ids">
+        <input type="hidden" name="word_remove_url" value="{{ path('admin_sensitive_word_delete') }}">
+        <input type="hidden" name="word_list_url" value="{{ path('admin_sensitive_word_list') }}">
+    </div>
+    <div class="rows clearfix word_list_div_main" id="word_list_div">
+        {% include '@BackManage/SensitiveWord/list.html.twig' with {wordList:wordList} %}
+    </div>
+
+{% endblock %}

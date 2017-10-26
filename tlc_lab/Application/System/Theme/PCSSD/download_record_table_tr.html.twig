@@ -1,0 +1,33 @@
+{% import '@BackManage/macro.html.twig' as admin_macro %}
+<tr id="recharge-record-table-tr-{{ record.id }}">
+    <td>
+        <strong style="color:#428bca">
+            {{ record.id}}
+        </strong>
+    </td>
+    <td>
+        <span>
+            {{ admin_macro.course_link(record.course.id,record.course.title) }}
+        </span>
+    </td>
+    <td>
+        <span>
+            {{ record.packet.size|file_size }}
+        </span>
+    </td>
+    <td>
+        <span>
+            {{ record.createdTime|date("Y-m-d H:i:s")}}
+        </span>
+    </td>
+    <td>
+        <div>
+            {% if is_binded == 1 %}
+                <a href="{{ U('/Course/CourseResourcePacket/downloadCourseResourcePacketAction',{'courseId':record.course.id}) }}" target="_blank" class="btn btn-info btn-sm">重新下载</a>
+            {% else %}
+                不可下载
+            {% endif %}
+        </div>
+    </td>
+</tr>
+

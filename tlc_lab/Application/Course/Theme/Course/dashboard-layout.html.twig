@@ -1,0 +1,46 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% set containerClassBlock = 'index_container' %}
+{% block title %}{{ course.title }} - {{ parent() }}{% endblock %}
+
+{% set bodyClass = 'course-dashboard-page' %}
+
+{% set script_arguments = {course_uri: path('course_show', {id:course.id})} %}
+{% set siteNav = '/Course/Course/exploreAction' %}
+
+{% block content %}
+
+        {{ render(controller('Course:Course:header', {course:course})) }}
+
+<div class="container course-detail-box-con">
+    <div class="row row-8-4">
+        <div class="col-md-9" style="padding-right:0;">
+            <div class="panel panel-default">
+
+                            {% block dashboard_main %}{% endblock %}
+
+            </div>
+            <div> 
+                       {% block dashboard_relatedCoursesBlock %}{% endblock %}
+                </div>
+            </div>
+            <div class="col-md-3 course-dashboard-side">
+
+                <div class="c-side-bar-box">
+                        {# {{ render(controller('Course:Course:progressBlock',{course:course,center:app.request.get('center')})) }} #}
+                        {{ render(controller('Course:CourseManage:virtualLab')) }}
+                        {{ render(controller('Course:CourseAnnouncement:block',{course:course,center:app.request.get('center')})) }}
+                        {{ render(controller('Course:CourseThread:questionBlock',{course:course,center:app.request.get('center')})) }}
+                        {{ render(controller('Course:Course:latestMembersBlock',{course:course,center:app.request.get('center')})) }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+{% endblock %}
+
+{% block bottom %}
+        <div id="course-modal" class="modal"></div>
+{% endblock %}

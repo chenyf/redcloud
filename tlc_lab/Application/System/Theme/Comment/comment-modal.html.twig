@@ -1,0 +1,451 @@
+<div class="comment_{{cmtIdStr}}"   style="background: #fff;padding:20px 0;">
+    <div class="discuss-main">
+        
+        <div class="discuss-textbox">
+            <div class="discuss-head poster-body">
+             {% if poset.goodList %} 
+             {% set posetUser = poset.goodList %} 
+             {% if posetUser[0]['userName'] %}
+            <div class="user-like-text pull-right">
+                <span class="text-muted text-normal">{{posetUser[0]['userName']}}{% if posetUser[1]['userName'] %} 、{{posetUser[1]['userName']}}{% endif %}{% if posetUser[2]['userName'] %} 、{{posetUser[2]['userName']}}{% endif %}等{{poset.good}}人喜欢这个海报</span>
+            </div>
+            {% endif %}
+            <div class="popover fade bottom in user-like-content" role="tooltip" style="display: none;">
+                <div class="arrow"></div>
+                <div class="popover-content">
+                    <div class="user-like-list">
+                       {%for poset  in poset.goodList %} 
+                       {% if poset.uid %}
+                       <div class="userpic">
+                            <a target="_blank" href="{{ path('user_show', {id:poset.uid,center:app.request.get('center')}) }}"  title="{{poset.userName}}"><img src="{{ user_default_path(poset.uid, 'small') }}"/></a>
+                       </div>
+                      {% endif%}
+                      {% endfor %}  
+                    </div>
+                 </div>
+            </div>
+            {% endif %}
+            <h4 id="comment-statistics">{% if cmtstat.cmtCnt %}{{cmtstat.cmtCnt}} {% else %} 0 {% endif %}条评论，{% if cmtstat.userCnt %}{{cmtstat.userCnt}} {% else %} 0 {% endif %}人参与。</h4>
+            </div>
+            <form id="comment_form_{{cmtIdStr}}"  {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} data-release = '1' {% else %} data-release = '0' {% endif %} action="/System/Comment/addCommentAction" method="post" novalidate>
+            <div class="discuss-textcon">
+                <div class="userpic">
+                    <a {% if user.id %}target="_blank" href="{{ path('user_show', {id:user.id,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                        <img src="{{ user_default_path(user.id, 'small') }}"/>
+                    </a>
+                </div>
+                <div class="tareabox input-change-text">
+                    <div class="tareawrap">
+                        <div class="tareacon">
+                            <textarea id="textareastyle-{{cmtIdStr}}" class="textareastyle textareastyle-{{cmtIdStr}}" name="content"  placeholder="请输入..." ></textarea>
+                        </div>
+                        {% if user.id or cmtRule.forceLogin or user.id == 0 and cmtRule.anonyNoLogin == 0  %}
+                        <div class="tareabtn">
+                            <div class="tareabtn-right"><button type="submit"  class="issuebtn fabu_{{cmtIdStr}}">发布</button></div>
+                            {#<div class="phizbox"><a class="face" href="###"></a></div>#}
+                            <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} 
+                      
+                    <div class="anonymity-set anonymity-exit"  {% if user.nickname == '' %}style="display:none" {% endif %}>
+                         <div class="visitors-login">
+                            <button type="submit"   class="btn btn-primary fabu_{{cmtIdStr}}">发布</button>
+                         </div>
+                            <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                        
+                        <div class="nickname" ><span><i class="glyphicon glyphicon-user mrs"></i><b class="anonyName">{{user.nickname}}</b></span><a class="exitbtn" href="javascript:void(0)">退出</a></div>   
+                        </div>
+                        
+                        <div class="anonymity-set anonymity-nick-cmt"  {% if user.nickname %} style="display:none" {% endif %} >
+                        
+                        <div class="visitors-login"><h6>以游客身份发布</h6><span>
+                        {% if user.nickname != '' %}
+                         <input type="hidden" name="sendName" value="{{user.nickname}}">
+                         {% else %}
+                         <input type="text" name="sendName" placeholder="昵称">
+                        {% endif %}
+                        <button type="submit" data-anony ="anony"  class="btn btn-primary fabu_{{cmtIdStr}}">发布</button></span></div>
+                        <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+             <input type="hidden" name="sendUid" value="{{user.id}}">
+             {% if user.id %}
+             <input type="hidden" name="sendName" value="{{user.nickname}}">
+             {% endif %}
+             <input type="hidden" name="vcode" value="{{vcode}}">
+             <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+           </form>
+            
+        </div>
+        
+        
+        
+        <div class="discuss-userbox">
+            <ul class="discuss-list">
+                <li  class="discuss-redcloud-1">
+                    {% if comment %} 
+                    {%for cmt  in comment %}  
+                  <div class="all-list">
+                    <div class="discuss-content discuss-content-{{cmtIdStr}}">
+                        <div class="userpic">
+                                <a {% if cmt.sendUid %}target="_blank" href="{{ path('user_show', {id:cmt.sendUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                <img src="{{ user_default_path(cmt.sendUid, 'small') }}"/>
+                            </a>
+                        </div>
+                        <div class="discuss-body">
+                            <div class="userinfo discuss-head">
+                                {% if cmt.goodList %} 
+                                {% set UserList = cmt.goodList %} 
+                                {% if UserList[0]['userName'] %} 
+                                <div class="user-like-text pull-right">
+                                     <span class="text-muted text-normal">{{UserList[0]['userName']}}{% if UserList[1]['userName'] %} 、{{UserList[1]['userName']}}{% endif %}{% if UserList[2]['userName'] %} 、{{UserList[2]['userName']}}{% endif %}等{{cmt.good}}人赞了这个评论</span>
+                                 </div>
+                                 {% endif %}
+                                 <div class="popover fade bottom in user-like-content" role="tooltip" style="display: none;">
+                                    <div class="arrow"></div>
+                                    <div class="popover-content">
+                                                <div class="user-like-list">
+                                                    {%for goodInfo  in cmt.goodList %} 
+                                                    {% if goodInfo.uid %}
+                                                    <div class="userpic">
+                                                        <a target="_blank" href="{{ path('user_show', {id:goodInfo.uid,center:app.request.get('center')}) }}"  title="{{goodInfo.userName}}"><img src="{{ user_default_path(goodInfo.uid, 'small') }}"/></a>
+                                                    </div>
+                                                    {% endif%}
+                                                    {% endfor %}  
+                                                </div>
+                                            </div>
+                                 </div>
+                                 {% endif %}
+                                <a class="u-name" {% if cmt.sendUid %} target="_blank" href="{{ path('user_show', {id:cmt.sendUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                   {{cmt.sendName}}
+                                </a>
+                                 <span class="divider">•</span><span class="u-time">{{cmt.ctm|smart_time}}</span>
+                            </div>
+                            <div class="user-content"><p>{{cmt.comment}}</p></div>
+                            <div class="user-footer">
+                                <a class="alike mrl" href="javascript:void(0)"><i class="glyphicon {% if cmt.isGood == 1 %}glyphicon-heart {% else %} glyphicon-heart-empty {% endif %} mrs"></i><b class='cmtApprise' data-appraiseid='cmt{{cmt.id}}'  data-type='poster'  data-vcode='{{md5Vcode('poster' , 'cmt'~cmt.id)}}'>{% if cmt.isGood == 1 %}取消赞{% else %}赞 {% endif %}{% if cmt.good %}(<i>{{cmt.good}}</i>){% else %}(<i>0</i>){% endif %}</b></a>
+                                <a class="areply mrl reply-{{cmtIdStr}}"   href="javascript:void(0)"><i class="fa fa-reply mrs"></i>回复</a>
+                                {% if cmt.sendUid == user.id and cmt.sendUid != 0 and cmtRule.allowDel == 1 or delPower == 1%}
+                                <a data-id="{{cmt.id}}" class="adelete del-{{cmtIdStr}}" href="javascript:void(0)" ><i class="glyphicon glyphicon-trash mrs"></i>删除</a>
+                                {% endif %}
+                            </div>
+                        </div>    
+                    </div>
+                    <div class="p-replybox reply-box" style="display:none">
+                       
+                        <form  class="reply-comment-form-{{cmtIdStr}}" {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} data-release = '1' {% else %} data-release = '0' {% endif %} action="/System/Comment/replyCommentAction" data-insert="1" method="post" novalidate>
+                        <div class="discuss-textcon">
+                            <div class="userpic">
+                                    <a {% if user.id %}target="_blank" href="{{ path('user_show', {id:user.id,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                    <img src="{{ user_default_path(user.id, 'small') }}"/>
+                                </a>
+                            </div>
+                            <div class="tareabox input-change-text">
+                                <div class="tareawrap">
+                                    <div class="tareacon">
+                                        <textarea  class="textareastyle textareastyle-{{cmtIdStr}}" name="content"  placeholder="请输入..." ></textarea>
+                                    </div>
+                                   {% if user.id or cmtRule.forceLogin or user.id == 0 and cmtRule.anonyNoLogin == 0  %}
+                                    <div class="tareabtn">
+                                        <div class="tareabtn-right"><button type="submit"  class="issuebtn issuebtn_{{cmtIdStr}}">回复</button></div>
+                                        {#<div class="phizbox"><a class="face" href="###"></a></div>#}
+                                        <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                    </div>
+                                     {% endif %}
+                                </div>
+                                {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} 
+                      
+                                    <div class="anonymity-set anonymity-exit"  {% if user.nickname == '' %}style="display:none" {% endif %}>
+                                         <div class="visitors-login">
+                                        <button type="submit"  class="btn btn-primary issuebtn_{{cmtIdStr}}">回复</button></span></div>
+                                        
+                                        <div class="nickname" ><span><i class="glyphicon glyphicon-user mrs"></i><b class="anonyName">{{user.nickname}}</b></span><a class="exitbtn" href="javascript:void(0)">退出</a></div>
+                                        <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                        </div>
+
+                                        <div class="anonymity-set anonymity-nick"  {% if user.nickname %} style="display:none" {% endif %} >
+                                        <div class="visitors-login"><h6>以游客身份回复</h6><span>
+                                        {% if user.nickname != '' %}
+                                         <input type="hidden" name="sendName" value="{{user.nickname}}">
+                                         {% else %}
+                                          <input type="text" name="sendName" placeholder="昵称">
+                                          {% endif %}
+                                        <button type="submit" data-anony ="anony"  class="btn btn-primary issuebtn_{{cmtIdStr}}">回复</button></span></div>
+                                        <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                        </div>
+                                    {% endif %}
+                            </div>
+                        </div>
+                         <input type="hidden" name="statId" value="{{cmt.cmtStatId}}">
+                         <input type="hidden" name="cmtId" value="{{cmt.id}}">
+                         <input type="hidden" name="cmtIdStr" value="{{cmtIdStr}}">
+                         <input type="hidden" name="cmtType" value="{{cmtType}}">
+                         <input type="hidden" name="pid" value="0">
+                         <input type="hidden" name="replyType" value="reply">
+                         <input type="hidden" name="sendUid" value="{{user.id}}">
+                        {% if user.id %}
+                            <input type="hidden" name="sendName" value="{{user.nickname}}">
+                         {% endif %}
+                         <input type="hidden" name="vcode" value="{{vcode}}">
+                         <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+                       </form>
+                    </div>
+                         <ul class="discuss-children">
+                             <li class="discuss-redcloud">
+                              {% if cmt.replyComment %}
+                                 {%for reply  in cmt.replyComment|slice(0,3) %} 
+                                 <div class="all-reply-list reply-list-{{reply.id}}"> 
+                                 <div class="discuss-content discuss-content-{{cmtIdStr}}">
+                                     <div class="userpic">
+                                         <a {% if reply.replyUid %}target="_blank" href="{{ path('user_show', {id:reply.replyUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                             <img src="{{ user_default_path(reply.replyUid, 'small') }}"/>
+                                         </a>
+                                     </div>
+                                     <div class="discuss-body">
+                                        <div class="userinfo discuss-head">    
+                                         {% if reply.goodList %}
+                                            {% set UserInfo = reply.goodList %} 
+                                            {% if UserInfo[0]['userName'] %}
+                                            <div class="user-like-text pull-right">
+                                                 <span class="text-muted text-normal">{{UserInfo[0]['userName']}}{% if UserInfo[1]['userName'] %} 、{{UserInfo[1]['userName']}}{% endif %}{% if UserInfo[2]['userName'] %} 、{{UserInfo[2]['userName']}}{% endif %}等{{reply.good}}人赞了这个回复</span>
+                                             </div>
+                                             {% endif %}
+                                             <div class="popover fade bottom in user-like-content" role="tooltip" style="display: none;">
+                                                <div class="arrow"></div>
+                                                <div class="popover-content">
+                                                            <div class="user-like-list">
+                                                                {%for goodReply  in reply.goodList %} 
+                                                                {% if goodReply.uid %}
+                                                                <div class="userpic">
+                                                                    <a target="_blank" href="{{ path('user_show', {id:goodReply.uid,center:app.request.get('center')}) }}"  title="{{goodReply.userName}}"><img src="{{ user_default_path(goodReply.uid, 'small') }}"/></a>
+                                                                </div>
+                                                                {% endif%}
+                                                                {% endfor %}  
+                                                            </div>
+                                                        </div>
+                                             </div>
+                                         {% endif %}
+                                            
+                                             <a class="u-name" {% if reply.replyUid %} target="_blank" href="{{ path('user_show', {id:reply.replyUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                                {{reply.replyName}}
+                                             </a>
+                                              <span class="divider">•</span><span class="u-time">{{reply.ctm|smart_time}}</span>
+                                         </div>
+                                             <div class="user-content">
+                                                <p>
+                                                    <a class="btn-link mrl" {% if reply.beReplyUid %} target="_blank" href="{{ path('user_show', {id:reply.beReplyUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                                  {% if reply.beReplyName %} @ {{reply.beReplyName}}{% endif %}
+                                                   </a>
+                                                   {{reply.reply}}
+                                                </p>
+                                             </div>
+                                         <div class="user-footer">
+                                             <a class="alike mrl zan" href="javascript:void(0)"><i class="glyphicon {% if reply.isGood == 1 %}glyphicon-heart {% else %} glyphicon-heart-empty {% endif %} mrs"></i><b class='cmtApprise' data-appraiseid='reply{{reply.id}}'  data-type='poster'  data-vcode='{{md5Vcode('poster' , 'reply'~reply.id)}}'>{% if reply.isGood == 1 %}取消赞{% else %}赞 {% endif %}{% if reply.good %}(<i>{{reply.good}}</i>){% else %}(<i>0</i>){% endif %}</b></a>
+                                             <a class="areply mrl reply-{{cmtIdStr}}"   href="javascript:void(0)"><i class="fa fa-reply mrs"></i>回复</a>
+                                             {% if reply.replyUid == user.id and reply.replyUid != 0  and cmtRule.allowDel == 1  or delPower == 1 %}
+                                             <a data-id="{{reply.id}}" data-delete = "reply" class="adelete del-reply-{{cmtIdStr}}" href="javascript:void(0)" ><i class="glyphicon glyphicon-trash mrs"></i>删除</a>
+                                             {% endif %}
+                                             
+                                         </div>
+                                     </div>    
+                                 </div>
+                                 <div class="p-replybox reply-box" style="display:none">
+                                     <form  class="reply-comment-form-{{cmtIdStr}}" {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} data-release = '1' {% else %} data-release = '0' {% endif %} data-insert="2" action="/System/Comment/replyCommentAction" method="post" novalidate>
+                                     <div class="discuss-textcon">
+                                         <div class="userpic">
+                                             <a {% if user.id %}target="_blank" href="{{ path('user_show', {id:user.id,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                                 <img src="{{ user_default_path(user.id, 'small') }}"/>
+                                             </a>
+                                         </div>
+                                         <div class="tareabox input-change-text">
+                                             <div class="tareawrap">
+                                                 <div class="tareacon">
+                                                     <textarea  class="textareastyle textareastyle-{{cmtIdStr}}" name="content"  placeholder="请输入..." ></textarea>
+                                                 </div>
+                                                 {% if user.id or cmtRule.forceLogin or user.id == 0 and cmtRule.anonyNoLogin == 0  %}
+                                                 <div class="tareabtn">
+                                                     <div class="tareabtn-right"><button type="submit"  class="issuebtn issuebtn_{{cmtIdStr}}">回复</button></div>
+                                                     {#<div class="phizbox"><a class="face" href="###"></a></div>#}
+                                                     <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                                 </div>
+                                                 {% endif %}
+                                             </div>
+                                             {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} 
+                      
+                                                <div class="anonymity-set anonymity-exit"  {% if user.nickname == '' %}style="display:none" {% endif %}>
+                                                     <div class="visitors-login">
+                                                    <button type="submit"   class="btn btn-primary issuebtn_{{cmtIdStr}}">回复</button></span></div>
+                                                    <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                                    <div class="nickname" ><span><i class="glyphicon glyphicon-user mrs"></i><b class="anonyName">{{user.nickname}}</b></span><a class="exitbtn" href="javascript:void(0)">退出</a></div>   
+                                                    </div>
+
+                                                    <div class="anonymity-set anonymity-nick"  {% if user.nickname %} style="display:none" {% endif %} >
+                                                    <div class="visitors-login"><h6>以游客身份回复</h6><span>
+                                                    {% if user.nickname != '' %}
+                                                     <input type="hidden" name="sendName" value="{{user.nickname}}">
+                                                     {% else %}
+                                                     <input type="text" name="sendName" placeholder="昵称">
+                                                     {% endif %}
+                                                    <button type="submit" data-anony ="anony"   class="btn btn-primary issuebtn_{{cmtIdStr}}">回复</button></span></div>
+                                                    <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                                    </div>
+                                                {% endif %}
+                                         </div>
+                                     </div>
+                                      <input type="hidden" name="statId" value="{{reply.cmtStatId}}">
+                                      <input type="hidden" name="cmtId" value="{{reply.cmtId}}">
+                                      <input type="hidden" name="cmtIdStr" value="{{cmtIdStr}}">
+                                      <input type="hidden" name="cmtType" value="{{cmtType}}">
+                                      <input type="hidden" name="pid" value="{{reply.id}}">
+                                      <input type="hidden" name="replyType" value="children">
+                                      <input type="hidden" name="sendUid" value="{{user.id}}">
+                                      {% if user.id %}
+                                       <input type="hidden" name="sendName" value="{{user.nickname}}">
+                                       {% endif %}
+                                      <input type="hidden" name="vcode" value="{{vcode}}">
+                                      <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+                                    </form>
+                                 </div>
+
+                                 </div> 
+                                 {% endfor %}
+                                 {% if cmt.replyComment|length >  3 %}
+                                 {% for reply in cmt.replyComment|slice(3 ,cmt.replyComment|length) %}
+                                     <div class="all-reply-list hide reply-list-{{reply.id}}"> 
+                                 <div class="discuss-content discuss-content-{{cmtIdStr}}">
+                                     <div class="userpic">
+                                         <a {% if reply.replyUid %}target="_blank" href="{{ path('user_show', {id:reply.replyUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                             <img src="{{ user_default_path(reply.replyUid, 'small') }}"/>
+                                         </a>
+                                     </div>
+                                     <div class="discuss-body">
+                                        <div class="userinfo discuss-head">    
+                                         {% if reply.goodList %}
+                                            {% set UserInfo = reply.goodList %} 
+                                            {% if UserInfo[0]['userName'] %}
+                                            <div class="user-like-text pull-right">
+                                                 <span class="text-muted text-normal">{{UserInfo[0]['userName']}}{% if UserInfo[1]['userName'] %} 、{{UserInfo[1]['userName']}}{% endif %}{% if UserInfo[2]['userName'] %} 、{{UserInfo[2]['userName']}}{% endif %}等{{reply.good}}人赞了这个回复</span>
+                                             </div>
+                                             {% endif %}
+                                             <div class="popover fade bottom in user-like-content" role="tooltip" style="display: none;">
+                                                <div class="arrow"></div>
+                                                <div class="popover-content">
+                                                            <div class="user-like-list">
+                                                                {%for goodReply  in reply.goodList %} 
+                                                                {% if goodReply.uid %}
+                                                                <div class="userpic">
+                                                                    <a target="_blank" href="{{ path('user_show', {id:goodReply.uid,center:app.request.get('center')}) }}"  title="{{goodReply.userName}}"><img src="{{ user_default_path(goodReply.uid, 'small') }}"/></a>
+                                                                </div>
+                                                                {% endif%}
+                                                                {% endfor %}  
+                                                            </div>
+                                                        </div>
+                                             </div>
+                                         {% endif %}
+                                            
+                                             <a class="u-name" {% if reply.replyUid %} target="_blank" href="{{ path('user_show', {id:reply.replyUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                                {{reply.replyName}}
+                                             </a>
+                                              <span class="divider">•</span><span class="u-time">{{reply.ctm|smart_time}}</span>
+                                         </div>
+                                             <div class="user-content">
+                                                <p>
+                                                    <a class="btn-link mrl" {% if reply.replyUid %} target="_blank" href="{{ path('user_show', {id:reply.replyUid,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                                   @{% if reply.pid == 0 %} {{cmt.sendName}}{% else %}{{reply.beReplyName}}{% endif %}
+                                                   </a>
+                                                   {{reply.reply}}
+                                                </p>
+                                             </div>
+                                         <div class="user-footer">
+                                             <a class="alike mrl zan" href="javascript:void(0)"><i class="glyphicon {% if reply.isGood == 1 %}glyphicon-heart {% else %} glyphicon-heart-empty {% endif %} mrs"></i><b class='cmtApprise' data-appraiseid='reply{{reply.id}}'  data-type='poster'  data-vcode='{{md5Vcode('poster' , 'reply'~reply.id)}}'>{% if reply.isGood == 1 %}取消赞{% else %}赞 {% endif %}{% if reply.good %}(<i>{{reply.good}}</i>){% else %}(<i>0</i>){% endif %}</b></a>
+                                             <a class="areply mrl reply-{{cmtIdStr}}"   href="javascript:void(0)"><i class="fa fa-reply mrs"></i>回复</a>
+                                             {% if reply.replyUid == user.id and reply.replyUid != 0  and cmtRule.allowDel == 1  or delPower == 1 %}
+                                             <a data-id="{{reply.id}}" data-delete = "reply" class="adelete del-reply-{{cmtIdStr}}" href="javascript:void(0)" ><i class="glyphicon glyphicon-trash mrs"></i>删除</a>
+                                             {% endif %}
+                                             
+                                         </div>
+                                     </div>    
+                                 </div>
+                                 <div class="p-replybox reply-box" style="display:none">
+                                     <form  class="reply-comment-form-{{cmtIdStr}}" {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} data-release = '1' {% else %} data-release = '0' {% endif %} data-insert="2" action="/System/Comment/replyCommentAction" method="post" novalidate>
+                                     <div class="discuss-textcon">
+                                         <div class="userpic">
+                                             <a {% if user.id %}target="_blank" href="{{ path('user_show', {id:user.id,center:app.request.get('center')}) }}" {% else %} href="#" {% endif %}>
+                                                 <img src="{{ user_default_path(user.id, 'small') }}"/>
+                                             </a>
+                                         </div>
+                                         <div class="tareabox input-change-text">
+                                             <div class="tareawrap">
+                                                 <div class="tareacon">
+                                                     <textarea  class="textareastyle textareastyle-{{cmtIdStr}}" name="content"  placeholder="请输入..." ></textarea>
+                                                 </div>
+                                                 {% if user.id or cmtRule.forceLogin or user.id == 0 and cmtRule.anonyNoLogin == 0  %}
+                                                 <div class="tareabtn">
+                                                     <div class="tareabtn-right"><button type="submit"  class="issuebtn issuebtn_{{cmtIdStr}}">回复</button></div>
+                                                     {#<div class="phizbox"><a class="face" href="###"></a></div>#}
+                                                     <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                                 </div>
+                                                 {% endif %}
+                                             </div>
+                                             {% if user.id == 0 and cmtRule.forceLogin == 0  and cmtRule.anonyNoLogin == 1 %} 
+                      
+                                                <div class="anonymity-set anonymity-exit"  {% if user.nickname == '' %}style="display:none" {% endif %}>
+                                                     <div class="visitors-login">
+                                                    <button type="submit"   class="btn btn-primary issuebtn_{{cmtIdStr}}">回复</button></span></div>
+                                                    <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                                    <div class="nickname" ><span><i class="glyphicon glyphicon-user mrs"></i><b class="anonyName">{{user.nickname}}</b></span><a class="exitbtn" href="javascript:void(0)">退出</a></div>   
+                                                    </div>
+
+                                                    <div class="anonymity-set anonymity-nick"  {% if user.nickname %} style="display:none" {% endif %} >
+                                                    <div class="visitors-login"><h6>以游客身份回复</h6><span>
+                                                    {% if user.nickname != '' %}
+                                                     <input type="hidden" name="sendName" value="{{user.nickname}}">
+                                                     {% else %}
+                                                     <input type="text" name="sendName" placeholder="昵称">
+                                                     {% endif %}
+                                                    <button type="submit" data-anony ="anony"   class="btn btn-primary issuebtn_{{cmtIdStr}}">回复</button></span></div>
+                                                    <div class="content-words pull-left change-back">还可以输入<i>140</i>字</div>
+                                                    </div>
+                                                {% endif %}
+                                         </div>
+                                     </div>
+                                      <input type="hidden" name="statId" value="{{reply.cmtStatId}}">
+                                      <input type="hidden" name="cmtId" value="{{reply.cmtId}}">
+                                      <input type="hidden" name="cmtIdStr" value="{{cmtIdStr}}">
+                                      <input type="hidden" name="cmtType" value="{{cmtType}}">
+                                      <input type="hidden" name="pid" value="{{reply.id}}">
+                                      <input type="hidden" name="replyType" value="children">
+                                      <input type="hidden" name="sendUid" value="{{user.id}}">
+                                      {% if user.id %}
+                                       <input type="hidden" name="sendName" value="{{user.nickname}}">
+                                       {% endif %}
+                                      <input type="hidden" name="vcode" value="{{vcode}}">
+                                      <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+                                    </form>
+                                 </div>
+
+                                 </div>   
+                                  {% endfor %}
+                                  {% endif %}   
+                               {% endif %}  
+                             </li>
+                             {% if cmt.replyComment|length >  3 %}
+                             <li class="more-reply"><a class="btn-link" href="javascript:void(0)"><i class="glyphicon glyphicon-download mrs"></i>还有{{cmt.replyComment|length -3}}条回复，点击查看</a></li>
+                             {% endif %}
+                         </ul>
+                        
+                   </div>  
+                    {% endfor %}      
+                    {% endif %}
+                </li>
+            </ul>
+            {% if comment and maxPage != 1 %}
+            <div class="loading-more"><a class="more-discuss" id="loading-more"  href="javascript:;"><span>加载更多评论</span></a></div>  {% endif %}
+        </div>
+        
+    </div>
+</div>

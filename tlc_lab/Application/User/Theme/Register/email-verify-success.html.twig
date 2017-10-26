@@ -1,0 +1,33 @@
+{% extends '@User/layout.html.twig' %}
+{% block title %}注册成功 - {{ parent() }}{% endblock %}
+{% set script_controller = 'auth/email-verify' %}
+{% set two_nav = '注册成功' %}
+{% set containerClassBlock = 'index_container' %}
+{% block content %}
+<div class="login-bg" style="background-image:url({{register_success_pic_path()}});">
+    <div class="col-md-8 col-md-offset-2 ptl">
+        <div class="panel panel-default panel-page login-success-box">
+            <div class="panel-heading">
+                <h2 style="color:#0093f0"><b><img src="/Public/static/img/login-icon-success.png" /></b>邮箱验证通过，注册成功</h2>
+            </div>
+            <input type="hidden" name="verifyUrl" value="{{ path('register_email_verify', {token:token.token}) }}" />
+            <div class="email-send-success">
+                <p>恭喜您，邮箱地址<b style="color:#0093f0"> {{user.email}} </b>的账号注册成功！</p>
+                <p class="mvl">
+                    <a class="btn btn-primary" href="{{ path('homepage') }}">跳转到首页 ( <i class="second-down">60</i>S )</a>
+                </p>
+                {% if applyTeacherEnabled == 0 %}
+                <div class="alert" style="line-height:24px;">
+                    <ul>
+                        <li>1.您的账号当前为学生身份，仅可使用学生相关功能。</li>
+                        <li>2.若您为本校老师，想成老师身份并使用老师相关功能，请<a href="javascript:" style="color:#0078d0" class="user-apply-teacher" data-backdrop="static" data-toggle="modal" data-target="#modal" data-url="{{path('user_apply',{uid:user.id})}}">申请</a>或联系管理员。<br/> 
+                            <p style="color:#0093f0">管理员联系方式：{{setting('login_bind.login_manger_mobile')|default('未设置')}}</p>
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+      </div>
+    </div>
+</div>
+{% endblock %}

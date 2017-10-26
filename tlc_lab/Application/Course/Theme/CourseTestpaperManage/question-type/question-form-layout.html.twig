@@ -1,0 +1,145 @@
+{% set menu = 'question' %}
+{% set script_controller = 'quiz-question/create' %}
+{% block courseContent %}
+
+{% set parentQuestion = parentQuestion|default(null) %}
+
+<div id="question-creator-widget"
+     data-upload-url="{{ path('course_manage_question_upload', {courseId:course.id, qestype:question.qestype}) }}"
+     data-media-upload-params-url="{{ path('uploadfile_params', {targetType:'question', targetId:0}) }}"
+     data-media-upload-callback-url="{{ path('uploadfile_cloud_callback', {targetType:'question', targetId:0}) }}"
+     >
+      {% if updateTag %}
+            <form id="question-create-form" data-role="question-form" class="form-horizontal quiz-question" method="post" action="
+            {% if question.id %}
+                {{ U('Course/CourseTestpaperManage/createNewQuestion',{courseId:course.id, id:question.id, goto:app.request.get('goto')}) }}
+            {% else %}
+                {{ U('Course/CourseTestpaperManage/createNewQuestion',{courseId:course.id, qestype:question.qestype, parentId:parentQuestion.id|default(0)}) }}
+            {% endif %}" >
+      {% else %}
+            {# callNumber试题使用次数 #}
+            {% if question.callNumber > 0 %}
+                <form id="question-create-form" data-role="question-form" class="form-horizontal quiz-question" method="post"  action="{{ U('Course/CourseQuestionManage/editHasAddedQuestion',{courseId:course.id,testId:app.request.get('testId'),htestId:app.request.get('htestId'),id:app.request.get('id'),type:app.request.get('type')}) }}">
+            {% else %}
+                <form id="question-create-form" data-role="question-form" class="form-horizontal quiz-question" method="post"  action="{% if question.id %}{{ path('course_manage_question_update',{courseId:course.id, id:question.id, goto:app.request.get('goto'),center:app.request.get('center'),updSource:1}) }}{% else %}{{ U('Course/CourseTestpaperManage/createNewQuestion',{courseId:course.id,id:app.request.get('id'),type:app.request.get('type'),parentId:parentQuestion.id|default(0), goto:app.request.get('goto'),updSource:1}) }}{% endif %}">
+            {% endif %}
+        {% endif %}      
+        {{ web_macro.flash_messages() }}
+        {% if not parentQuestion %}
+            <div class="form-group">
+                <div class="col-md-2 control-label"><label>从属<span style="font-size:12px;color:#ff0000;margin-left:5px;"></span></label></div>
+                <div class="col-md-8 controls">
+                    <select class="form-control width-input width-input-large" name="target" data-role="target">
+                        {{ select_options(targetsChoices, question.target|default(null)) }}
+                    </select>
+                    <div class="help-block">可以针对本课程或者某个课程内容出题</div>
+                </div>
+            </div>
+       {% endif %}
+        <div class="form-group" id="difficultyDiv">
+        <div class="col-md-2 control-label"><label class="mts">难度</label></div>
+            <div class="col-md-8 controls radios btn-choose">
+                <a class="a-choose  select-openRange" style="width:165px;" href="javascript:void(0)" data-id="0" value="simple">简单</a>
+                <a class="a-choose active select-openRange" style="width:165px;" href="javascript:void(0)" data-id="1" value="normal">一般<em class="fa fa-check-square-o selected-icon"></em></a>
+                <a class="a-choose  select-openRange" style="width:165px;" href="javascript:void(0)" data-id="2" value="difficulty">困难</a>
+                <input id="difficulty" type="hidden" name="difficulty" value="{{ question.difficulty|default('normal') }}" />
+                {# {{ radios('difficulty', {'simple':'简单', 'normal':'一般', 'difficulty':'困难'}, question.difficulty | default('normal')) }}  #}
+            </div>          
+        </div>
+        <div class="form-group">
+            <div class="col-md-2 control-label"><label for="question-stem-field">{{ question_stem_label|default('题干') }}</label></div>
+            <div class="col-md-8 controls">
+                <input type="hidden" name="imgURL" id="tmpImgURL" value="{{question.imgURL | default('')}}">
+                <div id="imgdiv" class="preview-box pull-right" style="position:relative;z-index: 11;display: none;">
+                    <div class="img-preview"><p><a data-toggle="modal" data-target="#showBigImage" href="###"><img width="200" height="160" class="course-picture stemImg" src="/{{ Const('DATA_FETCH_URL_PREFIX') }}/course/course-default11.jpg?5.1.4" alt="暂无图片" width="100%"></a></p></div>
+                    <div class="pic-del-btn text-right"  ><a class="btn btn-sm btn-primary" data-del="{{ U('Course/CourseQuestionManage/delImg') }}" href="###" id="delImg" style="display: none;">删除</a></div>
+                </div>
+                <div style="position:relative;z-index: 10">
+                    <div class="webuploader-pic">
+                        {% if enabledAudioQuestion|default(null) %}
+                            <div id="question-stem-audio-uploader" class="btn btn-sm btn-default webuploader-container" type="button" data-target="#question-stem-field"><i class="glyphicon glyphicon-volume-up"></i></div>
+                        {% endif %}
+                    </div>
+                    <textarea class="form-control" id="question-stem-field" name="stem" style="height:180px;">{{question.stem | default('')}}</textarea>
+                    {% set question_stem_help = question_stem_help|default('') %}
+                    {% if question_stem_help %}<div class="help-block">{{ question_stem_help|raw }}</div>{% endif %}
+                </div>
+            </div>
+        </div>
+        <div style="display: none;"id="question-stem-uploader" class="btn btn-sm btn-default webuploader-container" type="button" data-target="#question-stem-field"></div>
+        {% block question_extra_fields %}{% endblock %}
+        {% if qestype != 'choices' and qestype != 'single_choice' %}
+            <div class="form-group">
+                <div class="col-md-8 col-md-offset-2 controls ">
+                    <a data-toggle="collapse" data-role="advanced-collapse" data-target="#advanced-collapse" class="text-success collapsed" style="cursor: default;">&raquo; 显示/隐藏 高级选项 ...</a>
+                </div>
+            </div>
+        {% endif %}
+        <div id="advanced-collapse" class="advanced-collapse collapse">
+            <div class="form-group">
+                <div class="col-md-2 control-label"><label for="question-analysis-field">解析</label></div>
+                <div class="col-md-8 controls">
+                    <textarea class="form-control" id="question-analysis-field" name="analysis">{{ question.analysis|default('') }}</textarea>
+                </div>
+                <div class="col-md-2" style="padding-left:0;">
+                    <div id="question-analysis-uploader" class="btn btn-sm btn-default  webuploader-container" data-role="analysis-uploader" data-target="#question-analysis-field"><i class="glyphicon glyphicon-picture"></i></div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2 control-label"><label for="question-score-field">分值</label></div>
+                <div class="col-md-4 controls">
+                    <input class="form-control" value="{{question.score|default(2)}}" type="text" id="question-score-field" name="score" />
+                    <input type="hidden" value="2" name="tag" />
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-8 col-md-offset-2 controls">
+                {% block question_buttons %}
+                    {#{% if not question.id %}#}
+                    {#<button type="submit" data-role="submit" class="btn btn-primary submit-btn" data-submission="continue">保存并继续添加</button>#}
+                    {#{% endif %}#}
+                    <button type="submit" data-role="submit" class="btn btn-primary submit-btn" data-submission="submit" >保存并添加题目</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                {% endblock %}
+                {#<a href="{{ path('course_manage_question', {courseId:course.id,center:app.request.get('center'), parentId:parentQuestion.id|default(0)}) }}" class="btn btn-link">返回</a>#}
+            </div>
+        </div>
+        <input type="hidden" name="submission">
+        <input type="hidden" name="type" value="{{ question.qestype }}">
+        <input type="hidden" name="parentId" value="{{ parentQuestion.id|default(0) }}">
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+    </form>
+    </div>
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="showBigImage" tabindex="-1" role="dialog" 
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" 
+                            aria-hidden="true">×
+                    </button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        试题图预览
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <img class="course-picture stemImg"  src="" alt="暂无图片" width="100%">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" 
+                            data-dismiss="modal">关闭
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script>
+        app.load('quiz-question/create');
+        </script>
+{% endblock %}
+
+
+

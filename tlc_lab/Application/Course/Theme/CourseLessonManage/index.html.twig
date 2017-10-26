@@ -1,0 +1,34 @@
+{% set side_nav = 'lesson' %}
+{% set menu = 'lesson' %}
+{% set script_controller = 'course-manage/lesson' %}
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+
+{% block title %}课程内容管理 - {{ parent() }}{% endblock %}
+
+ {% block side %}
+     <div class="t-course-handle">
+         <div class="t-add-content pull-right">
+             <button class="btn btn-info btn-sm" id="chapter-create-btn" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-url="{{ path('course_manage_chapter_create', {id:course.id}) }}">
+                 <i class="glyphicon glyphicon-plus mrs"></i> 添加章目录
+             </button>
+         </div>
+     </div>
+ {% endblock %}
+
+{% block courseContent %}
+    <div class="t-course-set-box">
+        {% if items is empty %}
+            <div class="empty">暂无课程内容！</div>
+        {% endif %}
+        <ul class="lesson-list sortable-list" id="course-item-list" data-sort-url="{{ path('course_manage_lesson_sort', {id:course.id}) }}">
+            {% for id, item in items %}
+                {% if 'chapter' in id %}
+                    {% include '@Course/CourseChapterManage/list-item.html.twig' with {chapter: item} %}
+                {% elseif 'lesson' in id %}
+                    {% include '@Course/CourseLessonManage/list-item.html.twig' with {lesson: item, file: files[item.mediaId]|default(null)} %}
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+

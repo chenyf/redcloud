@@ -1,0 +1,9 @@
+{% for word in wordList %}
+    <div class="pull-left sensitive-word-item" data-id="{{ word.id }}">
+        <span class="glyphicon glyphicon-remove delete_link" title="删除敏感词" data-placement="top" data-toggle="tooltip"></span>
+        <span class="c-icon-checked" aria-hidden="true"></span>
+        <span>{{ word.word }}</span>
+    </div>
+{% else %}
+    <div class="text-center no-tip">暂无敏感词汇</div>
+{% endfor %}

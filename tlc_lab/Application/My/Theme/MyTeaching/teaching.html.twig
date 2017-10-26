@@ -1,0 +1,38 @@
+{# 我的云课堂--new #}
+{% extends "@My/MyTeaching/teaching-layout.html.twig" %}
+{% block teachingBlock %}
+    <div class="panel-body">
+        <div class="row" style="margin: 0;">
+                <ul class="my-teaching-list">
+                {% for course in courses %}
+                     <li class="col-md-6 col-sm-6">
+                         <div class="cc-course-tit">
+                             <a class="cc-course-name pull-left" href="{{ path('course_show', {id:course.id,center:app.request.get('center')}) }}">{{ course.title }}</a>
+                             {#% if course.type == 'live' %}
+                                <div><span class="label label-success live-label">直播</span></div>
+                            {% endif  %#}
+                             <a class="cc-icon-edit" href="{{ path('course_manage_base', {id:course.id,center:app.request.get('center')}) }}">[编辑]</a></div>
+                         <div class="cc-course-con">
+                             <div class="col-md-7 col-sm-7">
+                                 <div class="cc-course-pic">
+                                    <a href="{{ path('course_show', {id:course.id}) }}"> <img  loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/loading-error.jpg?5.1.4';"  class="course-picture" src="{% if course.selectPicture == "" %}{{ default_path('coursePicture',course.middlePicture, 'large') }}{% else %} {{ course.selectPicture }}{% endif %}" alt="{{ course.title }}" width="100%"></a>
+                                    <span class="cc-mask">
+                                        <em class="text-success">
+                                            {{ dict_text('courseStatus:html', course.status) }}
+                                         </em>
+                                    </span>
+                                 </div>
+                             </div>
+                             <div class="col-md-5 col-sm-5">
+                                 <a class="btn btn-block btn-default btn-wireframe" href="{{ path('course_manage_lesson', {id:course.id,center:app.request.get('center')}) }}">课程内容管理</a>
+                             </div>
+                         </div>
+                     </li>
+                {% else %}
+                    <tr><td colspan="20"><div class="empty">暂无在教的课程</div></td></tr>
+                {% endfor %}
+                 </ul>
+                {{ web_macro.paginator(paginator) }} 
+            </div>
+    </div>
+ {% endblock %}

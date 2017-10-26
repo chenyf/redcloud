@@ -1,0 +1,92 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% block title %}消息推送日志{% endblock %}
+
+{% block body %}
+
+<table class="table table-striped table-condenseda table-bordered">
+ 
+<tr>
+    <th>标题</th>
+    <td>{{ pushLogList.title}}</td>
+  </tr>
+
+
+  <tr>
+    <th>内容</th>
+    <td>
+         <textarea class="form-control" id="content" rows="16" name="content" 
+    value="" readonly="readonly" data-image-upload-url="{{ path('editor_upload', {token:upload_token('default')}) }}"> {{ pushLogList.description}}</textarea>
+     
+    </td>
+  </tr>
+  <tr>
+    <th>班级</th>
+    <td>{{pushLogList.className|default("无")}}</td>
+  </tr>
+  <tr>
+    <th>平台</th>
+    <td>
+     {% if pushLogList.platform =="android"%}
+       安卓
+     {%else%}苹果
+    {% endif%}     
+    </td>
+  </tr>
+
+  <tr>
+    <th>发送时间</th>
+    <td> 
+  {{pushLogList.ctime|date("Y-m-d H:i:s")}}
+     </td>
+  </tr>
+
+
+
+
+
+
+  
+{#   <tr>
+    <th>类型</th>
+    <td>
+      {% if profile.iam %}
+        {{ profile.iam }}
+      {% else %}
+        暂无
+      {% endif %}
+    </td>
+  </tr> #}
+ 
+ 
+
+
+
+</table>
+<hr>
+<table class="table table-striped table-condenseda table-bordered">
+    {% if fields %}
+  {% for field in fields %}
+    <tr>
+        <th width="25%">{{field.title}}</th>
+        <td>
+          {% if profile[field.fieldName] %}
+            {% if field.type=="date"%}
+            {{ profile[field.fieldName]|date("Y-m-d") }}
+            {% else %}
+            {{ profile[field.fieldName] }}
+            {% endif %}
+          {% else %}
+            暂无
+          {% endif %}
+        </td>
+    </tr>
+  {% endfor %}
+  {% endif %}
+  </table>
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+    <script>app.load('daily/show-modal');</script>
+{% endblock %}

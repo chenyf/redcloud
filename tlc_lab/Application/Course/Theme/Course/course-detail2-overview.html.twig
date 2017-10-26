@@ -1,0 +1,46 @@
+<span></span>
+<div class="rc-Overview">
+    <div class="about-section-wrapper">
+        {#课程简介#}
+        <div class="body-1-text course-description">
+            <h3 class="body-2-text">关于此课程</h3>
+            <div class="course-introduction">
+                <span style="word-break: break-all;">{{ course.about|raw }}</span>
+            </div>
+        </div>
+        <hr class="cdp-rule">
+        {#课程教师#}
+        <div class="rc-CreatorInfo">
+            <div class="creator-logos horizontal-box">
+                <a class="teacher-pic" href="{{ path('user_show', {id:teacher.id}) }}"><img  loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/pic-error.png?5.1.4';"  src="{{ user_default_path(teacher.id) }}" class="avatar"></a>
+                >
+            </div>
+            <div class="headline-1-text creator-names">
+                <strong>课程教师：</strong>
+                <span>&nbsp;&nbsp;&nbsp;</span>
+                <a class="nickname text-center" href="{{ path('user_show', {id:teacher.id}) }}">{{ teacher.nickname }}</a>
+            </div>
+            <div class="title text-center"> {{ teacher.title }}</div>
+            <hr class="cdp-rule">
+        </div>
+        {#课程基本信息#}
+        <div class="rc-BasicInfo">
+            <table class="basic-info-table bt3-table bt3-table-striped bt3-table-bordered bt3-table-responsive">
+                <tbody>
+                <tr>
+                    <td>
+                        <span class="td-title">课程名称</span>
+                    </td>
+                    <td class="td-data">{{ course.title }}</td>
+                </tr>
+                <tr>
+                    <td>
+                        <span class="td-title">课时</span>
+                    </td>
+                    <td class="td-data">{{ course.lessonNum }}课时</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

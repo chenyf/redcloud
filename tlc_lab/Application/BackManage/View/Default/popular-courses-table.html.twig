@@ -1,0 +1,20 @@
+{% if sortedCourses %}
+	<table class="table table-condensed table-striped table-hover" style="word-break: break-all;">
+	  <thead>
+	    <tr>
+	      <th>课程名称</th>
+	    </tr>
+	  </thead>
+		<tbody>
+			{% for sortedcourse in sortedCourses %}
+				<tr>
+					<td>
+						<a href="{{ path('course_show', {id: sortedcourse.courseId}) }}" target="_blank">{{ sortedcourse.title }}</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% else %}
+  <div class="empty">暂无受欢迎课程</div>
+{% endif %}

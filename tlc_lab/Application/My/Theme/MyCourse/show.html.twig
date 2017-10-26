@@ -1,0 +1,61 @@
+{% extends '@My/MyCourse/layout.html.twig' %}
+
+{% block title %}金币兑换课程 - {{ parent() }}{% endblock %}
+
+{% set tab_nav = 'learning' %}
+{% set script_controller = 'course/show' %}
+{% set modalKeyboard = 1 %}
+
+{% block main %}
+    <div class="panel panel-default panel-col">
+         {% if isOpenPublicCourse() %}    
+            <div class="course-list-tit">
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ U('My/MyCourse/learning') }}">{{privateCourseName()}}</a></li>
+                    <li><a href="{{ U('My/MyCourse/learning',{center:1}) }}">{{publicCourseName()}}</a></li>
+                    {% if systemGoldStatus %}<li class="active"><a href="{{ U('My/MyCourse/getCourceGoldBuy') }}">金币兑换课程</a></li> {% endif %}
+                </ul>
+            </div>
+         {% endif %}    
+        <div class="panel-body cc-panel-body">
+            <div class="panel-body">
+                <div class="exchange-details">
+                    <div class="exchange-course"> 
+                        <a href="{{ U('My/MyCourse/getCourceGoldBuy') }}" class="btn btn-link btn-sm pull-right mts"><i class="fa fa-reply mrs"></i>返回</a> 
+                        <span>课程：<em>{{ courseTitle }}</em></span>
+                    </div>
+                    <ul class="lesson-list sortable-list" id="course-item-list" style="padding-top:10px">
+                        {% for lesson in lessonList %}
+                            <li class="item-lesson clearfix " href="#modal" data-toggle="modal" style="word-break: break-all;" data-url="{{ U('Course/CourseLesson/preview',{courseId:courseId,lessonId:lesson.id}) }}" data-id="{{lesson.id}}">
+                               {% if lesson.glodBtn == 'free' %}
+                                    <a  class="btn btn-sm btn-primary pull-right btn-width">免费学习</a>
+                                    {% elseif lesson.glodBtn == 'glodBuy' %}
+                                        <a  class="btn btn-sm btn-wireframe pull-right btn-width" href="###"><em>{{ lesson.needGoldNum }}</em>金币兑换</a>
+                                    {% elseif lesson.glodBtn == 'goto' %}
+                                        <a  class="btn btn-sm btn-wireframe pull-right btn-width">立即观看</a>
+                                {% endif %}
+                                <div class="item-line"></div>
+                                <div class="item-content pull-left">
+                                    <i class="fa 
+                                       {% if lesson.type == 'video'%}
+                                           fa-play-circle-o
+                                           {% elseif lesson.type == 'document'%}
+                                               fa-file-word-o
+                                           {% elseif lesson.type == 'text'%}
+                                               fa-picture-o
+                                       {% endif %}
+                                       pull-left"></i>{{lesson.title}}
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div> 
+                {{ web_macro.paginator(paginator) }} 
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

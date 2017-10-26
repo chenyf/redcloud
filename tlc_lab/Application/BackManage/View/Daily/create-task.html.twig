@@ -1,0 +1,224 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+{% block title %}添加任务通知{% endblock %}
+{% block body %}
+<style type='text/css'>
+.backgroundColor{background:#ccc;}
+    </style>
+<form id="daily-create-form" class="form-horizontal" method="post" action="{{ path('admin_daily_create')}}">
+
+    
+  <div class="row form-group">
+    <div class="col-md-2 control-label">
+      <label for="roles">发送方式</label>
+    </div>
+    <div class="col-md-8 controls radios">
+        <input type="hidden" value="{{submenu}}"  name="submenu" />
+              <label>
+      <input type="radio" value="2" name="msgtype" checked="checked">邮件  
+       </label>
+         <label>
+      <input type="radio" value="3" name="msgtype">客户端推送 
+     </label>
+          <label>
+      <input type="radio" value="4" name="msgtype">站内信
+     </label>
+    <label>
+      <input type="radio" value="1" name="msgtype" >短信  
+        </label>
+    </div>
+  </div>
+    <div class="row form-group">
+        <div class="col-md-2 control-label">
+          <label for="send_range">接收范围</label>
+        </div>
+        <div class="col-md-10 controls">
+           <!-- <select name="send_range" class="send_range form-control">
+              <option value="0">全部</option>
+              <option value="1">选择用户</option>
+           </select> -->
+           <div class="receptionbox ">
+                <div class="controls form-role-admin form-reception">
+                    <a class="btn btn-primary selectRecRange" href="javascript:;">选择</a>
+                    <span class="classNumSpan"><em>0</em>个班级</span>
+                    <span class="studentNumSpan"><em>0</em>名学员</span>
+                    <span class="teacherNumSpan"><em>0</em>位教师</span>
+                </div>
+                <div class="reception-choose choose hide chooseTree ">
+                    <div class="reception-top">
+                        <div class="reception-department">
+                            <h2>院系</h2>
+                            <div class="borderbox">
+                               <ul>
+                               {% for key, cateVal in classByCategoryList %}
+                            {%if cateVal["perm"] %}
+                                      <li>
+                                    <span>
+                                        <a href="###"  class="cateMenu" data-show="{{cateVal['show']}}" data-perm="{{cateVal['perm']}}" data-id="{{cateVal['id']}}" data-parentId="{{cateVal['parentId']}}">
+                                        {% if cateVal['isDelete'] == 1 %}【已删除】{% endif %}{{cateVal['name']}}
+                                            </a>
+                                        </span>
+                                        <ul class="hide subCateMenu">
+                                       {% for item in cateVal['children']%}
+                                         <li><span><a href="###"  class="cateMenu" data-perm="1" data-id="{{item['id']}}" data-parentId="{{item['parentId']}}"  >{% if item['isDelete'] == 1 %}【已删除】{% endif %}{{item['name']}}</a></span></li>
+                                      {%endfor%}
+                                    </ul>
+                                </li>
+                              {%elseif cateVal["show"] %}
+                                   <li>
+                                    <span>
+                                        <a href="###"  class="cateMenu"   data-show="{{cateVal['show']}}" data-perm="{{cateVal['perm']}}" data-id="{{cateVal['id']}}" data-parentId="{{cateVal['parentId']}}">
+                                        {% if cateVal['isDelete'] == 1 %}【已删除】{% endif %}{{cateVal['name']}}
+                                            </a>
+                                        </span>
+                                        <ul class="hide subCateMenu">
+                                       {% for item in cateVal['children']%}
+                                            {%if item["perm"] %}
+                                         <li>
+                                             <span>
+                                                 <a href="###" class="cateMenu"  data-perm="{{item['perm']}}" data-id="{{item['id']}}" data-parentId="{{item['parentId']}}"  >
+                                                {% if item['isDelete'] == 1 %}【已删除】{% endif %}{{item['name']}}</a></span>
+                                          </li>
+                                          {% endif%}
+                                      {%endfor%}
+                                    </ul>
+                                </li>
+                              {% endif%} 
+                                {%endfor%}
+                                 {#
+                                    {% if online == false %}
+                                        <ul>
+                                       {% for classByCategory in classByCategory['chilren'] %}
+                                            <li><span><a href="javascript:;">{}</a></span></li>      
+                                       {%endfor%}
+                                       </ul>
+                                     {% endif%}
+                                     #}
+                                    <!--
+                                    <ul>
+                                        <li><span><a href="###">院系第二级</a></span></li>
+                                        <li><span><a href="###">院系第二级</a></span></li>
+                                        <li><span><a href="###">院系第二级</a></span></li>
+                                        <li><span><a href="###">院系第二级</a></span></li>
+                                        <li><span><a href="###">院系第二级</a></span></li>
+                                    </ul>
+                                    -->
+                            </ul>
+                            </div>
+                        </div>
+                        <div class="reception-class">
+                            <h2>班级</h2> 
+                            <div class="borderbox">
+                                <ul>
+                                     {%for classItem in groupList%} 
+                                    <li class="hide">
+                                        <label>
+                                            <input type="checkbox"  name='class[]' data-categoryId="{{classItem['categoryId']}}" data-studentNum="{{classItem['studentNum']}}" value="{{classItem['class']}}" class="classList"/>{{classItem["className"]}}</label>
+                                        
+                                        </li>
+                                      {% endfor%}
+                                </ul>
+                            </div>
+                        
+                        </div>
+                        <div class="reception-teacher">
+                            <h2>老师</h2>
+                            <div class="borderbox">
+                                <ul>
+                                   {% for titem in  teacherList %}
+                                    <li class="hide"><label><input type="checkbox"  name="teacher[]" data-topCateid="{{titem['teacherCategoryId']}}" value="{{titem['id']}}" class="teacherList"/>{{titem['nickname']}}</label></li>
+                                   {% endfor%}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="reception-result">
+                        <h3>选择结果</h3>
+                        <div class="student-id">
+                            <span>学生：</span>
+                            <ul class="resultcon1 student-input_res" style="min-height:30px;" >
+                               
+                            </ul>
+                        </div>
+                        <div class="teacher-id">
+                            <span>老师：</span>
+                            <ul class="resultcon2 teacher-input_res" style="min-height:30px;">
+                               <!-- <li><i>×</i><em>李老师</em></li>-->
+                               
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="reception-btn">
+                     
+                    <a href="###" class="reception-rest">取消</a>
+                    <a class="btn btn-primary reception-save" href="###">保存</a>
+                     
+                    </div>
+                </div>
+           </div>
+        </div>
+  </div>
+    <!--
+    <div class="row form-group">
+    <div class="col-md-2 control-label">
+      <label for="title">接收人群</label>
+    </div>
+    <div class="col-md-8 controls">
+      <input type="to_uid" id="to_uid" data-url="" name="to_uid" class="form-control" >
+    </div>
+  </div>
+    -->
+    <div class="row form-group">
+    <div class="col-md-2 control-label">
+      <label for="ccpeople">附加</label>
+    </div>
+    <div class="col-md-8 controls">
+     <input class="width-full select2-offscreen" type="search" tabindex="0" name="ccpeople" id="ccpeople"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" placeholder="请填写抄送人" style="width: 429px;">
+     <!--
+     <input type="search" data-url="" name="ccpeople" id="ccpeople" class="select2-search__field" >
+     -->
+    </div>
+  </div>
+  <div class="row form-group titleFormGroup">
+    <div class="col-md-2 control-label">
+      <label for="title">标题</label>
+    </div>
+    <div class="col-md-8 controls">
+      <input type="text" id="title" data-url="" name="title" class="form-control" >
+    </div>
+  </div>
+    
+    
+  <div class="row form-group contentFormGroup">
+    <div class="col-md-2 control-label">
+      <label for="content">内容</label>
+    </div>
+    <div class="col-md-8 controls">
+    <textarea class="form-control" id="content" rows="16" name="content" 
+    value="" data-image-upload-url="{{ path('editor_upload', {token:upload_token('default')}) }}"></textarea>
+            
+    </div>
+  </div>
+   <div class="row form-group msgFormGroup hide">
+    <div class="col-md-2 control-label">
+      <label for="content">内容</label>
+    </div>
+    <div class="col-md-8 controls">
+    <textarea class="form-control" id="msgContent" rows="16" name="msgContent" 
+    value="" ></textarea>
+            
+    </div>
+  </div>
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+ <!--
+  <input type="hidden" name="submenu" class="submenu" value="{{submenu}}">
+-->
+</form>
+{% endblock %}
+
+{% block footer %}
+  <button id="daily-create-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary pull-right" data-toggle="form-submit" data-target="#daily-create-form">提交</button>
+  <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+  <script>app.load('daily/create-modal');</script>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends '@My/My/layout.html.twig' %}
+{% block title %}在教课程 - {{ parent() }}{% endblock %}
+{% set side_nav = 'teacherTask' %}
+{% set script_controller = 'activity/voucherdata' %}
+{% block main %}
+        <div class="panel panel-default panel-page col-md-6 col-md-offset-3">
+        <div class="form-group ">
+         <input type="hidden" id="url" value="{{U('VoucherData/query')}}">
+         <input type="text" class="form-control" name="code" id="code" placeholder="请输入腾讯云兑换码">
+        </div>
+        <button type="button" id="conform" class="btn btn-success">兑换</button>
+        <span id="tip">没有兑换码？去腾讯云商城购买。</span>
+        </div>
+{% endblock %}

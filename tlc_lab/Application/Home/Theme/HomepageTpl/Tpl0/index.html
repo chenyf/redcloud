@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>{{ title }}</title>
+<link href="/Public/homepage/template/tpl/tpl0/css/bootstrap.css" rel='stylesheet' type='text/css' />
+<!-- jQuery (necessary JavaScript plugins) -->
+<script src="/Public/homepage/template/tpl/tpl0/js/jquery.min.js"></script>
+<!-- Custom Theme files -->
+<script src="/Public/homepage/template/tpl/tpl0/js/masonry.js"></script>
+<link href="/Public/homepage/template/tpl/tpl0/css/style.css" rel='stylesheet' type='text/css' />
+
+<!-- Custom Theme files -->
+<!--//theme-style-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="description" content="{{ description }}" />
+<meta name="keywords" content="{{ keywords }}" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- start menu -->
+  
+</head>
+<body>
+<div class="top">
+	<img loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/pic-error.png?5.1.4';"  src="{{ user_default_path(user.id) }}" class="avatar" alt="{{ user.nickname }}">
+	<h1>{{ user.nickname }}</h1>
+	<h3>{{ profile.position }}</h3>
+</div>
+<div class="nav">
+	<div class="left-nav" ><a href="./research.html">科研项目</a></div>
+	<div class="harf-circle-red"></div>
+	<div class="center-nav"><a href="./index.html">主页&nbsp;&nbsp;与&nbsp;&nbsp;教学</a></div>
+	<div class="right-nav"><a href="./publications.html">出版物</a></div>
+</div>
+<div class="main">
+	<div class="left-info">
+		<div class="square">
+			<h2>联系方式</h2>
+			<div class="border-square">
+				{% for v in data.contacts %}
+				<p>{{ v.key }}: {{ v.value }}</p>
+				{% endfor %}
+			</div>
+		</div>
+		<div class="square">
+			<h2>个人简介</h2>
+			<div class="border-square">
+				{% for v in data.intros %}
+                <p>- {{ v.key }} <br/><br/>{{ v.value }}</p></br>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+	<div class="right-main">
+		{% for key,v in data.teaches %}
+			<div class="square jiaoxue right-7">
+				<h2>{{ v.key }}</h2>
+				<div class="border-square">
+					{% for v2 in v.value %}
+						{% if v2.title is empty %}
+							 <p>• {{v2.val}}</p>
+						{% else %}
+						 	<p>• <a href="{{ path('course_show', {id:v2.id}) }}" target="_blank">{{ v2.title }}</a></p>
+						{% endif %}
+					{% endfor %}
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+
+</div>
+<div class="copyright">
+		<p>{{site.icp}}</p>
+</div>
+<script>
+	$(function() {
+		var $container = $('.right-main');
+		$container.imagesLoaded(function() {
+			$container.masonry({
+				itemSelector: '.jiaoxue',
+				isAnimated: true,
+			});
+		});
+	});
+
+	$(document).ready(function () {
+		if($(window).width()>640){
+			var left=$(".left-info").outerHeight(),
+					right=$(".right-main").outerHeight();
+			$('.main').css('height',((left>right?left:right)+40)+'px');
+		}
+
+	})
+</script>
+</body>
+</html>

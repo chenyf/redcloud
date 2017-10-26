@@ -1,0 +1,51 @@
+<table id="user-table" class="table table-striped table-hover" data-search-form="#user-search-form">
+    <thead>
+        <tr>
+            <th>任务类型</th>
+            <th>状态</th>
+            <th>接受班级</th>
+            <th>接受老师</th>
+            <th>附加抄送人</th>
+            <th>创建时间</th>
+        </tr>
+    </thead>
+    <tbody>
+            {% if taskDetail %}
+            {% for data in taskDetail %}
+            <tr>
+                <td>{{msgtype[data.msg_type]}}</td>
+                <td>{{sendStatus[data.status]}}</td>
+                <td>
+                    <a href="###" data-toggle="tooltip" data-placement="top" data-animation="false" data-list="class" data-original-title="{{getClassListByClassIds(data.class_id)|default('无')}}">
+                        {% if data.classNum %}
+                              {{data.classNum}}个
+                            {%else%}
+                            无
+                           {% endif%}
+                        </a>     
+                    </td>
+                    <td>
+                        <a href="###" data-toggle="tooltip"  data-placement="top" data-animation="false" data-list="teacher" data-original-title="{{getTeacherListByTids(data.teacher_id)|default('无')}}" >
+             {% if data.teacherNum %}
+                  {{data.teacherNum}}个
+                {%else%}
+                                无
+               {% endif%}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="###" data-toggle="tooltip"  data-placement="top" data-animation="false" data-list="teacher" data-original-title="{{getCopyPeopleByMsgType(data.copy_people,{msgtype:data.msg_type})|default('无')}}" >
+                  {% if data.copyNum %}
+                  {{data.copyNum}}个
+                {%else%}
+                                    无
+               {% endif%}
+                                </a>
+                            </td>
+                            <td>{{data.ctime|date("Y-m-d H:i:s")}}</td>
+                        </tr>
+            {% endfor %}
+            {% endif %}
+                    </tbody>
+                </table>    
+      {{ web_macro.paginator(paginator) }}

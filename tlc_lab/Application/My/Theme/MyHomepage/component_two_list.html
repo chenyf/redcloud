@@ -1,0 +1,132 @@
+<template id="component-two-list">
+    <div class="form-group row">
+        <label class="col-md-2 col-lg-2 info-item-title">[[ title ]]</label>
+        <div class="col-md-1 col-lg-1">
+            <div data-toggle="modal" data-target="#[[ id ]]" class="fs2 new-red" aria-hidden="true" data-icon="&#xe050;"></div>
+        </div>
+    </div>
+    <div v-for="($i, data) in datas" >
+        <div class="row form-group">
+            <label class="col-lg-2 control-label">[[ data.key ]]</label>
+            <div class="col-lg-2">
+                <div data-toggle="modal" data-target="#[[ id+$i ]]" class="fs1 new-green" aria-hidden="true" data-icon="&#xe04f;"></div>
+                <confirm_delete_modal :id="id+$i" :title="data.key" title_id="title_id+$i" :index="$i"></confirm_delete_modal>
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-lg-2 control-label"></div>
+            <div class="col-lg-8">
+                <input class="form-control" v-on:keyup.enter="addOneData($i)" v-model="datas[$i]._new" type="text" placeholder="[[datas[$i]._placeholder]]"/>
+            </div>
+            <div class="col-md-1 col-lg-1">
+                <div @click="addOneData($i)" class="fs1 new-green" aria-hidden="true" data-icon="&#xe050;"></div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-lg-2 control-label"></div>
+            <div class="col-lg-9">
+                <ul class="list-group">
+                    <li class="list-group-item list-select-item" v-for="($j,val) in data.value" v-if="val.val != ''">
+                        <div class="form-group list-select-item-inner">
+                            <label v-if='val.href == ""' class="form-label">
+                                [[val.val]]
+                            </label>
+                            <a v-else href="[[val.href]]" target="_blank" class="form-label">
+                                [[val.val]]
+                            </a>
+                            <div class="col-lg-3 pull-right">
+                                <button v-if="data.updateable == 1" data-toggle="modal" data-target="#[[ id+$i+$j ]]" class="btn btn-default btn-xs">
+                                    <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                                </button>
+                                <file_upload_modal v-if="data.updateable == 1" :id="id+$i+$j" :title="val.val" title_id="title_id+$i+$j" :index1="$i" :index2="$j"></file_upload_modal>
+                                <div class="fs0 new-gray" aria-hidden="true" data-icon="&#xe039;" @click="moveUpOneData($i, $j)">
+                                </div>
+                                <div class="fs0 new-gray" aria-hidden="true" data-icon="&#xe03a;" @click="moveDownOneData($i, $j)">
+                                </div>
+                                <div class="fs0 new-gray" aria-hidden="true" data-icon="&#xe07d;" @click="removeOneData($i, $j)">
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+
+    <add_modal :id="id" :title="title" :title_id="title_id"></add_modal>
+
+</template>
+
+
+<script>
+    var TwoList = Vue.extend({
+        template: '#component-two-list',
+        props:{
+            datas: Array,
+            id: String,
+            title: String,
+            title_id: String
+        },
+        methods:{
+            uploadOneData: function (index1, index2) {
+
+            },
+            addOneData:function (index) {
+                var text = this.datas[index]._new.trim();
+                if (text) {
+                    this.datas[index].value.push({val:text, href:""});
+                    this.datas[index]._new = "";
+                }
+            },
+            moveUpOneData:function (index1, index2) {
+                if (index2 == 0){
+                    return;
+                }
+                this.swapItems(this.datas[index1].value, index2, index2 - 1);
+            },
+            moveDownOneData:function (index1, index2) {
+                if (index2 == (this.datas[index1].value.length - 1) ){
+                    return;
+                }
+                this.swapItems(this.datas[index1].value, index2, index2 + 1);
+            },
+            swapItems: function (arr, index1, index2) {
+                arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+                return arr;
+            },
+            removeOneData:function (index1, index2) {
+                this.datas[index1].value.splice(index2, 1)
+            },
+            removeData: function (index) {
+                this.datas.splice(index, 1)
+            }
+        },
+        events: {
+            'add-new-item': function (text) {
+                if (text) {
+                    var updateable = 0;
+                    if (text == "paper" || text == "论文"){
+                        updateable = 1;
+                    }
+                    this.datas.push({ key: text, updateable: updateable , value: [], _new: '', _placeholder: ''});
+                }
+            },
+            'upload-file': function (href, index1, index2) {
+                this.datas[index1].value[index2].href = href;
+
+            },
+            'confirm-delete': function (index) {
+                this.removeData(index);
+            }
+        },
+        components:{
+            add_modal: AddModal,
+            file_upload_modal: FileUploadModal,
+            confirm_delete_modal: ConfirmDeleteModal
+        }
+    });
+</script>

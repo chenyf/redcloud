@@ -1,0 +1,82 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'middle' %}
+
+{% if create == 0 %}
+    {% set opteration_text = '编辑' %}
+{% else %}
+    {% set opteration_text = '添加' %}
+{% endif %}
+
+{% block title %}{{ opteration_text }}课程分类{% endblock %}
+{% block body %}
+
+    <div class="help-block mtm pbm">注：已有课程的分类不能修改其分类课程编号前缀！</div>
+
+    <form id="course-category-form" class="form-horizontal" method="post" action="{{ path('admin_category_manage_base', {id:id, create:create}) }}">
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="name">分类级别</label>
+            </div>
+            <div class="col-md-7 controls">
+                <label class="col-md-5 control-label" for="category-level-field"><input type="radio" name="level" value="one" {% if not cate or (cate.id and cate.parentId == 0) %} checked="checked" {% endif %}> 一级分类</label>
+                {% if parentList is not empty %}
+                    <label class="col-md-5 control-label" for="category-level-field"><input type="radio" name="level" value="two" {% if cate.id and cate.parentId != 0 %} checked="checked" {% endif %}> 二级分类</label>
+                {% endif %}
+            </div>
+        </div>
+
+        <div id="parentCategoryBlock" class="row form-group" {% if not cate or (cate.id and cate.parentId == 0) %} style="display: none;" {% endif %}>
+            <div class="col-md-2 control-label">
+                <label for="name">选择父类</label>
+            </div>
+            <div class="col-md-7 controls">
+                <select class="form-control" name="parent">
+                    {% for parent in parentList %}
+                        <option value="{{ parent.id }}" {% if parent.id == cate.parentId %}selected="selected"{% endif %}>{{ parent.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="name">分类名称</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="name" name="name" class="form-control" value="{{ cate.name|default('') }}" data-widget-cid="widget-1" placeholder="请输入分类名称">
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="code">分类代码</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="code" name="code" class="form-control" value="{{ cate.code|default('') }}" data-widget-cid="widget-1" placeholder="请输入分类对应的英文名称代码或拼音">
+                <div class="help-block">请输入语义的分类英文名称或拼音，可以留空，小于30个字符</div>
+            </div>
+        </div>
+
+        {% if not haveCourse %}
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="course_code">分类课程编号前缀</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="course_code" name="course_code" class="form-control" value="{{ cate.courseCode|default('') }}" data-widget-cid="widget-1" placeholder="请输入分类对应的课程编号前缀">
+                <div class="help-block">请输入分类对应的课程编号前缀，必须在1-8个字符之间</div>
+            </div>
+        </div>
+        {% endif %}
+
+    </form>
+{% endblock %}
+
+
+{% block footer %}
+    <button id="course-catagory-btn" data-submiting-text="正在提交" class="btn btn-primary pull-right" data-toggle="form-submit" data-target="#course-category-form">保存</button>
+    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+    <script>app.load("course/course-category-base-modal");</script>
+{% endblock %}

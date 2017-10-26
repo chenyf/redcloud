@@ -1,0 +1,75 @@
+{% extends '@BackManage/System/layout.html.twig' %}
+
+{% block title %}app版本管理 - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'mobile/module-list' %}
+
+{% set menu = 'mobile_module' %}
+
+{% block main %}
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/web.css') }}"/>
+    <style>
+        .lesson-list {
+            border-left: 0;
+            margin: 0;
+        }
+        .lesson-list .item-lesson {
+            margin-bottom: 10px
+        }
+        .bg-ef {
+            background: #efefef
+        }
+        .thumbnail {
+            margin-bottom: 3px;
+        }
+    </style>
+    <div class="page-header clearfix">
+        <h1 class="pull-left">模块配置</h1>
+        <button class="btn btn-primary install-config pull-right" data-url="{{ U('BackManage/MobileModule/install',{type:1,id:'35'}) }}">更新配置</button>
+    </div>
+    {% include '@BackManage/Mobile/select-module.html.twig' %}
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="lesson-list sortable-list " id="module-item-list" data-sort-url="{{ path('mobile_module_edit') }}">
+                {% if list %}
+                    {% for vo in list %}
+                        <li class="item-lesson clearfix" data-id="{{ vo.id }}" {% if vo.status == 2 %}style="background: #efefef"{% endif %}  >
+                            <div class="item-content">
+                                <span class="text-info">{{ vo.title }} </span>
+                                <span class="text-muted">{{ vo.name }}</span>
+                                {% if vo.status == 2 %}
+                                    <code>已禁用</code>
+                                {% endif %}
+                            </div>
+                            <div class="item-actions">
+                                <a class="btn btn-link" data-toggle="modal" data-target="#modal" data-url="{{ path('mobile_module_edit',{pid:vo.pid,type:vo.type,id:vo.id}) }}"><span class="glyphicon glyphicon-cog prs"></span>配置</a>
+                                {% if vo.status == 1 %}
+                                    <a class="btn btn-link editStatus" href="javascript:void(0)" data-url="{{ path('mobile_module_edit',{id:vo.id,status:2,action:"editStatus"}) }}" target="_blank"><span class="glyphicon glyphicon-ban-circle prs"></span>禁用</a>
+                                {% else %}
+                                    <a class="btn btn-link editStatus" href="javascript:void(0)" data-url="{{ path('mobile_module_edit',{id:vo.id,status:1,action:"editStatus"}) }}" target="_blank"><span class="glyphicon glyphicon-ok-circle prs"></span>启用</a>
+                                {% endif %}
+                            </div>
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    <div class="row" >
+                        <div class="col-md-6 col-md-offset-7">
+                            <p class="text-muted">暂无配置,点击右上角更新配置。</p>
+                        </div>
+                    </div>
+                {% endif %}
+            </ul>
+        </div>
+        <div class="col-md-5">
+            <div class="row">
+                {% if themeIds %}
+                    {% for vo in themeIds %}
+                        <div class="thumbnail">
+                            <img src="{% if vo.id %}{{ path('mobile_theme_img',{id:vo.id}) }} {% else %}/Public/assets/img/common/no-picture.png {% endif %}" alt="">
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

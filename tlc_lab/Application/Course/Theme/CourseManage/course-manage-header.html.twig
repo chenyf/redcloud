@@ -1,0 +1,71 @@
+<div class="panel panel-default panel-col lesson-manage-panel" >
+<div class="c-panel-heading">
+    <div id="t-toggle" class="t-toggle-btn pull-right mlm" data-toggle="collapse" data-target="#t-collapseExample" aria-expanded="false" aria-controls="t-collapseExample">
+        <i class="fa fa-angle-double-down"></i>
+        <!-- <i class="fa fa-angle-double-down"></i> -->
+    </div>
+    <a class="cc-cancel pull-right text-muted" href="{{path('my_teaching_courses')}}"><i class="fa fa-reply mrs"></i>返回在教课程</a>
+    <span>{{ course.title }}</span>
+</div>
+
+<div class="t-course-edit-top collapse" id="t-collapseExample">
+    {% if course.id and app.request.get('center')%}
+        {% set banShow = 1 %}
+    {% endif %}
+        
+        <div class="row t-edit-top-con">
+            <div class="col-md-6">
+                <div class="t-course-pic">
+                    <a href="{{ path('course_show', {id:course.id}) }}">
+                        <img class="course-picture" onerror="javascript:this.src='/Public/assets/img/default/loading-error.jpg?5.1.4';"  loaderrimg="1"  id="headerPicture" {% if course.selectPicture == "" %}src="{{ default_path('coursePicture',course.largePicture, 'large') }}" {% else %} src="{{ course.selectPicture }}" {% endif %} alt="{{ course.title }}" width="100%">
+                    </a>
+                    <span class="cc-mask">
+                        <a href="javascript:;"  data-url="/Course/CourseManage/pictureAutoAction/id/{{course.id}}/edit/1/tab/3/" data-backdrop="static" data-toggle="modal" data-target="#modal">
+                            <i class="glyphicon glyphicon-pencil prs"></i>编辑
+                        </a>
+                    </span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="t-course-text t-course-name">
+                    <div class="text-muted col-md-3">课程名称：</div>
+                    <div class="col-md-9 c-text-name">
+                        {% if banShow != 1 %}
+                            <a href="javascript:;" class="c-icon-edit pull-right">
+                                <i class="glyphicon glyphicon-pencil prs"></i>编辑
+                            </a>
+                            <input class="form-control" style="display:none;width:70%;" type="text" value="{{course.title}}" data-url="{{path('course_manage_edit_title')}}" data-id="{{course.id}}"/>
+                        {% endif %}
+                        <span style="word-wrap:break-word;word-break:break-all;">{{ course.title }}</span>
+                    </div>
+                </div>
+                <div class="t-course-text t-course-specialty">
+                    <div class="text-muted col-md-3">课程分类：</div>
+                    <div class="col-md-9 c-text-specialty">
+                        {% if banShow != 1 %}
+                        <a data-backdrop="static" data-toggle="modal" data-target="#modal" data-url="{{ U('Course/CourseManage/courseCategory',{id:course.id}) }}" class="c-icon-edit pull-right">
+                            <i class="glyphicon glyphicon-pencil prs"></i>编辑
+                        </a>
+                        {% endif %}
+                        <input type="hidden" name="categoryIds" value="{{ courseCategoryIds(course.id) }}" />
+                        {#{% set course_categorys = courseCategoryNames(course.id) %}#}
+                        {% set course_category = get_course_category(course.id,course.categoryId) %}
+                        <div id="course-category-name" class="c-specialty-con">
+                            <em data-id="{{ course_category.id }}">{{ course_category.name }}</em>
+                            <div class="more-specialty">
+                                <span>更多课程分类<i class="fa fa-arrow-circle-o-down mls"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="t-course-btn mtl">
+                    {% set publishurl = path('course_manage_publish', {id:course.id}) %}
+                    {% set closeurl = path('course_manage_close', {id:course.id}) %}
+                    <input type="hidden" id="publishurl" value="{{ publishurl }}">
+                    <input type="hidden" id="closeurl" value="{{ closeurl }}">
+                    <a class="btn btn-primary mrm c-btn-lg" id="courseStatus" href="javascript:void()" data-publish="{% if course.status != 'published' %}0{% else %}1{% endif %}">{% if course.status != 'published' %}发布课程{% else %}关闭课程{% endif %}</a>
+                </div>
+            </div>
+        </div>
+</div>
+    </div>

@@ -1,0 +1,59 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set modal_class = 'modal-lg' %}
+
+{% block title %}
+    高校云互联文档
+{% endblock %}
+
+{% block body %}
+
+    <p>
+        在网站底部"<code>&lt;/body&gt;</code>"加入</br>
+        <code>
+            &lt;script src="{{siteUrl}}/Public/assets/open/open-user/load-open-user.js"&gt;&lt;/script&gt;
+        </code>
+        </br>
+        然后在加入</br>
+        <code>
+            &lt;scrip&gt;</br>
+                &nbsp;;(function(){</br>
+                &nbsp;//按钮尺寸，可用值[A_XL| A_L| A_M| A_S| B_M| B_S| C_S]，可选，默认B_S</br>
+                &nbsp;var options = {</br>
+                        &nbsp;&nbsp;size: "B_S",	//系统登陆图片</br>
+                        &nbsp;&nbsp;appKey:'9136075a789b8558acd8c545ed1830a2',	//应用appkey</br>
+                        &nbsp;&nbsp;target:'_blank',	//登陆页面打开的方式</br>
+                        &nbsp;&nbsp;imgClass:'',	//自定义图片样式</br>
+                        &nbsp;&nbsp;costom :'{{siteUrl}}/Public/assets/open/open-user/images/50_16.png', //自定义登陆图片的地址</br>
+                        &nbsp;&nbsp;w:'',	//自定义图片的宽度</br>
+                        &nbsp;&nbsp;h:''	//自动以图片的高度</br>
+                &nbsp;}</br>
+                &nbsp;openUser("body").Login(options); //实现方法</br>
+                &nbsp;})(openUser);</br>
+            &lt;/script&gt;
+        </code></br>
+        当回调到指定页面后回得到一个用户token</br>
+        使用用户token和appKey通过POST方式访问
+        <code>{{siteUrl}}/User/LoginOpenUser/getOpenUserInfo/</code></br>
+        获取当前登录的用户信息</br>
+        <code>
+        code信息状态1000未成功</br>
+        data数据（userId用户id,nickname用户昵称，userFace用户头像）</br>
+        message状态消息</br>
+        </code>
+</p>
+ 
+{% if admin %}
+<script>app.load('../../../web/js/controller/openUser/openUserManager')</script>
+{% else %}
+<script>app.load('openUser/openUserManager')</script>    
+{% endif %}
+
+
+
+{% endblock %}
+
+{% block footer %} 
+        <button type="button" class="btn btn-primary center-block" data-dismiss="modal" id="cancel-btn">确定</button>
+{% endblock %}
+
+{% set hideFooter = true %}

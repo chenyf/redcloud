@@ -1,0 +1,64 @@
+{% extends '@BackManage/CourseCareerPlan/layout.html.twig' %}
+
+{% block title %}职业课程阶段规划管理 - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'course_career/manage' %}
+
+{% set submenu = 'career_plan' %}
+
+{% block main %}
+
+    <div class="page-header">
+        <a href="#modal" data-toggle="modal" data-url="{{ path('admin_career_course_plan_base', {id:0,create:1,type:1,cid:career.id}) }}" class="btn btn-info btn-sm pull-right">添加新阶段</a>
+        <a href="/Course/CareerCoursePlan/showAction/id/{{ career.id }}" class="btn btn-link btn-sm pull-right" target="_blank">查看效果</a>
+        <ul class="breadcrumb" style="margin-bottom: 0px;background-color: #ffffff;">
+            <li><a href="{{path('admin_career_course_plan')}}">职业规划管理</a></li>
+            <li class="active">{{ career.name }}</li>
+        </ul>
+    </div>
+
+    <div class="stage-wrap" id="step">
+        <h1 class="stage-big-title">{{ career.description }}</h1>
+        {% if career.stages|length <= 0 %}
+            <div class="empty">暂无阶段</div>
+        {% endif %}
+        {% set stage_num = 0 %}
+        {% for stage in career.stages %}
+            {% set stage_num = stage_num + 1 %}
+            <div class="stage-title stage-manage-title">
+                <span>第{{ stage_num }}阶段：</span>{{ stage.name }}
+                <div class="stage-option">
+                    <a href="#modal" class="stage_add_course" data-toggle="modal" data-url="{{ path('admin_career_course_plan_add_course', {id:stage.id}) }}">添加课程</a>
+                    <a href="#modal" class="stage_edit" data-toggle="modal" data-url="{{ path('admin_career_course_plan_base', {id:stage.id,create:0,type:1,cid:career.id}) }}">编辑</a>
+                    <a href="javascript:;" class="stage_remove remove-stage" data-id="{{ stage.id }}" data-url="{{ path('admin_career_course_plan_remove') }}">删除</a>
+                </div>
+            </div>
+            <p class="stage-desc">{{ stage.description }}</p>
+            <ul class="clearfix">
+                {% set course_num = 1 %}
+                {% for plan in stage.plans %}
+                    {% set course_num = course_num + 1 %}
+                    <div class="sc-course-cart" data-id="{{ plan.id }}">
+                        <div class="sc-course-cart-wrap">
+                            <div class="sc-cart-t">
+                                第{{ course_num }}课
+                                <i data-url="{{ path('admin_career_course_plan_delete_course') }}" class="remove_x">&times;</i>
+                            </div>
+                            <div class="sc-cart-b">
+                                <h3>{{ plan.course.title }}</h3>
+                                <p class="sc-cart-info">{{ plan.course.about|raw }}</p>
+                            </div>
+                        </div>
+                        <div class="sc-course-cart-axis">
+                            <div class="relative">
+                                <div class="axisx"></div>
+                                <div class="axisy"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+
+{% endblock %}

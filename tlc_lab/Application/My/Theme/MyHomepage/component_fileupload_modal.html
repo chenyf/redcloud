@@ -1,0 +1,63 @@
+<template id="component-fileupload-modal">
+    <div class="modal fade" id="[[ id ]]" tabindex="-1" role="dialog" aria-labelledby="[[ title_id ]]">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="[[ title_id ]]">上传文件</h4>
+                </div>
+                <form id="form-[[id]]" method="POST" class="modal-body">
+                    <h5>[[ title ]]</h5>
+                    <div>
+                        <p class="upload_tip">1、上传大小不超过20兆</p>
+                    </div>
+                    <input type="file" name="uploadfile" />
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button @click="uploadFile" type="button" class="btn btn-primary up_paper_btn">上传</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    var FileUploadModal = Vue.extend({
+        template: '#component-fileupload-modal',
+        methods: {
+            uploadFile: function () {
+                this.msg = "";
+                var that = this;
+                var form_id = "#form-" + this.id;
+                $(".up_paper_btn").attr('disabled','disabled').text("上传中...");
+                $(form_id).ajaxUpload({
+                    url : '{{path("teacher_homepage_uppaper")}}',
+                    error : function () {
+                        alert("上传失败");
+                        $(".up_paper_btn").removeAttr('disabled').text("上传");
+                    },
+                    success : function (data) {
+                        if (JSON.parse(data).success){
+                            that.$dispatch('upload-file', JSON.parse(data).href, that.index1, that.index2);
+                            alert("上传成功");
+                        }else{
+                            alert("上传失败：" + JSON.parse(data).msg);
+                        }
+
+                        $(".up_paper_btn").removeAttr('disabled').text("上传");
+                        $(".modal").modal('hide');
+
+                    }
+                });
+            }
+        },
+        props:{
+            id: String,
+            title: String,
+            title_id: String,
+            index1: Number,
+            index2: Number
+        }
+    });
+
+</script>

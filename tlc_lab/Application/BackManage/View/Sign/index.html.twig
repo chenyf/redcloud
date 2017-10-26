@@ -1,0 +1,16 @@
+{% extends '@BackManage/Course/layout.html.twig' %}
+
+{% block title %}签到管理 - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'sign/sign_manage' %}
+
+{% set menu = 'sign' %}
+
+{% block main %}
+    <div class="page-header">
+        <a href="{{ path('course_manage_base', {id:0,create:1}) }}" class="btn btn-info btn-sm pull-right" target="_blank">创建课程</a>
+        <h1>签到管理</h1>
+    </div>
+    {{ web_macro.paginator(paginator) }}
+
+{% endblock %}

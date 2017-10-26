@@ -1,0 +1,35 @@
+<div class="panel panel-default">
+	<div class="panel-heading">
+
+	</div>
+	<div class="panel-body">
+		{% if paper.isFileHomework and classPaper is not empty %}
+			<div>作业开始/截止时间：</div><br/>
+			{% if classPaper.limit == 1 %}
+				{% if classPaper.startTime > 0 %}{{ classPaper.startTime|date("Y-n-d H:i") }}{% else %} <span class="text-muted">——</span>{% endif %}<br/>
+				{% if classPaper.endTime > 0 %}{{ classPaper.endTime|date("Y-n-d H:i") }}{% else %} <span class="text-muted">——</span>{% endif %}
+			{% else %}
+				不限时
+			{% endif %}
+		{% else %}
+			{% for type in paper.metas.question_type_seq %}
+				{% for item in items[type] %}
+					{% if item.questionType != 'material' %}
+						<a href="javascript:;" data-anchor="#question{{ item.questionId }}" class="btn btn-default btn-index pull-left {% if item.question.testResult|default(null) %}active{% endif %}">{{ item.seq }}</a>
+					{% else %}
+						{% for item in item.items|default([]) %}
+							<a href="javascript:;" data-anchor="#question{{ item.questionId }}" class="btn btn-default btn-index pull-left {% if item.question.testResult|default(null) %}active{% endif %}">{{ item.seq }}</a>
+						{% endfor %}
+					{% endif %}
+
+				{% endfor %}
+				<div class="clearfix mtm mbm"></div>
+			{% endfor %}
+		{% endif %}
+	</div>
+	{% if id > 0 %}
+	<div class="panel-footer test-paper-btn">
+		<button class="btn btn-success btn-block do-test" id="finishPaper" data-ajax="{{ path('course_manage_submit_test', { id: id }) }}" data-url="{{ path('course_manage_finish_test', { id: id }) }}" data-goto="{{ path('course_manage_test_results', { id: id}) }}">我要交卷</button>
+	</div>
+	{% endif %}
+</div>

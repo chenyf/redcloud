@@ -1,0 +1,36 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% block title %}审核{% endblock %}
+
+{% block body %}
+
+    <form class="form-horizontal" id="apply-form" method="post" action="{{ U('BackManage/UserApply/checkApply') }}">
+        <input type="hidden" name="id" value="{{ apply.id | default(0) }}"/>
+        
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="remark">状态</label></div>
+            <div class="col-md-8 controls">
+                <select class="form-control" name="status" >
+                    <option value="1">通过</option>
+                    <option value="2">不通过</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="row form-group hidden failType">
+            <label class="col-md-2 control-label">备注</label>
+            <div class="col-md-8 controls">
+                <textarea name="opRemark" required="required" class="form-control" rows="5">{{ apply.opRemark }}</textarea>
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        app.load('user/user-apply')
+    </script>
+{% endblock %}
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="apply-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#config-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

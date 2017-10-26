@@ -1,0 +1,192 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  {# <meta http-equiv="X-UA-Compatible" content="IE=edge"> #}
+        <meta http-equiv="X-UA-Compatible" content="IE=7;IE=9;IE=10;IE=Edge;IE=8">
+        <meta name="renderer" content="webkit">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+    {%- block title -%}
+      {{ setting('site.name', 'redcloud') }}{% if setting('site.slogan') %} - {{ setting('site.slogan') }}{% endif %}{% if not setting('copyright.owned') %} - Powered by redcloud{% endif %}
+    {%- endblock -%}
+            </title>
+            <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+            <meta name="description" content="{% block description %}{% endblock %}" />
+            <meta content="{{ csrf_token('site') }}" name="csrf-token" />
+  {{ setting('login_bind.verify_code', '')|raw }}
+  {% if setting('site.favicon') %}
+            <link href="{{ asset(setting('site.favicon')) }}" rel="shortcut icon" />
+  {% endif %}
+  {% block stylesheets %}
+            <link href="{{ asset('assets/libs/gallery2/bootstrap/3.1.1/css/bootstrap.css') }}" rel="stylesheet" />
+            <link rel="stylesheet" media="screen" href="{{ asset('assets/css/common.css') }}?{{ getVersion() }}" />
+            <link rel="stylesheet" media="screen" href="{{ asset('assets/css/img.css') }}?{{ getVersion() }}" />
+            <link rel="stylesheet" media="screen" href="{{ asset('assets/css/bootstrap-extends.css') }}?{{ getVersion() }}" />
+            <link rel="stylesheet" media="screen" href="{{ asset('themes/default/css/class-default.css') }}?{{ getVersion() }}" />
+            <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/web.css') }}?{{ getVersion() }}" />
+            <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/member.css') }}?{{ getVersion() }}" />
+            <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/redcloud.css') }}?{{ getVersion() }}" />
+            <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/poster.css') }}?{{ getVersion() }}" />
+            <link rel="stylesheet" media="screen" href="{{ asset('assets/css/font-awesome.min.css') }}?{{ getVersion() }}" />
+    {#<link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/global.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('themes/redcloud-all/css/redcloud.css') }}" />#}
+            <link rel="stylesheet" media="screen" href="/loadCss/themes/redcloud-all/css/redcloud.css,bundles/web/css/global.css?{{ getVersion() }}" />
+            <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/bid.css') }}?{{ getVersion() }}" />
+
+            <!--[if lt IE 8]>
+              <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
+            <![endif]-->
+  {% endblock %}
+            <!--[if lt IE 9]>
+              <script src="{{ asset('assets/libs/html5shiv.js') }}"></script>
+            <![endif]-->
+
+            <!--[if IE 8]>
+              <script src="{{ asset('assets/libs/respond.min.js') }}"></script>
+            <![endif]-->
+
+  {% block head_scripts %}{% endblock %}
+   {% set script_controller = 'course/CourseLanding.js' %}
+
+        </head>
+        <script>
+            window.webVersion = "{{ getVersion() }}";
+            </script>
+            <body>
+{# 渠道落地页前台展示界面 #}
+
+                    <div class="landing-page-template">
+
+    {% if list %}
+  {% for order in list %}
+    {# 左右轮播图效果 #}
+     {% if order.cmsType==1 %}
+                        <div class="scroll-main-box" id="{{order.id}}">
+                            <input type="hidden" name="banner[]" value="{{order.id}}">
+                            <dl class="scroll-main-con" id="modular{{order.id}}" >  <!-- scroll-main-one宽度需要判断 -->
+            {% for date in data  %}
+                   {%if date['cmsModId']==order['id']%}
+                                    <dd class="scroll-main-img" style="background-color:#{{date.color}};"><div class="container"><a href="{{date.url}}" target="_Blank"><img src="{{ date['picPath']|e}}"  ></a></div></dd>
+             {% endif %}
+                {% endfor %}
+                                            </dl>
+                                            <div class="scroll-prevbtn  unslider-arrow{{order.id}} " data-move='prev' data-id="{{order.id}}"><i class="glyphicon glyphicon-menu-left"></i></div>
+                                            <div class="scroll-nextbtn  unslider-arrow{{order.id}} " data-move='next' data-id="{{order.id}}"><i class="glyphicon glyphicon-menu-right"></i></div>
+
+                                        </div>
+
+     {% endif %}
+
+
+    {# 购买模块 #}    
+                                        <div  id="modular{{order.id}}">
+                                            <div class="container">
+             {% if order.cmsType==3 %}
+                                                    <div class="listening-content" >
+                                                        <div class="row c-listencon"  >
+                                                            <ul class="c-listen-list" id="carousel">
+
+                                                {% for date in data  %}                 
+                                            {%if date['cmsModId']==order['id']%}
+                                                                <li>
+                                                                    <div class="v-pic">
+
+                                                                        <a href="javascript:void(0)"  data-toggle="modal" data-target="#modal"  data-url="{{U('Course/CourseLanding/video',{id:date.id})}}" >
+                                                                            <img src="{{date.picPath}}"/>
+                                                                     
+                                                                        <div class="playbtn"><i  class="glyphicon glyphicon-play-circle"></i></div>   </a>
+                                                                    </div>
+                                                                    <p><a href="###">{{date.title}}</a></p>
+                                                                </li>
+                                         {% endif %}
+                    {% endfor %}
+                                                            </ul>
+                                                        </div>
+                                                        <div class="video-scroll-btn prevBtn"><i id="prev"class="glyphicon glyphicon-menu-left"></i></div>
+                                                        <div class="video-scroll-btn nextBtn"><i id="next"class="glyphicon glyphicon-menu-right"></i></div>
+                                                       
+                                                    </div>
+
+                                                    {% if order.CourseName %}
+                                                    <div class="buy-course-con mtl mbl">
+                                                        <div class="group-jy-con row">
+                                                            <div class="group-lt-new col-md-8">
+                                                                <div class="jy-current-course mtl"><p>{{order.CourseName}}</p></div>
+                                                            </div>
+                                                            <div class="group-rt-new">
+                                                                <div class="price-box pull-right">
+                                                                    <span >优 惠 价：<b id="preferentialPrice">{{order.preferentialPrice}}</b>元</span>
+                                                                    <span class="old-price">原　　价：<b id="price">{{order.price}}</b>元</span>
+                                                                    <span>立即节省：<i id="economize"></i>元</span>
+                                                                    <a class="btn  btn-primary mtm" target="_Blank" href="{{order.buyUrl}}">{{order.ButtonDescribe}}</a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    {% endif %}
+
+                {% endif %}
+
+                                                </div>
+                                            </div>
+
+
+    {# 落地页快速导航 #}
+
+                                            <!--  -->
+      {% if order.cmsType==0 %}
+                                            <div class="quick-Navigation">
+                                                <div class="container">
+                                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-content" aria-expanded="false" aria-controls="nav-content">
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                        <span class="icon-bar"></span>
+                                                    </button>
+                                                    <div class="nav-content collapse" id="nav-content">
+                                    {% for date in data %}
+                                         {%if date['cmsModId']==order['id']%}
+                                                            <a  href="#modular{{date.anchorId}}">{{date.title}}</a>
+                                    {% endif %}
+{% endfor %}
+                                                        </div>
+                                                    </div>
+                                                </div> 
+    {% endif %} 
+
+
+
+    {# 图片模块 #}
+
+     {% if order.cmsType==2 %}
+                  {% for date in data  %}                 
+                        {%if date['cmsModId']==order['id']%}
+                                                <div class="picture-global-item" id="modular{{order.id}}" style="background-color:#{{date.color}};">
+                                                    {% if date.url %}<a href="{{date.url}}" target="_Blank" >  <img src="{{date.picPath}}"/> </a>
+{% else %}
+                                                     <img src="{{date.picPath}}"/>{% endif %}
+                                                </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+
+
+    {% endfor %}
+                                            
+                                          
+          {% endif %}
+                                            </div>
+        {% include '@Home/script_boot.html.twig' with {script_main: asset('bundles/web/js/app.js')} %}
+                                            <div id="modal" class="modal in" style="MARGIN-RIGHT: auto; MARGIN-LEFT: auto;"></div>
+                                            
+                                            <div style="display: none">{{Consulting.statisticalCode}}{{Consulting.consultCode}}</div>
+                                        </body>
+
+                                    </html>
+

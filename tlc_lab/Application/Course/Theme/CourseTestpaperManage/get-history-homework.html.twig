@@ -1,0 +1,14 @@
+<span class="text-color ">历史作业/考试：</span>
+<select class="form-control perfect"{% if perfect|default(false) %} disabled {% endif %}name="testpaper" style="width: 60%;display: inline;">
+    <option>请选择试卷</option>
+    {% for value in list %}
+        <option value="{{ value.id }}" {% if historyTid == value.id %} selected {% endif %} data-url="{{ U('Course/CourseTestpaperManage/getTestpaperQuestionList',{courseId:course.id,type:app.request.get('type'),testId:value.id,center:app.request.get('center')}) }}">{{ value.title }}</option>
+    {% else %}
+        <option value="">暂无试卷</option>
+    {% endfor %}
+</select>
+<div>
+    <script> 
+        app.load('test-paper/creator/get-history-homework');
+        </script>
+</div>

@@ -1,0 +1,36 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% set script_controller = 'demo/upload' %}
+
+	
+{% block content %}
+<link href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="http://v3.bootcss.com/assets/css/docs.min.css">
+<div class="bs-docs-header" id="content" tabindex="-1">
+      <div class="container">
+        <h1>腾讯云 Javascript SDK</h1>
+      </div>
+    </div>
+    <div class="container bs-docs-container">
+		<input  id="file" type="file" style="display:none;"/>
+    	<div class="row" style="padding:20px;">
+    		<div class="col-md-2"><a id="updateFolder" href="javascript:void(0);" class="btn btn-lg btn-outline">updateFolder</a></div>
+    		<div class="col-md-2"><a id="updateFile" href="javascript:void(0);" class="btn btn-lg btn-outline">updateFile</a></div>
+    		<div class="col-md-2"><a id="deleteFolder" href="javascript:void(0);" class="btn btn-lg btn-outline">deleteFolder</a></div>
+    		<div class="col-md-2"><a id="deleteFile" href="javascript:void(0);" class="btn btn-lg btn-outline">deleteFile</a></div>
+    	</div>
+    	<div class="row" style="padding:20px;">    		
+    		<div class="col-md-2"><a id="getFolderStat" href="javascript:void(0);" class="btn btn-lg btn-outline">getFolderStat</a></div>
+    		<div class="col-md-2"><a id="getFileStat" href="javascript:void(0);" class="btn btn-lg btn-outline">getFileStat</a></div>
+    		<div class="col-md-2"><a id="createFolder" href="javascript:void(0);" class="btn btn-lg btn-outline">createFolder</a></div>
+		  	<div class="col-md-2"><a id="getFolderList" href="javascript:void(0);" class="btn btn-lg btn-outline">getFolderList</a></div>
+		</div>
+		<div class="row" style="padding:20px;">			
+		  	<div class="col-md-2"><a id="uploadFile" href="javascript:void(0);" class="btn btn-lg btn-outline">uploadFile</a></div>
+		  	<div class="col-md-2"><a id="sliceUploadFile" href="javascript:void(0);" class="btn btn-lg btn-outline">sliceUploadFile</a></div>
+		</div>
+		<div class="row" style="padding:20px;">
+			<textarea id="result" rows="20" cols="100"></textarea>
+		</div>
+    </div>
+{% endblock %}

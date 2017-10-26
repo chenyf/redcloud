@@ -1,0 +1,66 @@
+{% if app.request.get('type') == 1 %}
+    {% set menu = 'homework' %}
+{% else %}
+    {% set menu = 'test' %}
+{% endif %}
+
+{% set parentId = parentId | default(null) %}
+
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+{% import '@Home/macro.html.twig' as macro %}
+{% block title %}{% if app.request.get('type') == 1 %}试卷{% else %}作业{% endif %}批阅 - {{ parent() }}{% endblock %}
+{% set script_controller = 'test-paper/index' %}
+
+{% block courseContent  %}
+
+    <div class="panel-body" style="padding:0;">
+        <a class="btn btn-link btn-sm text-muted pull-right ajaxLoad" style="margin-left: 5px" href="{{ U('Course/CourseTestpaperManage/courseTest',{courseId:course.id,type:1}) }}"><span class="glyphicon glyphicon-arrow-left"></span> 返回{% if app.request.get
+            ('type')
+            == 1 %}作业{% else %}试卷{% endif %}管理</a>
+        {% if app.request.get('status') != 'submitted' %}
+            <div class="btn-group pull-right">
+                <button type="button" class="btn btn-default dropdown-toggle btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% if app.request.get('status') == 'hasNot' %}
+                        未交{% if app.request.get('type') == 1 %}作业{% else %}试卷{% endif %}
+                    {% elseif app.request.get('status') == 'finished' %}
+                        已交{% if app.request.get('type') == 1 %}作业{% else %}试卷{% endif %}
+                    {% elseif app.request.get('status') == 'all' %}
+                        全部学员
+                    {% endif %}
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu">
+                    {% if app.request.get('status') != 'all' %}
+                        <li><a href="{{ path('course_manage_test_check', {id:course.id, status:'all',testid:app.request.get('testid'),type:app.request.get('type')}) }}">全部学员</a></li>
+                    {% endif %}
+                    {% if app.request.get('status') != 'finished' %}
+                        <li><a href="{{ path('course_manage_test_check', {id:course.id, status:'finished',testid:app.request.get('testid'),type:app.request.get('type')}) }}">已交{% if app.request.get('type') == 1 %}作业{% else %}试卷{% endif %}</a></li>
+                    {% endif %}
+                    {% if app.request.get('status') != 'hasNot' %}
+                        <li><a href="{{ path('course_manage_test_check', {id:course.id, status:'hasNot',testid:app.request.get('testid'),type:app.request.get('type')}) }}">未交{% if app.request.get('type') == 1 %}作业{% else %}试卷{% endif %}</a></li>
+                    {% endif %}
+                    {#{% if app.request.get('ismember') == '0' %}#}
+                        {#<li><a href="{{ path('course_manage_test_check', {id:course.id, status:'all',ismember:0,testid:app.request.get('testid'),type:app.request.get('type')}) }}">非授课班学员</a></li>#}
+                    {#{% endif %}#}
+                    {#{% if app.request.get('ismember') == '1' %}#}
+                        {#<li><a href="{{ path('course_manage_test_check', {id:course.id, status:'all',ismember:1,testid:app.request.get('testid'),type:app.request.get('type')}) }}">授课班学员</a></li>#}
+                    {#{% endif %}#}
+                </ul>
+            </div>
+            <a class="btn btn-default  btn-sm pull-right " style="margin-right: 5px" href="{{ U('My/Testpaper/exportTestpaper',{courseId:course.id,testid:app.request.get('testid')}) }}" >
+                <i class="fa fa-reply-all"></i>导出成绩
+            </a>
+        {% endif %}
+        <ul class="nav nav-tabs">
+            <li class="{% if status == 'submitted' %}active{% endif %}"><a class="ajaxLoad" href="{{ path('course_manage_test_check', {id:course.id, status:'submitted',testid:app.request.get('testid'),type:app.request.get('type')})
+                }}">未批阅</a></li>
+            <li class="{% if status != 'submitted' %}active{% endif %}"><a  class="ajaxLoad" href="{{ path('course_manage_test_check', {id:course.id, status:'all',testid:app.request.get('testid'),type:app.request.get('type')
+                }) }}">查看成绩</a></li>
+        </ul>
+        <br>
+        {% include '@My/MyQuiz/list-teacher-test.html.twig' %}
+
+    </div>
+
+
+{% endblock %}

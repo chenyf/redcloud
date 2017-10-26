@@ -1,0 +1,44 @@
+<tr id="version-{{ version.id }}">
+	<td>{{version.id}}</td>
+	<td>
+        {{ version.name }}
+	</td>
+    <td>
+        {{ version.version }}
+    </td>
+	<td>
+        {% if version.type == 1 %}
+            windows
+        {% elseif version.type == 2  %}
+            Mac
+        {% endif %}
+	</td>
+    <td>
+        <a href="{% if  version.appWebCode %}{% if scheme=='https' %} https:// {% else %}http://{% endif %}{{ version.appWebCode }}.gkk.cn{% endif %}" target="_blank" >查看</a>
+    </td>
+    <td style="text-align: center">
+        {% if version.isForceUpdate == 1 %}
+            是
+        {% else%}
+           否
+        {% endif %}
+    </td>
+    <td style="text-align: center">
+        {% if version.isCurrent == 1 %}
+            是
+        {% else%}
+            否
+        {% endif %}
+    </td>
+	<td title="{{ version.ctm|date('Y-n-d H:i') }}">{{ version.ctm|date('Y-n-d ') }}</td>
+	<td title="{{ version.mtm|date('Y-n-d H:i') }}">{{ version.mtm|date('Y-n-d ') }}</td>
+
+	<td>
+		<div class="btn-group">
+            <button class="btn btn-sm btn-default edit-btn" data-url="{{ path('Pc_version_edit', {id:version.id}) }}" data-toggle="modal" data-target="#modal">编辑</button>
+            <button class="btn btn-sm btn-default delete-btn" data-url="{{ path('Pc_version_del', {id:version.id}) }}" data-target="{{ version.id }}">删除</button>
+            <a   class="btn btn-default btn-sm"  data-container="body" data-toggle="popover"  data-placement="right"  data-content="{{ version.function }}">功能</a>
+		</div>
+	</td>
+
+</tr>

@@ -1,0 +1,88 @@
+{% extends '@System/Coin/layout.html.twig' %}
+
+{% set script_controller = 'my/orders' %}
+
+{% set side_nav = 'my-bill' %}
+
+{% block main %}
+<div class="panel panel-default panel-col">
+  {% include '@System/Coin/bill-bar.html.twig' %}
+
+  {# <div class="panel-heading">我的现金消费账单</div> #}
+    <div class="panel-body pad0">
+      
+   {# <form id="user-search-form" class="form-inline well well-sm" action="" method="get" novalidate>
+      <div class="form-group">
+        <select class="form-control" name="lastHowManyMonths"  onchange="submit();">
+          {% set options = {'':'全部记录','oneWeek':'最近一周','twoWeeks':'最近两周','oneMonth':'最近一个月','twoMonths':'最近两个月','threeMonths':'最近三个月'} %}
+          {{ select_options(options, app.request.get('lastHowManyMonths')) }}
+        </select>
+      </div>
+    </form>#}
+
+        <br>
+    <div class="table-responsive">
+      <table class="table table-striped" id="orders-table">
+        {% if cashes %}
+        <tr>
+          <th><span class="text-sm">流水号</span></th>
+          <th><span class="text-sm">名称</span></th>          
+          <th><span class="text-sm">成交时间</span></th>
+          <th><span class="text-sm">充值金额</span></th>
+          <th><span class="text-sm">状态</span></th>
+          <th><span class="text-sm">来源</span></th>
+          <th><span class="text-sm">操作</span></th>
+        </tr>
+        {% for cash in cashes %}
+           <tr>
+            <td><span class="text-sm">{{cash.sn}}</span></td>
+            <td><span class="text-sm">{{cash.title}}</span></td>            
+            <td><span class="text-sm">{{cash.createdTime|date('Y-m-d H:i:s')}}</span></td>
+            <td style="color:#1bb974;">
+               {{cash.amount}} 
+            </td>
+            <td>
+              <span class="text-sm">
+                {% if cash.status =="created" %}
+                 未支付
+                {% else %}
+                  {% if cash.status =="paid" %}
+                  已支付
+                    {%else%}
+                  已关闭
+                  {% endif %}
+                {% endif %}
+              </span>
+            </td>
+            <td>
+            <span class="text-sm">{% if cash.type == 2 %}ios{%endif%}{% if cash.type == 1 %}Android{%endif%}{% if cash.type == 0 %}pc{%endif%}</span>
+            </td>
+            <td>
+           <div class="btn-group">
+           {% if cash.status == 'created' %}
+              {% if cash.type != 2 %}
+               <a href="{{U('System/Coin/payShow', {id:cash.id})}}" class="btn btn-sm btn-default">去支付</a>  
+               <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                  <span class="caret"></span>
+                </a>
+           <ul class="dropdown-menu pull-right" style="min-width: 120px;" > 
+                <li><a href="javascript:;" class="cancel" style="display:block" data-url="{{U('System/Coin/cancel', {id:cash.id})}}">取消订单</a></li>
+            </ul>
+               {%else%}
+               请去苹果手机支付
+               {% endif %}
+           {% endif %}
+           </div>
+            </td>
+          </tr>
+        {% endfor %}
+        {% else %}
+        <div class="empty">暂无记录</div>
+        {% endif %}
+      </table>
+    </div>
+ {{ web_macro.paginator(paginator) }}
+  </div>
+</div>
+
+{% endblock %}

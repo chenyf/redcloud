@@ -1,0 +1,65 @@
+{% extends '@Course/CourseTestpaperManage/create-course-test-layout.html.twig' %}
+
+{% set step = 1 %}
+{% set script_controller = 'testpaper/create-course-test' %}
+{% block  create %}
+<form class="form-horizontal"  id="testpaper-form" buildCheckUrl="{{ U('Course/CourseTestpaperManage/getCourseQes',{courseId:courseId, goto:app.request.server.get('REQUEST_URI'),center:app.request.get('center')}) }}" action="{{ U('Course/CourseTestpaperManage/createCourseLesson',{courseId:courseId,parentId:parentId,center:app.request.get('center')}) }}" method="post">
+    <div class="form-group">
+        <div class="col-md-2 control-label"><label for="testpaper-name-field">{{tyepText}}名称</label></div>
+        <div class="col-md-8 controls">
+            <input class="form-control"  value="" name="name"   id="testpaper-name-field"/>
+            <input type="hidden" value="{{parentId}}" name="parentId"/>
+             <input type="hidden" value=""  name="questionId" id="questionId"/>
+            
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 control-label"><label for="testpaper-limitedTime-field">题目数量</label></div>
+        <div class="col-md-8 controls">
+            <input class="form-control width-input width-input-large" name="testCount" id="testCount" value="0" />
+            <div class="help-block">出题数量</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-2 control-label"><label for="testpaper-range-field">出题范围</label></div>
+        <div class="col-md-8 controls radios">
+       {{ radios('range', {'course':'整个课程', 'lesson':'按课程内容范围'}, 'course') }}
+                <input type="hidden" name="ranges" value="">
+                <div id="testpaper-range-selects" style="display:none; margin-top:8px;">
+                    <select class="form-control width-input width-input-large" id="testpaper-range-start" >
+           {{ select_options(ranges) }}
+                        </select>
+                        <span class="text-muted mrs">到</span>
+                        <select class="form-control width-input width-input-large" id="testpaper-range-end">
+           {{ select_options(ranges) }}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2 control-label"><label for="testpaper-percentage-field">生成方式</label></div>
+                    <div class="col-md-8 controls radios">
+                        <label><input type="radio" name="mode" value="rand" checked="checked" {% if qesCount == 0 %} disabled="true"{%endif%}> 随机生成</label>
+                        <label><input type="radio" name="mode" value="difficulty" {% if qesCount == 0 %} disabled="true"{%endif%}> 选择固定试题</label>
+                        {% if qesCount == 0 %}
+                            <div class="help-block">题目数量为0时，请添加题目数量后直接下一步</div>
+                        {%endif%}
+                        </div>
+                    </div>
+
+                    <div class="form-group hidden" id="courseQuestion"></div>
+                    <div class="form-group">
+                        <div class="col-md-8 col-md-offset-2 controls">
+                            <button id="testpaper-create-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary">保存，下一步</button>
+                            {% if testCount > 0%}
+                                <a  data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-url="{{ U('Course/CourseTestpaperManage/getTestpaperLesson',{courseId:courseId,parentId:parentId,center:app.request.get('center')}) }}" class="btn btn-link">使用其他{{ tyepText }}</a>
+                            {%else%}
+                                <a href="javascript:;" class="btn btn-link">暂无{{ tyepText }}可选</a>
+                            {%endif%}
+                        </div>
+                    </div>
+                </form>
+
+{% endblock %}
+
+

@@ -1,0 +1,200 @@
+body,div,span,a,img,iframe,form,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,em,var,strong,input,p,textarea,select,option,table,tr,td,button{margin:0;padding:0;font-family:Arial,"Microsoft YaHei","宋体"}
+a:hover {text-decoration: none;}
+a:visited {text-decoration: none;}
+a:active {text-decoration: none;}
+a:link {text-decoration: none;}
+.chat-header{
+    width: 100%;
+    height:50px;
+    line-height: 50px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid #CCCCCC;
+    background: #F2F2F2;
+    z-index: 1000;
+}
+.chat-header span{font-size:16px;}
+.chat-bottom{
+    width: 100%;
+    height:145px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    border-top: 1px solid #CCCCCC;
+    padding: 10px;
+    background: #F2F2F2;
+    z-index: 1111;
+}
+.chat-main{
+    width: 100%;
+    margin-top: 50px;
+    margin-bottom: 145px;
+    position: relative;
+    padding:0;
+}
+.chat-msg-list{
+    list-style: none;
+    text-align: left;
+    margin: 15px 0 0 0;
+    padding: 0 0 10px 0;
+}
+.chat-msg-item{
+    padding:10px 0;
+}
+.chat-msg-item .username{
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+}
+.chat-msg-item .msg{
+
+}
+.chat-msg-item .system-alert{
+    font-size: 12px;
+    color: #FF0000;
+}
+.send-msg-text{
+    resize:none
+}
+#sendBtn{
+    margin-top: 5px;
+}
+.login-ajax{
+    font-weight: bold;
+}
+.toolbar-button{
+    display: block;
+    width: 19px !important;
+    height: 19px;
+    float: left;
+    margin-right: 4px;
+    background: transparent url("/Public/assets/img/chat/sprites.png") no-repeat;
+    transition: opacity .15s linear;
+}
+
+.emote_faces_box{
+    width: 400px;
+    height: 170px;
+    border: 1px solid #cccccc;
+    position: absolute;
+    bottom: 26px;
+    left: 14px;
+    background: #ffffff;
+    display: none;
+}
+.emote_faces_content{
+    box-sizing:border-box
+}
+
+.emote_faces_content ul {
+    margin: 3px ;
+    padding: 0;
+    overflow: hidden;
+    border-top: 1px #CCC solid;
+    border-left: 1px #CCC solid;
+    list-style: none;
+    width: 393px;
+}
+.emote_faces_content ul li{
+    float: left;
+    border-right: 1px #CCC solid;
+    border-bottom: 1px #CCC solid;
+    height: 28px;
+    width: 28px;
+    margin: 0;
+    padding: 4px 2px;
+    text-align: center
+}
+.emote_faces_title a{
+   float: right; font-size: 12px;
+}
+
+.member_list{
+    background:#646464;
+    display: none;
+    font-size: 13px;
+    width: 180px;
+    height: 100%;
+    overflow-y:auto;
+    position: fixed;
+    right: 0;
+    color: #ffffff;
+    z-index: 999;
+    padding:10px 0 190px;
+}
+.member_list ul{
+    padding: 0;
+}
+.member_list li{
+    list-style: none;
+    position: relative;
+    
+}
+.member_list li a{
+    color: #ffffff;
+}
+.member_list li .ban-btn{
+    color: #FFB400;
+    float: right;
+    padding-right: 10px;
+    display: none;
+
+}
+.member_list li .remove-ban-btn{
+    color: #FFFFFF;
+    float: right;
+    padding-right: 10px;
+    display: none;
+}
+
+.member_list li div.ban-panel{
+    background: #484848;
+    position: absolute;
+    width: 100%;
+    top: 28px;
+    left: 0;
+    z-index: 999;
+    display: none;
+    padding-top: 5px;
+}
+.member_list li div.ban-panel li{
+    padding-left: 20px;
+    line-height: 26px;
+    font-size: 12px;
+    cursor:pointer;
+}
+.member_list li div.ban-panel li:hover{
+    background: #444444;
+
+}
+
+.loading{
+    position: fixed;
+    top: 30%;
+    left: 45%;
+    text-align: center;
+}
+
+.message-alert{margin-right: 20px;margin-top: 12px}
+.chat-msg-mrbox{margin-right: 180px;}
+.chat-member-btn{padding:0 10px 0 15px;width:180px;background:#333;color:#fff;margin-right:-15px;}
+.chat-member-btn:hover,.chat-member-btn:focus{color:#fff;}
+.chat-member-btn span{color:#ff6400;font-size: 12px;}
+
+.icon-identity{width:36px;height:36px;text-align:center;line-height: 36px;border-radius: 50%;margin-right:15px;}
+.icon-teacher{background:#ff6400;color:#fff;}
+.icon-student{background:#61b400;color:#fff;}
+.chat-msg-con{line-height:12px;}
+.chat-msg-con .msg-name-time em{font-style: normal;font-size: 12px;margin-left:10px;}
+.chat-msg-con .msg-text{word-break: break-all;margin:10px 0 0 0;color: #111111;text-indent: 5px;line-height:20px;}
+
+.member-item.active,.member-item:hover{background:#333;}
+.member-info-content{cursor: pointer;line-height:30px;padding:5px 10px;overflow:hidden;}
+.member-info-content .icon-identity{width:24px;height:24px;line-height: 24px;font-size:12px;margin:3px 10px 0 0;}
+.member-info-content span{display:none;cursor: pointer;color:#ff6400;}
+.member-item:hover span{display:block;}
+.member-info-content .dropdown-menu{width:180px;background:#777;border-radius: 0;margin:0;}
+.member-info-content .dropdown-menu li a{padding:0 15px;line-height:36px;}
+.icon-shutup{font-size:14px;color: #8e0000;}
+.member-item:hover .icon-shutup{display: none;}

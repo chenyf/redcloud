@@ -1,0 +1,21 @@
+<li class="m-post m-post-img {% if m_post_class %}{{ m_post_class }}{% else %}m-post-col-3{% endif %}">
+    <div class="f-clearfix userinfo">
+        <a class="ava" href="/teacher/homepage/{{ course.teacher.userNum }}/index.html" target="_blank" data-tid="{{ course.teacher.id }}">
+            <img loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/pic-error.png?5.1.4';"  src="{{ user_default_path(course.teacher.id) }}" >
+        </a>
+        <a class="f-thide nick" href="/teacher/homepage/{{ course.teacher.userNum }}/index.html" target="_blank">{{ course.teacher.nickname }}</a>
+    </div>
+    <div class="img" data-courseid="{{ course.id }}" data-blogid="498678872" onclick="window.location.href='{{ path('course_show', {id:course.id}) }}';">
+        <img src="{% if course.selectPicture == "" %}{{ default_path('coursePicture', course.largePicture, 'large') }}{% else %} {{ course.selectPicture }}{% endif %}" onload="" alt="{{ course.title }}">
+        <div class="lessonnum">{{ course.lessonNum }}</div>
+    </div>
+    <div class="cnt">
+        <div class="txt">
+            <p><a href="{{ path('course_show', {id:course.id}) }}">{{ course.title }}</a><br></p>
+        </div>
+    </div>
+    <div class="actbar">
+        <i class="fa fa-users learning-num" title="在学人数"></i>
+        <span id="learn_num_{{ course.id }}" class="learnnum">{{ course.studentCount }}人在学</span>
+    </div>
+</li>

@@ -1,0 +1,11 @@
+<div class="c-result-text">
+    <span class="text-color">已选择题目数量：<b class="total-counts">0</b>道</span><span class="text-muted mll"><em>单项选择题： <span class="single_choice_count">0</span> 道</em>，<em>多项选择题： <span class="choice_count">0</span> 道</em>，<em>判断题： <span class="determine_count">0</span> 道</em>，<em>填空题： <span class="fill_count">0</span> 道</em>，<em>问答题 <span class="essay_count">0</span> 道</em></span>
+</div>
+{#{% if type != 2 %}#}
+    {#<div class="c-result-text">#}
+        {#<span class="text-color">已选择题目分数：<b class="total-scores">0</b>分</span><span class="text-muted mll"><em>单项选择题： <span class="single_choice_score">0</span> 分</em>，<em>多项选择题： <span class="choice_score">0</span> 分</em>，<em>判断题： <span class="determine_score">0</span> 分</em>，<em>填空题： <span class="fill_score">0</span> 分</em>，<em>问答题 <span class="essay_score">0</span> 分</em></span>#}
+    {#</div>#}
+{#{% endif %}#}
+<script>
+    app.load('test-paper/creator/get-selected-statistic');
+</script>

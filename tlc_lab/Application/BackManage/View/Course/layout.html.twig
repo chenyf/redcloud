@@ -1,0 +1,32 @@
+{% extends '@BackManage/layout.html.twig' %}
+
+{% set nav = 'course' %}
+
+{% block content %}
+  <div class="col-md-2">
+    {% block sidebar %}
+      <div class="list-group">
+        <a href="{{ path('admin_course') }}" class="list-group-item {% if menu == 'course' %}active{% endif %}">课程管理</a>
+
+        <a href="{{ path('admin_course_category_manage') }}" class="list-group-item {% if menu == 'course-category-manage' %}active{% endif %}">课程分类管理</a>
+
+        <a href="{{ path('admin_course_recommend_list') }}" class="list-group-item {% if menu == 'course-recommend-list' %}active{% endif %}">推荐课程列表</a>
+
+        <a href="{{path('admin_course_data')}}" class="list-group-item {% if menu == 'course-data' %}active{% endif %}">数据管理</a>
+
+      </div>
+
+      {% if C('if_open_sign') %}
+      <div class="list-group">
+        <a href="{{ path('admin_sign') }}" class="list-group-item {% if menu == 'sign' %}active{% endif %}">签到管理</a>
+
+        <a href="{{ path('admin_sign_coordinate') }}" class="list-group-item {% if menu == 'sign-coordinate' %}active{% endif %}">签到坐标管理</a>
+
+      </div>
+      {% endif %}
+    {% endblock %}
+  </div>
+  <div class="col-md-10">
+      {% block main %}{% endblock %}
+  </div>
+{% endblock %}

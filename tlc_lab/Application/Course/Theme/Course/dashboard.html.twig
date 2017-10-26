@@ -1,0 +1,26 @@
+{% extends '@Course/Course/dashboard-layout.html.twig' %}
+
+{% set script_controller = 'course/dashboard' %}
+{% set script_arguments = {course_uri: path('course_show', {id:course.id})} %}
+{% if items %}
+    {% set script_controller = 'course/deploy' %}
+{% endif %}
+
+{% set siteNav = '/Course/Course/exploreAction' %}
+
+{% block dashboard_main %}
+    {% include '@Course/Course/dashboard-nav.html.twig' with {nav:'lesson'} %}
+    <div class="new-course-box">
+        {% if items is empty %}
+            <div class="empty">暂无课程内容！</div>
+        {% else %}
+            {% include '@Course/CourseLesson/lesson-item-list.html.twig' with {files: files, show: true} %}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block dashboard_relatedCoursesBlock %}
+    {% if setting('course.relatedCourses') == 1 %}
+        {{ render(controller('Course:Course:relatedCoursesBlock',{course:course})) }}
+    {% endif %}
+{% endblock %}

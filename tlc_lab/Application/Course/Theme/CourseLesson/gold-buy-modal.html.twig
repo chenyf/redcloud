@@ -1,0 +1,46 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class = 'modal-lg' %}
+{% set lesson = lesson|default(null) %}
+{% set modal_class = 'in-modal' %}
+
+{% block title %}
+        <span class="my-gold pull-right">我的金币数：{{userGole}}</span><span class="tit-color">金币兑换确认</span>
+{% endblock %}
+
+{% block body %}
+
+<form id="course-lesson-buy-form" data-course-id="{{course.id}}" class="form-horizontal lesson-form" method="post" 
+  {% if lesson.needGoldNum <= userGole %}
+    action="{{ U('Course/CourseLesson/goldBuyLesson',{lessonId:lesson.id,courseId:course.id}) }}"
+  {% endif %}
+  >
+    <div class="gold-course-popupbox">
+        <div class=" gold-content text-center">
+            {% if lesson.needGoldNum <= userGole %}
+                您将花费<em>{{lesson.needGoldNum}}</em>金币兑换课程内容<a class="btn-link">《{{lesson.title}}》</a>，请确认
+                {% else %}
+                    兑换课程内容<a class="btn-link">《{{lesson.title}}》</a>将花费<em>{{lesson.needGoldNum}}金币</em>,你的金币数量不足无法兑换！
+            {% endif %}
+        </div> 
+    </div>
+    
+</form>
+ 
+{% endblock %}
+
+{% block footer %}
+    {% if lesson.needGoldNum <= userGole %}
+        <div class="gold-buy-but">
+        <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+        <button id="course-lesson-buy-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#course-lesson-form">确认并观看</button>
+        </div>
+        {% else %}
+            <div class="gold-buy-but">
+                <button type="button" class="btn btn-primary center-block" data-dismiss="modal" id="cancel-btn">确认</button>
+            </div>
+            
+    {% endif %}
+{% endblock %}
+
+{% set hideFooter = true %}

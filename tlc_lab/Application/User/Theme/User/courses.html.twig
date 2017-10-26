@@ -1,0 +1,37 @@
+{% extends '@User/User/layout.html.twig' %}
+
+{% block title %} {{ parent() }}{% endblock %}
+
+{% set pageNav = type %}
+
+{% block main %}
+  <div class="panel-body">
+             <div class="category-filters">
+                <div class="category-filters-rt">
+                        {% if action == 'showAction' or action == 'teachAction' %}
+                            <a href="{{ U('User/User/show',{id:user.id}) }}" class="selected">{{privateCourseName()}}</a>
+                        {% elseif action == 'learnAction' %}
+                            <a href="{{ U('User/User/learn',{id:user.id}) }}" class="selected">{{privateCourseName()}}</a>
+                        {% elseif action == 'favoritedAction' %}
+                            <a href="{{ U('User/User/favorited',{id:user.id}) }}" class="selected">{{privateCourseName()}}</a>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+                
+            {% if courses %}
+                {{ render(controller('Course:Course:coursesBlock', {courses:courses, view: 'list', mode:'default',md:3})) }}
+                {{ web_macro.paginator(paginator) }}
+            {% else %}
+                {% if pageNav == 'teach' %}
+                    <div class="empty">无在教的课程</div>
+                {% elseif pageNav == 'learn' %}
+                    <div class="empty">无在学的课程</div>
+                {% elseif pageNav == 'favorited' %}
+                    <div class="empty">无收藏的课程</div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+

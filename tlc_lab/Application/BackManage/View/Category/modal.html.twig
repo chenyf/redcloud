@@ -1,0 +1,149 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% block title %}{% if category.id %}编辑分类{% else %}添加分类{% endif %}{% endblock %}
+
+{% block body %}
+    <div id="category-creater-widget" data-upload-url="{{ path('admin_category_upload') }}">
+
+        <form id="category-form" data-id="{{ category.id }}" class="form-horizontal" action="{% if category.id %}{{ path('admin_category_edit', {id:category.id}) }}{% else %}{{ path('admin_category_create') }}{% endif %}" method="post">
+
+            <div class="form-group">
+                <input type="hidden" class="hide" name="type" value="{{type}}">
+                <label class="col-md-2 control-label" for="category-name-field">名称</label>
+
+                <div class="col-md-8 controls">
+                    <input class="form-control" id="category-name-field" type="text" name="name" value="{{ category.name }}" tabindex="1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="category-weight-field">显示序号</label>
+
+                <div class="col-md-8 controls">
+                    <input class="form-control" id="category-weight-field" type="text" name="weight" value="{{ category.weight }}" tabindex="2">
+
+                    <div class="help-block">显示序号需为整数，分类按序号的顺序从小到大排序。</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="category-code-field">编码</label>
+
+                <div class="col-md-8 controls">
+                    <input class="form-control" id="category-code-field" type="text" name="code" value="{{ category.code }}" data-url="{{ path('admin_category_checkcode', {exclude:category.code}) }}" tabindex="3">
+
+                    <div class="help-block">必填，建议使用分类名称的英文单词或缩写作为编码。</div>
+                </div>
+            </div>
+            {#% if category.parentId ==0 %}
+    <div class="form-group">
+        <label class="col-md-2 control-label" for="category-code-field">图标</label>
+                    <div class="col-md-8 controls">
+                      <select id="categoryIcon" name="categoryId" required="required" class="form-control width-input width-input-large">
+                          {{ select_options(icon_choices('category'), category.icon|default('default.png')) }}
+                      </select>
+                            <a class='categoryIconExample' href="{{ category.icon|default('default.png') }}" target='_blank'><img src="{{ category.icon|default('default.png')}}" /></a>
+                          <div class="help-block" style="display:none;"></div>
+                    </div>
+    </div>
+            {% endif %#}
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="category-note-field">是否专业</label>
+
+                <div class="col-md-8 controls radios">
+                    {% if category.parentId ==0 or category.exisLeafNode == 1 %}
+                    {% else %}
+                        <input id="category-note-field" type="radio" name="isLeafNode" tabindex="0" value=1 {% if category.isLeafNode ==1 or category.isLeafNode == undefined %}checked{% endif %} > <label>是</label>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    {% endif %}
+                    <input id="category-note-field" type="radio" name="isLeafNode" tabindex="0" value=0 {% if category.isLeafNode == 0 and category.isLeafNode is defined %}checked{% endif %}><label>否</label>
+
+                    <div class="help-block">顶级分类不能是专业。</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label" for="category-description-field">分类描述</label>
+
+                <div class="col-md-8 controls">
+                    <textarea class="form-control" id="category-description-field" style="height:100px;" name="description">{{ category.description }}</textarea>
+
+                    <div class="help-block">非必填</div>
+                </div>
+            </div>
+
+            <div class="form-group" style="">
+                <label class="col-md-2 control-label" for="category-code-field">图标</label>
+                {#<div class="col-md-8 controls">
+                                    <input type="radio" name='iconFromType' />自定义
+                    <div id="category-icon-field">
+                        {% if category.icon %}<img class="mbm" style='width:60px' src="{{ category.icon }}">{% endif %}
+                    </div>
+                    <input type="hidden" name="icon" value="{{ category.icon }}">
+                    <button id="category-icon-uploader" class="btn btn-sm btn-default webuploader-container" type="button" data-target="#category-icon-field"><i class="glyphicon glyphicon-picture"></i></button>
+                    <button {% if not category.icon %}style="display:none;"{% endif %} id="category-icon-delete" class="btn btn-sm btn-default webuploader-container" type="button"><i class="glyphicon glyphicon-trash"></i></button>
+                    <div class="help-block">图标格式为jpg, jpeg, gif, png</div>
+
+                                <input type="radio" name='iconFromType' />系统
+                              <select id="categoryIcon" name="categoryId" required="required" class="form-control width-input width-input-large">
+                                  {{ select_options(icon_choices('category'), category.icon|default('default.png')) }}
+                              </select>
+
+                                  <div class="help-block" style="display:none;"></div>
+
+                </div> #}
+                <div class="col-md-8 controls">
+                    <div class="system-pic-right">
+                        <div id="category-icon-field">
+                            {% if category.icon %}
+                                <img class="mbm" style='width:60px' src="{{ category.iconUrl }}">
+                            {% else %}
+                                <img class="mbm" style='width:60px' src="/Data/udisk/categoryicon/default.png">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="system-pic-left">
+
+                        <div class="system-pic1">
+                            <input class="iconType" type="radio" value="define" {% if category.icon and category.iconFromType=='define' %}checked="checked"{% endif %} name='iconFromType'/>自定义
+                            <input id="defineType" type="hidden" {% if category.icon and category.iconFromType=='define' %}name="icon"{% endif %}  value="{{ category.icon }}">
+                            <button id="category-icon-uploader" class="btn btn-sm btn-default webuploader-container" type="button" data-target="#category-icon-field"><i class="glyphicon glyphicon-picture"></i></button>
+                            <button {% if not category.icon %}style="display:none;"{% endif %} id="category-icon-delete" class="btn btn-sm btn-default webuploader-container" type="button"><i class="glyphicon glyphicon-trash"></i></button>
+                        </div>
+
+                        <div class="system-pic2">
+                            <input class="iconType" type="radio" value="system" {% if category.iconFromType=='system' or category.icon=="" %}checked="checked"{% endif %} name='iconFromType'/>系统
+                            <select id="categoryIcon" name="categoryId" required="required" class="form-control width-input width-input-large">
+                                {{ select_options(icon_choices('category'), category.icon|default('default.png')) }}
+                            </select>
+                            <input id="systemType" type="hidden" {% if category.iconFromType=='system' or category.icon=="" %}name="icon"{% endif %}  value="{{ category.icon }}">
+                        </div>
+                        <div class="help-block">图标格式为jpg, jpeg, gif, png</div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <input type="hidden" name="parentId" value="{{ category.parentId }}">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+        </form>
+    </div>
+    <script type="text/javascript"> app.load('category/save-modal') </script>
+{% endblock %}
+
+{% block footer %}
+    {% if category.id %}
+        {% if category.isDelete == 0 %}
+            <button type="button" class="btn btn-default pull-left delete-category" data-url="{{ path('admin_category_delete', {id:category.id}) }}" tabindex="5"><i class="glyphicon glyphicon-trash"></i> 删除</button>
+        {% else %}
+            <button type="button" class="btn btn-default pull-left recover-category" data-url="{{ path('admin_category_recover', {id:category.id}) }}" tabindex="5">恢复</button>
+        {% endif %}
+    {% else %}
+
+    {% endif %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" tabindex="6">取消</button>
+    {% if category.isDelete == 0 %}
+        <button id="category-create-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#category-form" tabindex="4">保存</button>
+    {% endif %}
+{% endblock %}

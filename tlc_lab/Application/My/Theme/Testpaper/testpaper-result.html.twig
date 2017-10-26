@@ -1,0 +1,93 @@
+{% extends '@My/Testpaper/testpaper-layout.html.twig' %}
+{% if paperResult.status == 'finished' %}
+    {% set paperResultStatus = '批阅完成' %}
+{% elseif paperResult.status == 'submitted' %}
+    {% set paperResultStatus = '已提交，待批阅' %}
+{% elseif paperResult.status == 'doing'  %}
+    {% set paperResultStatus = '未提交' %}
+{% endif %}
+
+{% block testpaper_heading_status %}
+    {% if paperResult.status == 'finished' %}
+        <div class="label label-success">{{ paperResultStatus }}</div>
+    {% else %}
+        <div class="label label-info">{{ paperResultStatus }}</div>
+    {% endif %}
+{% endblock %}
+
+{% block testpaper_heading_content %}
+    {% if paperResult['testpaperType'] != 2 and not paper.isFileHomework %}
+        {% include '@My/Testpaper/testpaper-result-objective.html.twig' %}
+    {% endif %}
+
+    {% if paper.isFileHomework %}
+        {% include '@My/Testpaper/testpaper-file-homework-result.html.twig' %}
+    {% endif %}
+
+    {% if paperResult.status == 'submitted' %}
+        <div class="alert alert-warning">老师正在批阅试卷，批阅完成后会以站内私信通知您批阅结果，请稍等。</div>
+    {% elseif paperResult.status == 'finished' %}
+        {% if paperResult.teacherSay %}
+            <div class="alert alert-success">
+                <div class=""><strong>评语：</strong></div>
+                <div class="mtm">{{ paperResult.teacherSay|bbCode2Html|raw }}</div>
+            </div>
+        {% endif %}
+  {% endif %}
+{% endblock %}
+{% block testpaper_body_sidebar %}
+{% if ( paperResult.status in ['finished','submitted'] and setting('questions.testpaper_answers_show_mode','submitted') == 'submitted' ) or ( setting('questions.testpaper_answers_show_mode','submitted') == 'reviewed' ) and paperResult.status|default(null) == 'finished' %}
+    <div class="testpaper-card" data-spy="affix" data-offset-top="200">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="testpaper-card-timer"><small class="text-muted" style="font-size:14px;">{{ paperResultStatus }}</small></span>
+            </div>
+            <div class="panel-body">
+                {% if paper.isFileHomework %}
+                    <div class="clearfix mbl">
+                        {% if paperResult.status == 'submitted' %}
+                            <div class="text-center">交作业时间：</div>
+                            <p class="text-center">
+                                {% if paperResult.submitTime > 0 %}{{ paperResult.submitTime|date('Y-n-d H:i') }}{% else %} <span class="text-muted">——</span>{% endif %}
+                            </p>
+                        {% elseif paperResult.status == 'finished' and paperResult.checkedTime > 0 %}
+                            <div class="text-center">批阅时间：</div>
+                            <p class="text-center">
+                                {% if paperResult.checkedTime > 0 %}{{ paperResult.checkedTime|date('Y-n-d H:i') }}{% else %} <span class="text-muted">——</span>{% endif %}
+                            </p>
+                        {% endif %}
+                    </div>
+                {% else %}
+                    <div class="clearfix mbl">
+                        {% for type in paper.metas.question_type_seq %}
+                            {% for item in items[type] %}
+                                {% if item.questionType != 'material' %}
+                                  <a href="javascript:;" data-anchor="#question{{ item.questionId }}" class="btn btn-default btn-index pull-left {% if paperResult.status == 'submitted' and item.questionType == 'essay' %}checking{% elseif item.question.testResult.status|default(null) == 'partRight' %}wrong{% else %}{{ item.question.testResult.status|default(null) }}{% endif %}">{{ item.seq }}</a>
+                                {% else %}
+                                  {% for item in item.items|default([]) %}
+                                    <a href="javascript:;" data-anchor="#question{{ item.questionId }}" class="btn btn-default btn-index pull-left {% if paperResult.status == 'submitted' and item.questionType == 'essay' %}checking{% elseif item.question.testResult.status|default(null) == 'partRight' %}wrong{% else %}{{ item.question.testResult.status|default(null) }}{% endif %}">{{ item.seq }}</a>
+                                  {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="clearfix mtm mbm"></div>
+                        {% endfor %}
+                        <div class="testpaper-card-explain clearfix">
+                            <a href="javascript:;" class="btn btn-success btn-index"></a><small class="text-muted">正确</small>
+                            <a href="javascript:;" class="btn btn-danger btn-index"></a><small class="text-muted">错误</small>
+                            <a href="javascript:;" class="btn btn-warning btn-index"></a><small class="text-muted">待批阅</small>
+                            <a href="javascript:;" class="btn btn-default btn-index"></a><small class="text-muted">未做</small>
+                        </div>
+                  </div>
+                  <div class="panel-footer">
+                        <div class="btn-group btn-group-justified btn-group-sm">
+                            <label class="checkbox mll">
+                                <input type="checkbox" id="showWrong" /><span class="text-info">只看错题</span>
+                            </label>
+                        </div>
+                  </div>
+              {% endif %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,78 @@
+/*** 轮播图模块 ***/
+.scroll-main-box{width: 100%;max-height: 520px;text-align: center;overflow: hidden;position:relative;}
+.scroll-main-one{width: 100%;overflow: hidden;}
+.scroll-main-img{float:left;width: 100%;overflow: hidden;display: inline;}
+.scroll-main-img a{display: block;width: 100%;height: 100%;}
+.scroll-main-img a img{max-width: 100%;}
+.dots{position: absolute;bottom: 20px;z-index: 100;width: 100%;}
+.dots dd{font-size:0;margin:0 10px;width: 15px;height:15px;display:inline-block;border:2px solid #fff;border-radius:50%;}
+.dots dd.active,.scroll-btn dd:hover{cursor:pointer;background: #fff;}
+.scroll-prevbtn,.scroll-nextbtn{display:none;cursor: pointer;position: absolute;top:50%;z-index:101;margin-top:-30px;width:60px;height:60px;overflow:hidden;}
+.scroll-prevbtn {left:10px;}
+.scroll-nextbtn{right:10px;}
+.scroll-prevbtn i,.scroll-nextbtn i{font-size:60px;color: #fff;opacity: 0.7;filter:alpha(opacity=70);}
+.scroll-main-box:hover .scroll-prevbtn,.scroll-main-box:hover .scroll-nextbtn{display: block;}
+.scroll-prevbtn i:hover,.scroll-nextbtn i:hover{opacity: 1;filter:alpha(opacity=100);}
+
+/*** 试听课程 ***/
+.listening-content{position: relative;padding:0 50px;overflow: hidden;}
+.c-listencon{margin:0 auto;width:1040px;overflow:hidden}
+.c-listen-list{width:10000px;overflow:hidden;}
+.c-listen-list li{float:left;width:240px;margin:0 10px;overflow:hidden}
+.c-listen-list li .v-pic{width:100%;height:auto;overflow:hidden;position:relative}
+.c-listen-list li .v-pic img{max-width:100%;}
+.c-listen-list li .v-pic .playbtn{cursor:pointer;position:absolute;top:50%;left:50%;margin:-18px 0 0 -18px;z-index:2;width:36px;height:36px;}
+.c-listen-list li .v-pic .playbtn i{font-size: 36px;color:#000;opacity: 0.7;filter:alpha(opacity=70);}
+.c-listen-list li .v-pic:hover .playbtn i{opacity: 1;filter:alpha(opacity=100);}
+.c-listen-list li p{padding-top:8px;height:48px;line-height:20px;}
+.c-listen-list li p a{font-size:14px;color:#666;}
+.c-listen-list li p a:hover{color:#ff4e00;}
+.video-scroll-btn{cursor: pointer;position:absolute;top:50%;margin-top:-40px;width:30px;height:30px;}
+.prevBtn{left:10px;}
+.nextBtn{right:10px;}
+.video-scroll-btn i{font-size:30px;color: #333;opacity: 0.7;filter:alpha(opacity=70);}
+.video-scroll-btn i:hover{opacity: 1;filter:alpha(opacity=100);}
+
+/*** 课程购买信息 ***/
+.buy-course-con{border-top: 1px solid #ccc;padding-top:20px;overflow: hidden;}
+.group-rt-new{overflow:hidden;}
+.price-box{padding-right: 30px;}
+.group-rt-new i.c-ico-sign{float:left;width:24px;height:24px;margin:25px 0 0 3px;background:url(../images/ico-course.png) -32px -29px no-repeat;}
+.group-rt-new span{display:block;line-height:30px;font-size:14px;word-spacing:3px;}
+.group-rt-new span b{font-size:20px;color:#ff6400;}
+.group-rt-new span i{font-size:14px;color:#666;font-style:normal;}
+.group-rt-new span.old-price b{text-decoration: line-through;font-weight:normal;font-size:16px;}
+.jy-current-course{width:80%;height:66px;padding:5px 20px;line-height:28px;border:2px solid #ff4e00;display: table;text-align:center;overflow:hidden;}
+.jy-current-course p{display: table-cell;vertical-align: middle;font-size:18px;}
+
+/*** 课程快速导航 ***/
+.quick-Navigation{width:100%;height:75px;background:#333;overflow:hidden;}
+.nav-content{height:75px;margin:0 auto;overflow:hidden;}
+.nav-content a{float:left;padding:0 20px;height:75px;line-height:75px;font-size:18px;color:#fff;overflow:hidden;}
+.nav-content a.active,.nav-content a:hover{text-decoration:none;background:#1a1a1a;}
+
+/*** 图片模块 ***/
+.picture-global-box{width:100%;overflow: hidden;}
+.picture-global-item{width:100%;text-align: center;margin-top: 0px;} 
+.picture-global-item img{max-width: 100%;vertical-align: middle;}
+
+@media screen and (min-width: 992px) {
+    .nav-content.collapse{display: block;}
+    .nav-content a{font-size:16px;padding:0 12px;} 
+    
+}
+@media screen and (max-width: 991px) { 
+    .quick-Navigation .container{padding:0 !important;}
+    .navbar-toggle {display: block;float: left;}
+    .navbar-toggle span.icon-bar{background: #fff;}
+    .quick-Navigation{height:auto;}
+    .nav-content{height:auto;width:100%;}
+    .nav-content a{width:100%;height:50px;line-height:50px;font-size:16px;padding:0 10px;border-top: 1px solid #666;}
+    .jy-current-course{width:100%;}
+    .price-box{width:100%;padding:20px 0 0 20px;}
+    .buy-course-con{padding-top:0;}
+}
+
+@media screen and (min-width: 1200px) {
+      .nav-content a{font-size:18px;padding:0 20px;} 
+}

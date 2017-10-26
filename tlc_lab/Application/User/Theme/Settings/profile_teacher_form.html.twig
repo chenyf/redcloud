@@ -1,0 +1,21 @@
+<div class="form-group">
+    <label class="col-md-3 control-label">研究方向</label>
+    <div class="col-md-9 controls">
+        <input type="text" id="profile_research" name="profile[research]" class="form-control" value="{{ profile.research|default('') }}">
+        <div class="help-block" style="display:none;"></div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-md-3 control-label">办公室电话</label>
+    <div class="col-md-9 controls">
+        <input type="text" id="profile_telephone" name="profile[telephone]" class="form-control" value="{{ profile.telephone|default('') }}">
+        <div class="help-block" style="display:none;"></div>
+    </div>
+</div>
+<div class="form-group">
+    <label class="col-md-3 control-label">电子邮箱</label>
+    <div class="col-md-9 controls">
+        <input type="text" id="profile_weixin" name="profile[email]" class="form-control" value="{{ profile.email|default('') }}">
+        <div class="help-block" style="display:none;"></div>
+    </div>
+</div>

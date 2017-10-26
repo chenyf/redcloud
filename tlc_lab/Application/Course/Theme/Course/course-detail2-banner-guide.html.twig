@@ -1,0 +1,45 @@
+<div class="course-bannerGuide">
+    <div class="body-container" style="background-image: url({{ default_path('coursePicture', course.largePicture, '') }});">
+        <div class="bt3-container banner-container">
+            <div class="bt3-row banner-row">
+                <div class="bt3-col-sm-3 nav-container bt3-hidden-xs">
+                    <div style="display: block; top: auto; left: auto; width: 210px; height: 426px; z-index: 0;"></div>
+                    <div class="rc-CommonAffixNav affix" style="display: block; z-index: 3000; width: 210px; top: 2909px; position: relative; left: auto;">
+                        <div class="nav">
+                            <a href="#" class="rc-TextNavItem nostyle body-1-text color-secondary-text">总览</a>
+                            <a href="#syllabus" class="rc-TextNavItem nostyle body-1-text color-secondary-text">授课大纲</a>
+                            <a href="#material" class="rc-TextNavItem nostyle body-1-text color-secondary-text">课程资料</a>
+                            <a href="#thread" class="rc-TextNavItem nostyle body-1-text color-secondary-text">课程问答</a>
+                            <a href="#announce" class="rc-TextNavItem nostyle body-1-text color-secondary-text">课程公告</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bt3-col-sm-9 bt3-col-sm-offset-3 header-container">
+                    <div class="breadcrumbs-container bt3-hidden-xs">
+                        <div class="rc-BannerBreadcrumbs caption-text">
+                            <span class="item">
+                                <a href="/" class="link nostyle" target="_blank" >主页</a>
+                                <i class="cif-chevron-right chevron"></i>
+                            </span>
+                            <span class="item">
+                                <a href="/browse/life-sciences" class="link nostyle" target="_blank">生命科学</a>
+                                <i class="cif-chevron-right chevron"></i>
+                            </span>
+                            <span class="item">
+                                <a href="/browse/life-sciences/animals-and-veterinary-science" class="link nostyle" target="_blank">动物和兽医科学</a>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="title display-3-text">{{ course.title }}</div>
+                    <div class="partner-title body-1-text bt3-visible-xs align-horizontal-center">
+                        {% for tag in tags %}
+                            <a href="{{ path('tag_show', {name:tag.name}) }}" class="mrs">{{ tag.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

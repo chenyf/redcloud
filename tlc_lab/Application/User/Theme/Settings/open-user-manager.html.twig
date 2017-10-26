@@ -1,0 +1,92 @@
+{% extends '@User/Settings/layout.html.twig' %}
+{% block title %}高校云互联 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'openUser' %}
+{% block main %}
+    {% embed "@Home/Bootstrap/panel.html.twig" with {class:'panel-col'} %}
+        {% block heading %}高校云互联{% endblock %}
+        {% block body %}
+        <div class="panel-body">
+            <a href="#modal" data-toggle="modal" data-url="{{U('User/Settings/openUserDocument')}}" class="btn pull-right  btn-warning" style="margin-left: 10px;">使用文档</a>
+            <a href="#modal" data-toggle="modal" data-url="{{U('User/Settings/openUserModal')}}" class="btn pull-right  btn-primary" style="margin-left: 10px;">添加应用</a>
+            <ul class="nav nav-tabline" role="tablist">
+              <li role="presentation" class="{% if state == false %}active{% endif %}"><a href="{{U('User/Settings/getOpenUserList')}}">全部应用</a></li>
+              <li role="presentation" class="{% if state == 'success' %}active{% endif %}"><a href="{{U('User/Settings/getOpenUserList',{state:'success'})}}">已审核</a></li>
+              <li role="presentation" class="{% if state == 'danger' %}active{% endif %}"><a href="{{U('User/Settings/getOpenUserList',{state:'danger'})}}">未审核</a></li>
+              <li role="presentation" class="{% if state == 'stop' %}active{% endif %}"><a href="{{U('User/Settings/getOpenUserList',{state:'stop'})}}">禁用</a></li>
+              {#<li role="presentation" class="active"><a href="{{U('User/Settings/openUserManager',{type:delete})}}">关闭</a></li>#}
+            </ul>
+            <br>
+            <table class="table table-striped table-hover" id="orders-table">
+                <thead>
+                  <tr>
+                    <th>名称</th>
+                    <th>APP</th>
+                    <th>网站地址</th>
+                    <th>创建时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for item in resouces %}
+                    <tr>
+                        <td style="max-width:75px">
+                            {{item.name}}
+                        </td>
+                        <td>
+                            <div class="text-sm">
+                                APPID：{{item.appId}}
+                            </div>
+                            <div class="text-sm">
+                                APPKEY：{{item.appKey}}
+                            </div>
+                        </td>
+                        <td style="max-width:181px">
+                            <a  target="_blank" href="{{item.url}}">{{item.url}}</a>
+                        </td>
+                        <td>
+                            {{ item.cTime | date('Y-m-d') }}
+                            </br>
+                            {{ item.cTime | date('H:i:s') }}
+                        </td>
+                        <td>
+                            {% if item.state=='success' %}
+                            <span class="label label-success">
+                                已审核
+                            </span>
+                            {% elseif item.state=='stop' %}
+                                <span class="label label-warning">
+                                    禁用
+                                </span>
+                            {% elseif item.state=='delete' %}
+                                <span class="label label-default">
+                                    用户删除
+                                </span>
+                            {% else %}
+                                <span class="label label-danger">
+                                    未审核
+                                </span>
+                            {% endif %}
+                        </td>
+                      <td>
+                        <div class="btn-group">
+                           <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#modal" data-url="{{U('User/Settings/openUserModal',{id:item.id})}}">编辑</button>
+                                {% if item.state!='stop' %}<button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modal" data-url="{{U('User/Settings/openUserModal',{id:item.id,modalType:'stop'})}}">禁用</button>{% endif %}
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#modal" data-url="{{U('User/Settings/openUserModal',{id:item.id,modalType:'delete'})}}">删除</button>
+                            </div>
+                        </div>  
+                      </td>
+                    </tr>
+                    {% else %}
+                        <tr><td colspan="20" class="empty">现在没有该数据</td></tr>
+                    {% endfor %}
+                    </tbody>
+              </table>
+                {{ web_macro.paginator(paginator) }} 
+        </div>
+        <div id="modal" class="modal" data-keyboard="false"></div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

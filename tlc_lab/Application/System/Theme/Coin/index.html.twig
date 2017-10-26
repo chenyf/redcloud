@@ -1,0 +1,61 @@
+{#% extends 'TopxiaWebBundle:My:layout.html.twig' %#}
+{% extends '@System/Coin/layout.html.twig' %}
+{# {% block title %}我的{{setting('coin.coin_name')}} - {{ parent() }}{% endblock %} #}
+{% block title %}我的{#虚拟币#}{{setting('coin.coin_name')}} - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'my-coin' %}
+{% set script_controller = 'coin/buyCoin' %}
+{% block main %}
+{# <div class="panel panel-default panel-col"> #}
+<div class="panel panel-default panel-col lesson-manage-panel">
+
+  {% include '@System/Coin/bill-bar.html.twig' %}
+{#   <div class="panel-heading">
+    我的{{setting('coin.coin_name')}}
+  </div> #}
+    <div class="panel-body">
+    <div class="panel-heading" style="font-weight:normal;">
+    {# 账户余额: #}
+    <span class="label label-primary">账户余额</span>
+    <br>
+    <div class="row">
+
+        <div class="coin-block">
+            <div class="coin-text">
+              {% if setting('coin.coin_picture') %}
+                <img class="coin-picture" src="{{asset(setting('coin.coin_picture')) }}" alt="虚拟币图片" width="30px" >
+              {% endif %}
+              <strong>{{account.cash|default(0)}}</strong>
+             元
+              
+            </div>
+             {% if setting('coin.coin_enabled') %}
+                <div class="coin-btn">
+                  {% if setting('coin.charge_coin_enabled') %}
+                    {# <a href="{{path('my_coin_buy')}}" target="_blank" class="mll btn btn-default"  style="color: #428bca;" > &nbsp;&nbsp;充&nbsp;值&nbsp;&nbsp; </a> #}
+                    <a href="{{path('my_coin_buy')}}" target="_blank" class="mll btn btn-primary" {# style="color: #428bca;" #}> &nbsp;&nbsp;充&nbsp;值&nbsp;&nbsp; </a>
+
+                  {% endif %}
+                  {% if is_plugin_installed('MoneyCard') %}
+                    <a href="{{path('money_card_use')}}" target="_blank" class="mll btn btn-default" {# style="color: #428bca;" #}>使用学习卡</a>
+                  {% endif %}
+                </div>
+            {% endif %}
+        </div>  
+
+    </div>
+ <form id="coin-buy" class="form-horizontal" method="post" action="{{ U('System/Coin/pay') }}">
+        <div class="form-group">
+            <div class="col-md-2 control-label"><label for="amount" class="required">充值金额</label></div>
+            <div class="col-md-6 controls">
+              <input type="text" id="amount" name="amount" required="required" class="form-control width-input width-input-large" data-widget-cid="widget-6" >
+            </div>
+             <div class="col-md-2 controls">
+            <button class="btn btn-primary float-right " type="submit">充值</button>
+            </div>
+        </div>
+    </form>
+  </div>
+</div>
+</div>
+{% endblock %}

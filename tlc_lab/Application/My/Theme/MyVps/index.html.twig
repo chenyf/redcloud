@@ -1,0 +1,24 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}我的虚拟机 - {{ parent() }}{% endblock %}
+{% set side_nav = 'my-vps' %}
+{% set script_controller = 'my/vps' %}
+{% block main %}
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/homepage.css" />
+    <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('bundles/web/css/elegant_font.css') }}" />
+    <script src="{{ asset('assets/libs/vuejs/vue.min.js') }}"></script>
+    {% embed "@Home/Bootstrap/panel.html.twig" with {class:'panel-col'} %}
+        {% block heading %}我的虚拟机{% endblock %}
+        {% block body %}
+
+        <div class="panel panel-default panel-col lesson-manage-panel" id="vps_body">
+            {% if my_vps is empty %}
+				{% include '@My/MyVps/vps_select_view.html.twig' with {vpsList:vpsList} %}
+			{% else %}
+				{% include '@My/MyVps/vps_show_view.html.twig' with {my_vps:my_vps} %}
+			{% endif %}
+        </div>
+        
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

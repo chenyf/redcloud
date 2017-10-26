@@ -1,0 +1,16 @@
+{% extends '@BackManage/layout.html.twig' %}
+
+{% set nav = 'daily' %}
+{% block content %}
+  <div class="col-md-2">
+    {% block sidebar %}
+      <div class="list-group">
+        <a href="{{ url('admin_feedBack') }}" class="list-group-item {% if menu == 'feedBack' %}active{% endif %}">意见反馈</a>
+        <a href="{{ url('my_students_push_log') }}" class="list-group-item {% if menu == 'pushLog' %}active{% endif %}">推送日志</a>
+      </div>
+    {% endblock %}
+  </div>
+  <div class="col-md-10">
+      {% block main %}{% endblock %}
+  </div>
+{% endblock %}

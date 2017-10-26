@@ -1,0 +1,59 @@
+{% extends '@AccessControl/common/layout.html.twig' %}
+
+{% block title %}节点管理 - {{ parent() }}{% endblock %}
+
+{% set menu = 'node' %}
+
+
+{% block main %}
+    <div class="page-header clearfix">
+        <button class="btn btn-info btn-sm pull-right" id="add-navigation-btn" data-toggle="modal" data-target="#modal"
+                data-url="{{ U('AccessControl/Node/create',{pid:app.request.get('pid')}) }}">添加节点
+        </button>
+        <h1 class="pull-left">节点管理</h1>
+    </div>
+    {% if parent %}
+        <ol class="breadcrumb">
+            <li><a href="{{ U('AccessControl/Node/index',{pid:parent.pid}) }}"><i
+                            class="glyphicon glyphicon-backward"></i> {{ parent.title }}</a></li>
+        </ol>
+    {% endif %}
+    <table id="user-table" class="table table-striped table-hover" data-search-form="#user-search-form">
+        <thead>
+        <tr>
+            <th width="20%">节点名称</th>
+            <th width="20%">节点编码</th>
+            <th width="40%">节点介绍</th>
+            <th width="20%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for node in lists %}
+            <tr>
+                <td>
+                    {% if node.level < 3 %}
+                    <a href="{{ U('AccessControl/Node/index',{pid:node.id}) }} ">
+                        {% endif %}
+                        {{ node.title }}
+                        {% if node.level < 3 %}</a>
+                    {% endif %}
+                </td>
+                <td>{{ node.name }}</td>
+                <td> {{ node.remark|default(node.title) }}  </td>
+                <td>
+                    <button class="btn btn-default btn-sm" data-toggle="modal"
+                            data-url="{{ U('AccessControl/Node/edit',{id:node.id}) }}" data-target="#modal"><i
+                                class="glyphicon glyphicon-edit"></i> 修改
+                    </button>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4"><div class="empty">暂无记录</div></td>
+            </tr>
+
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

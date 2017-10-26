@@ -1,0 +1,74 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% block title %} 支付中心 - {{ parent() }}{% endblock %}
+{% set script_controller = 'pay-center/show' %}
+{% block content %}
+<div class="container order-pay pay-center">
+  <div class="row">
+    <div class="col-md-12 ptl">
+      <div class="panel panel-default panel-page ptl pbl pll prl">
+        <div class="panel-heading"><h4>收银台</h4></div>
+        <hr/>
+        <div class="panel-body">
+          <div class="alert alert-success">
+            <span class="pull-right"><span style="color:#f60; font-size: 24px;">{{order.amount}}</span> 元</span>
+            <p> 订单已提交，请在４８小时内完成支付！<small class="text-muted">逾期订单将被取消。</small></p>
+            <p class="">
+              <small>订单号：{{order.sn}}</small>
+              <small class="mll">订单名称：{{ order.title }}</small>
+            </p>
+          </div>
+          
+          
+            <input type="hidden" name="orderId" value="{{order.id}}"/>
+            
+             <input type="hidden" id="orderUrl" value="{{U('System/Coin/getOrderStatus',{id:order.id})}}"/>
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <div class="course-nav-tabs">
+                            <ul class="nav nav-pills mbl course-tabs-sort affix-top zhifu-list" id="course-nav-tabs">
+                                <li  class="active">
+                                    <a class="btn-index">微信支付</a>
+                                </li>
+                                <li>
+                                    <a class="btn-index">支付宝支付</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="payment-box">
+                            <div class="inter-bank">
+                                <div class="pay-wximg">
+                                    {% if  wxData.ewmurl == ''%}
+                                        <span>请刷新重试</span>
+                                        {%else%}
+                                        <img src="{{U('Money/PayCenter/getPayWxImg',{'url': wxData.ewmurl})}}"/>
+                                        <span>微信扫描二维码支付</span>
+                                    {%endif%}
+                                    </div>
+                            </div>
+                            <div class="inter-bank" style="display: none">
+                                <div class="bank-zhifubao">
+                                    <input type="radio" checked="">
+                                    <span class="check">
+                                        <img src="/Public/assets/img/order/alipay.gif" width="100px">
+                                         {% autoescape  false %}
+                                        {{ alipay }}
+                                        {% endautoescape %}
+                                    </span>
+                                </div>
+                                <div class="confirm mt0">
+                                    <button class="pay-button btn btn-fat btn-primary btn-lg"  type="submit" onclick=" $('#alipaysubmit').attr('target', '_blank');$('#alipaysubmit').submit();">去支付</button>
+				</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>   
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

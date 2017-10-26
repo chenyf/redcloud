@@ -1,0 +1,245 @@
+body,html{
+	height: 100%;
+	background: #b8e7f1;
+	
+	margin: 0;
+}
+a{
+	text-decoration: none;
+}
+::-webkit-input-placeholder { /* WebKit browsers */ 
+color: #c7cbd4; 
+} 
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */ 
+color: #c7cbd4; 
+} 
+::-moz-placeholder { /* Mozilla Firefox 19+ */ 
+color: #c7cbd4; 
+} 
+:-ms-input-placeholder { /* Internet Explorer 10+ */ 
+color: #c7cbd4; 
+} 
+.wrapper{
+	/*min-width: 1050px;*/
+	/*max-width: 1280px;*/
+	margin: 0 auto;
+}
+.left-img{
+	margin-top: 220px;
+	float: left;
+	width: 50%;
+}
+.left-img img{
+	width: 90%;
+	display: block;
+	margin: 0 auto;
+}
+.right-content{
+	right: 80px;
+	position: absolute;
+	width: 600px;
+	margin-top: 80px;
+}
+@media (max-width: 686px) {
+	.right-content {
+		right: 0px;
+		left: 0px;
+		position: absolute;
+		width: 100%;
+	}
+}
+.title,.title a{
+	color:#fe493a;
+	font-size: 30px;
+	margin: 0 0 26px 0;
+}
+.title img{
+	vertical-align: middle;
+}
+.login-form{
+	border-top: 6px solid #fe473c;
+	background: #ffffff;
+	width: 100%;
+	padding-top: 20px;
+	position: absolute;
+	padding-bottom: 20px;
+}
+#login-form{
+	margin: 0 40px;
+}
+.form{
+	width: 78%;
+	border-right: 1px solid #e3e4e6;
+	float: left;
+}
+.form-input{
+	width: 90%;
+	height:50px;
+	font-size: 18px;
+	margin-top: 18px;
+	border-radius: 4px;
+	border: 1px solid #e3e4e6;
+	padding:0 22px;
+}
+.form-input[name="username"]{
+	background: url("../img/login-v2/user-icon1.png") no-repeat 96% center;
+}
+.form-input[name="username"]:focus{
+	background: url("../img/login-v2/user-icon2.png") no-repeat 96% center;
+}
+.form-input[name="password"]{
+	background: url("../img/login-v2/pwd-icon1.png") no-repeat 96% center;
+}
+.form-input[name="password"]:focus{
+	background: url("../img/login-v2/pwd-icon2.png") no-repeat 96% center;
+}
+.form-btn{
+	width: 100%;
+	height:50px;
+	margin-top: 18px;
+	font-size: 18px;
+	color:#ffffff;
+	/*FILTER: progid:DXImageTransform.Microsoft.Gradient(gradientType=0,startColorStr=#fe493a,endColorStr=#ff2b57); !*IE 6 7 8*! */
+	background: -ms-linear-gradient(left, #fe493a,  #ff2b57);        /* IE 10 */
+	background:-moz-linear-gradient(top,#fe493a,#ff2b57);/*火狐*/ 
+	background:-webkit-gradient(linear, 0% 0%, 0% 100%,from(#fe493a),to(#ff2b57));/*谷歌*/ 
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fe493a), to(#ff2b57));      /* Safari 4-5, Chrome 1-9*/
+	background: -webkit-linear-gradient(left, #fe493a, #ff2b57);   /*Safari5.1 Chrome 10+*/
+	background: -o-linear-gradient(left, #fe493a, #ff2b57);  /*Opera 11.10+*/
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+}
+.side-btn{
+	font-size: 14px;
+	margin: 0 40px;
+	margin-top: 22px;
+}
+.left-text{
+	color:#868e9e;
+	float: left;
+}
+.left-text label{
+	background: url("../img/login-v2/choice-icon1.png") no-repeat left center;
+	padding-left: 28px;
+	margin-left: -20px;
+	padding-right: 12px;
+	border-right:1px solid #e3e4e6;
+}
+.left-text .remember-pwd{
+	visibility: hidden;
+}
+.left-text .remember-pwd:checked + label{
+	background: url("../img/login-v2/choice-icon2.png") no-repeat left center;
+}
+.left-text .forget-pwd{
+	padding-left: 12px;
+	color:#868e9e;
+}
+.register-btn{
+	color:#fe493a;
+	float: right;
+}
+.register-btn img{
+	width: 16px;
+	vertical-align: middle;
+	padding-right: 4px;
+}
+.share_block{
+	width: 21.5%;
+	float: left;
+	text-align: center;
+}
+.share_block p{
+	font-size: 14px;
+	color:#868e9e;
+	margin:0;
+}
+.share_block img{
+	margin: 18px auto 0 auto;
+	display: block;
+	cursor: pointer;
+}
+.copyright{
+	position: absolute;
+	width: 600px;
+	right: 80px;
+	bottom: 20px;
+}
+
+@media (max-width: 686px) {
+	.copyright {
+		right: auto;
+		width: auto;
+	}
+}
+.line{
+	background: #ffffff;
+	height:1px;
+	margin-top: 10px;
+	width: 16.7%;
+	float: left;
+}
+.copyright-text{
+	font-size: 14px;
+	color:#e74035;
+	float: left;
+	margin: 0;
+	width: 66.6%;
+	text-align: center;
+}
+
+.hide{
+	display: none;
+}
+.dl-box p {
+	overflow: hidden;
+	padding-left: 40px;
+ }
+.help-block {
+	margin-bottom: 10px;
+	margin-left: 40px;
+}
+.glyphicon {
+	position: relative;
+	top: 1px;
+	font-family: 'Glyphicons Halflings';
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.fa {
+	display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: inherit;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+.col-md-6 {
+	width: 50%;
+}
+.col-md-4 {
+	width: 33.33333333%;
+	margin-left: 40px;
+}
+.col-md-2 {
+	width: 16.66666667%;
+}
+.col-md-6,.col-md-4,.col-md-2{
+	float: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+

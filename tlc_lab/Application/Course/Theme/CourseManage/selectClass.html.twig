@@ -1,0 +1,10 @@
+<select class="form-control" name="classId">
+    {% if createTest %}
+        <option value="">请选择要布置{{ tyepText }}的授课班</option>
+    {% else %}
+        <option value="">全部授课班</option>
+    {% endif %}
+    {% for class in courseClass %}
+        <option value="{{ class.id }}" {% if id == class.id and id != '' %}selected{% endif %}>{{ class.className|plain_text(20) }}</option>
+    {% endfor %}
+</select>

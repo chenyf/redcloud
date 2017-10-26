@@ -1,0 +1,97 @@
+{% extends '@BackManage/User/layout.html.twig' %}
+
+{% block title %}用户管理 - {{ parent() }}{% endblock %}
+
+{% set menu = 'user-lead' %}
+
+{% set script_controller = 'user/import-user' %}
+
+{% block main %}
+<ul class="nav nav-tabs mbl">
+    <li class="{% if type == 'user' %}active{% endif %}">
+        <a href="{{path('admin_user_import',{type:'user'})}}">用户导入</a>
+    </li>
+    <li class="{% if type == 'resetPwdTask' %}active{% endif %}">
+        <a href="{{path('admin_user_import',{type:'resetPwdTask'})}}">批量发送密码</a>
+    </li>
+</ul>
+{#用户#}
+{% if type == "user" %}
+<div class="user-guide-box">
+    {% if verify != true %}
+    <form class="form-horizontal" action="/BackManage/User/importAction" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <label for="name">请选择要导入的文件</label>
+            </div>
+            <div class="col-md-9 controls" style="margin-top:7px;">
+                <input class="guide-file" id="chooseFile" type="file" name="file"/> 
+                <a class="explain-txt" href="/{{ Const('DATA_FETCH_URL_PREFIX') }}/material/stud_import_example.xls?{{random()}}">示例文件学生版</a>
+                <a style="margin-left: 40px" class="explain-txt" href="/{{ Const('DATA_FETCH_URL_PREFIX') }}/material/teacher_import_example.xls?{{random()}}">示例文件老师版</a>
+                <p style="clear:both;color:#333;padding-top:5px;">支持从Excel文件导入<span style="color:red;">（姓名必须是中文字、英文字母、数字及下划线组成, 长度为2-20位；单元格中禁止使用公式，否则会导入失败）</span></p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <label for="name">用户身份</label>
+            </div>
+            <div class="col-md-9 controls" style="margin-top:7px;">
+                <p><input type="radio" name='userType' checked='checked' value="student" style="margin-right:10px;cursor:pointer;" />学生 <input type="radio" name='userType' value="teacher" style="margin:0 10px 0 10px;cursor:pointer;" />老师</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 control-label"></div>
+            <div class="col-md-9 controls">
+                 <p><input type="submit" href="###" class="btn btn-primary guide-start" value="开始校验数据"/></p>
+            </div>
+        </div>
+    </form>
+    {% endif %}
+    
+    <!-- 第二步 -->
+    {% if verify %}
+    <div class="guide-second">
+        <p>校验成功！一共包括{{result}}个用户信息</p>
+        <div class="secondbtn"><a href="javascript:;" data="/BackManage/User/importUserAction" id="sureImport" class="btn btn-primary guide-start" data-type="user">确定导入</a><a href="/BackManage/User/importAction" class="btn btn-primary guide-start">返回</a></div>
+        <p id="intro"></p>
+        <input type="hidden" id="filePath" value="{{filePath}}">
+        <input type="hidden" id="userType" value="{{userType}}">
+        <input type="hidden" id="fileName" value="{{fileName}}">
+    </div>
+    {% else %}
+        <div class="guide-second">
+            <p style="color:red;margin-left:55px">{{result}}</p>
+        </div>
+    {% endif %}
+    
+    <div id="importError" class="guide-second"></div>
+
+</div>
+{% endif %}
+{#密码#}
+{% if type == "resetPwdTask" %}
+<div class="user-pwd-box">
+    <button class="btn btn-info btn-sm pull-right" id="add-task-btn" data-backdrop="static" data-toggle="modal" data-target="#modal" data-url="{{path('admin_reset_pwd_task')}}" >添加重置密码任务</button>
+    <table id="reset-pwd-task-table" class="table table-striped table-hover" >
+        <thead>
+            <tr>
+                <th>用户名</th>
+                <th>创建时间</th>
+                <th>范围</th>
+                <th>总人数</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for task in resetPwdTask %}
+                {% include '@BackManage/User/reset-pwd-task-table.html.twig' with {task:task} %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {{ web_macro.paginator(paginator) }} 
+</div>
+{% endif %}
+{{ web_macro.flash_messages() }}
+
+{% endblock %}

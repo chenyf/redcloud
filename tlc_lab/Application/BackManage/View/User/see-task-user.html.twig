@@ -1,0 +1,29 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class = 'modal-lg' %}
+{% block title %}实时用户详情{% endblock %}
+{% block body %}
+
+<div id="poll-task-user" data-key="{{ key }}" data-url="/BackManage/User/pollTaskUserAction" style="height:500px;overflow:auto">
+     <table class="table table-bordered" >
+        <thead>
+            <tr>
+                <th>用户名</th>
+                <th>邮箱</th>
+                <th>邮箱发送状态</th>
+                <th>手机</th>
+                <th>手机发送状态</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+     </table>
+</div>
+{% endblock %}
+
+{% block footer %}
+    <button type="button" class="btn btn-primary clear-poll">清屏</button>
+    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+    <script>app.load('user/poll-task-user');</script>
+{% endblock %}

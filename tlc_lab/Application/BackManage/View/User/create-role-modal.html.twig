@@ -1,0 +1,135 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+
+{% block title %}新建角色{% endblock %}
+
+{% block body %}
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/new-modal.css') }}" />
+
+	<!-- 
+		调用/Public/bundles/web/css/new-modal.css
+	-->
+
+	<div class="popupbox">	
+		<div class="new-role-box"><!-- 角色添加 -->
+			<span>角色：</span>
+			<div class="new-downlist">
+				<p>请选择身份</p>
+				<ul>
+					<li><a href="###" rel="1">院长</a></li>
+					<li><a href="###" rel="2">副院长</a></li>
+					<li><a href="###" rel="3">系主任</a></li>
+					<li><a href="###" rel="4">讲师</a></li>
+					<li class="last-custom"><a href="###">自定义</a></li>
+				</ul>
+			</div>
+			<div class="role-custom"><input type="text"/><a href="###">添加</a></div>
+			<script type="text/javascript">
+				$(function(){
+
+					$(".new-downlist p").click(function(){
+						var ul = $(".new-downlist ul");
+						if(ul.css("display")=="none"){
+							ul.slideDown("fast");
+						}else{
+							ul.slideUp("fast");
+						}
+					});
+					
+					$(".new-downlist ul li a").click(function(){
+						var txt = $(this).text();
+						$(".new-downlist p").html(txt);
+						var value = $(this).attr("rel");
+						$(".new-downlist ul").hide();
+					});
+
+				});
+			</script>
+		</div>
+		<div class="new-department-box">
+			<div class="department-first">
+				<span>顶级分类：</span>
+				<select>
+					<option>请选择</option>
+					<option>软件学院</option>
+					<option>商学院</option>
+				</select>
+			</div>
+			<div class="department-tree tree">
+				<ul>
+        			<li>
+            			<input type="checkbox" name="all" /><span><i class="icon-minus-sign"></i>院系第一级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+            			<ul>
+                			<li>
+			                	<input type="checkbox"/><span><i class="icon-minus-sign"></i>院系第二级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+			                    <ul>
+			                        <li>
+				                        <input type="checkbox"/><span><i class="icon-leaf"></i>院系第三级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+			                        </li>
+			                    </ul>
+			                </li>
+                			<li>
+                				<input type="checkbox"/><span><i class="icon-minus-sign"></i>院系第二级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+                    			<ul>
+                        			<li>
+	                        			<input type="checkbox"/><span><i class="icon-leaf"></i>院系第三级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+                        			</li>
+                        			<li>
+                        				<input type="checkbox"/><span><i class="icon-minus-sign"></i>院系第三级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+                            			<ul>
+                                			<li>
+	                                			<input type="checkbox"/><span><i class="icon-minus-sign"></i>院系第四级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+		                            			<ul>
+		                                			<li>
+			                                			<input type="checkbox"/><span><i class="icon-leaf"></i>院系第五级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+		                                			</li>
+		                                			<li>
+			                                			<input type="checkbox"/><span><i class="icon-leaf"></i>院系第五级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+		                                			</li>
+		                             			</ul>
+                                			</li>
+                                			<li>
+	                                			<input type="checkbox"/><span><i class="icon-leaf"></i>院系第四级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+                                			</li>
+                                			<li>
+	                                			<input type="checkbox"/><span><i class="icon-leaf"></i>院系第四级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+                                			</li>
+                            			</ul>
+                        			</li>
+                        			<li>
+	                        			<input type="checkbox"/><span><i class="icon-leaf"></i>院系第三级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+                        			</li>
+                    			</ul>
+                			</li>
+            			</ul>
+        			</li>
+        			<li>
+            			<input type="checkbox"/><span><i class="icon-minus-sign"></i>院系第二级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+            			<ul>
+                			<li>
+                				<input type="checkbox"/><span><i class="icon-leaf"></i>院系第三级</span> <label><input type="checkbox" name="down" />允许增减下级</label>
+		        			</li>
+		    			</ul>
+        			</li>
+    			</ul>
+    			<script>
+					$(function () {
+						$('.tree li:has(ul)').addClass('parent_li').find(' > span').attr('title', 'Collapse this branch');
+						$('.tree li.parent_li > span').on('click', function (e) {
+							var children = $(this).parent('li.parent_li').find(' > ul > li');
+							if (children.is(":visible")) {
+								children.hide('fast');
+								$(this).attr('title', 'Expand this branch').find(' > i').addClass('icon-plus-sign').removeClass('icon-minus-sign');
+							} else {
+								children.show('fast');
+								$(this).attr('title', 'Collapse this branch').find(' > i').addClass('icon-minus-sign').removeClass('icon-plus-sign');
+							}
+							e.stopPropagation();
+						});
+					});
+				</script>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+<div class="testpaper-question-stem-wrap clearfix">
+  <div class="testpaper-question-seq-wrap">{{ aa }}
+    <div class="testpaper-question-seq">{% if item.seq|default(null) %}{{ item.seq }}{% endif %}</div>
+    <div class="testpaper-question-score">{% if paperResult['testpaperType'] != 2 and (testpaperType != 2) %}{% if not isHide|default(false) %} {{ item.score|default(item.question.score) }}分 {% endif %}{% endif %}</div>
+  </div>
+  {% if item.questionType == 'fill' %}
+    <div class="testpaper-question-stem">{{ item.question.stem|fill_question_stem_html|bbCode2Html|raw }} {{ item.question.imgURL|bbCode2Html|raw }}</div>
+  {% else %}
+    <div class="testpaper-question-stem">{{ item.question.stem|bbCode2Html|raw }}{{ item.question.imgURL|bbCode2Html|raw }}</div>
+    {% endif %}
+</div>
+
+<!--sdfasdfsdf-->

@@ -1,0 +1,36 @@
+{% extends '@User/layout.html.twig' %}
+{% block title %}邮箱注册 - {{ parent() }}{% endblock %}
+{% set script_controller = 'auth/register-submited' %}
+{% set containerClassBlock = 'index_container' %}
+{% set two_nav = '验证邮箱' %}
+{% block content %}
+<div class="redcloud-bggray login-bg" style="background-image:url({{register_success_pic_path()}});">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 ptl">
+                <div class="panel panel-default panel-page login-success-box">
+                    <div class="panel-heading">
+                        <h2><b><img src="/Public/static/img/login-icon.png" /></b>注册完成还需一步，验证邮箱</h2>
+                    </div>
+                    <div id="email-sending" class="alert alert-info" style="display:none;">正在发送注册验证邮件，请稍等...</div>
+                    <div id="email-send-success" class="email-send-success">
+                        <p class="text-success">注册确认邮件已经发送到邮箱<strong>{{ user.email }}</strong><br />点击邮件中的确认链接来完成邮箱验证，验证后的邮箱账号才能登录。</p>
+                        <p class="mvl">
+                            <a class="btn btn-primary" href="{{ emailLoginUrl }}" target="_blank">登录邮箱完成验证</a>
+                            <button type="button" id="resend-email" class="btn btn-default login-btn-cx" disabled="disabled" data-url="{{ path('register_email_send', {id:user.id, hash:hash}) }}">(重发一封<b class="second-down">120</b>S)</button>
+                        </p>
+                        <div class="alert" style="line-height:24px;">
+                            <p style="color:#0093f0">没有收到确认邮件怎么办？</p>
+                            <ul>
+                                <li>1.检查一下上面的Email地址是否正确，如有错误请重新<a class="text-muted" style="color:#ff0000;" href="{{ path('register') }}">注册</a>。</li>  
+                                <li>2.检查一下邮箱的垃圾箱里是否有确认邮件。</li>
+                                <li>3.稍等几分钟，若还未收到确认信那就点击重发按钮。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

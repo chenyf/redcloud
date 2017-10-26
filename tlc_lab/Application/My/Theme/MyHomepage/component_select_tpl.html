@@ -1,0 +1,52 @@
+<template id="component-select-tpl">
+    <style>
+        .box{
+            width: 90%;
+            margin: 10px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .item{
+            flex-grow:1;
+            text-align: center;
+        }
+        .item .tpl{
+            width: 100%;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+        .inactive-item{
+            border: 4px solid transparent;
+        }
+        .active-item{
+            border: 4px solid #ea4335;
+        }
+    </style>
+    <div class="box">
+        <div class="item">
+            <img :class="{ 'active-item': tpl == 0,  'inactive-item': tpl != 0}" @click="selectTpl(0)" class="tpl" src="/Public/homepage/template/image/tpl1.png"/>
+        </div>
+        <div class="item">
+            <img  :class="{ 'active-item': tpl == 1,  'inactive-item': tpl != 1 }" @click="selectTpl(1)" class="tpl" src="/Public/homepage/template/image/tpl2.png"/>
+        </div>
+        <div class="item">
+            <img :class="{ 'active-item': tpl == 2,  'inactive-item': tpl != 2 }" @click="selectTpl(2)" class="tpl" src="/Public/homepage/template/image/tpl3.png"/>
+        </div>
+    </div>
+</template>
+
+
+<script>
+    var SelectTpl = Vue.extend({
+        template: '#component-select-tpl',
+        props:{
+            tpl: Number
+        },
+        methods:{
+            selectTpl: function (index) {
+                this.tpl = index;
+            }
+        }
+    });
+</script>

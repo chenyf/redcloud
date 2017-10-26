@@ -1,0 +1,11 @@
+{% if setting('course.coursesPrice') == 0 %}
+
+    <span class="text-muted">课程价格：</span>
+    <span class="c-price-num">
+      {% if isCourseFree(course.id) %}
+          免费
+      {% else %}
+          ¥ {{ intval(course.price) }}
+      {% endif %}
+  </span>
+{% endif %}

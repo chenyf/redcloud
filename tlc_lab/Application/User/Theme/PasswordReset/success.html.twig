@@ -1,0 +1,25 @@
+{% extends '@User/layout.html.twig' %}
+{% block title %}密码重置成功 - {{ parent() }}{% endblock %}
+{% set script_controller = 'auth/second-down' %}
+{% set two_nav = '密码重置成功' %}
+{% set containerClassBlock = 'index_container' %}
+{% block content %}
+<div class="login-bg" style="background-image:url({{register_success_pic_path()}});">
+    <div class="container">
+        <div class="col-md-8 col-md-offset-2 ptl">
+            <div class="panel panel-default panel-page login-success-box">
+                <div class="panel-heading">
+                    <h2><b><img src="/Public/static/img/login-icon-success.png" /></b>密码重置成功</h2>
+                </div>
+                <div class="email-send-success">
+                    <p class="text-success">新密码重置成功，请重新登录！</p>
+                    <p>
+                        <a href="{{ path('login') }}" class="btn btn-primary mtl mrl">立即登录 ( <i class="second-down">60</i> S )</a>
+                        <a href="{{ path('homepage') }}" class="btn btn-default mtl">浏览首页</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

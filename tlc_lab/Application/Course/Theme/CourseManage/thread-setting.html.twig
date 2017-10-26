@@ -1,0 +1,90 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+<!--课程管理 问答设置 -->
+<div class="ask-manage-box">
+    <div class="ask-manage-set mtl">
+        <div class="ask-set-teacher">
+            <h2>答疑老师管理：<button class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">添加一个答疑老师</button></h2>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <!--添加答疑弹框-->
+                <div class="modal-dialog " >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title"><span class="tit-color">添加答疑老师</span></h4>
+                        </div>
+                        <div class="modal-body add-teacher">
+                            <p><input name="email" type="text" placeholder="请输入要查找的邮箱/手机号" /><button class="btn btn-primary" id="searchTeacher" data-search="{{ U('Course/CourseThread/searchTeacher',{courseId:app.request.get('courseId'),center:app.request.get('center')}) }}">查找</button></p>
+                            <form name="add-answer-form"  method="post" action="{{ U('Course/CourseThread/addTeacher',{courseId:app.request.get('courseId'),center:app.request.get('center')}) }}" data-auto-submit="false" novalidate>
+                                <div class="add-teacher-box"> 
+                                </div>
+                                <p>
+                                    <button class="btn btn-primary mtl pull-right" type="submit">确定</button>
+                                    <a class="mtl" href="#" data-dismiss="modal">取消</a>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <table class="mtl teacher-manage">
+                <tr><th>答疑老师</th><th>添加时间</th><th>添加人</th><th>操作</th></tr>
+                {% for teacher in teachers %}
+                    {% set addUser = users[teacher.addUId] %}
+                        <tr>
+                            <td>{{ teacher.nickname }}<br />{{ teacher.email }}</td>
+                            <td>{{ teacher.createdTime|date('Y-m-d H:i:s') }}</td>
+                            <td>{{ addUser.nickname }}<br />{{ addUser.email }}</td>
+                            <td><button type="button" class="btn btn-default btn-sm" data-url="{{ U('Course/CourseThread/deleteTeacher',{courseId:app.request.get('courseId'),id:teacher.id,center:app.request.get('center')}) }}" >&nbsp;&nbsp;移除&nbsp;&nbsp;</button></td>
+                        </tr>
+                {% else %}
+                        <p>您还没有答疑老师！去添加一个吧！</p>
+                {% endfor %}
+                    </table>
+             {{ web_macro.paginator(paginator) }}
+
+                </div>
+                <div class="ask-set-box">
+                    <form id="thread-set-form" action="{{ U('Course/CourseThread/saveThreadSetting',{courseId:app.request.get('courseId'),center:app.request.get('center')}) }}" method="post">
+                        <h2>问答管理：</h2>
+                        <div class="ask-set-text row">
+                            <p class="clearfix">
+                                <span class="col-md-4">是否允许非本科课程学员使用问答功能：</span>
+                                <span class="col-md-2"><i class="fa {% if setting.isAllowPost %}fa-check-square{% else %}fa-square-o{% endif %} custom-check" name="isAllowPost" data-is="1" ></i>是<i class="fa {% if not setting.isAllowPost %}fa-check-square{% else %}fa-square-o{% endif %} custom-check" name="isAllowPost"  data-is="0"></i>否</span>
+                                <input type="hidden" name="isAllowPost" value="{{ setting.isAllowPost }}">
+                                <b class="col-md-5">设为否后，非课程用户提问将不能提问、回答或者回复问题</b>
+                            </p>
+                            <p class="clearfix">
+                                <span class="col-md-4">是否要求答疑老师回答非本课程学员提问：</span>
+                                <span class="col-md-2"><i class="fa {% if setting.isNeedPost %}fa-check-square{% else %}fa-square-o{% endif %} custom-check" name="isNeedPost"  data-is="1"></i>是<i class="fa {% if not setting.isNeedPost %}fa-check-square{% else %}fa-square-o{% endif %} custom-check" name="isNeedPost" data-is="0"></i>否</span>
+                                <input type="hidden" name="isNeedPost" value="{{ setting.isNeedPost }}">
+                                <b class="col-md-5">设为否后，非课程用户提问不会出现在待回答问题列表下。</b></p>
+                        </div>
+                        <div class="ask-set-question mtl">
+                            <p class="clearfix">
+                                <span class="col-md-3">是否开始占题抢答模式：</span>
+                                <span class="col-md-3"><i class="fa {% if setting.isGrabMode %}fa-check-square{% else %}fa-square-o{% endif %} custom-check" name="isGrabMode"  data-is="1"></i>是<i class="fa {% if not setting.isGrabMode %}fa-check-square{% else %}fa-square-o{% endif %} custom-check" name="isGrabMode" data-is="0"></i>否</span>
+                                <input type="hidden" name="isGrabMode" value="{{ setting.isGrabMode }}">
+                            </p>
+                            <p class="clearfix">
+                                <span class="col-md-3">允许老师最多占题数量：</span>
+                                <span class="col-md-3"><input type="text" name="maxNumber" value="{{ setting.maxNumber }}" />道</span>
+                                <b class="col-md-5">（0为无限制）</b>
+                            </p>
+                            <p>
+                                <span class="col-md-3">每道问题占题时长：</span>
+                                <span class="col-md-3"><input type="text" name="maxTime" value="{{ setting.maxTime }}" />分钟</span>
+                                <b class="col-md-5">（0为无限制）</b>
+                            </p>
+                            <label class="mtl">1.开启抢答模式，则每道题只允许一位答疑老师回答，第一个访问该问题页面的老师拥有回答权利。</label>
+                            <label>2.答疑老师需在规定占题时间内回答问题，否则视为弃权，所占问题将被解锁，解锁的问题可重新被其他老师抢答。</label>
+                        </div>
+                        <div class="ask-set-btn">
+                            <button id="save"  class="btn btn-primary" type="submit">保存修改</button><a href="#">取消</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <script>
+                app.load('thread/thread-setting');
+                </script>
+            </div>

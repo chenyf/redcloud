@@ -1,0 +1,41 @@
+{% extends '@Home/Default/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/Default/layout.html.twig',"@Web") %#}
+{% set containerClassBlock = 'index_container' %}
+{% set script_controller = 'test/test' %}
+{% block content %}
+<div class="wrap-bg">
+    <div class="wrap">
+        <div class="content">
+            <div class="small-phone">
+                <div class="phone">
+                    <span></span>
+                    <p></p>
+                </div>
+            </div>
+            <div class="con-school">
+                <div class="app-con-tit {% if setting('site.logoType') == "1" %}school-logo-text{% else %}school-logo-pic{% endif %}" >
+                    {% if setting('site.logo') %}
+                        <span>
+                            <img src="{{ asset(setting('site.logo')) }}"  />
+                        </span>
+                    {% endif %}
+                    {% if setting('site.logoType') == "1" %}
+                        {% if setting('site.name') %}
+                            <h1>{{ setting('site.name') }}</h1>
+                        {% endif %}
+                    {% endif %}
+                </div>
+                <dl>
+                    <dt>
+                        <img src="{{path('mobile_download_qrcode')}}" />
+                    </dt>
+                    <dd>
+                        <a class="android" href="{{path('mobile_download',{device:'android'})}}" style="margin-bottom:20px;"><i></i><b>Android下载</b></a>
+                        <a class="iphone" href="{{path('mobile_download',{device:'iphone'})}}"><i></i><b>iPhone下载</b></a>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

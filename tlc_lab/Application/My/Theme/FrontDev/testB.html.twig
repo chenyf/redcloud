@@ -1,0 +1,113 @@
+{% extends '@User/layout.html.twig' %}
+{% block title %}登录 - {{ parent() }}{% endblock %}
+{% set script_controller = 'auth/login' %}
+{% set containerClassBlock = 'index_container' %}
+{% set two_nav = '欢迎登录' %}
+{% block content %}
+<div class="login-bg" style="background-image:url({{login_pic_path()}});">
+    <div class="redcloud-bggray">
+        <div class="container">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="panel panel-default ptl pbl binding-box">
+                    <h2 class="text-center pbl ptl">接下来完成简单的设置，即可绑定账号直接登录！</h2>
+                    <div class="row binding-con">
+                        <div class="col-md-4">
+                            <div class="binding-pic">
+                                <img src="/Public/assets/img/default/middlestudentAvatarFemale.png">
+                            </div>
+                        </div>
+                        {# 已有账号，去绑定 #} 
+                        <div class="col-md-8">
+                            <div class="col-md-10 binding-info">
+                                <div class="text-right">已有账号，<a class="btn-link" href="###">去绑定</a></div>
+                                <form id="login-form" class="form-vertical">
+                                    <div class="form-group dl-box">
+                                        <div class="input-group">
+                                            <span class="input-group-addon dl-icon-left" id="basic-addon1">
+                                                <i class="fa fa-user dl-icon"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="login_username" name="username" placeholder="请输入昵称" aria-describedby="basic-addon1">
+                                        </div>
+                                        <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                                            <i class="glyphicon pull-left"></i>
+                                            <span class="text-danger mls"></span>
+                                        </p>
+                                    </div>
+                                    <div class="form-group dl-box">
+                                        <div class="input-group">
+                                            <span class="input-group-addon dl-icon-left" id="basic-addon1">
+                                                <i class="fa fa-envelope dl-icon" style="font-size:14px;"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="login_username" name="username" placeholder="请输入手机号/邮箱/学号" aria-describedby="basic-addon1">
+                                        </div>
+                                        <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                                            <i class="glyphicon pull-left"></i>
+                                            <span class="text-danger mls"></span>
+                                        </p>
+                                    </div>
+                                    <div class="form-group dl-box">
+                                        <div class="input-group">
+                                            <span class="input-group-addon dl-icon-left" id="basic-addon1">
+                                                <i class="fa fa-lock dl-icon"></i>
+                                            </span>
+                                            <input type="password" class="form-control" id="login_password" name="password" placeholder="请输入密码" aria-describedby="basic-addon1">
+                                        </div>
+                                        <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                                            <i class=" glyphicon pull-left"></i>
+                                            <span class="text-danger mls"></span>
+                                        </p>
+                                    </div>
+                                    <div class="form-group dl-box">
+                                        <div class="controls">
+                                            <button type="button" class="btn btn-fat btn-primary btn-large btn-block mbl" id="login-btn">创建账号</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        {# 还没有账号，去创建 #} 
+                         {#
+                         <div class="col-md-8">
+                            <div class="col-md-10 binding-info">
+                                <div class="text-right">还没有账号，<a class="btn-link" href="###">去创建</a></div>
+                                <form id="login-form" class="form-vertical">
+                                    <div class="form-group dl-box">
+                                        <div class="input-group">
+                                            <span class="input-group-addon dl-icon-left" id="basic-addon1">
+                                                <i class="fa fa-envelope dl-icon" style="font-size:14px;"></i>
+                                            </span>
+                                            <input type="text" class="form-control" id="login_username" name="username" placeholder="请输入手机号/邮箱/学号" aria-describedby="basic-addon1">
+                                        </div>
+                                        <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                                            <i class="glyphicon pull-left"></i>
+                                            <span class="text-danger mls"></span>
+                                        </p>
+                                    </div>
+                                    <div class="form-group dl-box">
+                                        <div class="input-group">
+                                            <span class="input-group-addon dl-icon-left" id="basic-addon1">
+                                                <i class="fa fa-lock dl-icon"></i>
+                                            </span>
+                                            <input type="password" class="form-control" id="login_password" name="password" placeholder="请输入密码" aria-describedby="basic-addon1">
+                                        </div>
+                                        <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                                            <i class=" glyphicon pull-left"></i>
+                                            <span class="text-danger mls"></span>
+                                        </p>
+                                    </div>
+                                    <div class="form-group dl-box">
+                                        <div class="controls">
+                                            <button type="button" class="btn btn-fat btn-primary btn-large btn-block mbl" id="login-btn">绑定账号</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                             #}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

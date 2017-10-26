@@ -1,0 +1,154 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set version = version|default(null) %}
+
+
+{% block title %}
+{% if version %}编辑版本{% else %}添加版本{% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <form class="form-horizontal" id="version-form"
+            {% if version.id == 0 %}
+                action="{{ path('pc_version_create') }}"
+            {% else %}
+                action="{{ path('Pc_version_edit', {id:version.id}) }}"
+            {% endif %}
+          method="post">
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="name">名称</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="name" value="{{version.name}}" name="name"></div>
+        </div>
+              
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="type">客户端类型</label></div>
+            <div class="col-md-5 controls ">
+                <select class="form-control" name="type" id="type">
+                    <option value="">请选择类型</option>
+                    {% if types %}
+                        {% for key,type in types %}
+                        <option value="{{ key }}" {% if key == version.type %} selected {% endif %}>{{ type }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+                </div>
+        </div>
+            
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="url">下载地址</label></div>
+            <div class="col-md-8 controls"> <input class="form-control" type="text" id="url" {% if version.url %} value="{{version.url}}" {% else %} {% endif %} name="url" ></div>
+        </div>
+        
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="version">版本</label></div>
+            <div class="col-md-8 controls">
+                <input class="form-control" type="text" id="version" value="{{version.version}}" name="version"></div>
+        </div>
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="function">新增功能</label></div>
+            <div class="col-md-8 controls">
+                <textarea name="function" id="function" cols="30" rows="6" class="form-control">{{ version.function }}</textarea>
+            </div>
+        </div>
+        
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label>是否强制升级</label>
+            </div>
+            <div class="col-md-8 controls radios">
+                <div >
+                    <input type="radio" name="isForceUpdate"  value="1"
+                            {% if version.isForceUpdate == 1 %} checked="checked" {% endif %}>
+                    <label>是</label>
+                    <input type="radio" name="isForceUpdate"  value="0"
+                            {% if version.isForceUpdate == 0 %} checked="checked" {% endif %}>
+                    <label>否</label>
+                </div>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label style="color:red">是否生效</label>
+            </div>
+            <div class="col-md-8 controls radios">
+                <div >
+                    <input type="radio" name="isCurrent"  value="1"
+                            {% if version.isCurrent == 1 %} checked="checked" {% endif %}>
+                    <label>是</label>
+                    <input type="radio" name="isCurrent"  value="0"
+                            {% if version.isCurrent == 0 %} checked="checked" {% endif %}>
+                    <label>否</label>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" name="id" value="{{ version.id|default(0) }}">
+
+    </form>
+    <script type="text/javascript">
+        {% if version.id  == 0  %}
+        app.load('pc/create-version-modal')
+        {% else %}
+        app.load('pc/edit-version-modal')
+        {% endif %}
+//筛选
+           
+            var findAllSchool = function(selectVal){
+                var siteSelect = $('#siteSelect1');
+                var options = "{{getSiteOptions(version.appWebCode)}}";
+                siteSelect.html('');
+                siteSelect.html(options);
+                
+                var optionAll = $('#siteSelect1 option');
+                var number = 1;
+                
+                optionAll.css('color', '');
+                selectVal = selectVal.replace('Action', '');
+                selectVal = selectVal.toLowerCase();
+                if(!selectVal) return false;
+
+                optionAll.each(function(){
+                    var val = $(this).val();
+                    var txt = $(this).text();
+                    val && (val = val.toLowerCase());
+                    txt && (txt = txt.toLowerCase());
+
+                    if(txt.indexOf(selectVal)!=-1 || val == selectVal){
+                        $(this).css({'color': 'green'});
+                        number = number+1;
+                    }else{
+                        $(this).remove();
+                    }
+                })
+                if(number == 1){
+                    siteSelect.html('');
+                    siteSelect.html(options);
+                }
+                number =1;
+                return true;
+            }
+    </script>
+
+{% endblock %}
+{% block footer %}
+<button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="version-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#version-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

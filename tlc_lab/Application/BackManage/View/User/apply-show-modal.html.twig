@@ -1,0 +1,86 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% block title %}审核申请{% endblock %}
+{% block body %}
+
+
+    
+  <div class="row form-group">
+    <div class="col-md-2 control-label">
+      <label for="nickname">姓名</label>
+    </div>
+    <div class="col-md-7 controls">
+      {{apply.studName}}
+    </div>
+  </div>
+    <p></p>
+    
+    <div class="row form-group">
+    <div class="col-md-2 control-label">
+      <label for="nickname">学号</label>
+    </div>
+    <div class="col-md-7 controls">
+      {{apply.studNum}}
+    </div>
+  </div>
+    <p></p>
+    <div class="row form-group">
+      <div class="col-md-2 control-label"> 
+        <label for="site">证件照</label>
+      </div>
+        <div class="col-md-7 controls mts">
+                            <div class="c-student-photo" style="text-align:center;display:table"><div style="display: table-cell;vertical-align: middle;"><a  href="{{apply.pictrue}}" target="_blank"><img src="{{apply.pictrue}}"  style="margin:auto 0;width:{{width}}px;height: {{height}}px;"/></a></div></div>
+                        </div>
+    </div>
+    <p></p>
+    
+    <div class="row form-group">
+      <div class="col-md-2 control-label"> 
+        <label for="about">备注</label>
+      </div>
+      <div class="col-md-9 controls">
+        {{apply.studRemark}}
+      </div>
+    </div>
+    
+    <p></p>
+   <form id="user-edit-form" class="form-horizontal" method="post" action="{{ url('admin_user_apply_show', {id:apply.id}) }}">
+    <div class="row form-group">
+      <div class="col-md-2 control-label"> 
+        <label for="weixin">是否通过</label>
+      </div>
+      <div class="col-md-7 controls">
+        <div class="radio-inline">
+        <label>
+          <input type="radio" name="status" id="optionsRadios1" value="1" {% if apply.status == 1  %}checked {% endif %}>
+          通过
+        </label>
+      </div>
+      <div class="radio-inline">
+        <label>
+          <input type="radio" name="status" id="optionsRadios2" value="2" {% if apply.status == 2  %}checked {% endif %}>
+          拒绝
+        </label>
+      </div>
+     </div>
+    </div>
+    
+    <div class="row form-group">
+      <div class="col-md-2 control-label"> 
+        <label for="studRemark">备注</label>
+      </div>
+      <div class="col-md-9 controls">
+        <textarea name="teachRemark" rows="2" id="thread_content" class="form-control">{{apply.teachRemark|default('')}}</textarea>
+      </div>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">           
+
+</form>
+{% endblock %}
+
+{% block footer %}
+  <button id="edit-user-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary pull-right" data-toggle="form-submit" data-target="#user-edit-form">确定</button>
+  <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+  
+{% endblock %}

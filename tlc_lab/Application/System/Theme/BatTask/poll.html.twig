@@ -1,0 +1,29 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class = 'modal-lg' %}
+{% block title %}{{name}}实时详情{% endblock %}
+{% block body %}
+
+<div id="poll-task-{{microtime}}" style="height:500px;overflow:auto">
+   <table class="table table-bordered" >
+        <thead>
+            <tr>
+                <th data-key="num">序号</th>
+                {% for key,itemTaskTh in itemTask%}
+                    <th data-key="{{key}}">{{itemTaskTh}}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <p id="add-poll-{{microtime}}" class="text-center">数据加载中...</p>
+</div>
+{% endblock %}
+
+
+{% block footer %}
+<button type="button" class="btn btn-primary clear-poll">清屏</button>
+<button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+{% endblock %}

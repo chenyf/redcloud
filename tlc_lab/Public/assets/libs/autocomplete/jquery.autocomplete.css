@@ -1,0 +1,4 @@
+#AutoComplete{background:#D8D8D8;display:none;width:255px;}
+#AutoComplete ul{list-style-type:none;margin:0;padding:0;}
+#AutoComplete li{color:#333;cursor:pointer;font-size:14px;text-indent:5px;height:25px;line-height:25px;}
+#AutoComplete .hover{background:#6eb6fe;color:#fff;}

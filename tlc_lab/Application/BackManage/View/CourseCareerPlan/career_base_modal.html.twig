@@ -1,0 +1,53 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+
+{% set script_controller = 'course_career/base' %}
+
+{% block title %}
+    {% if create %}
+        添加{{ typeName }}
+    {% else %}
+        编辑{{ typeName }}
+    {% endif %}
+{% endblock %}
+
+    {% if create %}
+        {% set url = path('admin_career_course_plan_base', {id:0,create:1,type:type,cid:cid}) %}
+    {% else %}
+        {% set url = path('admin_career_course_plan_base', {id:id,create:0,type:type,cid:cid}) %}
+    {% endif %}
+
+{% block body %}
+    <div id="career_base_form" class="form-horizontal">
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="name">{{ typeName }}名称：</label>
+            </div>
+            <div class="col-md-7 controls radios">
+                <div id="gender">
+                    <input type="text" class="form-control" name="name" value="{{ career.name }}" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="description">{{ typeName }}描述：</label>
+            </div>
+            <div class="col-md-7 controls">
+                <textarea id="description" class="form-control" name="description" rows="5" cols="41">{{ career.description }}</textarea>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        app.load('course_career/base');
+    </script>
+{% endblock %}
+
+{% block footer %}
+    <button id="submit-confirm-btn" data-url="{{ url }}" data-submiting-text="正在提交" type="button" class="btn btn-primary pull-right">保存</button>
+    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set modal_class = 'modal-lg' %}
+{% block title %}
+    {% if courseResource is empty %}
+        上传课程资料
+    {% else %}
+        编辑课程资料
+    {% endif %}
+{% endblock %}
+{% block body %}
+
+    <div class="data-popupbox"  id="resource-chooser" data-params-url="{{ path('uploadfile_params', {storage:'local', targetType:targetType, targetId:courseId}) }}">
+        <form class="form-horizontal" action="{{path('course_resource_add')}}" method="post" enctype="multipart/form-data" id="resource-upload-form">
+            <div class="form-group ">
+                <label class="col-md-2 control-label" for="title">资料名称</label>
+                <div class="col-md-9 controls">
+                    <input type="text" id="resource-title-field" name="title" required="required" class="form-control" data-widget-cid="widget-1" value="{{courseResource.title}}" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">上传资料</label>
+                <div class="file-chooser-bar" style="display:none;">
+                    <span data-role="placeholder"></span>
+                    <button class="btn btn-link btn-sm" type="button" data-role="trigger"><i class="glyphicon glyphicon-edit"></i> 重新上传</button>
+                </div>
+                <div class="file-chooser-uploader file-chooser-main col-md-9 controls">
+                    <div class="file-chooser-uploader-control">
+                        <span id="resource-choose-uploader-btn"
+                              data-role="uploader-btn"
+                              data-filetypes="*.ppt;*.pptx;*.zip;*.rar;*.tar.gz;*.rm;*.flv;*.avi;*.mp4;*.mp3;*.wma;*.txt;*.doc;*.docx;*.xls;*.xlsx;*.pdf;*.jpg;*.jpeg;*.gif;*.png"
+                              data-button-image="{{ asset('assets/img/common/swfupload-btn.png') }}"
+                              data-callback="nocb"
+                              data-progressbar="#resource-chooser-progress"
+                              data-storage-type="local"
+                        >
+                        <a class="uploadBtn btn btn-default btn-lg">上传</a>
+                        <div style="display:none">
+                            <input data-role="fileSelected" class="filePrew" type="file" />
+                        </div>
+                      </span>
+                    </div>
+                    <div class="progress" id="resource-chooser-progress"  style="display:none;">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                        </div>
+                    </div>
+                    <div class="alert alert-info">
+                        <ul>
+                            <li>支持zip,rar,tar.gz,rm,flv,avi,mp4,mp3,wma,txt,doc,docx,xls,xlsx,ppt,pptx,pdf,jpg,jpeg,gif,png格式的资料上传，文件大小不超过1GB；</li>
+                            <li>其他格式的文件请打包上传；</li>
+                            <li>超过1GB的文件请分多次上传。</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <input id="resource-media-field" type="hidden" name="media" value="">
+                <input type="hidden" name="courseId" value="{{ courseId }}">
+            </div>
+            <div class="form-group ">
+                <label class="col-md-2 control-label" for="title">云盘同步</label>
+                <div class="col-md-9 controls">
+                   <span class="checkbox mtm pull-left">
+                       <label style="display:inline;font-size:12px;color:#666;"> <input type="checkbox" name="async_cloud" id="async_cloud"> 是否同步到云盘 </label>
+                   </span>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block footer %}
+    <div class="form-group">
+        <button id="create-resource-btn" type="submit" class=" btn btn-fat btn-primary pull-right" data-toggle="form-submit" data-target="#resource-upload-form" data-submiting-text="正在提交">保存</button>
+        <button type="button" class="btn btn-fat btn-link pull-right" data-dismiss="modal">取消</button>
+    </div>
+    <script>app.load('course-resource/upload')</script>
+{% endblock %}

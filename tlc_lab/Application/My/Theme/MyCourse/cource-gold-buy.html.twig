@@ -1,0 +1,50 @@
+{% extends '@My/MyCourse/layout.html.twig' %}
+
+{% block title %}金币兑换课程 - {{ parent() }}{% endblock %}
+
+{% set tab_nav = 'learning' %}
+
+{% block main %}
+    <div class="panel panel-default panel-col">
+        {# <div class="c-panel-heading">
+            <span>在学课程</span>
+        </div> #}
+         {% if isOpenPublicCourse() %}    
+            <div class="course-list-tit">
+                <ul class="nav nav-tabs">
+                    <li><a href="{{ U('My/MyCourse/learning') }}">{{privateCourseName()}}</a></li>
+                    <li><a href="{{ U('My/MyCourse/learning',{center:1}) }}">{{publicCourseName()}}</a></li>
+                    {% if systemGoldStatus %}<li class="active"><a href="{{ U('My/MyCourse/getCourceGoldBuy') }}">金币兑换课程</a></li> {% endif %}
+                </ul>
+            </div>
+         {% endif %}    
+        <div class="panel-body cc-panel-body">
+            {% if courses %}
+            <div class="panel-body">
+                <ul class="course-grids clearfix">
+                    {% for item in courses %}
+                    <li class="course-grid col-md-4 col-sm-6 clearfix">
+                        <div class="course-con">
+                            <div class="course-grid-img">
+                                <a href="{{ U('My/MyCourse/showGoldBuy',{id:item.id}) }} " class="grid-body">
+                                    <img src="{{ default_path('coursePicture', item.middlePicture, 'large') }}" class="img-responsive thumb">
+                                </a>
+                            </div>
+                            <a href="{{ U('My/MyCourse/showGoldBuy',{id:item.id}) }} " class="title">{{ item.title }}</a>  
+                            <div class="gold-btn text-center pbl"><a href="{{ U('My/MyCourse/showGoldBuy',{id:item.id}) }} " class="btn btn-primary btn-fat">查看已兑换内容</a></div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {{ web_macro.paginator(paginator) }} 
+            </div>
+            {% else %}
+                <div class="empty">暂无学习中的课程</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

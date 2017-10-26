@@ -1,0 +1,14 @@
+{% extends '@Course/Testpaper/testpaper-browse-layout.html.twig' %}
+
+{% block testpaper_heading_content %}
+    <div class="testpaper-description">{{ paper.description|bbCode2Html|raw }}</div>
+    <div class="testpaper-metas">
+        共 {{ paper.itemCount }} 题。
+    </div>
+{% endblock %}
+
+{% block testpaper_body_sidebar %}
+    <div class="testpaper-card" data-spy="affix" data-offset-top="200">
+        {% include '@Course/Testpaper/test-paper-browse-card.html.twig' %}
+    </div>
+{% endblock %}

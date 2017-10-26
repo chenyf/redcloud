@@ -1,0 +1,34 @@
+<tr id="version-{{ version.id }}" align="center">
+	<td>{{version.id}}</td>
+	<td>
+        {{ version.cfgKey }}
+	</td>
+    <td>
+        {{ version.info.mean }}
+    </td>
+	<td>
+        {% if version.info.backEndEdit == 1 %}
+            支持
+        {% elseif version.info.backEndEdit == 0  %}
+            不支持
+        {% endif %}
+	</td>
+    <td>
+       {% if version.cfgKey != 'ADMIN_MOBILE'%}
+       {{ version.cfgValue }}
+       {% else %}
+       {{setting('login_bind.login_manger_mobile')|default('未设置')}}
+       {% endif %}
+    </td>
+    <td style="text-align: center">
+       {{ getUserNameById(version.uid)}}
+    </td>
+    <td>
+        <div class="btn-group">
+           {% if version.cfgKey != 'ADMIN_MOBILE'%}
+                <button class="btn btn-sm btn-default edit-btn" data-url="{{ path('admin_mobile_info_cfg_edit', {id:version.id}) }}" data-backdrop="static" data-toggle="modal" data-target="#modal">编辑</button>
+            {% endif %}
+        </div>
+    </td>
+
+</tr>

@@ -1,0 +1,59 @@
+<div class="all-children-list"> 
+    {% if reply.child %}
+       {%for chidReply  in reply.child %} 
+           <div class="discuss-content-{{cmtIdStr}}">
+                                             <div class="userpic">
+                                                 <a target="_blank" href="{{ path('user_show', {id:chidReply.replyUid,center:app.request.get('center')}) }}">
+                                                     <img src="{{ user_default_path(chidReply.replyUid, 'small') }}"/>
+                                                 </a>
+                                             </div>
+                                             <div class="discuss-body">
+                                                 <div class="userinfo">
+                                                     <a class="u-name" target="_blank" href="{{ path('user_show', {id:chidReply.replyUid,center:app.request.get('center')}) }}">
+                                                        {{chidReply.replyName}}
+                                                     </a>
+                                                      <span class="divider">•</span><span class="u-time">{{chidReply.rctm|date('Y年m月d日 H:i')}}</span>
+                                                 </div>
+                                                 <div class="user-content"><p>{{chidReply.reply}}</p></div>
+                                                 <div class="user-footer">
+                                                     <a data-id="{{chidReply.rid}}" class="alike del-reply-{{cmtIdStr}}" href="javascript:void(0)" >删</a><span class="divider">•</span><a class="areply reply-{{cmtIdStr}}"  href="javascript:void(0)">回复</a>
+                                                 </div>
+                                             </div>    
+                                         </div>
+          {% if user %}
+           <div class="p-replybox reply-box" style="display:none">
+                                             <form   class="form-inline well well-sm reply-comment-form-{{cmtIdStr}}" action="/System/Comment/replyCommentAction" method="post" novalidate>
+                                             <div class="discuss-textcon">
+                                                 <div class="userpic">
+                                                     <a target="_blank" href="{{ path('user_show', {id:user.id,center:app.request.get('center')}) }}">
+                                                         <img src="{{ user_default_path(user.id, 'small') }}"/>
+                                                     </a>
+                                                 </div>
+                                                 <div class="tareabox">
+                                                     <div class="tareawrap">
+                                                         <div class="tareacon">
+                                                             <textarea id="textareastyle-{{cmtIdStr}}" class="textareastyle" name="content"  placeholder="请输入..." ></textarea>
+                                                         </div>
+                                                         <div class="tareabtn">
+                                                             <div class="tareabtn-right"><button type="submit" class="btn btn-primary issuebtn_{{cmtIdStr}}">回复</button></div>
+                                                             <div class="phizbox"><a class="face" href="###"></a></div>
+                                                         </div>
+                                                     </div>
+                                                     <div class="anonymity-set hide">
+                                                         <div class="visitors-login"><h6>以游客身份发布</h6><span><input type="text"/><a class="postsubmit__{{cmtIdStr}}" href="javascript:;">发布</a></span></div>
+                                                         <div class="nickname"><span><i class="glyphicon glyphicon-user mrs"></i><b>游客名称</b></span><a class="exitbtn" href="###">退出</a></div>
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                              <input type="hidden" name="statId" value="{{chidReply.cmtStatId}}">
+                                              <input type="hidden" name="cmtId" value="{{chidReply.cmtStatId}}">
+                                              <input type="hidden" name="pid" value="{{chidReply.pid}}">
+                                              <input type="hidden" name="sendUid" value="{{user.id}}">
+                                              <input type="hidden" name="sendName" value="{{user.nickname}}">
+                                              <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+                                            </form>
+                                         </div>
+          {% endif %}
+       {% endfor %}
+    {% endif %} 
+</div> 

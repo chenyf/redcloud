@@ -1,0 +1,86 @@
+{% for question in questions %}
+    {% set keys = [] %}
+<tr data-role="item" class="tr-toggle" id="group_{{ question.id }}" data-id="{{ question.id }}" >
+
+    <td ><div class="s-input"><input name="groups" value="{{question.id}}" type="checkbox" checked="checked" autocomplete="off" data-role="batch-item"></div><span class="tk-arrow tk-arrow-right drop-down-item" ></span></td>
+    <td class="td-item-class">
+        <a href="#modal" data-toggle="modal" data-url="{{ path('course_manage_question_preview', {id:question.id, courseId:course.id}) }}">{{ question.stem |fill_question_stem_text| plain_text(40) }}</a><span style="color:red;">【手动添加】</span>
+        <div>
+                                {% set target = targets(question.target)|default(null) %}
+                                {% if target.type|default(null) != 'course' %}
+                <small class="text-muted">从属于 {{target.simple_name|default('')}}</small>
+                                {% else %}
+                <small class="text-muted">从属于 本课程</small>
+                                 {% endif %}
+            </div>
+        </td>
+        <td class="td-item-class">{{ dict('questionType')[question.type] }}
+            <input name="questionType" type="hidden" value="{{ question.type }}">
+                            {% if question.type == 'material'%}<br><small class="text-muted">({{ question.subCount }}子题)</small>{% endif %}
+        </td>
+                        {#<td class="td-item-class">
+                            <a href="/User/User/showAction/id/188">{{ macro.user_link(users[question.userId]) }}</a><br>
+                            <span class="text-muted text-sm">{{question.updatedTime | date('Y-n-d H:i:s')}}</span>
+                        </td>#}
+        <td class="td-item-class">
+                             {% if question.difficulty == 'simple' %}一般{% elseif question.difficulty == 'normal'%}一般{% else %}困难{% endif %}
+
+            </td>
+            <td class="td-item-class">
+                <input class="form-control" type="text" value="10" name="score" style="display: inline-block;width:60px;height: 30px"/>
+            </td>
+            <td class="td-item-class">
+                <div class="btn-group">
+                                {#<a class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal" data-url="{{ path('course_manage_question_preview', {id:question.id, courseId:course.id,center:app.request.get('center')}) }}">编辑</a>#}
+                        <a class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal" data-url="{{ U('Course/CourseQuestionManage/update', {id:question.id, courseId:course.id,center:app.request.get('center'),updSource:1}) }}">编辑</a>
+                    </div>
+                </td>
+                <td style="display:none;" class="td-Detaile-class" colspan=4>
+                    <div class="c-topic-detail">
+                        <div class="c-topic-tit">{{ question.stem |fill_question_stem_text| plain_text(40) }}</div>      
+                                    {% if question.type == 'single_choice' or question.type == 'choice' %}
+                        <div class="c-topic-con">
+                                            {% for key, choice in question.metas.choices %}
+                                                {% set itemClass =  ((paperResult.status|default(null) in ['submitted', 'finished']) and (key in item.question.answer)) ? 'testpaper-question-choice-right' : '' %}
+                                                {% set choiceIndex = (65+key)|chr %}
+                                                    {%if key in question.answer %}
+                                <p class="result-active"><span>{{ choiceIndex }}.</span>{{ choice|bbCode2Html (true)|raw }}</p>
+                                                        {% set keys = keys|merge([choiceIndex]) %}
+                                                    {% else %}
+                                <p><span>{{ choiceIndex }}.</span>{{ choice|bbCode2Html (true)|raw }}</p>
+                                                    {% endif %}
+                                            {% endfor %}
+                                <div class="c-topic-result">答案是<b>{{ keys|join(',') }}</b></div>
+                            </div>
+                                     {% elseif question.type == 'fill' %}   
+                            <div class="c-topic-con">
+                                            {% for index, answer in question.answer %}
+                                    <p class="result-active">
+                                        填空({{index+1}})： 答案是 <strong class="text-success">{{ answer|join(' 或 ') }}</strong>
+                                    </p>
+                                            {% endfor %}
+                                </div>
+                                      {% elseif question.type == 'essay' %}
+                                <div class="c-topic-con">
+                                    <div class="c-topic-result">答案是<b>{{ question.answer[0]|bbCode2Html (true)|raw }}</b></div>
+                                </div>
+                                      {% elseif question.type == 'determine' %}
+                                <div class="c-topic-con">
+                                            {% if question.answer[0] == 1 %}
+                                        <p class="result-active"><span>A.</span>正确</p>
+                                        <p><span>B.</span>错误</p>
+                                            {% else %}
+                                        <p><span>A.</span>正确</p>
+                                        <p class="result-active"><span>B.</span>错误</p>
+                                            {% endif %}
+                                        <div class="c-topic-result">答案是 <strong class="text-success">{% if question.answer[0] == 1 %} 正确 {% else %} 错误 {% endif %}</strong class="text-success"></div>
+                                    </div>
+
+                                      {% endif %}
+
+                                </div>
+                            </td>
+                        </tr>
+
+                {% endfor %}
+

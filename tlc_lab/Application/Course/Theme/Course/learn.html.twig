@@ -1,0 +1,185 @@
+{% extends '@Home/layout.html.twig' %}
+{% block title %}{{ course.title }} - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+  {{ parent() }}
+  <link rel="stylesheet" media="screen" href="{{ asset('assets/libs/jquery-plugin/perfect-scrollbar/0.4.8/perfect-scrollbar.css') }}" />
+{% endblock %}
+
+{% set no_show_footpart = 1 %}
+   
+{% block head_scripts %}
+  <script>
+    var center = "{{app.request.get('center')}}";
+    var windowUrl = {
+        "init" : "{{ windowUrl.init }}",
+        "add" : "{{ windowUrl.add }}",
+        "del" : "{{ windowUrl.del }}"
+    };
+    {% if app.user.isTeacher %}
+    var isTeacher = true;
+    {% else %}
+    var isTeacher = false;
+    {% endif %}
+  </script>
+{% endblock %}
+
+{% set hideSetupHint = true %}
+
+{% if app.user.isTeacher %}
+  {% set script_arguments = {plugins: ['lesson','material','note']}  %}
+{% else %}
+  {% set script_arguments = {plugins: ['lesson','material','note']}  %}
+{% endif %}
+
+{% set script_controller = 'course/learn' %}
+{% set bodyClass = 'lesson-dashboard-page lesson-overflow' %}
+
+{% block content %}
+  <div class="container lesson-dashboard" id="lesson-dashboard"
+       data-course-id="{{ course.id }}"
+       data-course-uri="{#{ path('course_show', {id:course.id}) }#}/course/{{course.id}}"
+       data-dashboard-uri="{#{ path('course_learn', {id:course.id}) }#}/course/{{course.id}}/learn"
+       data-hide-media-lesson-learn-btn="{{ is_feature_enabled('hide_media_lesson_learn_btn') }}">
+    <div class="dashboard-content">
+      <a class="btn btn-primary  nav-btn back-course-btn" href="{{ path('course_show', {id:course.id}) }}"><span class="glyphicon glyphicon-chevron-left" ></span> 返回课程</a>
+      <a class="btn btn-primary  nav-btn prev-lesson-btn" href="javascript:" data-role="prev-lesson" data-placement="right" title="上一课程内容"><span class="glyphicon glyphicon-chevron-up" title="上一课程内容"></span></a>
+      <a class="btn btn-primary nav-btn next-lesson-btn" href="javascript:" data-role="next-lesson" data-placement="right" title="下一课程内容"><span class="glyphicon glyphicon-chevron-down"></span></a>
+
+      <div class="dashboard-header">
+        <div class="pull-left title-group">
+          <span class="chapter-label">第<span data-role="chapter-number"></span>{% if setting('default.chapter_name') %}{{setting('default.chapter_name')|default('章')}}{% else %}章{% endif %}</span>
+          <span class="divider">&raquo;</span>
+          <span class="chapter-label">第<span data-role="unit-number"></span>{% if setting('default.part_name') %}{{setting('default.part_name')|default('节')}}{% else %}节{% endif %}</span>
+          <span class="divider">&raquo;</span>
+          <span class="item-label">课程内容<span data-role="lesson-number">正在加载...</span></span>
+          <span class="item-title" data-role="lesson-title"></span>
+        </div>
+      </div>
+
+      <div class="dashboard-body">
+        <div class="lesson-content" id="lesson-video-content" data-role="lesson-content" style="display:none;"
+                {% if setting('storage.video_watermark') > 0 and setting('storage.video_watermark_image') %}
+                  data-watermark="{{ file_url(setting('storage.video_watermark_image'), null, true) }}"
+                {% endif %}
+                {% if setting('storage.video_fingerprint') and app.user %}
+                  data-fingerprint="{{ url('cloud_video_fingerprint', {userId:app.user.id}) }}"
+                {% endif %}
+             data-user-id="{{ app.user.id }}"
+        >
+          <link rel="stylesheet" media="screen" type="text/css" href="{{ asset('assets/libs/gallery2/mediaelement/2.22.0/mediaelementplayer.css') }}"/>
+          {#<script src="{{ asset('assets/libs/gallery2/mediaelement/2.22.0/mediaelement-and-player.min.js') }}"></script>#}
+          {#<script src="{{ asset('assets/libs/gallery2/video-js/5.10.7/video.js') }}"></script>#}
+          {#<script src="{{ asset('assets/libs/gallery2/video-js/5.10.7/videojs-ie8.min.js') }}"></script>#}
+        </div>
+        <div class="watermarkEmbedded" ></div>
+
+        <div class="lesson-content lesson-content-audio" id="lesson-audio-content" data-role="lesson-content" style="display:none;"></div>
+        <div class="lesson-content" id="lesson-swf-content" data-role="lesson-content" style="display:none;"></div>
+        <div class="lesson-content" id="lesson-iframe-content" data-role="lesson-content" style="display:none;"></div>
+        <div class="lesson-content lesson-content-text" id="lesson-text-content" data-role="lesson-content" style="display:none;"
+                {% if setting('course.copy_enabled')|default(0) > 0 %} oncopy="return false;" oncut="return false;" onselectstart="return false" oncontextmenu="return false;"{% endif %}>
+          <div class="lesson-content-text-body"></div>
+        </div>
+
+        <div class="lesson-content lesson-content-document" id="lesson-document-content" data-role="lesson-content" style="display:none;">
+          <div class="lesson-content-document-body"></div>
+        </div>
+
+        <div class="lesson-content lesson-content-text" id="lesson-live-content" data-role="lesson-content" style="display:none;">
+          <div class="lesson-content-text-body"></div>
+        </div>
+        <div class="lesson-content lesson-content-text" id="lesson-unpublished-content" data-role="lesson-content" style="display:none;">
+          <div class="lesson-content-text-body">当前课程内容正在编辑中，暂时无法观看。</div>
+        </div>
+
+        <div class="lesson-content lesson-content-text" id="lesson-testpaper-content" data-role="lesson-content" style="display:none;">
+          <div class="lesson-content-text-body"></div>
+        </div>
+        <div class="lesson-content lesson-content-text" id="lesson-testtask-content" data-role="lesson-content" style="display:none;">
+          <div class="lesson-content-text-body"></div>
+        </div>
+        <div class="lesson-content lesson-content-text" id="lesson-practice-content" data-role="lesson-content" style="display:none;">
+          <div class="lesson-content-text-body"></div>
+        </div>
+        <div class="lesson-content lesson-content-text" id="lesson-ppt-content" data-role="lesson-content" style="display:none;">
+          <div class="lesson-content-text-body"></div>
+        </div>
+
+      </div>
+
+      <div class="dashboard-footer clearfix">
+
+      </div>
+    </div>
+
+    <div class="toolbar toolbar-open" id="lesson-dashboard-toolbar">
+      <div class="toolbar-nav">
+
+	     <div id="tools" style="height:25px;"></div>
+          <div id="clearTimer" style="background:blue;">停止</div>
+          <div style="position:absolute;left:-20px;top:200px;z-index:10;">
+              <span class="hide-desktop" id="hidetimer">隐藏工具栏</span>
+              <span class="hide-desktop" id="showtimer" style="display:none;">显示工具栏</span>
+          </div>
+
+      </div>
+      <div class="toolbar-pane-container">
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal" id="course-learned-modal" style="display:none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">学习进度提示</h4>
+        </div>
+        <div class="modal-body">
+          <p class="text-success">赞一个，这个课程你已经都学完啦，你可以再回顾一下或者去看看别的课程～～～</p>
+        </div>
+        <div class="modal-footer">
+          <a href="{{ path('course_show', {id:course.id}) }}" class="btn btn-primary">回课程主页</a>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal" id="mediaPlayed-control-modal" style="display:none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">媒体课程内容学习提示</h4>
+        </div>
+        <div class="modal-body">
+          <p class="text-success">此课程内容设置了必须完整播放完整个课程内容才能学完～～</p>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <div class="modal" id="homeworkDone-control-modal" style="display:none;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">作业未完成提示</h4>
+        </div>
+        <div class="modal-body">
+          <p class="text-success">此课程内容设置了必须做完本课程内容作业并提交后才能学完～～</p>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  {% if scheme=='https' %}
+    <script src="{{ asset('assets/libs/polyv/polyvplayer_v2.0_https.min.js') }}"></script>
+  {% else %}
+    <script src="{{ asset('assets/libs/polyv/polyvplayer_v2.0.min.js') }}"></script>
+  {% endif %}
+
+
+{% endblock %}

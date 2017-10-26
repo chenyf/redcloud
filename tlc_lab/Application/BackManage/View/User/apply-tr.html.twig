@@ -1,0 +1,49 @@
+{% import '@BackManage/macro.html.twig' as admin_macro %}
+<tr id="apply-table-tr-{{ apply.id }}">
+  <td>
+    <span class="text-sm">{{ apply.id }}</span>
+  </td>
+  <td>
+      <span class="text-sm">{% if apply.applyTime %}{{ apply.applyTime|date('Y-n-d H:i') }}{% else %}{% endif %}</span>
+  </td>
+  <td>
+      <span class="text-sm">{{ apply.studName }}</span>
+  </td>
+  <td>
+      {% if getUserInfo(apply.studUid).email  %}
+      <span class="text-sm">
+      {{ getUserInfo(apply.studUid).email }}
+      </span>
+      <br/>
+      {% endif %}
+      {% if getUserInfo(apply.studUid).verifiedMobile  %}
+      <span class="text-sm">
+      {{ getUserInfo(apply.studUid).verifiedMobile }}
+      </span>
+      {% endif %}
+  </td>
+  <td>
+    {% if apply.status == 0  %}
+      <span class="text-muted">未审核</span>
+    {% elseif apply.status == 1 %}
+      <span class="text-success">已通过</span>
+     {% elseif apply.status == 2 %}
+      <span class="text-muted">未通过</span>
+    {% endif %}
+  </td>
+  <td>
+    <span class="text-sm">{{ getUserNickNameById(apply.teachUid) }}</span>
+  </td>
+  <td>
+      <span class="text-sm">{% if apply.examineTime %}{{ apply.examineTime|date('Y-n-d H:i') }}{% else %}{% endif %}</span>
+  </td>
+  <td>
+    <div class="btn-group">
+      {% if apply.status == 0  %}
+      <button class="btn btn-default btn-check btn-sm" data-toggle="modal" data-backdrop="static" data-target="#modal" data-url="{{ path('admin_user_apply_show', {id:apply.id}) }}"><span class="glyphicon glyphicon-cog" ></span> 审核申请</button>
+      {% else%}
+      <span class="text-muted">已审核</span>
+      {% endif %}
+    </div>
+  </td>
+</tr>

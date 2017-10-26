@@ -1,0 +1,71 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+
+
+{% block title %}设置用户{{userLocal.nickname}}金币数{% endblock %}
+{% block body %}
+
+  <form class="form-horizontal" {% if hasRule and isLocalGoldOpen %} id="user-gole-conrol-form" method="post" enctype="multipart/form-data" action="{{ U('BackManage/User/userGoldCtrol', {userId:userLocal.id}) }} " {% endif %}>
+{% if hasRule and isLocalGoldOpen %}    
+    <div class="form-group">
+      <div class="col-md-3 control-label"><b>用户姓名</b></div>
+      <div class="controls col-md-8 control-text">
+      	{{userLocal.nickname}}
+      </div>
+    </div>
+      
+    <div class="form-group">
+      <div class="col-md-3 control-label"><b>当前金币数</b></div>
+      <div class="controls col-md-8 control-text" id="userGoldNum">{{userLocal.gold}}</div>
+    </div>
+      
+    <div class="form-group">
+      <div class="col-md-3 control-label"><b>金币操作</b></div>
+      <div class="controls col-md-2">
+          <select class="form-control" name="type">
+              <option value="inc">+</option>
+              <option value="dec">-</option>
+          </select>
+      </div>
+      <div class="controls col-md-3 controls">
+          <input type="text" id="goldNum" name="goldNum" class="form-control" value="" data-widget-cid="widget-3" data-explain="">
+      </div>
+    </div>
+      
+    <div class="form-group">
+      <div class="col-md-3 control-label"><b>备注</b></div>
+      <div class="col-md-8 controls">
+          <textarea id="remark" name="remark" rows="5" cols="41"></textarea>
+        <div class="help-block" style="display:none;"></div></div>
+    </div>
+    {% else %}
+        <div class="form-group">
+            <div class="col-md-3 control-label"><b>说明</b></div>
+            <div class="col-md-8 control-text">
+                所在院校/企业金币开关已关，暂不可以设置金币
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 control-label"><b>用户姓名</b></div>
+            <div class="controls col-md-8 control-text">
+              {{userLocal.nickname}}
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-3 control-label"><b>当前金币数</b></div>
+            <div class="controls col-md-8 control-text">
+              {{userLocal.gold}}
+            </div>
+        </div>
+{% endif %}
+  </form>
+
+{% endblock %}
+
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    {% if hasRule and isLocalGoldOpen %}
+        <button id="user-gold-control-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#user-gole-conrol-form">提交</button>
+    {% endif %}
+    <script>app.load('user/user-gold-control')</script>
+ {% endblock %}

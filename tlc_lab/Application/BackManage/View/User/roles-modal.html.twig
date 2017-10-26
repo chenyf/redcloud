@@ -1,0 +1,131 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+
+{% block title %}设置角色{% endblock %}
+{% block body %}
+
+<form id="user-roles-form" class="form-horizontal" method="post" action="{{ url('admin_user_roles', {id:user.id}) }}" data-currentuser="{{ app.user.id }}" data-edituser="{{ user.id }}">
+    <div class="checkboxs">
+        <ul class="nav nav-tabs">
+            <li type="system-default" class="active"><a href="###">系统默认角色</a></li>
+            <li type="c-customs-box"><a href="###">自定义角色</a></li>
+        </ul>
+        <div class="choose-role">
+            <div class="system-default">
+                {#% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                {{ checkboxs('roles', dict('userRole'), user.roles) }}
+                {% else %}
+                <label>
+                    <input type="checkbox" name="roles[]" value="ROLE_USER" {% if 'ROLE_USER' in user.roles %}checked="checked"{% endif %}>{% if setting('default.user_name') %}{{setting('default.user_name')|default('学员')}}{% else %}学员{% endif %}
+                </label>
+                <label>
+                    <input type="checkbox" name="roles[]" value="ROLE_TEACHER" {% if 'ROLE_TEACHER' in user.roles %}checked="checked"{% endif %}>教师
+                </label>
+                <label>
+                  <input type="checkbox" name="roles[]" value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %}checked="checked"{% endif %}>管理员
+                </label>
+                {% endif %#}
+                <div class="c-role-item">
+                    <label>
+                        <input type="checkbox" name="roles[]" value="ROLE_USER" {% if 'ROLE_USER' in user.roles %}checked="checked"{% endif %}>{% if setting('default.user_name') %}{{setting('default.user_name')|default('学员')}}{% else %}学员{% endif %}
+                    </label>
+                </div>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <div class="c-role-item">
+                    <label>
+                        <input type="checkbox" name="roles[]" value="ROLE_SUPER_ADMIN" {% if 'ROLE_SUPER_ADMIN' in user.roles %}checked="checked"{% endif %}>超级管理员
+                    </label>
+                </div>
+                {% endif %}
+                <div class="c-role-item">
+                    <div class="form-group">
+                        <label class="control-label" style="margin-right:14px;"><input type="checkbox" name="roles[]" value="ROLE_TEACHER" {% if 'ROLE_TEACHER' in user.roles %}checked="checked"{% endif %}>教师</label>
+                        <div class="controls">
+                            <span>归属</span>
+                            <select id="course_categoryId" name="categoryId" required="required" class="form-control width-input width-input-large">
+                                <option value="0">院/系</option>
+                                {% for v in topCategory %}
+                                     <option value="{{ v.id }}"  {% if  user.teacherCategoryId == v.id %}selected {% endif %}>{{ v.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="help-block" style="display:none;"></div>
+                        </div>
+                    </div>
+                </div>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <div class="c-role-item">
+                    <div class="form-group">
+                        <label class="control-label">
+                            <input type="checkbox" name="roles[]" value="ROLE_ADMIN" {% if 'ROLE_ADMIN' in user.roles %}checked="checked"{% endif %}>管理员
+                        </label>
+                        <div class="controls form-role-admin">
+                            <input type="text" id="admin-category" required="required" class="width-full select2-offscreen" tabindex="-1" value="{{ user.adminCategoryNames }}" data-val="{{ user.adminCategoryIds }}">
+                        </div>
+                     </div>
+                </div>
+                {% endif %}
+           </div>
+            <div class="c-customs-box" style="display:none;">  
+                <div class="c-customs-con c-customs-con1">
+                    <h4>顶级分类</h4>
+                    <select multiple class="form-control" name="define-category">
+                        {% for rc in roleCategory %}
+                            <option value="{{ rc.id }}" >{{ rc.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="c-customs-con c-customs-con2">
+                    <h4>角色</h4>
+                    {% for ro in roleCategory %}
+                        <ul class="categery-{{ ro.id }}" {% if loop.first %} style="display:block"{% else %}style="display:none"{% endif %}>
+                            {% for item in ro.role %}
+                                <li><label><input type="checkbox" name="defineRoles[]" value="{{ item.id }}" class="defineRole" data-pid="{{ ro.id }}" data-type="define_{{ ro.id }}_{{ item.id }}" {% if item.isDefine == 1 %}checked="checked"{% endif %}/>{{ item.roleName }}</label></li>
+                            {% endfor %}
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="c-role-result">
+        <h3>选中的角色</h3>
+        <div class="c-role-con">
+            {% if 'ROLE_USER' in user.roles %}
+                <span><i type="user" onclick='delRole(this)'>×</i>学员</span>
+            {% endif %}
+            {% if 'ROLE_GOLD_ADMIN' in user.roles %}
+                <span><i type="gold_admin" onclick='delRole(this)'>×</i>神管</span>
+            {% endif %}
+            {% if 'ROLE_MARKET' in user.roles %}
+                <span><i type="market" onclick='delRole(this)'>×</i>大客户</span>
+            {% endif %}
+            {% if 'ROLE_SUPER_ADMIN' in user.roles and  is_granted('ROLE_SUPER_ADMIN') %}
+                <span><i type='super_admin' onclick='delRole(this)'>×</i>超级管理员</span>
+            {% endif %}
+
+            {% if 'ROLE_TEACHER' in user.roles and user.teacherCategoryId != 0 %}
+                <span><i type='teacher' onclick='delRole(this)'>×</i>教师</span>
+            {% endif %}
+            {% if 'ROLE_ADMIN' in user.roles and user.adminCategoryIds != '' and  is_granted('ROLE_SUPER_ADMIN') %}
+                <span><i type='admin' onclick='delRole(this)'>×</i>管理员</span>
+            {% endif %}
+            {% for role in roleCategory %}
+                {% for itemRole in role.role %}
+                    {% if itemRole.isDefine == 1 %}
+                       <span><i type="define_{{ role.id }}_{{ itemRole.id }}" onclick='delRole(this)'>×</i>{{ role.name }}/{{ itemRole.roleName }}</span>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+</form>
+{% endblock %}
+
+
+{% block footer %}
+  <button id="change-user-roles-btn" data-submiting-text="正在提交" class="btn btn-primary pull-right" data-toggle="form-submit" data-target="#user-roles-form"  data-user="{{default.user_name|default('学员')}}" >保存</button>
+  <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+  <script>app.load('user/roles-modal');</script>
+{% endblock %}

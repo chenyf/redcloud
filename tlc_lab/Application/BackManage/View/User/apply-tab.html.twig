@@ -1,0 +1,28 @@
+
+<div data-role="navigation">
+  <ul class="nav nav-tabs">
+    <li
+    {% if type == '' or type=="all" %}
+    class="active"
+    {% endif %}
+    ><a href=" {{ url('admin_user_apply', {postStatus: 'all'}) }}">全部</a></li>
+    
+    <li 
+    {% if type == '0'%}
+    class="active"
+    {% endif %}
+    ><a href="{{ url('admin_user_apply', {postStatus: '0'}) }}">未审核</a></li>
+    
+    <li 
+    {% if type == '2'%}
+    class="active"
+    {% endif %}
+    ><a href="{{ url('admin_user_apply', {postStatus: '2'}) }}">未通过</a></li>
+        
+    <li 
+    {% if type == '1'%}
+    class="active"
+    {% endif %}
+    ><a href="{{ url('admin_user_apply', {postStatus: '1'}) }}">已通过</a></li>
+  </ul>
+</div>

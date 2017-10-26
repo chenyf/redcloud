@@ -1,0 +1,123 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  {# <meta http-equiv="X-UA-Compatible" content="IE=edge"> #}
+  <meta http-equiv="X-UA-Compatible" content="IE=7;IE=9;IE=10;IE=Edge;IE=8">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    {%- block title -%}
+      {{ setting('site.name', '瑞德口袋云') }}{% if setting('site.slogan') %} - {{ setting('site.slogan') }}{% endif %}{% if not setting('copyright.owned') %}{% endif %}
+    {%- endblock -%}
+  </title>
+  <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+  <meta name="description" content="{% block description %}{% endblock %}" />
+  <meta property="wb:webmaster" content="b4b8bd8943389d26" /><!--新浪第三方接入-->
+  <meta content="{{ csrf_token('site') }}" name="csrf-token" />
+  {{ setting('login_bind.verify_code', '')|raw }}
+  {% if setting('site.favicon') %}
+  <link href="/{{ setting('site.favicon') }}" rel="shortcut icon" />
+  {% endif %}
+  {% block stylesheets %}
+    <link href="{{ asset('assets/libs/gallery2/bootstrap/3.1.1/css/bootstrap.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" media="screen" href="{{ asset('assets/css/common.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('assets/css/font-awesome.min.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/global.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/login.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/bootstrap-amend.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/f_head_foot.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/index.css"/>
+      <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/course.css"/>
+      <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/course-show.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/my-cloud.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/news.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/user.css"/>
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/ask.css" />
+    <!-- 模版样式，放在样式最底部，如有新的样子引入需放置在theme-color.css上方 -->
+    <link rel="stylesheet" media="screen" type="text/css" href="/loadCss/static/css/theme-color.css" />
+
+  {% endblock %}
+    <!--[if lt IE 8]>
+      <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
+    <![endif]-->
+    <!--[if lt IE 9]>
+      <script src="{{ asset('assets/libs/html5shiv.js') }}"></script>
+    <![endif]-->
+
+    <!-- [if IE 8] -->
+    <script  src="{{ asset('assets/libs/respond.min.js') }}"></script>
+  {% block head_scripts %}{% endblock %}
+
+
+    <script>
+        var _hmt = _hmt || [];
+        (function() {
+            var hm = document.createElement("script");
+            hm.src = "//hm.baidu.com/hm.js?{{ Const('STATIC_KEY_BAIDU') }}";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+</head>
+<script>
+	window.webVersion = "{{ getVersion() }}";
+</script>
+<body {% if bodyClass|default('') %}class="{{ bodyClass }}"{% endif %}>
+
+{% block body %}
+
+	<div class="navbar navbar-inverse site-navbar" id="site-navbar"  data-counter-url="{{ path('user_remind_counter') }}">
+            <div class="container-gap container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    {% if setting('site.logo') %}
+                        <a class="navbar-brand-logo all-school-logo" href="{{ path('homepage') }}">
+                            <img class="mrs" src="/{{ setting('site.logo') }}{% if setting('site.logoType') %}.w200.jpg{% endif %}">
+                            <span>瑞德口袋云</span>
+                        </a>
+                    {% else %}
+                        <a class="navbar-brand-logo all-school-logo" href="{{ path('homepage') }}">
+                            <span>瑞德口袋云</span>
+                        </a>
+                    {% endif %}
+
+                    <ul class="nav navbar-nav navbar-right">
+                            {{  include('@User/Partner/header-user.html.twig',{user:app.user}) }}
+                    </ul>
+                </div>   
+            </div>
+
+		<div class="navbar-hr"></div>
+	</div>
+	
+	<div id="content-container" class="m-height container {{ containerClassBlock }}">
+		{% block content %}{% endblock %}
+	</div><!-- /container -->
+
+    {% if no_show_footpart is not empty %}
+    {% else %}
+    {{ render(controller('Home:Default:footPartAction')) }}
+    {% endif %}
+      
+	{% block bottom %}{% endblock %}
+	<div id="login-modal" class="modal" data-url="{{ path('login_ajax') }}"></div>
+	<div id="modal" class="modal" {% if modalKeyboard %}data-keyboard="false"{% endif %}></div>
+{% endblock %}
+
+
+	{% include '@Home/script_boot.html.twig' with {script_main: asset('bundles/web/js/app.js')} %}
+
+
+
+</body>
+</html>

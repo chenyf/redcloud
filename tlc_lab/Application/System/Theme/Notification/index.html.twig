@@ -1,0 +1,28 @@
+{% extends '@Home/layout.html.twig' %}
+{% block title %}站内信 - {{ parent() }}{% endblock %}
+{% set script_controller = 'message/notification-list' %}
+
+{% block content %}
+<div class="row row-8 mtl">
+  <div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-page bggray">
+      <div class="c-panel-heading">
+        <h2> 站内信 </h2>
+      </div>
+    <div class="panel-body">
+      <ul class="media-list notification-list">
+        {% for notification in notifications %}
+          {% include '@System/Notification/item-' ~ notification.type|default("default")~ '.html.twig' %}
+
+        {% else %}
+          <li class="empty">暂无站内信</li>
+        {% endfor %}
+      </ul>
+
+      {{ web_macro.paginator(paginator) }}
+    </div>
+    </div><!-- /panel -->
+  </div>
+</div>
+
+{% endblock %}

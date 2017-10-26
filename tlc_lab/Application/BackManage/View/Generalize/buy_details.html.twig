@@ -1,0 +1,46 @@
+{% extends '@BackManage/Course/layout.html.twig' %}
+{% set menu = 'Generalize' %}
+{% set script_controller = "generalize/generalize" %}
+{% block main %}
+
+        <div class="page-header">
+          <h1>购买详情</h1>
+        </div>   
+
+    <form class="form-inline well well-sm"> 
+        <div class="form-group">
+          <input type="text" name="nickname" value="{{ app.request.get('nickname') }}"  class="form-control" placeholder="昵称">
+        </div>
+            
+        <button class="btn btn-primary">搜索</button>
+       <a href="{#{ U('Generalize/buyUser') }#}" id="history" class="btn btn-info btn-sm pull-right">返回上一级</a>
+      </form>
+
+  <table class="table table-striped table-hover" id="order-table">
+    <thead>
+      <tr>
+        <th>昵称</th>
+        <th>课程名</th>
+        <th>时间</th>
+        <th>价格</th>
+        <th>是否退款</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for buyDetali in buyDetalis %}
+       <tr>
+            <td>{{ getUserNameById(buyDetali.uid)}}</td>
+            <td>{{ buyDetali.title}}</td>
+            <td>{{ buyDetali.ctime | date('Y/m/d H:i:s')}}</td>
+            <td>{{ buyDetali.amount }}</td>
+            <td>{% if buyDetali.status == 0 %}未退款{% else %} 已退款 {% endif %}</td>
+       </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {{ web_macro.paginator(paginator) }} 
+    
+</div>
+
+{% endblock %}

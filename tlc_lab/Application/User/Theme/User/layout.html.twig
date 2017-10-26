@@ -1,0 +1,31 @@
+{% extends '@Home/layout.html.twig' %}
+
+{% block title %} {{user.nickname}}的公共主页 - {{ parent() }}{% endblock %}
+
+{% set bodyClass = 'userpage' %}
+{% set pageNav = pageNav|default(null) %}
+
+{% set script_controller = 'user/user' %}
+
+{% block content %}
+
+{{ render(controller('User:User:headerBlock', {user:user})) }}
+
+<div class="es-row-wrap container-gap userpage-body mbl">
+    <div class="course-list-tit">
+        <ul class="nav nav-tabs">
+            {% if 'ROLE_TEACHER' in user.roles %}
+            <li {% if pageNav == 'teach' %}class="active"{% endif %}><a href="{{ path('user_teach', {id: user.id,center:app.request.get('center')}) }}">在教课程</a></li>
+            {% endif %}
+
+            {% if 'ROLE_TEACHER' not in user.roles %}
+            <li {% if pageNav == 'learn' %}class="active"{% endif %}><a href="{{ path('user_learn', {id:user.id,center:app.request.get('center')}) }}">在学课程</a></li>
+            {% endif %}
+            <li {% if pageNav == 'favorited' %}class="active"{% endif %}><a href="{{ path('user_favorited', {id:user.id,center:app.request.get('center')}) }}">收藏的课程</a></li>
+        </ul>
+    </div>      
+        
+        {% block main %}{% endblock %}
+         
+</div>
+{% endblock %}

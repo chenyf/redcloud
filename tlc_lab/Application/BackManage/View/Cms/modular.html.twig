@@ -1,0 +1,375 @@
+{% extends '@BackManage/System/layout.html.twig' %}
+
+{% block title %}落地页管理 - {{ parent() }}{% endblock %}
+{% set menu = 'cms' %}
+
+{% set script_controller = 'cms/list' %}
+
+
+{% block main %}
+<style>
+        .editor{
+            float: right;
+            text-decoration: none;
+            margin-right: 10px;
+            display: none;
+        }
+
+        .list-group-item:hover .editor{
+            display: block;
+        }   
+
+
+    </style>
+    <style type="text/css">
+            /*** 轮播图模块 ***/
+            .scroll-main-box{width: 100%;max-height: 520px;text-align: center;overflow: hidden;position:relative;}
+            .scroll-main-one{width: 100%;overflow: hidden;}
+            .scroll-main-img{float:left;width: 100%;overflow: hidden;}
+            .scroll-main-img a{display: block;width: 100%;height: 100%;}
+            .scroll-main-img a img{max-width: 100%;}
+            .scroll-btn{position: absolute;bottom: 20px;z-index: 100;width: 100%;}
+            .scroll-btn span{font-size:0;margin:0 10px;width: 15px;height:15px;display:inline-block;border:2px solid #fff;border-radius:50%;}
+            .scroll-btn span.active,.scroll-btn span:hover{cursor:pointer;background: #fff;}
+            .scroll-prevbtn,.scroll-nextbtn{display:none;cursor: pointer;position: absolute;top:50%;z-index:101;margin-top:-30px;width:60px;height:60px;overflow:hidden;}
+            .scroll-prevbtn {left:10px;}
+            .scroll-nextbtn{right:10px;}
+            .scroll-prevbtn i,.scroll-nextbtn i{font-size:60px;color: #fff;opacity: 0.7;filter:alpha(opacity=70);}
+            .scroll-main-box:hover .scroll-prevbtn,.scroll-main-box:hover .scroll-nextbtn{display: block;}
+            .scroll-prevbtn i:hover,.scroll-nextbtn i:hover{opacity: 1;filter:alpha(opacity=100);}
+
+            /*** 试听课程 ***/
+            .listening-content{position: relative;padding:0 50px;margin:20px 0;overflow: hidden;}
+            .c-listencon{margin:0 auto;width:1040px;overflow:hidden}
+            .c-listen-list{width:10000px;overflow:hidden;}
+            .c-listen-list dt{float:left;width:240px;margin:0 10px;overflow:hidden}
+            .c-listen-list dt .v-pic{width:100%;height:auto;overflow:hidden;position:relative}
+            .c-listen-list dt .v-pic img{max-width:100%;}
+            .c-listen-list dt .v-pic .playbtn{cursor:pointer;position:absolute;top:50%;left:50%;margin:-18px 0 0 -18px;z-index:2;width:36px;height:36px;}
+            .c-listen-list dt .v-pic .playbtn i{font-size: 36px;color:#000;opacity: 0.7;filter:alpha(opacity=70);}
+            .c-listen-list dt .v-pic:hover .playbtn i{opacity: 1;filter:alpha(opacity=100);}
+            .c-listen-list dt p a{font-size:14px;color:#666;}
+            .c-listen-list dt p a:hover{color:#ff4e00;}
+            .video-scroll-btn{cursor: pointer;position:absolute;top:50%;margin-top:-40px;width:30px;height:30px;}
+            .prevBtn{left:10px;}
+            .nextBtn{right:10px;}
+            .video-scroll-btn i{font-size:30px;color: #333;opacity: 0.7;filter:alpha(opacity=70);}
+            .video-scroll-btn i:hover{opacity: 1;filter:alpha(opacity=100);}
+
+            /*** 课程购买信息 ***/
+            .group-lt-new{float:left;}
+            .buy-course-con{border-top: 1px solid #ccc;padding:20px 0;overflow: hidden;}
+            .group-rt-new{overflow:hidden;}
+            .price-box{padding-right: 30px;}
+            .group-rt-new i.c-ico-sign{float:left;width:24px;height:24px;margin:25px 0 0 3px;background:url(../images/ico-course.png) -32px -29px no-repeat;}
+            .group-rt-new span{display:block;line-height:30px;font-size:14px;word-spacing:3px;}
+            .group-rt-new span b{font-size:20px;color:#ff6400;}
+            .group-rt-new span i{font-size:14px;color:#666;font-style:normal;}
+            .group-rt-new span.old-price b{text-decoration: line-through;font-weight:normal;font-size:16px;}
+            .jy-current-course{width:80%;height:66px;padding:5px 20px;line-height:28px;border:2px solid #ff4e00;display: table;text-align:center;overflow:hidden;}
+            .jy-current-course p{display: table-cell;vertical-align: middle;font-size:18px;}
+
+            /*** 课程快速导航 ***/
+            .quick-Navigation{width:100%;height:60px;background:#333;overflow:hidden;}
+            .nav-content{height:60px;margin:0 auto;overflow:hidden;}
+            .nav-content a{float:left;padding:0 10px;height:60px;line-height:60px;font-size:14px;color:#fff;overflow:hidden;}
+            .nav-content a.active,.nav-content a:hover{text-decoration:none;background:#1a1a1a;}
+
+            /*** 图片模块 ***/
+            .picture-global-box{width:100%;overflow: hidden;}
+            .picture-global-item{width:100%;text-align: center;} 
+            .picture-global-item img{max-width: 100%;vertical-align: middle;}
+
+        </style>
+
+        <style>
+                dl, ol { padding: 0;}
+
+                .banner { position: relative; overflow: auto; text-align: center;}
+                .banner dl dd { float: left; list-style-type:none }
+                .banner { width: 640px;}
+                .banner .dots { position: absolute; left: 0; right: 0; bottom: 20px;}
+                .banner .dots dd 
+                { 
+                    display: inline-block; 
+                    width: 10px; 
+                    height: 10px; 
+                    margin: 0 4px; 
+                    text-indent: -999em; 
+                    border: 2px solid #fff; 
+                    border-radius: 6px; 
+                    cursor: pointer; 
+                    opacity: .4; 
+                    -webkit-transition: background .5s, opacity .5s; 
+                    -moz-transition: background .5s, opacity .5s; 
+                    transition: background .5s, opacity .5s;
+                }
+                .banner .dots dd.active 
+                {
+                    background: #fff;
+                    opacity: 1;
+                }
+                .banner .arrow { position: absolute; top: 200px;}
+                .banner .al { left: 15px;}
+                .banner .ar { right: 15px;}
+            </style>  
+
+            <div class="page-header" style="padding-bottom:5px;">
+                <a class="btn btn-fat btn-primary pull-right"  target="_blank"    href='{{U('Course/CourseLanding/index',{cmsId:cmsId})}}'>预览</a>
+                
+                <a href="###" data-url="{{ U('Cms/help') }}" id="aclick" class="pull-right mrl text-muted mts" data-toggle="modal" data-target="#modal">
+
+                    <i class="glyphicon glyphicon-question-sign mrs"></i>配置帮助</a>
+
+
+                <h1>落地页配置----><span style="color:blue">{{ title }}</span></h1>     
+
+            </div>
+            <div id="content-container">
+                <div class="row mtl">
+                    <div class="col-md-2 ">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="font-weight:bold">基础模块</div>
+                            <div  id="catalog" class="list-group">
+                                <input type="hidden" value="{{cmsId}}" id="cmsid"/>
+                                <!--
+                                           <a href="###" class="list-group-item "><input type="hidden" value='0' class="demo" />导航模块</a>
+           
+                                           <a href="###" class="list-group-item "><input type="hidden" value='1' class="demo"/>轮播模块</a>
+           
+                                           <a href="###" class="list-group-item " ><input type="hidden" value='2' class="demo"/>图片模块</a>
+           --->
+
+                                <a href="" class="list-group-item "><input type="hidden" value='0' class="demo" />导航模块</a>
+
+                                <a href="" class="list-group-item "><input type="hidden" value='1' class="demo"/>轮播模块</a>
+
+                                <a href="" class="list-group-item " ><input type="hidden" value='2' class="demo"/>图片模块</a>
+
+                                <a href=""  class="list-group-item "><input type="hidden" value='3' class="demo"/>价格模块</a>
+
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="font-weight:bold">数据&咨询模块</div>
+                            <div class="list-group">
+                                <a href="" class="list-group-item " data-toggle="modal" data-target="#modal" data-url="{{ U('Cms/total',{ id:cmsId }) }}">统计代码</a>
+                                <a href="" class="list-group-item " data-toggle="modal" data-target="#modal" data-url="{{ U('Cms/see',{ id:cmsId }) }}">咨询代码</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-10" id="cart">
+
+                        <ul class="list-group" id="sortable">
+            {% if list %}
+                {% for order in list %}
+                                <li class='list-group-item' id="sort_{{order.id}}" data-url="{{U('BackManage/Cms/order',{id:order.id,cmsId:cmsId,cmsType:order.cmsType})}}">
+                                    <div  style='width: 100%;height: 40px;'>{{order.title}}
+                                        <a class="btn btn-fat btn-primary mtm editor delete-cms "  data-url="{{U('BackManage/Cms/delete',{id:order.id,cmsId:cmsId,cmsType:order.cmsType})}}"  href='javascript:void(0)'>删除</a>
+                                        <a    data-toggle="modal" data-target="#modal" class="btn btn-fat btn-primary mtm editor"  data-url="{{U('BackManage/Cms/createModular',{id:order.id,cmsId:cmsId})}}"   href='javascript:void(0)'>添加</a>
+                                            {% if order.cmsType==2 or order.cmsType==1 or order.cmsType==3%}
+                                        <a    data-toggle="modal" data-target="#modal" class="btn btn-fat btn-primary mtm editor"  data-url="{{U('BackManage/Cms/eaditModular',{id:order.id,cmsId:cmsId})}}"   href='javascript:void(0)'>编辑</a>
+                                            {% endif %}
+                                    </div>
+
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        <!--  图片模块  -->            
+                      {% if order.cmsType==2 %}
+                                       
+                                         {% if order['direction']==2 %}
+                  {% for date in data  %}           
+                                       
+                        {%if date['cmsModId']==order['id']%}
+                                    <div class="picture-global-item" style="background-color:#{{date.color}};">
+                                        <img src="{{date.picPath}}" height="300px"/>
+                                    </div>
+                        {% endif %}
+                    {% endfor %}
+                                        {% else %}
+                                    <div class="picture-global-box">
+                                        <div class="picture-global-item" style="background-color:#12babb;">
+                                            <img src="/Public/bundles/web/img/landing-img1.png"/>
+                                        </div>
+                                    </div>
+{% endif  %}
+                {% endif %} 
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+                                    
+
+                                    <!--  购买模块  -->            
+                    {% if order.cmsType==3 %}
+                                    <div class="listening-content">
+                                        <div class="row c-listencon">
+                                            <dl class="c-listen-list">
+
+                                                {% for date in data  %}                 
+                                            {%if date['cmsModId']==order['id']%}
+                                                <dt>
+                                                    <div class="v-pic">
+                                                        <a href="###"><img src="{{date.picPath}}"/></a>
+                                                        <div class="playbtn"><i class="glyphicon glyphicon-play-circle"></i></div>
+                                                    </div>
+                                                    <p><a href="###">{{date.title}}</a></p>
+                                                </dt>
+                                         {% endif %}
+                    {% endfor %}
+
+
+                                            </dl>
+                                        </div>
+                                        <div class="video-scroll-btn prevBtn"><i class="glyphicon glyphicon-menu-left"></i></div>
+                                        <div class="video-scroll-btn nextBtn"><i class="glyphicon glyphicon-menu-right"></i></div>
+                                    </div>
+
+                                        {% if order.CourseName %}
+                                    <div class="buy-course-con">
+                                        <div class="group-jy-con">
+                                            <div class="group-lt-new">
+                                                <div style="border:4px red solid;font-size:16px;height:80px;line-height:80px;">
+                                                    <p style="padding-left:10px;padding-right:10px">{{order.CourseName}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="group-rt-new">
+                                                <div class="price-box pull-right">
+                                                    <span >优 惠 价：<b id="preferentialPrice">{{order.preferentialPrice}}</b>元</span>
+                                                    <span class="old-price">原　　价：<b id="price">{{order.price}}</b>元</span>
+                                                    <span>立即节省：<i id="economize"></i>元</span>
+                                                    <a class="btn  btn-primary mtm" target="_blank"   href="{{order.buyUrl}}">{{order.ButtonDescribe}}</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+{% else %}
+                                    <div class="buy-video-box ">
+
+                                        <div class="listening-content">
+                                            <div class="row c-listencon">
+                                                <dl class="c-listen-list">
+                                                    <dt>
+                                                        <div class="v-pic">
+                                                            <a href="###"><img src="/Public/bundles/web/img/course-default1.jpg"/></a>
+                                                            <div class="playbtn"><i class="glyphicon glyphicon-play-circle"></i></div>
+                                                        </div>
+                                                        <p><a href="###">面向对象的基础</a></p>
+                                                    </dt>
+                                                </dl>
+                                            </div>
+                                            <div class="video-scroll-btn prevBtn"><i class="glyphicon glyphicon-menu-left"></i></div>
+                                            <div class="video-scroll-btn nextBtn"><i class="glyphicon glyphicon-menu-right"></i></div>
+                                        </div>
+
+                                        <div class="buy-course-con">
+                                            <div class="group-jy-con">
+                                                <div class="group-lt-new">
+                                                    <div class="jy-current-course mtl"><p>iOS9企业项目实战开发工程师（Swift加强版）</p></div>
+                                                </div>
+                                                <div class="group-rt-new">
+                                                    <div class="price-box pull-right">
+                                                        <span>优 惠 价：<b>2300元</b></span>
+                                                        <span class="old-price">原　　价：<b>4300元</b></span>
+                                                        <span>立即节省：<i>2000元</i></span>
+                                                        <a class="btn btn-fat btn-primary mtm" href="###">报名学习</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                        {% endif %}
+                                 
+                                    
+                {% endif %}
+                                    <!-- 导航模块 -->
+                              {% if order.cmsType==0 %}
+                                    <div class="quick-Navigation">
+                                        <div class="nav-content">
+                                    {% for date in data %}
+                                         {%if date['cmsModId']==order['id']%}
+                                                <a  href="###">{{date.title}}</a>
+                                    {% endif %}
+{% endfor %}
+                                            </div>
+                                        </div> 
+
+{% endif %}
+                                    
+                                        <!-- 轮播模块 -->   
+                            {% if order.cmsType==1 %}
+                                        <input type="hidden" name="banner[]" value="{{order.id}}">
+                                        
+                                     {% if order['direction']==1 %}
+                                        <div class="banner" id="{{order.id}}">
+                                            <dl>
+             {% for date in data  %}
+                                                    
+                   {%if date['cmsModId']==order['id']%}
+                                                   
+                                                    <dd style="background-color:#{{order.color}}">
+                                                        <img src="{{ date['picPath']|e}}" alt="" width="730px"  height="400px">
+                                                    </dd>
+
+            {% endif %}
+                {% endfor %}
+                                                </dl>
+                                                <a href="javascript:void(0);" class="unslider-arrow{{order.id}} prev" data-id="{{order.id}}"><img class="arrow al"  src="/Public/bundles/web/img/arrowl.png" alt="prev" width="20" height="35"></a>
+                                                <a href="javascript:void(0);" class="unslider-arrow{{order.id}} next" data-id="{{order.id}}"><img class="arrow ar"  src="/Public/bundles/web/img/arrowr.png" alt="next" width="20" height="37"></a>
+                                            </div>
+
+                                      {% else %}     
+                                        
+                                        <div class="scroll-main-box">
+                                            <div class="scroll-main-con">  <!-- scroll-main-one宽度需要判断 -->
+                                                <div class="scroll-main-img" style="background-color:#1c9425;"><a href="###"><img src="/Public/bundles/web/img/landing-img1.png" /></a></div>
+                                            </div>
+                                            <div class="scroll-prevbtn"><i class="glyphicon glyphicon-menu-left"></i></div>
+                                            <div class="scroll-nextbtn"><i class="glyphicon glyphicon-menu-right"></i></div>
+                                            <div class="scroll-btn"><span class="active"></span><span></span><span></span></div>
+                                        </div>
+{% endif %}
+
+                                        
+                                        
+                                        
+                                        
+
+                {% endif %}
+                                        </li>
+                {% endfor %}
+
+            {% else %}
+                                        <li class="placeholder" style="list-style:none">
+                                            <div style="height: 300px ;border: 1px #ccc solid" > <center>请拖拽您想要的模块到本区域</center></div>
+                                        </li>
+            {% endif %}
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+                            var url = "{{U('BackManage/Cms/insertModular')}}";
+                            var create = "{{U('BackManage/Cms/createModular',{id:order.id,cmsId:cmsId})}}";
+
+                            </script>
+  {{ web_macro.paginator(paginator) }}
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends '@BackManage/layout.html.twig' %}
+
+{% set nav = 'content' %}
+
+{% block content %}
+  <div class="col-md-2">
+    {% block sidebar %}
+
+      <div class="list-group">
+        {#<a href="{{ path('admin_navigation') }}" class="list-group-item {% if menu == 'navigation' %}active{% endif %}">导航管理</a>#}
+        {#<a href="{{ url('admin_content', {type:'page'}) }}" class="list-group-item {% if menu == 'content' %}active{% endif %}">页面管理</a>#}
+        <a href="{{ path('admin_sensitive_word') }}" class="list-group-item {% if menu == 'sensitive_word' %}active{% endif %}">敏感词管理</a>
+      </div>
+      <div class="list-group">
+        <a href="/redisk/index.php/settings/admin" class="list-group-item {% if menu == 'redisk_admin_admin' %}active{% endif %}">网盘管理</a>
+        <a href="/redisk/index.php/settings/users" class="list-group-item {% if menu == 'redisk_admin_user' %}active{% endif %}">网盘用户管理</a>
+      </div>
+    {% endblock %}
+  </div>
+  <div class="col-md-10">
+      {% block main %}{% endblock %}
+  </div>
+{% endblock %}

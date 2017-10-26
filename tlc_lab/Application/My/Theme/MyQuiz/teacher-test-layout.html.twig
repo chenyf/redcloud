@@ -1,0 +1,26 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}我的批阅 - {{ parent() }}{% endblock %}
+{% set side_nav = 'my-teaching-check' %}
+
+{% block main %}
+<div class="panel panel-default panel-col">
+
+	<div class="panel-heading">
+            <div class="course-status mts pull-right">
+                <label><input type="radio" name="status" checked="ture"/>{{privateCourseName()}}</label><label><input type="radio" name="status"/>{{publicCourseName()}}</label>
+            </div>
+            我的批阅
+	</div>
+	<div class="panel-body">
+		<ul class="nav nav-tabs">
+			<li class="{% if status == 'submitted' %}active{% endif %}"><a href="{{ path('course_manage_list_teacher_test_reviewing') }}">未批阅</a></li>
+			<li class="{% if status == 'finished' %}active{% endif %}"><a href="{{ path('course_manage_list_teacher_test_finished') }}">已批阅</a></li>
+		</ul>
+		<br>
+		{# {% block list %}{% endblock %} #}
+		{% include '@My/MyQuiz/list-teacher-test.html.twig' %}
+		
+	</div>
+</div>
+{% endblock %}

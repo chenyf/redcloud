@@ -1,0 +1,36 @@
+{% extends '@Home/Default/layout.html.twig' %}
+
+{% set typeTitles = {info:'提示信息', warning:'警告信息', error: '错误提示'} %}
+
+{% set title = title|default(typeTitles[type]) %}
+
+{% block title %}{{ title }} - {{ parent() }}{% endblock %}
+{% block head_scripts %}{{ script|default('')|raw }}{% endblock %}
+{% set script_controller = 'default/message' %}
+
+{% block content %}
+
+<div id="page-message-container" class="page-message-container" data-close-windows="{{ close_windows|default(0) }}" data-goto="{{ goto|default("/") }}" data-duration={{ duration|default('3000') }}>
+    <div class="page-message-panel login-success-box">
+        <div class="page-message-heading mtl">
+            <h2 class="page-message-title" style="text-align:center;"><b class="mrl"><img src="/Public/static/img/login-icon.png" /></b>{{ title }}</h2>
+        </div>
+        <div class="page-message-body mtl" style="text-align:center;font-size:18px;color:#f00;">{{ message|default('') }}</div>
+    </div>
+</div>
+<script>
+        var gotoUrl = document.getElementById('page-message-container').getAttribute('data-goto');
+        var duration = document.getElementById('page-message-container').getAttribute('data-duration');
+        var close_windows = document.getElementById('page-message-container').getAttribute('data-close-windows');
+
+        if(close_windows > 0){
+            setTimeout(function() {
+                window.close();
+            }, close_windows);
+        }else if (duration > 0 && gotoUrl) {
+	        setTimeout(function() {
+	            window.location.href= gotoUrl;
+	        }, duration);
+    	}
+</script>
+{% endblock %}

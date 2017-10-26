@@ -1,0 +1,16 @@
+<template id="component-publication">
+    <two_list :datas.sync="publications" id="addPublication" title="出版物" title_id="myModalPublication"></two_list>
+</template>
+
+
+<script>
+    var Publication = Vue.extend({
+        template: '#component-publication',
+        props:{
+            publications: Array
+        },
+        components:{
+            two_list: TwoList
+        }
+    });
+</script>

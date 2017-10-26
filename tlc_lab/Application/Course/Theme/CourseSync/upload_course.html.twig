@@ -1,0 +1,22 @@
+{% extends '@Course/CourseSync/course_sync_layout.html.twig' %}
+
+{% block title %}上传课程 - {{ parent() }}{% endblock %}
+
+{% set tab_nav = 'upload' %}
+
+{% set script_controller = 'course_sync/upload_course' %}
+
+{% block main_content %}
+
+    <div class="empty-center">
+        <form id="course_resource_file_homework" method="POST">
+            <div class="c-result-btn text-center ptm pbm">
+                <a class="course-resource-file-upload-btn">
+                    <input type="file" name="course_resource_file" id="upload_course_resource_file" />
+                </a>
+            </div>
+        </form>
+        <button id="sure_to_submit" style="display: none;" class="btn btn-danger" data-url="{{ path('course_sync_upload_course_resource') }}" data-recordurl="{{ path('course_sync_record') }}">确认上传</button>
+    </div>
+
+{% endblock %}

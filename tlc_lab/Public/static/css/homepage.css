@@ -1,0 +1,576 @@
+
+/*-- main --*/
+.main {
+    padding: 0;
+    height:85%;
+}
+.info-item-box{
+    /*background-color: #fff;*/
+    padding: 20px;
+    /*margin: 20px;*/
+    /*box-shadow: 1px 2px 3px #F0D9D9;*/
+}
+.info-item-title{
+    font-size: 18px;
+    margin-top: 10px;
+    display: inline-block;
+}
+.fs0{
+    font-size: 1.2em;
+    cursor: pointer;
+    margin: 2px;
+    display: inline-block;
+}
+.fs1{
+    font-size: 1.5em;
+    cursor: pointer;
+    margin-top: 5px;
+    display: inline-block;
+}
+.fs2{
+    font-size: 1.8em;
+    cursor: pointer;
+    margin-top: 5px;
+    display: inline-block;
+}
+.new-red{
+    color:#ED4D5F;
+}
+.new-red:hover{
+    color:#DA0000;
+}
+.new-green{
+    color:#00adef;
+}
+.new-green:hover{
+    color:#0E9FD7;
+}
+.new-gray{
+    color: #949494;
+}
+.new-gray:hover{
+    color:#777777;
+}
+.account{
+    margin: 2em auto 0;
+    height:100%;
+    width: 43%;
+	background-color: #fff;
+	position: relative;
+}
+.account-info {
+    border-right: 1px solid #E2E2E2;
+	width: 25%;
+    height:100%;
+}
+.account-top {
+    padding: 2em 0.8em;
+    margin-bottom: 10px;
+}
+.account-top img{
+    border-radius: 50%;
+}
+.account-top-left {
+    display: inline-block;
+}
+.account-top-right {
+    display: inline-block;
+    position: relative;
+    top: 0px;
+    left: 1.8em;
+}
+.account-top  h2 {
+    color: #171a21;
+    font-size: 1.5em;
+}
+.account-top p {
+    color: #868b98;
+    font-size: 0.9em;
+    margin-top: 0.2em;
+}
+.account span {
+    background: url(../img/img-sprite.png) no-repeat 0px 0px;
+    width: 17px;
+    height: 16px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: middle;
+}
+.account-info span.icon1 {
+    background-position: -24px 0px;
+}
+.account-info span.icon2 {
+    background-position: -46px 0px;
+}
+.account-info span.icon3 {
+    background-position: -68px -1px;
+}
+.account-info span.icon4 {
+    background-position: -96px 0px;
+}
+.text h4 {
+    font-size: 1.3em;
+    color: #171a21;
+    margin: 0.3em 0;
+}
+.text h5 {
+    font-size: 1.1em;
+    color: #171a21;
+    margin: 0.3em 0;
+    display: inline-block;
+}
+.text h4 a{
+    color: #171a21;
+}
+.text h4 a:hover{
+    color: #41CCB4;
+}
+.text label {
+    float: right;
+    font-size: 0.9em;
+    color: #868b98;
+}
+.text p {
+    font-size: 1em;
+    color: #868b98;
+    line-height: 1.8em;
+}
+.text p.from {
+    display: inline-block;
+}
+.text h6 {
+    font-size: 0.9em;
+    color: #02a3c6;
+	display: inline-block;
+}
+.text {
+    padding: 1em;
+}
+
+.list-select-item{
+    display: table !important;
+    width: 100% !important;
+}
+.list-select-item-inner{
+    display: table-cell !important;
+    vertical-align: middle !important;
+    width: 100% !important;
+}
+
+/*--tabs--*/
+.tabs nav {
+    background: #fff;
+    color: #171a21;
+}
+.tabs nav a {
+    padding: 1em 2em;
+    text-align: left;
+    display: block;
+    cursor: pointer;
+    font-size: 1.1em;
+}
+.tabs nav a  i{
+    background-color: #41ccb4;
+    font-size: 0.8em;
+	color: #fff;
+    padding: 2px 7px;
+    border-radius: 68%;
+    float: right;
+}
+.tabs nav a:hover, .tabs nav a.selected {
+    background: #404452;
+    color: #FFFFFF;
+}
+.tabs nav a.selected i{
+    color: #404452;
+}
+.tabs nav a:hover span, .tabs nav a.selected  span{
+    background-position: 0px -24px;
+}
+.tabs nav a:hover span.icon1, .tabs nav a.selected  span.icon1{
+    background-position: -24px -24px;
+}
+.tabs nav a:hover span.icon2, .tabs nav a.selected  span.icon2{
+    background-position: -46px -24px;
+}
+.tabs nav a:hover span.icon3, .tabs nav a.selected  span.icon3{
+    background-position: -69px -24px;
+}
+.tabs nav a:hover span.icon4, .tabs nav a.selected  span.icon4{
+    background-position: -96px -24px;
+}
+.account span.star {
+    background-position: -24px -47px;
+    margin-right:5px;
+	width: 14px;
+    height: 14px;
+}
+.account span.star:hover,.account span.star.active {
+    background-position: -41px -47px;  
+}
+.tabs .content {
+  padding: 0;
+  position: absolute;
+  top: 0px;
+  right: 0;
+  color: #6C5D5D;
+  width: 0;
+  height: 100%;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.1s linear 0s;
+}
+.tabs .content.visible {
+    padding: 0;
+    opacity: 1;
+	width: 70%;
+    height:100%;
+}
+/*--//tabs--*/
+select.dropdown {
+    border: none;
+    font-size: 0.9em;
+    color: #868b98;
+}
+select.dropdown:focus {
+    outline: none;
+}
+/*--copyright--*/
+.copyright {
+    margin: 2em 0 0 0;
+    text-align: center;
+}
+.copyright p {
+    font-size: 1em;
+    color: #404452;
+}
+.copyright p a{
+    color: #404452;
+}
+.copyright p a:hover{
+    color: #28A08C;
+}
+/*--//copyright--*/
+/*---- responsive-design -----*/
+@media(max-width:1440px){
+.account {
+    width: 90%;
+    height:100%;
+
+}
+}
+@media(max-width:1366px){
+.account {
+    width: 90%;
+    height:100%;
+
+}
+}
+@media(max-width:1280px){
+.account {
+    width: 80%;
+    height:100%;
+
+}
+}
+@media(max-width:1080px){
+.account {
+    width: 80%;
+    height:100%;
+}
+}
+@media(max-width:1024px){
+.account {
+    width: 80%;
+    height:100%;
+
+}
+}
+@media(max-width:991px){
+.account {
+    width: 80%;
+    height:100%;
+
+}
+}
+@media(max-width:900px){
+.account {
+    width: 80%;
+    height:100%;
+
+}
+}
+@media(max-width:800px){
+.account {
+    width: 80%;
+    height:100%;
+
+}
+}
+@media(max-width:768px){
+h1 {
+    font-size: 2.7em;
+}
+.account {
+    width: 80%;
+    height:100%;
+
+}
+.account-info {
+    width: 45%;
+}
+.account-top {
+    padding: 1.8em 1em;
+}
+.account-top-left {
+    width: 29%;
+}
+.account-top h2 {
+    font-size: 1.3em;
+}
+.account-top p {
+    font-size: 0.8em;
+}
+.tabs nav a {
+    font-size: 1em;
+}
+.tabs .content.visible {
+    width: 55%;
+}
+.text {
+    padding: 0.9em 1em;
+}
+.text {
+    width: 91%;
+}
+.text h4 {
+    font-size: 1em;
+}
+.text p {
+    line-height: 1.4em;
+}
+}
+@media(max-width:640px){
+h1 {
+    font-size: 2.4em;
+}
+.account {
+    width: 80%;
+    height:100%;
+
+}
+.account-top h2 {
+    font-size: 1.2em;
+}
+
+.text {
+    padding: 0.9em 1.5em .9em 0.5em;
+}
+.text-right p {
+    font-size: .8em;
+}
+
+.copyright p {
+    font-size: 0.9em;
+	line-height: 1.8em;
+}
+}
+@media(max-width:600px){
+.account {
+    width: 80%;
+    height:100%;
+
+}
+}
+@media(max-width:480px){
+h1 {
+    font-size: 1.9em;
+}
+.account {
+    width: 80%;
+    height:100%;
+
+}
+.account-top-left {
+    width: 100%;
+    float: none;
+    text-align: center;
+}
+.account-top-right {
+    float: none;
+    text-align: center;
+}
+.tabs nav a {
+    font-size: 0.95em;
+    padding: 1em 1.5em;
+}
+
+.text-right h4 {
+    font-size: 0.9em;
+}
+.text-right label {
+    font-size: 0.7em;
+}
+.account span.star {
+    margin-right: 3px;
+}
+.text {
+    padding: 0.8em 1em .8em 0.5em;
+}
+.text-right p {
+    font-size: .75em;
+}
+.text-right h6 {
+    font-size: 0.8em;
+}
+.tabs nav a i {
+    font-size: 0.7em;
+}
+}
+@media(max-width:320px){
+.main {
+    padding: 2em 0 1em;
+}
+h1 {
+    font-size: 1.5em;
+}
+.account {
+    margin: 2em auto 0;
+    height:100%;
+
+}
+.account-info {
+    width: 100%;
+	border: none;
+}
+.account-top {
+    padding: 1em 0;
+}
+.tabs nav {
+    border-top: 1px solid #E2E2E2;
+    border-bottom: 1px solid #E2E2E2;
+    padding: 0.5em;
+}
+.tabs nav a {
+    font-size: 0.8em;
+    padding: 0.5em .75em;
+    display: inline-block;
+    margin-bottom: 1em;
+}
+.account span {
+    margin-right: 2px;
+}
+.tabs {
+    position: relative;
+    padding-bottom: 25.5em;
+}
+.tabs nav a i {
+    font-size: 0.6em;
+    padding: 1px 4px;
+    margin: 1px 0 0 4px;
+}
+.tabs .content {
+    top: 104px;
+    height: inherit;
+}
+.tabs .content.visible {
+    width: 100%;
+}
+.text {
+    padding: 0.6em 0.5em;
+}
+.text-right h4 {
+    font-size: 0.85em;
+}
+.text-right p {
+    font-size: .7em;
+}
+.text-right h6 {
+    font-size: 0.75em;
+}
+.text-right label {
+    font-size: 0.6em;
+}
+.account span.star {
+    margin-right: 9px;
+}
+select.dropdown {
+    font-size: 0.7em;
+}
+
+.copyright {
+    margin: 1.5em 1em;
+}
+.copyright p {
+    font-size: 0.8em;
+}
+}
+/*--//responsive-design---*/
+.newFileMenu .menuitem {
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+    line-height: 30px;
+    color: #000;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.newFileMenu .menuitem .icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    vertical-align: middle;
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 16px;
+    min-height: 16px;
+}
+
+.newFileMenu .menuitem, .newFileMenu .menuitem>span {
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+.icon-upload {
+    background-image: url('../img/upload.svg');
+}
+
+.hiddenuploadfield {
+    width: 0;
+    height: 0;
+    display: none;
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+}
+.txt-left{
+    text-align: left;
+}
+.txt-center{
+    text-align: center;
+}
+.txt-right{
+    text-align: right;
+}
+table td{
+    vertical-align: middle !important;
+}
+div.uploaded-show{
+    display: none;
+}
+
+.nav-tabs > li.active{
+    border-top-color: transparent;
+}
+.panel-col .cc-found-nav li{
+    padding-bottom: 0;
+}
+
+.upload_tip{
+    color: red;
+    font-size: 15px;
+    line-height: 2.5;
+}

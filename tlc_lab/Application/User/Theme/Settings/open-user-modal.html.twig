@@ -1,0 +1,247 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set modal_class = 'modal-lg' %}
+
+{% block title %}
+    高校云互联操作
+{% endblock %}
+
+{% block body %}
+
+<form id="openUserForm" class="form-horizontal" method="post" 
+    action="{% if type == 'edit'%}{{U('User/Settings/editOpenUser')}}{% else %}{{U('User/Settings/addOpenUser')}}{% endif %}"
+    checkAddUrlMeta="{{U('User/Settings/checkAddUrlMeta')}}"  
+    novalidate="novalidate">
+    
+
+    <div class="form-group" >
+        <div class="col-md-2 control-label">
+            <label for="name-field">
+                <span class="text-danger">*</span>
+                名称
+                <span class="text-danger glyphicon glyphicon-question-sign" title="应用的名称">
+                </span>
+            </label>
+        </div>
+        <div class="col-md-9 controls">
+            <div class="row">
+                <div class="col-md-12">
+                    <input id="name-field" class="form-control" type="text" name="name" value=" {{ item.name }}" >
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if type == 'edit'%}
+    <div class="form-group" >
+        <div class="col-md-2 control-label">
+            <label for="appid-field">
+                APPID
+            </label>
+        </div>
+        <div class="col-md-9 controls control-text">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-12 text-muted">
+                        {{item.appId}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group" >
+        <div class="col-md-2 control-label">
+            <label for="appkey-field">
+                APPKEY
+            </label>
+        </div>
+        <div class="col-md-9 controls control-text">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-12 text-muted">
+                        {{item.appKey}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="form-group" >
+        <div class="col-md-2 control-label">
+            <label for="appkey-field">
+                状态
+            </label>
+        </div>
+        <div class="col-md-9 controls control-text">
+            <div class="row">
+                <div class="col-md-12">
+                        <div class="col-md-12 radios">
+                            {% if admin %}
+                                <label><input type="radio" name="modaType" value="default" checked="checked">当前状态</label>
+                                <label><input type="radio" name="modaType" value="stop"> 禁用</label>
+                                <label><input type="radio" name="modaType" value="success"> 审核</label>
+                            {% endif %}
+                            <label>
+                                {% if item.state=='success' %}
+                                <span class="label label-success">
+                                    已审核
+                                </span>
+                                {% elseif item.state=='stop' %}
+                                    <span class="label label-warning">
+                                        禁用
+                                    </span>
+                                {% elseif item.state=='delete' %}
+                                    <span class="label label-default">
+                                        用户删除
+                                    </span>
+                                {% else %}
+                                    <span class="label label-danger">
+                                        未审核
+                                    </span>
+                                {% endif %}
+                            </label>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}        
+    <div class="form-group">
+        <div class="col-md-2 control-label">
+            <label for="des-field">
+                <span class="text-danger">*</span>
+                简介
+                <span class="text-danger glyphicon glyphicon-question-sign" title="展示的简介" >
+                </span>
+            </label>
+        </div>
+        <div class="col-md-9 controls">
+            <textarea class="form-control" id="des-field" name="des" >{{item.des}}</textarea>
+        </div>
+    </div>
+    {#
+    {% if admin %}    
+    <div class="form-group">
+        <div class="col-md-2 control-label">
+            <label for="des-field">
+                审核说明
+            </label>
+        </div>
+        <div class="col-md-9 controls">
+            <textarea class="form-control" id="des-field" name="admindes" >{{item.admindes}}</textarea>
+        </div>
+    </div>
+    {% endif %}
+    #}
+    <div class="form-group" >
+        <div class="col-md-2 control-label">
+            <label for="provider-field">
+                <span class="text-danger">*</span>
+                提供方
+                <span class="text-danger glyphicon glyphicon-question-sign" title="展示开发商品牌">
+                </span>
+            </label>
+        </div>
+        <div class="col-md-9 controls">
+            <div class="row">
+                <div class="col-md-12">
+                    <input id="provider-field" class="form-control" type="text" name="provider" value="{{item.provider}}" >
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {#<div class="form-group for-text-type for-video-type for-audio-type for-document-type " >
+        <div class="col-md-2 control-label">
+            <label for="cat-field">
+                <span class="text-danger">*</span>
+                分类
+                <span class="text-danger glyphicon glyphicon-question-sign" title="用于各种分类">
+                </span>
+            </label>
+        </div>
+        <div class="col-md-9 controls">
+            <div class="row">
+                <div class="col-md-12">
+                    <input id="cat-field" class="form-control" type="text" name="cat" value="" >
+                </div>
+            </div>
+        </div>
+    </div>#}
+    
+    <div class="form-group" >
+        <div class="col-md-2 control-label">
+            <label for="url-field">
+                <span class="text-danger">*</span>
+                网站地址
+                <span class="text-danger glyphicon glyphicon-question-sign" title="例如http://www.xxx.com或http://www.xxx.com/cat&#13;根目录首页或者其他页加入验证代码">
+                </span>
+            </label>
+        </div>
+        <div class="col-md-9 controls">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class=" input-group">
+                        <input id="url-field" class="form-control" type="text" name="url" value="{{item.url}}" >
+                        <span class="input-group-btn">
+                            <button  id="validateBut" class="btn btn-primary validateBut" type="button">
+                                验证
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    
+    <div class="form-group controls validateFieldGroup" >
+        <div class="col-md-2"></div>
+        <div class="col-md-9 control-label">
+            <input id="validate-field" class="form-control" type="hidden" name="validateHidden" value="{%if type=='edit' %}1{% endif %}" >
+            <div class=" text-center ">
+                <label for="validate-field">复制下列代码，将其粘贴到您网站首页或一级目录下HTML代码的HEAD标签中</label></br>
+            <span class="text-warning">&lt;meta property="openUser:admins" content="{{metaId}}" /&gt;</span>
+            </div>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="help-block col-md-9" style="display: none"></div>
+    </div>
+    
+    <div class="form-group" >
+        <div class="col-md-2 control-label">
+            <label for="url-field">
+                <span class="text-danger">*</span>
+                回调地址
+                <span class="text-danger glyphicon glyphicon-question-sign" 
+                      title="回调地址可以保障您账户的安全&#13;注意要包含“http://部分”,例如http://www.xxx.com&#13;与网站地址主域名一致">
+                </span>
+            </label>
+        </div>
+        <div class="col-md-9 controls">
+            <div class="row">
+                <div class="col-md-12">
+                    <input id="backUrl-field" class="form-control" type="text" name="backUrl" value="{{item.backUrl}}" >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+    <input id="id-field" type="hidden" name="id" value="{{item.id}}">
+</form>
+ 
+<script>
+    seajs.use('/Public/assets/libs/openUser/openUserManager');
+</script>
+
+
+
+{% endblock %}
+
+{% block footer %}
+    {% if admin==false  %}<span class="text-danger">审核后编辑并保存会取消审核状态变为从新申请</span>{% endif %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="openUserBtn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#openUserForm">{% if type == 'edit' %}保存{% else %}添加{% endif %}</button>
+{% endblock %}
+
+{% set hideFooter = true %}

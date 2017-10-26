@@ -1,0 +1,91 @@
+/*** 后台设置 ***/
+.new-role-box{clear:both;height:32px;padding:20px;}
+.new-role-box span{float:left;line-height:32px;font-size:14px;}
+.new-downlist{float:left;}
+
+.new-downlist{width:240px; margin:0 10px;position:relative;}
+.new-downlist p{width:204px; height:30px; line-height:30px; padding-left:4px; padding-right:30px; border:1px solid #ddd; border-radius:4px; background:#fff url(../img/arrow.png) no-repeat right -30px; font-size:14px; color:#333; cursor:pointer}
+.new-downlist ul{width:238px; background:#fff; border:1px solid #ddd; display:none;position:absolute;z-index:10;margin:0;padding: 0;}
+.new-downlist ul li{height:30px; line-height:30px; text-indent:10px; border-top:1px solid #ddd;}
+.new-downlist ul li:first-child{border-top: none;}
+.new-downlist ul li a{display:block; height:30px; color:#333; text-decoration:none}
+.new-downlist ul li a:hover{background:#c6dbfc; color:#369}
+.new-downlist ul li.last-custom{background:#eee;text-align:center;text-indent:0px;}
+
+.role-custom{float:left;}
+.role-custom input{float:left;width:120px;padding:5px;border:1px solid #ddd;border-radius:4px;height:20px;line-height:20px;background:none;margin:0 5px;}
+.role-custom a{float:left;width:60px;height:32px;line-height:32px;text-align:center;background:#187ec6;font-size:14px;color:#fff;border-radius:4px;}
+.role-custom a:hover{text-decoration:none;opacity:0.85;filter:alpha(opacity=85);}
+
+.new-department-box{padding: 20px;background-color: #f8f8f8;height: 500px;border-top: 1px solid #ccc;}
+
+.department-first{clear:both;height:32px;padding-bottom:10px;}
+.department-first span{float:left;line-height:32px;font-size:14px;}
+.department-first select{float:left;height:32px;min-width:160px;border-radius:4px;border:1px solid #ddd;font-size:14px;}
+
+/*** 滚动条 ***/
+::-webkit-scrollbar {width: 12px;}
+::-webkit-scrollbar-track { -webkit-box-shadow: inset 0 0 6px #eee;border-radius: 10px;}
+::-webkit-scrollbar-thumb { border-radius: 10px;background: #f9f9f9;-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);}
+::-webkit-scrollbar-thumb:window-inactive {background:#e7ebf7}
+
+.tree {
+		height: 450px;
+		overflow-y:auto;
+	}
+.tree ul{padding-left: 50px}
+.tree li {
+		list-style-type:none;
+		margin:0;
+		padding:10px 5px 0;
+		position:relative
+	}
+	.tree li::before, .tree li::after {
+		content:'';
+		left:-15px;
+		position:absolute;
+		right:auto
+	}
+	.tree li::before {
+		border-left:1px solid #999;
+		bottom:50px;
+		height:100%;
+		top:0;
+		width:1px
+	}
+	.tree li::after {
+		border-top:1px solid #999;
+		height:20px;
+		top:25px;
+		width:25px
+	}
+	.tree li span {
+		-moz-border-radius:4px;
+		-webkit-border-radius:4px;
+		border:1px solid #999;
+		border-radius:4px;
+		display:inline-block;
+		padding:4px 8px;
+		text-decoration:none;
+		font-size: 14px;
+	}
+	.tree li.parent_li>span {
+		cursor:pointer
+	}
+	.tree>ul>li::before, .tree>ul>li::after {
+		border:0
+	}
+	.tree li:last-child::before {
+		height:30px
+	}
+	.tree li.parent_li>span:hover, .tree li.parent_li>span:hover+ul li span {
+		background:#eee;
+		border:1px solid #94a0b4;
+		color:#000
+	}
+	.tree li label{color:#999;}
+	.tree li input {margin: 0 5px;}
+	.tree li span i{width: 12px;height: 12px;display: inline-block;margin-right:5px;background:url(../img/icon-pull.png) 0 0 no-repeat;}
+	.tree li span i.icon-minus-sign{background-position: -24px 0}
+	.tree li span i.icon-plus-sign{background-position: 0 0}
+	.tree li span i.icon-leaf{background-position: -48px 0}

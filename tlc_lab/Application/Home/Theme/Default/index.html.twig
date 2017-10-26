@@ -1,0 +1,78 @@
+{% extends  '@Home/Default/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/Default/layout.html.twig',"@Web")%#}
+{% set siteNav = '/' %}
+{% set bodyClass = 'homepage' %}
+{% set containerClassBlock = 'index_container' %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" media="screen" href="{{ asset('themes/default/css/class-default.css') }}"/>
+{% endblock %}
+
+{% block content %}
+
+    {% if not courses %}
+        <div class="empty-center">
+            暂无课程
+        </div>
+    {% endif %}
+
+    <div class="course-row-wrap container-gap m-height">
+        {% if courses %}
+            <div class="second-course container">
+                <div class="second-course-tit">
+                    <h3><b><i><img src="/Public/static/img/icon/book-tit-icon.png"/></i>最新课程</b></h3>
+                </div>
+                <div class="second-course-list">
+                    {{ _self.course_lists(data('LatestCourses',{ count:8 })) }}
+                    <div class="second-course-btn">
+                        <a href="{{ path('course_explore') }}"><b>更多课程</b><i>&gt;</i></a>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
+{% macro course_lists(courses) %}
+    {% set mode = mode|default('default') %}
+    <ul style="min-height: 500px;">
+        {% for course in courses %}
+            <li class="course-item col-md-3 col-sm-4 clearfix ">
+                <div class="second-course-box">
+                    <a class="second-course-link" href="{{ path('course_show', {id:course.id}) }}">
+                        <img class="course-picture" src="{% if course.selectPicture == "" %}{{ default_path('coursePicture', course.largePicture, 'large') }}{% else %} {{ course.selectPicture }}{% endif %}" alt="{{ course.title }}">
+                    </a>
+                    <div class="second-course-text">
+                        <div class="course-body">
+                            <h4 class="course-title">
+                                <a href="{{ path('course_show', {id:course.id}) }}">{{ course.title }}</a>
+                            </h4>
+
+                            <div class="course-footer clearfix">
+                                <div class="course-metas">
+                                    <div class="text-muted mrm mls">
+                                        <span class="course-lessonHour"><i class="glyphicon glyphicon-time"></i><em>{{ course.lessonNum }}课时</em></span>
+                                        <span class="course-teacher pull-right"><i class="glyphicon glyphicon-user"></i><em>{{ course.teacherName }} 老师</em></span>
+                                    </div>
+                                    <div class="text-muted mrm mls mts clearfix">
+                                        <span class="course-lessonHour">浏览量：<em>{{ course.viewCount }}</em></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+            {#{% include '@Course/Course/course-item.html.twig' with {course: course,m_post_class:'m-post-col-4'} %}#}
+        {% endfor %}
+    </ul>
+    {# 浮动下载APP提示 #}
+    {% if setting('mobile.enabled') %}
+        <div class="app-popupbox">
+            <a class="p-close-btn" href="javascript:void(0)">关闭</a>
+
+            <div class="app-popupcon"><img class="mrl" src="{{ U('System/Mobile/downloadQrcode') }}" width="100" height="100"><span>微信扫描二维码<br/>下载本校移动App</span></div>
+            <a class="btn btn-info down-app-btn" href="{{ U('System/Mobile/getDownloadUrl') }}"> <span class="glyphicon glyphicon-phone"></span>点击下载本校移动App</a>
+        </div>
+    {% endif %}
+{% endmacro %}
+

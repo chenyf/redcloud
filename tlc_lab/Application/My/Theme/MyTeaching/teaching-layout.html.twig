@@ -1,0 +1,24 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}在教课程 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'my-teaching-courses' %}
+
+{% block main %}
+<div class="panel panel-default panel-col lesson-manage-panel">
+    <div class="course-list-tit">
+        <div class="pull-right create-course-btn">
+            {% if app.request.get('center') == 0 %}
+                <a id="create-course" href="{{ path('course_manage_base', {id:0,center:app.request.get('center'),create:1}) }}" class="btn btn-primary btn-default">
+                    <span class="glyphicon glyphicon-plus"></span> 创建课程
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+   {# 我的云课堂--new #}
+   {% block teachingBlock %} {% endblock %}
+    
+</div>
+
+{% endblock %}

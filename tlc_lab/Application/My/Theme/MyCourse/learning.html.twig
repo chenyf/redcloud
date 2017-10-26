@@ -1,0 +1,40 @@
+{% extends '@My/MyCourse/layout.html.twig' %}
+
+{% block title %}学习中 - {{ parent() }}{% endblock %}
+
+{% set tab_nav = 'learning' %}
+
+{% block main %}
+    <div class="panel panel-default panel-col">
+        {# <div class="c-panel-heading">
+            <span>在学课程</span>
+        </div> #}
+         {% if isOpenPublicCourse() %}    
+            <div class="course-list-tit">
+            </div>
+         {% endif %}    
+        <div class="panel-body cc-panel-body">
+            {# 
+                {% if isOpenPublicCourse() %}
+                    <div class="teaching-course-nav">
+                        <div class="course-status">
+                            <label><input type="radio" name="status" {% if app.request.get('center') != 1 %}checked{% endif %} onclick="window.location.href='{{ U('My/MyCourse/learning') }}'"/>{{privateCourseName()}}</label>
+                            <label><input type="radio" name="status" {% if app.request.get('center') == 1 %}checked{% endif %} onclick="window.location.href='{{ U('My/MyCourse/learning',{center:1}) }}'"/>{{publicCourseName()}}</label>
+                        </div>
+                    </div>
+                {% endif %}
+             #}
+            <div style="">{% include '@My/MyCourse/nav-pill.html.twig' %}</div>
+            {% if courses %}
+                {{ render(controller('Course:Course:coursesBlock', {courses:courses, view: 'grid', mode:'learn'})) }}
+                {{ web_macro.paginator(paginator) }} 
+            {% else %}
+                <div class="empty">暂无学习中的课程</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+
+
+

@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+    <div class="c-panel-heading">
+        <h3 class="panel-title">虚拟实验室</h3>
+    </div>
+    <div class="panel-body">
+        <div class="media-list announcement-list virtualLabShow">
+            {% set friendId = 1 %}
+            {% for key ,value in virtualLab.list %}
+                <div class="col-md-6"><a href="{{ virtualLab.list[key].url }}" target="_blank" title="{{ virtualLab.list[key].name }}"><i class="fa fa-desktop">&nbsp;&nbsp;</i>{{ virtualLab.list[key].name }}</a></div>
+                {% if friendId%2 == 0%}
+                    <div class="clearfix"></div>
+                {% endif %}
+                {% set friendId = friendId+1 %}
+                {% else %}
+                    <div class="empty">暂无</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,281 @@
+/*** 
+    * 全局通用属性
+ ***/
+html{width:100%;height:100%;}
+body{width:100%;height:100%;}
+body,div,span,a,img,iframe,form,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,em,var,strong,input,p,textarea,select,option,table,tr,td,button{margin:0;padding:0;font-family:Arial,"Microsoft YaHei","宋体";}
+ul,ol,li{list-style:none;}
+a{color:#333;}
+a:hover{color:#0078d0;}
+body{background:#f5f5f5;}
+i,em{font-style: normal;}
+.visible-lt-ie8 {display: none !important;}
+div{word-wrap:break-word;word-break:break-all;}
+
+body.firstpage{
+    background: #ffffff !important;
+}
+
+.text-overflow{
+    display:block;                     /*内联对象需加*/
+    width:31em;
+    word-break:keep-all;           /* 不换行 */
+    white-space:nowrap;          /* 不换行 */
+    overflow:hidden;               /* 内容超出宽度时隐藏超出部分的内容 */
+    text-overflow:ellipsis;         /* 当对象内文本溢出时显示省略标记(...) ；需与overflow:hidden;一起使用。*/
+}
+.clearBoth{
+    clear: both;
+}
+
+.mtss{margin-top: 2px;}
+.mts {margin-top: 5px;}
+.mtm {margin-top: 10px;}
+.mtm-100{margin-top: 100px;}
+.mtl {margin-top: 20px;}
+
+.mrs {margin-right: 5px;}
+.mrm {margin-right: 10px;}
+.mrl {margin-right: 20px !important;}
+
+.mbs {margin-bottom: 5px;}
+.mbm {margin-bottom: 10px;}
+.mbl {margin-bottom: 20px;}
+
+.mls {margin-left: 5px;}
+.mlm {margin-left: 10px;}
+.mll {margin-left: 20px;}
+
+.mhs {margin-left: 5px; margin-right: 5px;}
+.mhm {margin-left: 10px; margin-right: 10px;}
+.mhl {margin-left: 20px; margin-right: 20px;}
+
+.mvs {margin-top: 5px; margin-bottom: 5px;}
+.mvm {margin-top: 10px; margin-bottom: 10px;}
+.mvl {margin-top: 20px; margin-bottom: 20px;}
+
+
+.pts {padding-top: 5px;}
+.ptm {padding-top: 10px;}
+.ptl {padding-top: 20px;}
+
+.prs {padding-right: 5px;}
+.prm {padding-right: 10px;}
+.prl {padding-right: 20px;}
+
+.pbs {padding-bottom: 5px;}
+.pbm {padding-bottom: 10px;}
+.pbl {padding-bottom: 20px;}
+
+.pls {padding-left: 5px;}
+.plm {padding-left: 10px;}
+.pll {padding-left: 20px;}
+
+.phs {padding-left: 5px; padding-right: 5px;}
+.phm {padding-left: 10px; padding-right: 10px;}
+.phl {padding-left: 20px; padding-right: 20px;}
+
+.pvs {padding-top: 5px; padding-bottom: 5px;}
+.pvm {padding-top: 10px; padding-bottom: 10px;}
+.pvl {padding-top: 20px; padding-bottom: 20px;}
+
+.col-pl0{padding-left:0;}
+.col-pr0{padding-right:0;}
+
+.tac {text-align: center; }
+.tal {text-align: left; }
+.tar {text-align: right; }
+
+.fss {font-size: 10px;}
+.fsn {font-size: 12px;}
+.fsm {font-size: 14px;}
+.fsl {font-size: 16px;}
+.fsxl {font-size: 18px;}
+
+.f-lt{float:left;}
+.f-rt{float:right;}
+.pr0{padding-right:0 !important;}
+.border-bot{border-bottom:1px dotted #ddd;}
+.text-small {font-size: 10px;}
+.text-normal {font-size: 12px;}
+.text-medium {font-size: 14px;}
+.text-large {font-size: 16px;}
+.text-xlarge {font-size: 18px;}
+.ellipsis {color:#999;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.text-normal span{color:#999;}
+.empty {text-align: center;color: #999;padding: 20px 0;}
+
+
+@media (min-width: 1366px) {
+    .m-height{min-height:600px;}
+}
+
+@media (min-width: 1600px) {
+    .m-height{min-height:780px;}
+}
+
+.empty-center{
+    text-align: center;
+    color: #999;
+    padding: 200px 0;
+    background-color: #fff;
+    font-size: 20px;
+}
+
+
+/*** nav样式 ***/
+.nav-tabs{border:1px solid #e4e4e4;}
+.nav-tabs > li{margin-bottom: 0;border-top: 3px solid transparent;margin-top:-1px;margin-left: -1px;margin-right: 2px;}
+.nav-tabs > li > a{border-radius: 0;border-left: 1px solid transparent;border-right: 1px solid transparent;border-bottom: none;border-top:none;margin:0;font-size: 16px;padding: 15px 20px;}
+.nav-tabs > li.active{border-top: 3px solid #0078d0;}
+.nav-tabs > li > a:hover, .nav-tabs > li > a:focus{background: none;border-left: 1px solid transparent;border-right: 1px solid transparent;color:#0078d0;}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{border-left: 1px solid #e4e4e4;border-right: 1px solid #e4e4e4;border-bottom: none;border-top: none;color:#0078d0;}
+
+.nav-tabline{border-bottom: 1px solid #e4e4e4;}
+
+.nav-tabline li{float:left;border-bottom: 3px solid transparent;margin-bottom:-1px;}
+.nav-tabline li.active{border-bottom: 3px solid #0078d0;}
+.nav-tabline > li > a:hover, .nav-tabline > li > a:focus{background: none;color:#0078d0;}
+.nav-tabline > li.active > a, .nav-tabline > li.active > a:hover, .nav-tabline > li.active > a:focus{border: none;color:#0078d0;}
+
+
+/*** 面包屑导航 ***/
+.breadcrumb>li+li:before{content:">\009B";font-family: "宋体";font-weight:bold;}
+.breadcrumb > .active {color: #0078d0;}
+
+/*** 全局布局 ***/
+.index_container{width:100% !important;}
+.panel{border-radius: 0;border: none;-webkit-box-shadow: 0 1px 1px rgba(0,0,0,0);box-shadow: 0 1px 1px rgba(0,0,0,0);}
+.media:first-child {
+    margin-top: 15px;
+}
+.modal-body img {
+    max-width: 100%;
+}
+/*** 错误提示 ***/
+.bootstrap-notify-bar {position: fixed;top: 0px;left: 0;right: 0;border-radius: 0;text-align: center;z-index: 2000;padding: 10px;margin: 0;}
+.bootstrap-notify-bar .close {margin-left: 10px;}
+
+/*** 手机版本下载页面 ***/
+/*** h5页面 ***/
+.content{}
+.content .phone {float:left;}
+.content .phone span {width:516px;height:570px;margin:66px 0 0 70px;background:url(../img/iPhone-pic.png) 0 0 no-repeat;display:block}
+.content .con-school {float:right;width:40%;}
+.content .con-school .app-con-tit {margin-top:50%;overflow:hidden}
+.content .con-school .app-con-tit span {display:block;margin-right:45px;float:left;}
+.content .con-school .app-con-tit span img {height:60px;}
+.content .con-school .app-con-tit h1 {font-size:20px;float:left;line-height:60px;color:#fff;height:60px;width:250px;}
+.content .con-school .school-logo-text span img{width: 60px;height: 60px;}
+.content .con-school dl {margin-top:100px;overflow:hidden}
+.content .con-school dl dt {float:left;margin-right:20px;}
+.content .con-school dl dt img {width:130px;height:130px;}
+.content .con-school dl dd {float:left;}
+.content .con-school dl dd a {width:230px;height:50px;border:2px solid #fff;border-radius:10px;line-height:50px;font-size:20px;display:block;text-align:center;transition:all 0.2s ease;}
+.content .con-school dl dd a b {color:#fff;font-weight:normal;}
+.content .con-school dl dd a.android i {background:url(../img/android.png) 0 0 no-repeat;float:left;width:35px;height:35px;margin: 6px 0 0 20px;}
+.content .con-school dl dd a.iphone i {background:url(../img/iphone.png) 0 0 no-repeat;float:left;width:35px;height:35px;margin: 6px 0 0 20px;}
+.content .con-school dl dd a:hover {background-color:#406aff;cursor:pointer;text-decoration:none;}
+
+@media screen and (max-width: 1200px) {/*当屏幕尺寸小于1200px时，应用下面的CSS样式*/
+    .wrap {height:529px;width:1000px;margin:0 auto;}
+    .content .con-school {float:right;width:40%;}
+} 
+
+@media screen and (min-width: 992px) { /*当屏幕尺寸大于992px时，应用下面的CSS样式*/
+  .content .con-school dl dd a {width:200px;}
+  .wrap-bg{padding:100px 0 0px 0;background-color:#406aff;overflow:hidden; animation:myfirst 10s;
+  -moz-animation:myfirst 10s; /* Firefox */
+  -webkit-animation:myfirst 10s; /* Safari and Chrome */
+  -o-animation:myfirst 10s; /* Opera */
+  animation-iteration-count:infinite;}
+ .wrap {width:1000px;margin:0 auto;height:635px;}
+}
+
+@media screen and (max-width: 991px) { /*当屏幕尺寸小于991px时，应用下面的CSS样式*/
+    .wrap-bg{padding:0px 0 0px 0;background-color:#fff !important;  animation: inherit;}
+    .wrap {width:100%;background:none;height:auto}
+    .small-phone {background-color:#4e75ff;height:334px;overflow:hidden;}
+    .content .phone {float:none;background:url(../img/phone-small.gif) center 0 no-repeat;height:334px;width:100%;padding-top:30px;overflow: hidden;}
+    .wrap .content .phone span {display:none;}
+    /*.wrap .content .phone p {width: 320px;height: 344px; margin: 0;background:url(../images/phone-small3.gif) 0 0 no-repeat;}*/
+    .content .con-school {float:none;width:100%;padding-bottom:20px;}
+    .content .con-school .app-con-tit {margin:0;}
+    .content .con-school .app-con-tit span {display:none;}
+    .content .con-school .app-con-tit h1 {display:block;font-size:20px;color:#6384ff;text-align:center;width:100%;padding:0 20px;}
+    .content .con-school dl {margin-top:10px;}
+    .content .con-school dl dt {display:none;}
+    .content .con-school dl dd {float:none;width:100%;}
+    .content .con-school dl dd a {width: 230px;height: 50px;border: 1px solid #6384ff;border-radius: 10px;line-height: 50px;font-size: 20px;display: block;text-align: center;transition: all 0.2s ease;margin:0 auto;}
+    .content .con-school dl dd a.android i {background: url(../img/android-icon.png) 0 0 no-repeat;}
+    .content .con-school dl dd a b {color:#6384ff;}
+    .content .con-school dl dd a.iphone i {background: url(../img/iphone-icon.png) 0 0 no-repeat;}
+    .content .con-school dl dd a:hover {background-color:#fff;}
+    .panel-col .cc-found-content .cc-pic-list li{float:left;width:20%;}
+}
+
+.wrap .content .phone span{
+    position:relative;
+    animation:mymove 5s infinite;
+    animation-timing-function:linear;
+
+    /* Safari and Chrome */
+    -webkit-animation:mymove 5s infinite;
+    -webkit-animation-timing-function:linear;
+    }
+
+
+@keyframes mymove{
+    0%{left:0px;}
+    50% {left:50px;}
+    100%{left:0}
+}
+
+@-webkit-keyframes mymove /* Safari and Chrome */
+{
+    0%{left:0px;}
+    50% {left:50px;}
+    100%{left:0;}
+}
+
+@keyframes myfirst{
+    0% {background-color:#4E75FF;}
+    15% {background-color:#849FFF;}
+    35%{background-color:#2E5CFF;}
+    55%{background-color:#4E75FF;}
+    75%{background-color:#2E5CFF;}
+    95%{background-color:#849FFF;}
+    100%{background-color:#4E75FF;}
+}
+
+/* Firefox *//* Firefox */
+@-moz-keyframes myfirst {
+    0% {background-color:#4E75FF;}
+    15% {background-color:#849FFF;}
+    35%{background-color:#2E5CFF;}
+    55%{background-color:#4E75FF;}
+    75%{background-color:#2E5CFF;}
+    95%{background-color:#849FFF;}
+    100%{background-color:#4E75FF;}
+}
+
+@-webkit-keyframes myfirst /* Safari and Chrome */
+{
+    0% {background-color:#4E75FF;}
+    15% {background-color:#849FFF;}
+    35%{background-color:#2E5CFF;}
+    55%{background-color:#4E75FF;}
+    75%{background-color:#2E5CFF;}
+    95%{background-color:#849FFF;}
+    100%{background-color:#4E75FF;}
+}
+ /* Opera */
+@-o-keyframes myfirst{
+    0% {background-color:#4E75FF;}
+    15% {background-color:#849FFF;}
+    35%{background-color:#2E5CFF;}
+    55%{background-color:#4E75FF;}
+    75%{background-color:#2E5CFF;}
+    95%{background-color:#849FFF;}
+    100%{background-color:#4E75FF;}
+}

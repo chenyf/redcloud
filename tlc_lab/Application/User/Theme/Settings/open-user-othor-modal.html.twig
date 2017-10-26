@@ -1,0 +1,41 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set modal_class = '' %}
+
+{% block title %}
+    高校云互联操作
+{% endblock %}
+
+{% block body %}
+
+<form id="othorOpenUserForm" class="form-horizontal" method="post" 
+    action="{{U('User/Settings/editOpenUserState')}}"
+    novalidate="novalidate">
+    <div class="form-group" >
+        <div class="col-md-12 controls">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                   你确定要<span class="text-danger">{% if modaType=='delete' %}删除{% elseif modaType=='stop' %}禁用{% endif %}</span>这个应用么?
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+    <input id="id-field" type="hidden" name="id" value="{{id}}">
+    <input id="id-field" type="hidden" name="modaType" value="{{modaType}}">
+</form>
+  
+<script>
+    seajs.use(['/Public/assets/libs/openUser/othorUserManager'],function(){
+    });
+</script>
+
+{% endblock %}
+
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="othorOpenUserBtn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#othorOpenUserForm">确定</button>
+{% endblock %}
+
+{% set hideFooter = true %}

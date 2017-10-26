@@ -1,0 +1,36 @@
+{% set menu = 'testpaper' %}
+{% set title = '创建试卷'%}
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+{% import '@Home/macro.html.twig' as macro %}
+
+{% block title %}创建试卷 - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'testpaper/testpaper-form' %}
+
+
+{% block courseContent %}
+
+  <div class="panel-body" style="padding:15px 0;">
+
+    <form id="testpaper-form" class="form-horizontal" method="post" data-build-check-url="{{ path('course_manage_testpaper_build_check',{courseId:course.id,center:app.request.get('center')})}}" data-auto-submit="false" data-have-base-fields="true" data-have-build-fields="true" data-course-id="{{course.id}}">
+      {{ web_macro.flash_messages() }}
+
+      {% include '@Course/CourseTestpaperManage/testpaper-form-base-fields.html.twig'%}
+      {% include '@Course/CourseTestpaperManage/testpaper-form-build-fields.html.twig'%}
+
+      <div class="form-group">
+        <div class="col-md-8 col-md-offset-2 controls">
+          <button id="testpaper-create-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" >保存，下一步</button>
+          <a href="{{ path('course_manage_testpaper',{courseId:course.id,center:app.request.get('center')}) }}" class="btn btn-link  ">返回</a>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+{% endblock %}
+
+
+
+ 

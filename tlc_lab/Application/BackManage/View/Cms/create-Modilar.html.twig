@@ -1,0 +1,364 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+{% set modal_class = 'modal-lg' %}
+
+{% block title %}{{order.title}}{% endblock %}
+
+{% block body %}
+<meta http-equiv=”X-UA-Compatible” content=”IE=edge,chrome=1″ />
+<style>
+        .con{color: red;}
+    </style>
+    <form id="user-create-form" enctype="multipart/form-data" class="form-group" method="post" action="{{U('BackManage/Cms/addAttribute')}}">
+        <input type="hidden" value="{{order.id}}" name="cmsModId">
+        <input type="hidden" value="{{cmsId}}" name="cmsId">
+        <input type="hidden" value="{{order.cmsType}}" name="cmsType" id="cmsType">
+    {% if order.cmsType==3 %}
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="nickname">模块名称</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="title" name="nav"  data-type="addUser" value="{{order.title}}" class="form-control" >
+            </div>
+        </div>
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="nickname">课程名称</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="coursename" name="coursename" value="{{order.CourseName}}" data-type="addUser" class="form-control" >
+            </div>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="nickname">优惠价</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="Preferentialprice"  value="{{order.preferentialPrice}}" name="Preferentialprice" data-type="addUser" class="form-control" >
+            </div>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="nickname">购买按钮</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="ButtonDescribe" value="{{order.ButtonDescribe}}" name="ButtonDescribe" data-type="addUser" class="form-control" >
+            </div>
+        </div>
+
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="nickname">课程原价</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="yuanjia"  name="price" value="{{order.price}}"  class="form-control" >
+            </div>
+        </div>
+
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="nickname">按钮链接</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="buyurl" {% if order.buyUrl %}value="{{order.buyUrl}}"{% else %}value="http://"{% endif %} name="buyurl" data-type="addUser" class="form-control" >
+            </div>
+        </div>
+
+
+
+        <hr>
+        <span style="color:red;font-weight:bolder;font-size:16px">提示： </span><font color='#ADADAD'>你可以上传jpg, gif, png格式的文件,图片建议宽度为1170像素,文件大小不能超过500K。</font><br><br>
+        <div style="height:400px">
+             <div style=" height:350px;overflow-x:hide; overflow-y:auto;">
+               <table class="table table-striped">
+            <tbody id="increase" >
+                <tr>
+                    <td style="width:30%;vertical-align: initial;">
+                        <div class="form-group">
+                            <label for="nickname">请添加视频地址</label>
+                            <input type="text"   name="videoPath[]" value="http://" class="form-control" style="margin-left:0" ><br>
+                            <label for="nickname">图片地址</label>
+                            <input type="text" id="url_1" name="imgPath[]"  data-type="addUser" class="form-control" style="margin-left:0" >
+                        </div>
+                    </td>
+                    <td style="width:20%; text-align: center">
+                        <span class="btn" id="btn_1"> <a href="javascript:void(0)"> <i class="glyphicon glyphicon-picture"></i></a></span>
+                         <label for="nickname" style="margin-top:10px">选择本地图片</label>
+                      <hr>
+                     
+                                <input type="hidden" value="1" id="btnNum"/>
+                       
+                    </td>
+
+                    <td style="width:30%">
+                        <label for="nickname">请添加视频播放Id</label>
+                        <input type="text"   name="polyvVid[]" class="form-control" style="margin-left:0" ><br>
+                        <label for="nickname">请添加视频名称</label><br>
+                        <input type="text" id="title_1"  name="videotitle[]" class="form-control" style="margin-left:0" >
+
+
+                    </td>
+
+                    <td>
+                        <label for="nickname">操作</label><br><br>
+
+                        <a src="javascript:void(0)"  class="btn btn-default"> <i class="glyphicon glyphicon-remove"></i> </a>
+                        <div style="height:50px"></div>
+                    </td>
+                </tr>
+            </tbody>  
+            </table>
+              
+            
+            
+                 </div> <a  class="btn btn-primary pull-right" id="add">添加</a>
+        </div>
+
+        <span class="con" ></span>
+        <hr>
+
+
+
+
+        {% endif %}
+
+     {% if  order.cmsType==2%}
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="nickname">模块名称</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input type="text" id="title" name="nav" data-type="addUser" value="{{order.title}}" class="form-control" >
+            </div>
+        </div>
+        <hr>
+        <div>
+       {% for img in listTitle %}
+                <img src="{{img.picPath}}"  width="150px" height="90px">
+        {% endfor %}
+            </div>
+            <hr>
+            <span style="color:red;font-weight:bolder;font-size:16px">提示： </span><font color='#ADADAD'>你可以上传jpg, gif, png格式的文件,图片建议宽度为1170像素,文件大小不能超过500K。</font><br><br>
+           
+            <div style="height:400px">
+             
+                 <div style=" height:300px;overflow-x:hide; overflow-y:auto;">
+                  <table class="table table-striped">
+                    <tbody id="increase" >
+                           
+                        <tr>
+                            <td style="width:30%;vertical-align: initial;">
+                                <div class="form-group">
+                                    <label for="nickname">图片地址</label>
+                                    <input type="text" id="url_1" name="picPath[]"  data-type="addUser" class="form-control" style="margin-left:0" >
+                                </div>
+                            </td>
+                            <td style="width:20%; text-align: center"> 
+                                <span class="btn" id="btn_1"> <a href="javascript:void(0)"> <i class="glyphicon glyphicon-picture"></i></a></span> <label for="nickname" style="margin-top:10px">选择本地图片</label><hr>
+                               
+                                <input type="hidden" value="1" id="btnNum"/>
+                                <input type="hidden" value="2" name="img"/>
+                            </td>
+                            
+                            <td style="width:30%">
+                                <label for="nickname">链接地址</label><br>
+                                <input type="text" name="url[]" id="path_1" placeholder="http://（选填）" data-type="addUser" class="form-control" style="margin-left:0"><br><hr>
+                                <label for="nickname">选择背景颜色</label>
+                                <img src="/Public/assets/libs/colorpicker/colorpicker.png" class="jscolors {valueElement:'id'} " style="cursor:pointer;margin:0 0 0 10px;">
+                                
+                                <input id="id"  value="000000" name="color[]"  class="form-control" style="margin-left:0;">
+                       
+                            </td>
+                            <td>
+                               <label for="nickname">操作</label><br><br>
+                                
+                                <a src="javascript:void(0)"  class="btn btn-default"> <i class="glyphicon glyphicon-remove"></i> </a>
+                                <div style="height:50px"></div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+              
+                     </div>
+                  <a  class="btn btn-primary pull-right" id="add">添加</a>
+            </div>
+
+            <input type="hidden" value="{{order.cmsType}}" id="cmsType"/>
+
+
+            <span class="con" ></span>
+            
+    {% endif %}
+
+            
+            
+            
+            
+    {% if order.cmsType==1 %}{# 轮播 #}
+            <div class="row form-group">
+                <div class="col-md-3 control-label">
+                    <label for="nickname">模块名称</label>
+                </div>
+                <div class="col-md-7 controls">
+                    <input type="text" id="title" name="nav" data-type="addUser" value="{{order.title}}" class="form-control" >
+                    <input type="hidden" name="shuffling"  value="1">
+                </div>
+            </div>
+            <hr>
+            <div>
+       {% for img in listTitle %}
+                    <img src="{{img.picPath}}"  width="150px" height="90px">
+        {% endfor %}
+                </div>
+
+            <hr>
+            <span style="color:red;font-weight:bolder;font-size:16px">提示： </span><font color='#ADADAD'>你可以上传jpg, gif, png格式的文件,图片建议宽度为1170像素,并且图片高度需要一致,文件大小不能超过500K。</font><br><br>
+            <div style="height:400px">
+                <div style=" height:350px;overflow-x:hide; overflow-y:auto;">
+                <table class="table table-striped">
+                    <tbody id="increase">
+                        
+                         <tr>
+                            <td style="width:30%;vertical-align: initial;">
+                                <div class="form-group">
+                                    <label for="nickname">图片地址</label>
+                                    <input type="text" id="url_1" name="picPath[]" data-type="addUser" class="form-control" style="margin-left:0" >
+                                </div>
+                            </td>
+                            <td style="width:20%; text-align: center">
+                                 
+                                <span class="btn" id="btn_1"> <a href="javascript:void(0)"> <i class="glyphicon glyphicon-picture"></i></a></span><label for="nickname" style="margin-top:10px">选择本地图片</label><br>
+                                
+                                <input type="hidden" value="1" id="btnNum"/>
+                            </td>
+
+                            <td style="width:30%">
+                                <label for="nickname">链接地址</label><br>
+                                <input type="text" name="url[]" id="path_1" placeholder="可选填" value="http://" data-type="addUser" class="form-control" style="margin-left:0"><br><br>
+                                <label for="nickname">选择背景颜色</label>
+                                <img src="/Public/assets/libs/colorpicker/colorpicker.png" class="jscolors {valueElement:'id'} " style="cursor:pointer;margin:0 0 0 10px;">
+                                <input id="id"  value="000000" name="color[]"  class="form-control" style="margin-left:0;">
+
+                            </td>
+                            <td>
+                                <label for="nickname">操作</label><br><br>
+                              
+                                <a src="javascript:void(0)"  class="btn btn-default"> <i class="glyphicon glyphicon-remove"></i> </a>
+                                <div style="height:50px"></div>
+                            </td>
+                        </tr>
+
+                    
+
+                        
+                      
+                    </tbody>
+                    
+                    
+                    
+                    
+                </table>
+
+               
+                <br>                    
+                    
+                
+            </div>
+                     <a  class="btn btn-primary pull-right" id="add">添加</a>
+                    
+            </div>
+            <input type="hidden" value="{{order.cmsType}}" id="cmsType"/>
+
+
+        
+
+            <br>
+            <span class="con"> </span>
+    {% endif %}
+
+
+            
+            
+            
+            
+            
+            
+            
+    {% if order.cmsType==0 %}
+            <div class="row form-group">
+                <div class="col-md-3 control-label">
+                    <label for="nickname">模块名称</label>
+                </div>
+                <div class="col-md-7 controls">
+                    <input type="text" id="title" name="nav" data-type="addUser" value="{{order.title}}" class="form-control" >
+                </div>
+            </div><hr>
+            <div id="navigation" >
+              
+        {% if list %}
+        {% for title in listTitle %}
+              
+                <span class='navigation'>
+                    <input type="hidden"  name="anchorId[]"  value="{{title.anchorId}}"/>
+                   <input type="button"  value='{{title.title}}'>&nbsp;&nbsp;
+                    
+                    <input type="hidden" value="{{title.title}}" name="title[]">
+                    <input type="hidden" value="{{title.sort}}" name="sort[]">
+                </span>
+            {% endfor %}
+ 
+{% else %}
+{% endif %}
+
+
+            </div>
+
+            <hr>
+
+
+{% endif %}
+        </form>
+    {% if order.cmsType==0 %}
+        <input type="hidden" value="{{order.id}}" id="nav">
+    {% for  info in list%}
+
+        <span class="choose">
+            
+             <input type="hidden" value="{{info.id}}" name="anchorId[]">
+            <input type="button" id="{{info.id}}" value='{{info.title}}'>
+            <input type="hidden" value="{{info.title}}" name="title[]">
+
+            <input type="hidden" value="{{info.sort}}" name="sort[]">
+    
+        </span>
+
+
+        {% endfor %}
+        <br><div><span class="con">点击选择导航</span></div>
+    {% endif %}
+            <script>
+                var ajaxPhoto = "{{U('BackManage/Cms/ajaxPhoto')}}";
+                var ajaxDeleteNav = "{{U('BackManage/Cms/ajaxDeleteNav')}}";
+
+                </script>
+
+
+{% endblock %}
+
+
+{% block footer %}
+                <button id="user-create-btn" data-submiting-text="正在提交" type="submit" class="btn ajax-click btn-primary pull-right" data-toggle="form-submit" data-target="#user-create-form">提交</button>
+                <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+                <script>app.load('cms/create')</script>
+               
+
+{% endblock %}

@@ -1,0 +1,46 @@
+<li class="item-chapter {% if chapter.type == 'unit' %}item-chapter-unit{% else %}item-chapter-chapter{% endif %} clearfix {% if chapter.show == 0 and deploy == false %}hide{% endif %} c-item-chapter" id="chapter-{{ chapter.id }}" data-id="{{ chapter.id }}" data-pid="{{ chapter.parentId }}">
+    {% if chapter.parentId == 0 and chapter.child and deploy == false %}
+        <span class="pull-right lesson-hour" style="color: #666;padding-right: 10px;"></span>
+        <em class="deploy pull-right fa {% if chapter.seq == 1 %}fa-minus {% else %}fa-plus {% endif %} "></em>
+    {% elseif chapter.parentId == 0 %}
+        <span class="pull-right lesson-hour" style="color: #666;padding-right: 10px;">0</span>
+    {% endif %}
+    {% if chapter.type == 'unit' %}<div class="item-line item-line-chapter"></div>{% endif %}
+    <div class="item-content pull-left">
+        {% if chapter.type == 'unit' %}<i class="fa fa-file-text-o pull-left"></i> {% else %} <i class="fa fa-list-ul deploy pull-left"></i>{% endif %}第 <span class="number">{{ chapter.number }}</span>{% if chapter.type == 'unit' %}{% if setting('default.part_name') %}{{setting('default.part_name')|default('节')}}{% else %}节{% endif %}{% else %}{% if setting('default.chapter_name') %}{{setting('default.chapter_name')|default('章')}}{% else %}章{% endif %}{% endif %}： {{ chapter.title }}
+    </div>
+    <div class="item-actions prs">
+        <div class="btn-group">
+            <button class="btn btn-link dropdown-toggle"   data-toggle="dropdown"><i class="glyphicon glyphicon-plus-sign"></i>添加</button>
+            {% if chapter.type == 'unit' %}
+                <ul class="dropdown-menu" role="menu" style="top:29px">
+                    <li>
+                        <a class="chapter-create-class" href="#" id="chapter-create-btn" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-url="{% if course.type == 'normal' %}{{ path('course_manage_lesson_create', {id:course.id, parentId:'chapter-'~chapter.id,center:app.request.get('center')}) }}{% else %}{{ path('live_course_manage_lesson_create', {id:course.id, parentId:'chapter-'~chapter.id,center:app.request.get('center')}) }}{% endif %}"><i class="glyphicon glyphicon-plus"></i> 添加 课程内容 </a>
+                    </li>
+                    {% if course.type == 'normal' %}
+                    <li>
+                        <a class="chapter-create-class" id="chapter-create-btn"  data-toggle="modal" data-target="#modal" data-url="{{ U('/Course/CourseTestpaperManage/createCourseLessonAction', {courseId:course.id,type:2,parentId:'chapter-'~chapter.id,center:app.request.get('center')}) }}" ><i class="glyphicon glyphicon-plus"></i> 练习</a>
+                    </li>
+                    {% endif %}
+                </ul>
+             {% else %}
+                <ul class="dropdown-menu" role="menu" style="top:29px">
+                    <li>
+                        <a class="chapter-create-class" href="#" id="chapter-create-btn" data-id="{{ chapter.id }}" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-url="{{ path('course_manage_chapter_create', {id:course.id, type:'unit', parentId:'chapter-'~chapter.id,center:app.request.get('center')}) }}"><i class="glyphicon glyphicon-plus"></i> 添加 {% if setting('default.part_name') %}{{setting('default.part_name')|default('节')}}{% else %}节{% endif %} </a>
+                    </li>
+                    <li>
+                        <a class="chapter-create-class" href="#" id="chapter-create-btn" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-url="{% if course.type == 'normal' %}{{ path('course_manage_lesson_create', {id:course.id, parentId:'chapter-'~chapter.id,center:app.request.get('center')}) }}{% else %}{{ path('live_course_manage_lesson_create', {id:course.id, parentId:'chapter-'~chapter.id,center:app.request.get('center')}) }}{% endif %}"><i class="glyphicon glyphicon-plus"></i> {% if course.type == 'normal' %} 添加 课程内容 {% else %} 添加 直播课程内容 {% endif %} </a>
+                     </li>
+                    {% if course.type == 'normal' %}
+                    <li>
+                        <a class="chapter-create-class" id="chapter-create-btn" data-toggle="modal" data-target="#modal" data-url="{{ U('/Course/CourseTestpaperManage/createCourseLessonAction', {courseId:course.id,type:2,parentId:'chapter-'~chapter.id,center:app.request.get('center')}) }}" ><i class="glyphicon glyphicon-plus"></i> 练习</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            {% endif %}	
+        </div>
+        <button class="btn btn-link"  data-toggle="modal" data-target="#modal" data-keyboard="false" data-url="{{ path('course_manage_chapter_edit', {courseId:course.id, chapterId:chapter.id,center:app.request.get('center')}) }}"><i class="glyphicon glyphicon-pencil"></i>编辑</button>
+        <button class="btn btn-link delete-chapter-btn"  data-url="{{ path('course_manage_chapter_delete', {courseId:course.id, chapterId:chapter.id,center:app.request.get('center')}) }}" data-chapter="{{default.chapter_name|default('章')}}" data-part="{{default.part_name|default('节')
+        }}"><i class="glyphicon glyphicon-trash"></i>删除</button>
+    </div>
+</li>

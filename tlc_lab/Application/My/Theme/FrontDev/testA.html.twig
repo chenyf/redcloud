@@ -1,0 +1,191 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  {# <meta http-equiv="X-UA-Compatible" content="IE=edge"> #}
+  <meta http-equiv="X-UA-Compatible" content="IE=7;IE=9;IE=10;IE=Edge;IE=8">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    {%- block title -%}
+      {{ setting('site.name', 'redcloud') }}{% if setting('site.slogan') %} - {{ setting('site.slogan') }}{% endif %}{% if not setting('copyright.owned') %} - Powered by redcloud{% endif %}
+    {%- endblock -%}
+  </title>
+  <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+  <meta name="description" content="{% block description %}{% endblock %}" />
+  <meta content="{{ csrf_token('site') }}" name="csrf-token" />
+  {{ setting('login_bind.verify_code', '')|raw }}
+  {% if setting('site.favicon') %}
+  <link href="{{ asset(setting('site.favicon')) }}" rel="shortcut icon" />
+  {% endif %}
+  {% block stylesheets %}
+    <link href="{{ asset('assets/libs/gallery2/bootstrap/3.1.1/css/bootstrap.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" media="screen" href="{{ asset('assets/css/common.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('assets/css/bootstrap-extends.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('themes/default/css/class-default.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/web.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/member.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/redcloud.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/poster.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('assets/css/font-awesome.min.css') }}?{{ getVersion() }}" />
+    {#<link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/global.css') }}?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('themes/redcloud-all/css/redcloud.css') }}" />#}
+    <link rel="stylesheet" media="screen" href="/loadCss/themes/redcloud-all/css/redcloud.css,bundles/web/css/global.css?{{ getVersion() }}" />
+    <link rel="stylesheet" media="screen" href="{{ asset('bundles/web/css/bid.css') }}?{{ getVersion() }}" />
+    <!--[if lt IE 8]>
+      <link href="{{ asset('assets/css/oldie.css') }}" rel="stylesheet">
+    <![endif]-->
+  {% endblock %}
+  <!--[if lt IE 9]>
+    <script src="{{ asset('assets/libs/html5shiv.js') }}"></script>
+  <![endif]-->
+
+  <!--[if IE 8]>
+    <script src="{{ asset('assets/libs/respond.min.js') }}"></script>
+  <![endif]-->
+
+  {% block head_scripts %}{% endblock %}
+
+
+</head>
+<script>
+	window.webVersion = "{{ getVersion() }}";
+</script>
+<body>
+    
+<div class="footer-box">
+    <div class="footer-top-con">
+        <div class="container">
+            <div class="blogroll-box">
+                <h2><img src="/Public/static/img/blogroll-img.png"/>友情链接</h2>
+            </div>
+        </div>
+    </div>
+</div>    
+    
+    
+    
+{# 渠道落地页前台展示界面 #}
+<div class="landing-page-template">
+    {# 左右轮播图效果 #}
+    <div class="scroll-main-box">
+        <div class="scroll-main-con">  <!-- scroll-main-one宽度需要判断 -->
+            <div class="scroll-main-img" style="background-color:#1c9425;"><div class="container"><a href="###"><img src="/Public/bundles/web/img/landing-img1.png" /></a></div></div>
+        </div>
+        <div class="scroll-prevbtn"><i class="glyphicon glyphicon-menu-left"></i></div>
+        <div class="scroll-nextbtn"><i class="glyphicon glyphicon-menu-right"></i></div>
+        <div class="scroll-btn"><span class="active"></span><span></span><span></span></div>
+    </div>
+    
+    {# 购买模块 #}    
+    <div class="buy-video-box mtl">
+        <div class="container">
+            <div class="listening-content">
+                <div class="row c-listencon">
+                    <ul class="c-listen-list">
+                        <li>
+                            <div class="v-pic">
+                                <a href="###"><img src="/Public/bundles/web/img/course-default1.jpg"/></a>
+                                <div class="playbtn"><i class="glyphicon glyphicon-play-circle"></i></div>
+                            </div>
+                            <p><a href="###">面向对象的基础面向对象的基础面向对象的基础</a></p>
+                        </li>
+                       <li>
+                            <div class="v-pic">
+                                <a href="###"><img src="/Public/bundles/web/img/course-default1.jpg"/></a>
+                                <div class="playbtn"><i class="glyphicon glyphicon-play-circle"></i></div>
+                            </div>
+                            <p><a href="###">面向对象的基础面向对象的基础面向对象的基础</a></p>
+                        </li>
+                        <li>
+                            <div class="v-pic">
+                                <a href="###"><img src="/Public/bundles/web/img/course-default1.jpg"/></a>
+                                <div class="playbtn"><i class="glyphicon glyphicon-play-circle"></i></div>
+                            </div>
+                            <p><a href="###">面向对象的基础</a></p>
+                        </li>
+                        <li>
+                            <div class="v-pic">
+                                <a href="###"><img src="/Public/bundles/web/img/course-default1.jpg"/></a>
+                                <div class="playbtn"><i class="glyphicon glyphicon-play-circle"></i></div>
+                            </div>
+                            <p><a href="###">面向对象的基础</a></p>
+                        </li>
+                        <li>
+                            <div class="v-pic">
+                                <a href="###"><img src="/Public/bundles/web/img/course-default1.jpg"/></a>
+                                <div class="playbtn"><i class="glyphicon glyphicon-play-circle"></i></div>
+                            </div>
+                            <p><a href="###">面向对象的基础</a></p>
+                        </li>
+                    </ul>
+                </div>
+                <div class="video-scroll-btn prevBtn"><i class="glyphicon glyphicon-menu-left"></i></div>
+                <div class="video-scroll-btn nextBtn"><i class="glyphicon glyphicon-menu-right"></i></div>
+            </div>
+            <div class="buy-course-con mtl mbl">
+                <div class="group-jy-con row">
+                    <div class="group-lt-new col-md-8">
+                        <div class="jy-current-course mtl"><p>iOS9企业项目实战开发工程师（Swift加强版）</p></div>
+                    </div>
+                    <div class="group-rt-new col-md-4">
+                        <div class="price-box pull-right">
+                            <span>优 惠 价：<b>2300元</b></span>
+                            <span class="old-price">原　　价：<b>4300元</b></span>
+                            <span>立即节省：<i>2000元</i></span>
+                            <a class="btn btn-fat btn-primary mtm" href="###">报名学习</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {# 落地页快速导航 #}
+    <div class="quick-Navigation">
+        <div class="container">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-content" aria-expanded="false" aria-controls="nav-content">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="nav-content collapse" id="nav-content">
+		<a class="active" href="###">课程试听听听听</a><a href="###">课程特色色色色</a><a href="###">面向职位位位位</a><a href="###">课程大纲纲纲纲</a><a href="###">师资力量量量量</a><a href="###">服务保障障障障</a><a href="###">服务保障障障障</a>
+            </div>
+        </div>    
+    </div>  
+    
+    {# 图片模块 #}
+    <div class="picture-global-box">
+        <div class="picture-global-item" style="background-color:#12babb;">
+            <div class="container">
+                <img src="/Public/bundles/web/img/landing-img1.png"/>
+            </div>
+        </div>
+        <div class="picture-global-item" style="background-color:#5a7cfa;">
+            <div class="container">
+                <img src="/Public/bundles/web/img/cloud-banner1_5a7cfa.png"/>
+            </div>
+        </div>
+    </div>
+    <div class="picture-global-box">
+        <div class="picture-global-item" style="background-color:#12babb;">
+            <div class="container">
+                <img src="/Public/bundles/web/img/landing-img1.png"/>
+            </div>
+        </div>
+        <div class="picture-global-item" style="background-color:#5a7cfa;">
+            <div class="container">
+                <img src="/Public/bundles/web/img/cloud-banner1_5a7cfa.png"/>
+            </div>
+        </div>
+    </div>  
+</div>
+{% include '@Home/script_boot.html.twig' with {script_main: asset('bundles/web/js/app.js')} %}
+</body>
+</html>
+

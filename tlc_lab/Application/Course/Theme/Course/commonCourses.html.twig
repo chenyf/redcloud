@@ -1,0 +1,269 @@
+{#% extends '@Home/Default/layout.html.twig' %#}
+{% extends getTwigExtendsStr('/Default/layout.html.twig',"@Web") %}
+{% set siteNav = '/Course/Course/exploreAction' %}
+
+{% block title %}{% if not category.id %}全部课程{% else %}{{ category.name }} 课程{% endif %} 第{{ app.request.get('page', 1) }}页- {{ parent() }}{% endblock %}
+
+{% block keywords %}{% if category.id %}{{ category.name }}{% endif %} {{ setting('site.name') }}{% endblock %}
+{% block description %}{% if category.id %}{{ category.name }}的{% endif %}课程列表，第{{ app.request.get('page', 1) }}页。{% endblock %}
+
+{% block content %}
+    <div class="row row-3-9 mtl mbl">
+        <div class="col-md-3">
+            <div class="common-courses-nav">
+                <span class="common-coursrs-tit"><em>&gt;</em>职业课</span>
+                <div class="common-courses-sort">
+                    <ul>
+                        <li class="">{# class为“active”时为展开状态 #}
+                            <span><i>&gt;</i><a href="###">移动开发 嵌入式</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>录播课程</h4>
+                                <div class="department-course-con">
+                                    <a href="###">iOS移动开发</a>
+                                    <a href="###">Android开发</a>
+                                    <a href="###">ARM开发</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">云 系统管理 运维</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>录播课程</h4>
+                                <div class="department-course-con">
+                                    <a href="###">RHCE认证</a>
+                                    <a href="###">RHCA认证</a>
+                                    <a href="###">Hadoop</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">网络 Windows IT管理</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>录播课程</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">网络 Windows IT管理</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>录播课程</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">网络 Windows IT管理</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>录播课程</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">网络 Windows IT管理</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>录播课程</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">网络 Windows IT管理</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>录播课程</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">网络 Windows IT管理</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>录播课程</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">网络 Windows IT管理</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>录播课程</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="common-courses-nav">
+                <span class="common-coursrs-tit"><em>&gt;</em>高校课</span>
+                <div class="common-courses-sort">
+                    <ul>
+                        <li class="">
+                            <span><i>&gt;</i><a href="###">哲学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>哲学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">iOS移动开发</a>
+                                    <a href="###">Android开发</a>
+                                    <a href="###">ARM开发</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">经济学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>经济学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">RHCE认证</a>
+                                    <a href="###">RHCA认证</a>
+                                    <a href="###">Hadoop</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <span><i>&gt;</i><a href="###">法学</a></span>
+                            <div class="department-course-box subContent" style="">
+                                <h4>法学</h4>
+                                <div class="department-course-con">
+                                    <a href="###">Cisco</a>
+                                    <a href="###">微软认证</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9" style="padding:0;">
+            <div class="common-course-search mbm">
+                <form>
+                    <div class="input-group">
+                        <input style="height:45px" type="text" class="form-control" placeholder="课程搜索">
+                        <span class="input-group-btn">
+                        <button style="height:45px" class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                        </span>
+                    </div>
+                </form>
+            </div> 
+            <div class="col-md-12 course-index">
+                {#% if category.id != null and category.description != null %}
+                    <div class="page">
+                        {{ category.description }}
+                    </div>
+                {% endif %#}
+
+                {% if courses %}
+                    {{ render(controller('Course:Course:coursesBlock', {courses:courses, view: 'list'})) }}
+                    {{ web_macro.paginator(paginator) }}
+                {% else %}
+                    <div class="empty">该分类下无课程</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

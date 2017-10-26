@@ -1,0 +1,48 @@
+{%if create == '1' %}
+    {% set extendPage="setcourseLayout" %}
+{% else %}
+    {% set extendPage="courseLayout" %}
+{% endif %}
+{% extends "@Course/CourseManage/"~extendPage~".html.twig" %}
+{% set side_nav = 'my-teaching-courses' %}
+{% set menu = 'detail' %}
+{% set script_controller = 'course-manage/detail' %}
+
+{% block courseForm %}
+    <div class=" cc-found-content">
+    <form class="form-horizontal" id="course-form" action="{{ path('course_manage_detail', {id:course.id,center:app.request.get('center'),create:create}) }}" method="post">
+        <div class="form-group">
+            <div class="col-md-2 control-label"><label>课程简介</label></div>
+            <div class="col-md-8 controls">
+                <textarea name="about" rows="10" id="course-about-field" class="form-control" data-image-upload-url="{{ path('editor_upload', {token:upload_token('course')}) }}" >{{ field_value(course, 'about') }}</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-2 control-label"><label>选择课程图片</label></div>
+            <div class="col-md-8 controls">
+                {% set posterList = loadDefaultCoursePoster() %}
+                <ul class="cc-pic-list" id="course-pic">
+                    <li class="col-md-2 pic-list {% if course.selectPicture not in [posterList[0] , posterList[1] , posterList[2]] %} active {% endif %}"><span class="c-icon-checkd {% if course.selectPicture in [posterList[0] , posterList[1] , posterList[2]] %}hide {% endif %}" aria-hidden="true"></span><img class="course-picture" {% if course.selectPicture in [ "",posterList[0], posterList[0], posterList[0]] %}   src="{{ default_path('coursePicture',course.largePicture, 'large') }} "  data-value=""{% else %} src="{{ course.selectPicture }} "  data-value="{{course.selectPicture}}" {% endif %} alt="{{ course.title }}" width="100%"></li>
+                    <li class="col-md-2 pic-list {% if course.selectPicture == posterList[0] %}active {% endif %}"><span class="c-icon-checkd {% if course.selectPicture != posterList[0] %}hide {% endif %}" aria-hidden="true"></span><img class="course-picture"  src="{{ posterList[0] }}" data-value="{{ posterList[0] }}" width="100%"></li>
+                    <li class="col-md-2 pic-list {% if course.selectPicture == posterList[1] %}active {% endif %}"><span class="c-icon-checkd {% if course.selectPicture != posterList[1] %}hide {% endif %}" aria-hidden="true"></span><img class="course-picture"  src="{{ posterList[1] }}" data-value="{{ posterList[1] }}"  width="100%"></li>
+                    <li class="col-md-2 pic-list {% if course.selectPicture == posterList[2] %}active {% endif %}"><span class="c-icon-checkd {% if course.selectPicture != posterList[2] %}hide {% endif %}" aria-hidden="true"></span><img class="course-picture"  src="{{ posterList[2] }}" data-value="{{ posterList[2] }}"  width="100%"></li>
+                    <li class="col-md-2 c-more-img"><a href="javascript:;" id="addpicture" data-url="/Course/CourseManage/pictureAutoAction/id/{{ course.id }}/tab/0//center/{{ app.request.get('center') }}" data-backdrop="static" data-toggle="modal" data-target="#modal">更多图片 &gt;</a></li>
+                </ul>
+                <div class="c-add-img">
+                            <a href="javascript:;"   data-url="/Course/CourseManage/pictureAutoAction/id/{{course.id}}/tab/1/center/{{app.request.get('center')}}" data-backdrop="static" data-toggle="modal" data-target="#modal">＋ 添加本地图片</a>
+                </div> 
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-8 controls text-right">
+                <a class="btn btn-fat btn-default" href="{{ path('course_manage_base', {id:course.id,center:app.request.get('center'),create:create}) }}">上一步</a><button class="btn btn-fat btn-primary mll" id="course-create-btn" type="submit">保存，并下一步</button>
+            </div>
+        </div>
+        <input type="hidden" id="selectPicture" name="selectPicture" value="" />
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+    </form>
+    </div>
+{% endblock %}
+
+
+

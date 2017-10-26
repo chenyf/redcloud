@@ -1,0 +1,46 @@
+{% set side_nav = 'my-teaching-courses' %}
+{% set menu = 'publish' %}
+{%if create == '1' %}
+    {% set extendPage="setcourseLayout" %}
+{% else %}
+    {% set extendPage="courseLayout" %}
+{% endif %}
+{% extends "@Course/CourseManage/"~extendPage~".html.twig" %}
+{% set script_controller = 'course-manage/header' %}
+{% block courseForm %}
+    <div class=" cc-found-content">
+    <form class="form-horizontal" id="course-form" method="post">
+        <div class="form-group text-center">
+            <div class="c-found-succeed text-success">
+                {%if create == '1' %}
+                    <span class="glyphicon glyphicon-ok-circle text-success c-icon-success" aria-hidden="true"></span>创建课程成功，可对课程进行更多设置
+                {% else %}
+                    更多课程设置
+                {% endif %}
+            </div>
+            {%if create == '1' %}<p style="color:#ccc;">（完成设置后，请点击发布课程，学生将能看到课程，也可稍后发布）</p>{% endif %}
+        </div>
+        <div class="form-group c-other-set">
+            <p><a class="btn btn-sm" href="{{ path('course_manage_lesson', {id:course.id,create:create}) }}">课程内容设置</a>可创建课程章/节，并添加课程内容，课程内容支持上传视频/文档或添加图文/练习等。</p>
+            <p><a class="btn btn-sm" href="{{ U('Course/CourseQuestionManage/index',{courseId:course.id}) }}">题库设置</a>可创建试题，将试题组成试卷，将试卷用作(课程内容)练习、布置(授课班)作业与考试。</p>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-8 controls text-right">
+                <a class="btn btn-fat btn-default" href="{{ path('course_manage_detail', {id:course.id,create:create}) }}">上一步</a>
+                <a class="btn btn-fat btn-default mll" href="{{ path('course_show', {id:course.id, previewAs:'member'}) }}" target="_blank">预览课程</a>
+                {% if course.status != 'published' %}
+                    <button class="btn btn-fat btn-primary mll course-publish-btn" id="course-create-btn" type="button" data-url="{{ path('course_manage_publish', {id:course.id}) }}" data-goto="{{path('my_teaching_courses')}}">发布课程</button>
+                {% endif %}
+                {% if course.status == 'published' %}
+                    <button class="btn btn-fat btn-primary mll course-close-btn"  type="button" data-url="{{ path('course_manage_close', {id:course.id,center:app.request.get('center')}) }}">关闭课程</button>
+                {% endif %}
+            </div>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+    </form>
+    </div>
+{% endblock %}
+
+
+

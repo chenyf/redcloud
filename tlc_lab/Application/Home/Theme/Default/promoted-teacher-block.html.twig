@@ -1,0 +1,28 @@
+{% if teacher %}
+<!--名师风采-->
+<div class="bgcolor-white">
+    <div class="es-box container">
+        <div class="es-box-tit">
+            <h2><b><i><img src="/Public/static/img/icon/ms-icon.png"></i>名师风采</b></h2>
+        </div>
+        <div class="es-box-body es-teacher-box">
+        {% for teacherItem in teacher %}
+                {%if  loop.index <=4 %}
+                    <div class="promoted-teacher col-md-3 col-sm-4 col-xs-6">
+                        <div class="promoted-teacher-con clearfix">
+                            <a class="teacher-pic" href="{{ path('user_show', {id:teacherItem.id}) }}"><img src="{{ user_default_path(teacherItem.id, 'middle') }}" class="avatar"></a>
+                            <a class="nickname" href="{{ path('user_show', {id:teacherItem.id}) }}">{{ teacherItem.nickname }}</a>
+                            <div class="title">{{ teacherItem.title }}</div>
+                            <div class="about"><p>{{ teacherItem.about|plain_text(100) }}</p></div>
+                            <div class="promoted-btn"><a href="{{ path('user_show', {id:teacherItem.id}) }}">MORE</a></div>
+                        </div>
+                    </div>
+              {%endif%}
+        {% endfor %} 
+        </div>
+       <div class="second-course-btn">
+            <a href="/Home/teacher/"><b>更多名师</b><i>&gt;</i></a>
+        </div>
+    </div>
+</div>
+{% endif %}

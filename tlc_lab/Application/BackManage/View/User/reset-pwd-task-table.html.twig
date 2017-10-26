@@ -1,0 +1,71 @@
+{% import '@BackManage/macro.html.twig' as admin_macro %}
+<style>
+.tooltip .tooltip-inner{max-width: 350px}
+</style>
+<tr id="reset-pwd-task-table-tr-{{ task.key }}">
+    <td>
+        <span class="text-sm">{{ getUserNameById(task.uid) }}</span>
+    </td>
+    <td>
+        <span class="text-sm">
+            {% if task.time %}
+                {{ task.time|date('Y-n-d H:i:s') }}
+            {% else %}
+                -
+            {% endif %}
+        </span>
+    </td>
+    <td>
+        {% if task.type == "all" %}
+            <span class="text-sm">全校师生</span>
+        {% else %}
+            {% if task.names %}
+                {% set title = "" %}
+                {% for name in task.names %}
+                    {% set title = title~name~"<br/>" %}
+                {% endfor %}
+            {% else %}
+                {% set title = "无记录" %}
+            {% endif %}
+            <a href="javascript:void(0)" style="text-decoration:none" class="text-sm" data-toggle="tooltip" data-placement="top" data-animation="false" data-original-title="{{ title }}">导入用户记录
+            </a>
+        {% endif %}
+    </td>
+    <td>
+        <span class="text-sm">
+            {% if task.count %}{{task.count}}
+            {% else %}0
+            {% endif %}个
+        </span>
+    </td>
+    <td>
+        {% if task.status == "0" %} <span class="text-sm" style="color:#E26965">未开始</span>{% endif %}
+        {% if task.status == "1" %}<span class="text-sm" style="color:blue">进行中</span>{% endif %}
+        {% if task.status == "2" %}<span class="text-sm" style="color:red">被终止</span>{% endif %}
+        {% if task.status == "3" %}<span class="text-sm" style="color:green">已结束</span>{% endif %}
+    </td>
+    <td>
+        <div class="btn-group">
+            <a href="#modal" data-backdrop="static" data-toggle="modal" data-url="/BackManage/User/showTaskUserAction/key/{{task.key}}" class="btn btn-default btn-sm">查看历史</a>
+            {% if task.status == "1" %}
+            <a href="#modal" data-backdrop="static" data-toggle="modal" data-url="/BackManage/User/seeTaskUserAction/key/{{task.key}}" class="btn btn-default btn-sm">实时查看</a>
+            {% endif %}
+            <a href="javascript:void(0);" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                {% if task.status in ['0','2','3'] %}
+                <li data-type="start" data-key="{{task.key}}" data-url="{{path('admin_update_reset_pwd_task_status')}}">
+                    <a href="javascript:void(0)">开始任务</a>
+                </li>
+                {% endif %}
+                {% if task.status in ['0','1'] %}
+                <li data-type="kill" data-key="{{task.key}}" data-url="{{path('admin_update_reset_pwd_task_status')}}">
+                    <a href="javascript:void(0)">终止任务</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+   </td>
+</tr>
+

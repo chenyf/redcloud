@@ -1,0 +1,19 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set menu = 'cms' %}
+{% block title %}预览地址{% endblock %}
+{% block body %}
+
+    <div class="row form-group">
+        <div class="col-md-2 control-label">
+         <label>预览地址</label>
+       </div> 
+        <div class="col-md-9 controls">
+            <input type="text" id="browse" name="browse" class="form-control" value="{{test~U('Course/CourseLanding',{ id:id })}}">
+        </div>
+    </div> 
+  
+{% endblock %}
+
+{#{% block footer %}
+  <script>app.load('cms/create_list')</script>
+{% endblock %}#}

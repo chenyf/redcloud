@@ -1,0 +1,88 @@
+{% extends '@Home/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/layout.html.twig',"@Web")%#}
+{% block title %}我的学习 - {{ parent() }}{% endblock %}
+
+{% block content %}
+    {{ render(controller('My:My:avatarAlert')) }}
+
+    <div class="row row-3-9 mtl">
+        <div class="col-md-3 new-col-md-3">
+            <div class="list-group-box">
+                {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_TEACHER') or my.isTeacher %}
+                    <div class="list-group-con">
+                        <div class="list-group-heading"><i class="fa fa-bars mrm"></i>我的教学</div>
+                        <ul class="list-group">
+                            <li>
+                                <a class="list-group-item {% if side_nav == 'my-teaching-courses' %} active {% endif %}" href="{{path('my_teaching_courses')}}">
+                                    <span class="c-side-nav"><em class="c-item-icon1" title="在教课程"></em>在教课程</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="list-group-con">
+                        <div class="list-group-heading"><i class="fa fa-bars mrm"></i>个人中心</div>
+                        <ul class="list-group">
+                            {% set side_nav = side_nav|default(null) %}
+                            <li>
+                                <a class="list-group-item {% if side_nav == 'profile' %}active{% endif %}" href="{{ path('settings') }}"><span class="my-center-icon"><i class="glyphicon glyphicon-user"></i> 基础信息</span></a>
+                            </li>
+                            <li>
+                                <a class="list-group-item {% if side_nav == 'change_pwd' %}active{% endif %}" href="{{ path('change_pwd') }}"><span class="my-center-icon"><i class="glyphicon glyphicon-lock"></i> 修改密码</span></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                {% else %}
+                    <div class="list-group-con">
+                        <div class="list-group-heading"><i class="fa fa-bars mrm"></i>我的学习</div>
+                        <ul class="list-group">
+                            <li>
+                                <a class="list-group-item {% if side_nav == 'my-learning' %} active {% endif %}" href="{{path('my_courses_learning')}}">
+                                    <span class="c-side-nav"><em class="c-item-icon4" title="在学课程"></em>在学课程</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="list-group-item {% if side_nav == 'my-notes' %} active {% endif %}" href="{{path('my_notebooks')}}">
+                                    <span class="c-side-nav"><em class="c-item-icon8" title="我的笔记"></em>我的笔记</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="list-group-con">
+                        <div class="list-group-heading"><i class="fa fa-bars mrm"></i>个人中心</div>
+                        <ul class="list-group">
+                            {% set side_nav = side_nav|default(null) %}
+                            <li>
+                                <a class="list-group-item {% if side_nav == 'profile' %}active{% endif %}" href="{{ path('settings') }}"><span class="my-center-icon"><i class="glyphicon glyphicon-user"></i> 基础信息</span></a>
+                            </li>
+                            <li>
+                                <a class="list-group-item {% if side_nav == 'change_pwd' %}active{% endif %}" href="{{ path('change_pwd') }}"><span class="my-center-icon"><i class="glyphicon glyphicon-lock"></i> 修改密码</span></a>
+                            </li>
+                        </ul>
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+        <div class="col-md-9 new-col-md-9">{% block main %}{% endblock %}</div>
+    </div>
+
+    <input type="hidden" name="vps_list_url" value="{{ path('my_vps_list') }}" />
+    <div id="vps-list-modal" class="modal">
+
+    </div>
+
+    <script>
+        function loadVpsStatus(){
+            var url = $("input[name='vps_list_url']").val();
+            $("#vps-list-modal").load(url,function(){
+                $(this).modal({keyboard: true});
+            });
+        }
+    </script>
+
+{% endblock %}

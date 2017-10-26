@@ -1,0 +1,33 @@
+<div class="categoryLayer course-category {% if param.url=='group_search_group' %}mlt{% endif %}">
+        <!--edit qzw 2015-11-27 -->
+        <span class="all-sortbtn active"><em>&gt;</em><a href="{{ path(param.url,{center:app.request.get('center')}) }}">课程分类</a></span>
+	<div id="allList"  class="all-navside-box">
+	<ul class='index_cate' style="display:block">
+		{% for cate in treeCate %}
+		<li>
+            <span>
+                <i>&gt;</i>
+                <a href="{{ path('course_explore', {category:cate.code|default(cate.id),center:app.request.get('center')}) }}">{{ cate.name }}</a>
+            </span>
+			<div class="department-course-box subContent" style="display:none">
+
+                            {% for child in cate.child %}
+                                {% if child.threeChild|length > 0 %}
+                                    <div class="department-course-con">
+                                        <h4><a href="{{ path('course_explore', {category:child.code|default(child.id),center:app.request.get('center')}) }}">{{ child.name }}</a></h4>
+                                        {% for threeChild in child.threeChild%}
+                                        <a  href="{{ path('course_explore', {category:threeChild.code|default(threeChild.id),center:app.request.get('center')}) }}">{{ threeChild.name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="department-course-con">
+                                        <h4 class="a-third"><a  href="{{ path('course_explore', {category:child.code|default(child.id),center:app.request.get('center')}) }}">{{ child.name }}</a></h4>
+                                    </div>
+                                {%endif%}
+                            {% endfor %}
+			</div>
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+</div>

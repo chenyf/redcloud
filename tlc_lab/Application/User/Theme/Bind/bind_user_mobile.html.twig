@@ -1,0 +1,37 @@
+{% extends '@User/Bind/bind_layout.html.twig' %}
+
+{% block title %}绑定手机号 - {{ parent() }}{% endblock %}
+
+{% set tab_nav = 'bind_mobile' %}
+
+{% block main_content %}
+
+    <div class="empty-center" style="color: #060606;padding: 100px 0px;width: 60%;margin-left: 20%;">
+        <form id="bind_form" class="form-vertical" method="POST">
+            <input type="hidden" name="bind_type" value="mobile" />
+            <div class="form-group" style="overflow:hidden;">
+                <label class="col-md-3 control-label con-tit" for="bind_mobile">手机号:</label>
+                <div class="col-md-8 controls ">
+                    <input type="text" class="form-control" data-url="{{path('register_mobile_check')}}" required="required" name="mobile" id="bind_mobile" data-widget-cid="widget-6" autocomplete="off">
+                </div>
+            </div>
+            <div class="form-group" style="overflow:hidden;">
+                <label class="col-md-3 control-label required con-tit" for="sms_code">短信验证码:</label>
+                <div class="col-md-8 controls" style="padding:0;">
+                    <div class="col-md-6 controls" style="">
+                        <input type="text" class="form-control" id="sms-code" name="sms_code" data-explain="输入短信验证码" maxlength="5" required="required" data-url="{{path('sms_code_check',{type:'account_bind'})}}" autocomplete="off">
+                        <p class="help-block"></p>
+                    </div>
+                    <div class="col-md-6" style="">
+                        <span class="btn btn-default btn-block js-sms-send" data-url="{{ path('send_sms_code') }}">
+                            <span id="js-time-left"></span>
+                            <span id="js-fetch-btn-text" style="font-size:12px;">获取短信验证码</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <button id="sure_to_submit" type="submit" class="btn btn-danger" data-url="{{ path('bind_mobile') }}" data-goto="{{ path('logout') }}" data-target="#bind_form">确认绑定该手机号</button>
+        </form>
+    </div>
+
+{% endblock %}

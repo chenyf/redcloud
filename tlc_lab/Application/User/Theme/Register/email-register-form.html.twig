@@ -1,0 +1,46 @@
+ <form id="register-form" class="form-vertical" method="post" action="">
+    <input type="hidden" name="type" value="email">
+    <div class="form-group mtl" style="overflow:hidden;">
+        <label class="col-md-3 control-label con-tit" for="register_email">邮箱:</label>
+        <div class="col-md-8 controls">
+            <input type="text" id="register_email" name="email" required="required" class="form-control" data-url="{{path('register_email_check')}}" data-explain="填写你常用的邮箱作为登录帐号">
+        </div>
+    </div>
+    <div class="form-group" style="overflow:hidden">
+        <label class="col-md-3 control-label con-tit" for="captcha_num">验证码:</label>
+        <div class="col-md-8 controls">
+            <div class="col-md-5 col-sm-5 col-xs-5" style="padding:0">
+                <input type="text" class="form-control" id="captcha_num" name="captcha_num" maxlength="5"  data-url="{{path('register_captcha_check')}}">
+                <p class="help-block"></p>
+            </div>
+            <div class="col-md-7 col-sm-7 col-xs-7" style="padding: 0 5px;">
+                <img src="{{ path('register_captcha_num') }}" data-url="{{ path('register_captcha_num') }}" id="getcode_num" title="看不清，点击换一张" style="width:110px;height:32px;cursor:pointer;" >
+                <i class="fa fa-refresh mll" style="cursor:pointer;font-size:20px;color:#666;" title="看不清，点击换一张"></i>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" style="overflow:hidden;">
+        <label class="col-md-3 control-label con-tit" for="register_nickname">姓名:</label>
+        <div class="col-md-8 controls">
+            <input type="text" id="register_nickname" name="nickname" required="required" class="form-control"  data-explain="该怎么称呼你？ 汉字、字母、数字、下划线 2~20位">
+        </div>
+    </div>
+    <div class="form-group" style="overflow:hidden;">
+        <label class="col-md-3 control-label con-tit" for="register_password">请设置密码:</label>
+        <div class="col-md-8 controls">
+            <input type="password" id="register_password" name="password" required="required" class="form-control" data-explain="5-20位英文、数字、符号，区分大小写">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="controls login-agree">
+            <label>
+                <input type="checkbox" id="user_terms" checked="checked" name="terms">我已阅读并同意<a href="{{ path('user_terms') }}" target="_blank"><b>《高校云用户注册协议》</b></a>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="controls login-register">
+            <button type="submit" id="register-btn" data-submiting-text="正在提交" class="btn btn-primary login-btn">立即注册</button>
+        </div>
+    </div>
+</form> 

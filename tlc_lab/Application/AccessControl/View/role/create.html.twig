@@ -1,0 +1,54 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set role = role|default(null) %}
+
+
+{% block title %}
+    {% if data %}编辑角色{% else %}添加角色{% endif %}
+{% endblock %}
+
+{% block body %}
+    <form class="form-horizontal" id="role-form"
+            {% if data.id == 0 %}
+                action="{{ U('AccessControl/role/store') }}"
+            {% else %}
+                action="{{ U('AccessControl/role/update') }}"
+            {% endif %}
+          method="post">
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="name">角色名称</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input class="form-control"  type="text" placeholder="角色名称" name="name"  id="name" value="{{ data.name }}">
+            </div>
+        </div>
+        {% if data is null %}
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="code">角色编码</label>
+            </div>
+            <div class="col-md-7 controls">
+                <input class="form-control"  type="text" placeholder="大写字母+下划线,如SUPER_ADMIN" name="code"  id="code" value="{{ data.code }}">
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label">
+                <label for="remark">角色简介</label>
+            </div>
+            <div class="col-md-7 controls">
+                <textarea name="remark" id="remark" rows="5" placeholder="为角色输入一段描述" class="form-control">{{ data.remark }}</textarea>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{{ data.id|default(0) }}">
+    </form>
+    <script type="text/javascript">app.load('access-control/create-role')</script>
+{% endblock %}
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="role-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#role-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

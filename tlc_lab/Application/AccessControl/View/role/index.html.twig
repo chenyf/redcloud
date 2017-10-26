@@ -1,0 +1,69 @@
+{% extends '@AccessControl/common/layout.html.twig' %}
+{% block title %}角色管理{% endblock %}
+
+{% set menu = "role" %}
+
+{% block main %}
+
+    <div class="page-header clearfix">
+        <button class="btn btn-info btn-sm pull-right" id="add-navigation-btn" data-toggle="modal" data-target="#modal"
+                data-url="{{ U('AccessControl/Role/create') }}">添加新角色
+        </button>
+        <h1 class="pull-left">角色管理</h1>
+
+    </div>
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="active"><a>角色列表</a></li>
+    </ul>
+    <p></p>
+    <table id="user-table" class="table  table-hover" data-search-form="#user-search-form">
+        <thead>
+        <tr>
+            <th width="15%">角色名</th>
+            <th width="20%">角色编码</th>
+            <th width="20%">角色简介</th>
+            <th width="15%">操作人</th>
+            <th width="30%">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for role in roles %}
+            <tr {% if role.status == 2 %}class="active"{% endif %}>
+                <td>
+                    {{ role.name }}
+
+                </td>
+                <td>{{  role.code  }}</td>
+                <td> {{ role.remark|default(role.name) }}  </td>
+                <td>{{ role.operator }}</td>
+                <td>
+                    <div class="btn-group">
+                        <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#modal"
+                                data-url="{{ U('AccessControl/Role/edit',{id:role.id}) }}"><i
+                                    class="glyphicon glyphicon-edit"></i> 修改
+                        </button>
+                        <a class="btn btn-default btn-sm" href="{{ U('AccessControl/Role/assignAccess',{id:role.id}) }}"><i class="glyphicon glyphicon-cog"></i> 分配权限
+                        </a>
+                        <a class="btn btn-default btn-sm" href="{{ U('AccessControl/Role/user',{id:role.id}) }}"><i class="fa fa-user"></i> 管理用户
+                            <span class="badge">{{ role.count }}</span>
+                        </a>
+                        {#{% if role.status == 1 %}#}
+                            {#<a class="btn btn-default btn-sm ajax-click"#}
+                               {#href="{{ U('AccessControl/Role/close',{id:role.id}) }}"><i class="fa fa-ban"></i>#}
+                                {#禁用#}
+                            {#</a>#}
+                        {#{% else %}#}
+                            {#<a class="btn btn-default btn-sm ajax-click"#}
+                               {#href="{{ U('AccessControl/Role/open',{id:role.id}) }}"><i class="fa fa-eye"></i>#}
+                                {#启用#}
+                            {#</a>#}
+                        {#{% endif %}#}
+                    </div>
+
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

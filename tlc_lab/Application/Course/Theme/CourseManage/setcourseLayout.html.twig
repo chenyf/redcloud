@@ -1,0 +1,36 @@
+{% set layout = '@My/My/layout.html.twig' %}
+{% set side_nav = 'my-teaching-courses' %}
+{% extends layout %}
+{% block title %}在教课程 - 基本信息 - {{ parent() }}{% endblock %}
+{%
+	set script_arguments = {
+	  categoryUrl: path('category_all'),
+	  tagMatchUrl: path('tag_match'),
+	  locationUrl: path('location_all')
+	}
+%}
+{% block main %}
+
+{#新版创建/编辑课程#}
+<div class="panel panel-default panel-col lesson-manage-panel">
+    {#面包屑#}
+    {% if menu == 'base' or menu == 'detail' or menu == 'publish' %}
+        <div class="c-panel-heading">
+            <a class="cc-cancel pull-right text-muted" href="{{path('my_teaching_courses',{center:app.request.get('center')})}}"><i class="fa fa-reply mrs"></i>返回在教课程</a>
+            <span>在教课程</span>
+        </div>
+    {% endif %}
+    {# 创建课程第一步 #}
+    <div class="panel-body">
+        {% if menu == 'base' or menu == 'detail' or menu == 'publish' %}
+        <ul class="nav nav-tabline cc-found-nav">
+            <li role="presentation" {%if menu == 'base' %}class="active"{% endif %}><a {%if course.id %}href="{{ path('course_manage_base', {id:course.id,center:app.request.get('center'),create:create}) }}"{% endif %}><em>1</em>设置课程基本信息</a></li>
+            <li role="presentation" {%if menu == 'detail' %}class="active"{% endif %} {%if course.id %}{% else%}class="disabled"{% endif %}><a {%if course.id %}href="{{ path('course_manage_detail', {id:course.id,center:app.request.get('center'),create:create}) }}"{% endif %}><em>2</em>设置课程详细信息</a></li>
+            <li role="presentation" {%if menu == 'publish' %}class="active"{% endif %} {%if course.id %}{%else%}class="disabled"{% endif %}><a {%if course.id %}href="{{ path('course_manage_set', {id:course.id,center:app.request.get('center'),create:create}) }}"{% endif %}><em>3</em>发布课程</a></li>
+        </ul>
+        {% endif %}
+        {% block courseForm %} {% endblock %}
+    </div>
+</div>
+
+{% endblock %}

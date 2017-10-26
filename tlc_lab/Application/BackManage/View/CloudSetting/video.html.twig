@@ -1,0 +1,96 @@
+  {% extends '@BackManage/CloudSetting/layout.html.twig' %}
+
+{% block title %}云视频设置 - {{ parent() }}{% endblock %}
+
+{% set submenu = 'video' %}
+{% set script_controller = 'setting/cloud' %}
+
+{% block maincontent %}
+
+<div class="page-header"><h1>云视频设置</h1></div>
+
+{{ web_macro.flash_messages() }}
+
+<form class="form-horizontal" id="cloud-setting-form" method="post" novalidate>
+
+  {#<div class="row form-group">#}
+    {#<div class="col-md-3 control-label">#}
+      {#<label >云视频</label>#}
+    {#</div>#}
+    {#<div class="controls col-md-8 radios">#}
+
+      {#{{ radios('upload_mode', {'local':'关闭', 'cloud':'开启'}, storageSetting.upload_mode) }}#}
+
+      {#<div class="help-block">#}
+        {#云视频，提供更快的视频播放速度，以及更低廉的网络流量价格。<br />#}
+        {#<strong class="text-info">如需使用云视频，请联系<a href="http://www.redcloud.com/services/cloudvideo" target="_blank">redcloud官方</a></strong>。#}
+      {#</div>#}
+
+    {#</div>#}
+  {#</div>#}
+
+   <div class="row form-group">
+    <div class="col-md-3 control-label">
+      <label for="cloud_bucket" >当前状态</label>
+    </div>
+    <div class="controls col-md-8 radios">
+        开启
+        <input type="hidden" name="upload_mode" value="local">
+    </div>
+  </div>   
+
+  {#<div class="row form-group">#}
+    {#<div class="col-md-3 control-label">#}
+      {#<label for="cloud_bucket" >云视频上传地址</label>#}
+    {#</div>#}
+    {#<div class="controls col-md-8 radios">#}
+      {#<input type="text" id="cloud_bucket" class="form-control" name="cloud_url" value="{{storageSetting.cloud_url}}">#}
+    {#</div>#}
+  {#</div>#}
+    <div class="row form-group">
+        <div class="col-md-3 control-label">
+            <label for="cloud_bucket" >云视频userId</label>
+        </div>
+        <div class="controls col-md-8 radios">
+            <input type="text" id="cloud_bucket" class="form-control" name="user_id" value="{{storageSetting.user_id}}">
+        </div>
+    </div>
+<div class="row form-group">
+    <div class="col-md-3 control-label">
+        <label for="cloud_bucket" >云视频writetoken</label>
+    </div>
+    <div class="controls col-md-8 radios">
+        <input type="text" id="cloud_bucket" class="form-control" name="write_token" value="{{storageSetting.write_token}}">
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col-md-3 control-label">
+        <label for="cloud_bucket" >云视频readtoken</label>
+    </div>
+    <div class="controls col-md-8 radios">
+        <input type="text" id="cloud_bucket" class="form-control" name="read_token" value="{{storageSetting.read_token}}">
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col-md-3 control-label">
+        <label for="cloud_bucket" >云视频secretkey</label>
+    </div>
+    <div class="controls col-md-8 radios">
+        <input type="text" id="cloud_bucket" class="form-control" name="secret_key" value="{{storageSetting.secret_key}}">
+    </div>
+</div>
+
+  <hr>
+  <div class="row form-group">
+    <div class="col-md-3 control-label"></div>
+    <div class="controls col-md-8">
+      <button type="submit" class="btn btn-primary">提交</button>
+    </div>
+  </div>
+
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+</form>
+
+{% endblock %}

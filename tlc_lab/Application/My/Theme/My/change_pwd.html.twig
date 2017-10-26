@@ -1,0 +1,52 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}修改密码 - {{ parent() }}{% endblock %}
+{% set script_controller = 'my/change_pwd' %}
+{% set side_nav = 'change_pwd' %}
+{% block main %}
+    {% embed "@Home/Bootstrap/panel.html.twig" with {class:'panel-col'} %}
+        {% block heading %}修改密码{% endblock %}
+        {% block body %}
+            <div class="panel-body">
+                <form id="change-pwd-form" action="" class="form-horizontal" method="post">
+                    {{ web_macro.flash_messages() }}
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <div class="col-md-2 control-label"><b>当前密码：</b></div>
+                            <div class="controls col-md-6">
+                                <input autocomplete="off" type="password" id="current_pwd" name="pwd[current]" class="form-control">
+                                <div class="help-block" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <div class="col-md-2 control-label"><b>新密码：</b></div>
+                            <div class="controls col-md-6">
+                                <input autocomplete="off" type="password" id="new_pwd" name="pwd[new_pwd]" class="form-control">
+                                <div class="help-block" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <div class="col-md-2 control-label"><b>确认密码：</b></div>
+                            <div class="controls col-md-6">
+                                <input autocomplete="off" type="password" id="new_pwd1" name="pwd[new_pwd1]" class="form-control">
+                                <div class="help-block" style="display:none;"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mtm mbm">
+                        <div class="col-md-6 col-md-offset-2">
+                            <button id="password-save-btn" data-submiting-text="正在保存" type="submit" style="width: 180px;height: 40px;" class="btn btn-primary">保存</button>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+                </form>
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

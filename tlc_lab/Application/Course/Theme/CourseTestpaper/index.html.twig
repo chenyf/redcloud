@@ -1,0 +1,67 @@
+{% extends '@Course/Course/dashboard-layout.html.twig' %}
+
+{% set script_controller = 'course/common' %}
+
+{% set siteNav = '/Course/Course/exploreAction' %}
+
+{% block dashboard_main %}
+    {% include '@Course/Course/dashboard-nav.html.twig' with {nav:nav} %}
+<div class="panel-body">
+    <div class="new-course-box">
+        <table class="table table-striped table-hover">
+            <tbody>
+        {% if list %}
+            {% for vo in list %}
+                    <tr>
+                        <td>
+                            <span>{{ html_decode(vo.title) }}</span>
+                            <br>
+                            <small class="text-muted">发布时间：{{ vo.createdTime | date('m.d H:i') }}</small>
+                            <br>
+                            <small class="text-primary">{% if vo.limit == 0 %}时间不限{% else %}交{{ title }}时间：{{ vo.startTime | date('m.d H:i') }} ~ {{ vo.endTime | date('m.d H:i') }}{% endif %}</small>
+                        </td>
+                        <td style="text-align: center" width="40%">
+                            <span>总分 <span style="font-weight: bold">{{ vo.result.score | default('0.0') }}</span> 分</span>
+                            <br>
+                            <small class="text-muted">客观题 {{ vo.result.objectiveScore | default('0.0') }} 分 / 主观题 {{ vo.result.subjectiveScore | default('0.0') }} 分</small>
+                            <br>
+                        {% if vo.result.status == 'submitted' or vo.result.status == 'finished' %}
+                            <small class="text-muted">{{ title }}交于{{ vo.result.endTime | date('Y年m月d日 H:i') }}</small>
+                        {% endif %}
+                        {% if vo.result.status == 'submitted' %}
+                            <small class="text-warning">老师批阅中</small>
+                        {% elseif vo.result.checkedTime %}
+                            <small class="text-success">老师批于{{ vo.result.checkedTime | date('Y年m月d日 H:i') }}</small>
+                       {% endif %}
+                        </td>
+                        <td width="20%">
+                        {% if (vo.result.status == 'finished' or vo.result.status == 'submitted') and vo.show == 1 %}
+                            {% if black == 0 %}
+                                <a class="btn btn-info btn-sm" href="{{ U('My/Testpaper/testResult',{id:vo.result.id}) }}">查答案</a>
+                            {% endif %}
+                        {% elseif (vo.result.status == 'finished' or vo.result.status == 'submitted') and vo.show == 0 %}
+                                <span class="text-muted">未公布答案</span>
+                        {% elseif app.request.server.get('REQUEST_TIME') < vo.startTime %}
+                                <span class="text-muted">未开始</span>
+                        {% elseif app.request.server.get('REQUEST_TIME') > vo.endTime and vo.limit == 1 %}
+                                <span class="text-danger">答题超时</span>
+                        {% elseif vo.result.status == 'doing'%}
+                            {% if black == 0 %}
+                                <a class="btn btn-primary btn-sm" href="{{ U('Course/CourseTestpaper/showTest',{id:vo.result.id}) }}" >继续做{{ title }}</a>
+                            {% endif %}
+                        {% else %}
+                            {% if black == 0 %}
+                                <a class="btn btn-primary btn-sm"  href="{{ path('course_manage_redo_test', {testId:vo.testId}) }}">做{{ title }}</a>
+                            {% endif %}
+                        {% endif %}
+                            </td>
+                        </tr>
+            {% endfor %}
+        {% else %}
+                    <div class="empty">暂无课程{{ title }}</div>
+        {% endif %}
+                    </tbody>
+                </table>
+            </div>   </div>
+    {{ web_macro.paginator(paginator) }}
+{% endblock %}

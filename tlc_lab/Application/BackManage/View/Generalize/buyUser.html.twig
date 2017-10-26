@@ -1,0 +1,43 @@
+{% extends '@BackManage/Course/layout.html.twig' %}
+{% set menu = 'GeneralizeUser' %}
+{% block main %}
+
+        <div class="page-header">
+          <h1>购买用户</h1>
+        </div>   
+
+    <form class="form-inline well well-sm"> 
+        <div class="form-group">
+          <input type="text" name="nickname" value="{{ app.request.get('nickname') }}"  class="form-control" placeholder="昵称">
+        </div>
+            
+        <button class="btn btn-primary">搜索</button>
+       <a href="{{ U('Generalize/User') }}" class="btn btn-info btn-sm pull-right">返回上一级</a>
+      </form>
+
+  <table class="table table-striped table-hover" id="order-table">
+    <thead>
+      <tr>
+        <th>昵称</th>
+        <th>课程名称</th>
+        <th>交易时间</th>
+        <th>是否退款</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for generalizeBuys in generalizeBuy %}
+       <tr>
+            <td>{{ getUserNameById(generalizeBuys.uid)}}</td>
+            <td>{{ generalizeBuys.title}}</td>
+            <td>{{ generalizeBuys.ctime | date('Y/m/d H:i:s')}}</td>
+            <td>{% if generalizeBuys.status == 0 %}未退款{% else %} 已退款 {% endif %}</td>
+       </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {{ web_macro.paginator(paginator) }} 
+    
+</div>
+
+{% endblock %}

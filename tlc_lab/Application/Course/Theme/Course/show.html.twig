@@ -1,0 +1,29 @@
+{% extends '@Home/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/layout.html.twig',"@Web")%#}
+{% set containerClassBlock = 'index_container' %}
+{% set modalKeyboard = 1 %}
+{% block title %}{{ course.title }} - {{ parent() }}{% endblock %}
+
+{%- block keywords -%}
+  {% if category %}{{ category.name }}{% endif %}
+  {% for tag in tags %}{{ tag.name }}{% endfor %}
+  {{ course.title }} {{ setting('site.name') }}
+{%- endblock -%}
+{% block description %}{{ course.about|plain_text(150) }}{% endblock %}
+
+
+{% set script_controller = 'course/show' %}
+
+{% set siteNav = '/Course/Course/exploreAction' %}
+
+{% block content %}
+
+{% include '@Course/Course/course-detail.html.twig' %}
+
+{% endblock %}
+
+{% block bottom %}
+<div id="course-modal" class="modal" {% if modalKeyboard %}data-keyboard="false"{% endif %}></div>
+<div id="course-edit-modal" class="modal"></div>
+{% endblock %}
+

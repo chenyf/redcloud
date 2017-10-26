@@ -1,0 +1,15 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set modal_class = 'modal-lg' %}
+{% block title %}详情介绍{% endblock %}
+{% block body %}
+    <div class="landing-guide" style="height:500px;overflow-y: auto;">
+        <img class="img-responsive" src="/Public/bundles/adminweb/img/a-guide-img1.jpg">
+        <img class="img-responsive" src="/Public/bundles/adminweb/img/a-guide-img2.jpg">
+        <img class="img-responsive" src="/Public/bundles/adminweb/img/a-guide-img3.jpg">
+        <img class="img-responsive" src="/Public/bundles/adminweb/img/a-guide-img4.jpg">
+        <img class="img-responsive" src="/Public/bundles/adminweb/img/a-guide-img5.jpg">
+    </div>
+{% endblock %}
+{% block footer %}
+  <script> app.load('cms/create_list')</script>
+{% endblock %}

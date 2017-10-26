@@ -1,0 +1,57 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}我的课程 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'my-notes' %}
+{% set script_controller = 'my/notebooks' %}
+
+{% block main %}
+
+<div class="panel panel-default panel-col">
+    {% if isOpenPublicCourse() %}
+        <div class="course-list-tit">
+        </div>
+     {% endif %} 
+        
+        
+  <div class="panel-body cc-panel-body">
+    {# 
+        {% if isOpenPublicCourse() %}
+            <div class="teaching-course-nav"> 
+                <div class="course-status">
+                    <label><input type="radio" name="status" {% if app.request.get('center') != 1 %}checked{% endif %} onclick="window.location.href='{{ U('My/MyNotebook/index') }}'"/>{{privateCourseName()}}</label>
+                    <label><input type="radio" name="status" {% if app.request.get('center') == 1 %}checked{% endif %} onclick="window.location.href='{{ U('My/MyNotebook/index',{center:1}) }}'"/>{{publicCourseName()}}</label>
+                </div>
+            </div>
+        {% endif %}
+     #}
+    <ul class="media-list notebook-list forum-list" id="notebook-list">
+      {% for member in courseMembers %}
+        {% set course = courses[member.courseId] %}
+        <li class="media">
+          <img class="pull-left media-object" src="{{ default_path('coursePicture',course.largePicture, 'large') }}">
+          <div class="media-body">
+           {% if course and not course.isDeleted %}
+            <h4 class="media-heading">{{course.title}}</h4>
+           {% else %}
+            <h4 class="nocourse-title">课程不存在或已删除</h4>
+           {% endif %}
+            <div class="notebook-metas">
+              <span class="notebook-number">共 {{ member.noteNum }} 篇笔记</span>
+            </div>
+            <div class="notebook-metas">
+              {% if member.noteLastUpdateTime > 0 %}
+                <span class="notebook-time">最后更新 {{ member.noteLastUpdateTime | smart_time }}</span>
+              {% endif %}
+              <a class="pull-right notebook-go" href="{{ path('my_notebook_show', {courseId: course.id,center:app.request.get('center') }) }}">查看笔记</a>
+            </div>
+          </div>
+        </li>
+      {% else %}
+        <li class="empty">你还没有写过笔记</li>
+      {% endfor %}
+    </ul>
+    {{ web_macro.paginator(paginator) }} 
+  </div>
+</div>
+{% endblock %}

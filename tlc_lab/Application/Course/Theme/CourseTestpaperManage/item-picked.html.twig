@@ -1,0 +1,6 @@
+<table class="picked-items">
+{% include '@Course/CourseTestpaperManage/item-tr.html.twig' %}
+{% for question in subQuestions %}
+  {% include '@Course/CourseTestpaperManage/item-tr.html.twig' %}
+{% endfor %}
+</table>

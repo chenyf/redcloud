@@ -1,0 +1,37 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% block title %}联系管理员{% endblock %}
+
+{% block body %}
+    <style>
+        .modal-body{
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
+    </style>
+    <form id="message-create-form" class="form-horizontal" method="post" action="{{ path('message_contact_admin') }}">
+
+        <div class="form-group">
+            {# <div class="col-md-2 control-label">{{ form_label(form.content, '内容') }}</div> #}
+            <div class="col-md-2"><label for="message_content" class="required">写给管理员</label></div>
+            <div class="col-md-10 controls">
+                {# {{ form_widget(form.content, {attr:{class:'form-control',rows:5}}) }}  #}
+
+                <textarea id="message_content" name="message" required="required" class="form-control" rows="5" data-widget-cid="widget-5" data-explain=""></textarea>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 controls">
+                <button class="btn btn-primary" id="submit_btn" type="button">发送</button>
+            </div>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+    </form>
+
+    <script> app.load('user/contact-admin'); </script>
+{% endblock %}
+
+{% set hide_footer = true %}

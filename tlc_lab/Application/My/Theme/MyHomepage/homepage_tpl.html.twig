@@ -1,0 +1,117 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class=""> <!--<![endif]-->
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=7;IE=9;IE=10;IE=Edge;IE=8">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.nickname }} - 个人主页</title>
+    <meta name="keywords" content="{{ user.nickname }} {{ user.userNum }} {{ setting('site.name') }} 教师个人主页" />
+    <meta name="description" content="教师个人主页 {{ user.nickname }}" />
+    <link rel="stylesheet" media="screen" type="text/css" href="/Public/static/css/homepage.css" />
+    <script src="{{ asset('assets/libs/vuejs/vue.min.js') }}"></script>
+</head>
+{% set script_controller = 'my/homepage_view' %}
+<body>
+{% block content %}
+    <!-- main -->
+    <div class="main">
+        <div class="account">
+            <div class="account-info">
+                <div class="account-top">
+                    <div class="account-top-left">
+                        <img loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/pic-error.png?5.1.4';"  src="{{ user_default_path(user.id) }}" class="avatar" alt="{{ user.nickname }}">
+                    </div>
+                    <div class="account-top-right">
+                        <h2>{{ user.nickname }}</h2>
+                        <p>{{ profile.position }}</p>
+                    </div>
+                    <div class="clear"> </div>
+                </div>
+                <div class="account-bottom">
+                    <div class="tabs">
+                        <nav>
+                            <a><span> </span>主页 </a>
+                            <a><span class="icon1"></span>教学 </a>
+                            <a><span class="icon2"></span>科研项目</a>
+                            <a><span class="icon3"></span>出版物</a>
+                        </nav>
+                        <div class="content">
+                            <div class="text">
+                                <h4><span class="star active"> </span><a href="#">联系方式</a></h4>
+                                {% for v in data.contacts %}
+                                    <p>{{ v.key }}: {{ v.value }}</p>
+                                {% endfor %}
+                            </div>
+                            <div class="text">
+                                <h4><span class="star active"> </span><a href="#">个人简介</a></h4>
+                                {% for v in data.intros %}
+                                    <h5>- {{ v.key }}</h5>
+                                    <p>{{ v.value }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="content">
+                            {% for v in data.teaches %}
+                            <div class="text">
+                                <h4><span class="star active"> </span><a href="#">{{ v.key }}</a></h4>
+                                {% for v2 in v.value %}
+                                    <p>•{{ v2.val }}</p>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                                {% for tlc_course_v in data.tlc_course %}
+                                    <div class="text">
+                                        <h4><span class="star active"> </span><a href="#">{{ tlc_course_v.key }}</a></h4>
+                                        {% for tlc_course_v2 in tlc_course_v.value %}
+                                            <p>•<a href="{{ path('course_show', {id:tlc_course_v2.id}) }}" target="_blank">{{ tlc_course_v2.title }}</a></p>
+                                        {% endfor %}
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                        <div class="content">
+                            {% for v in data.researches %}
+                            <div class="text">
+                                <h4><span class="star active"> </span><a href="#">{{ v.key }}</a></h4>
+                                {% for v2 in v.value %}
+                                    <p>•{{ v2.val }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="content">
+                            {% for v in data.publications %}
+                            <div class="text">
+                                <h4><span class="star active"> </span><a href="#">{{ v.key }}</a></h4>
+                                {% for v2 in v.value %}
+                                    {% if v2.href != "" %}
+                                        <p>•<a href="{{ v2.href }}" target="_blank">{{ v2.val }}</a></p>
+                                    {% else %}
+                                        <p>•{{ v2.val }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block bottom %}
+    <div class="copyright">
+        <p> &copy; Copyright © 2017 瑞德云网科技有限公司</p>
+    </div>
+{% endblock %}
+{% include '@Home/script_boot.html.twig' with {script_main: asset('bundles/web/js/app.js')} %}
+</body>
+</html>

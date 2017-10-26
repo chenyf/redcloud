@@ -1,0 +1,117 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% block title %}通知详细信息{% endblock %}
+
+{% block body %}
+
+<table class="table table-striped table-condenseda table-bordered">
+  <tr>
+    <th width="25%">消息类型</th>
+    <td width="75%">
+      {{msgTypeInfo[message.msg_type]}}
+    </td>
+  </tr>
+
+ {% if message.msg_type !=1 %}
+   <tr>
+    <th>标题</th>
+    <td>{{ message.title}}</td>
+  </tr>
+  {%endif%}
+
+  <tr>
+    <th>内容</th>
+    <td>
+         <textarea class="form-control" id="content" rows="16" name="content" 
+    value="" readonly="readonly" data-image-upload-url="{{ path('editor_upload', {token:upload_token('default')}) }}"> {{ message.content}}</textarea>
+     
+    </td>
+  </tr>
+
+  <tr>
+    <th>创建人</th>
+    <td>
+      {{getUserNameById(message.from_uid)}}
+    </td>
+  </tr>
+
+  <tr>
+    <th>创建时间</th>
+    <td> 
+  {{message.ctime|date("Y-m-d H:i:s")}}
+     </td>
+  </tr>
+
+  <tr>
+    <th>接收班级</th>
+    <td>
+     {{getClassNameListByClassIds(message.class_id)|default('无')}}
+    </td>
+  </tr>
+
+  <tr>
+    <th>接收老师</th>
+    <td>
+     {{getTeacherNameListByUid(message.teacher_id)|default("无")}} 
+    </td>
+  </tr>
+<tr>
+    <th>附加抄送人</th>
+    <td>
+       {{getCopyNameListByUid(message.copy_people,{msgtype:message.msg_type})|default('无')}} 
+    </td>
+  </tr>
+  <tr>
+        <th>状态</th>
+    <td>
+     {{sendStatusInfo[message.status]}}
+    </td>
+  </tr>
+    <th>任务类型</th>
+    <td>
+      {% if message.noticetype ==0 %}实时通知{%else%}定时通知{% endif%}
+    </td>
+  </tr>
+{#   <tr>
+    <th>类型</th>
+    <td>
+      {% if profile.iam %}
+        {{ profile.iam }}
+      {% else %}
+        暂无
+      {% endif %}
+    </td>
+  </tr> #}
+ 
+ 
+
+
+
+</table>
+<hr>
+<table class="table table-striped table-condenseda table-bordered">
+    {% if fields %}
+  {% for field in fields %}
+    <tr>
+        <th width="25%">{{field.title}}</th>
+        <td>
+          {% if profile[field.fieldName] %}
+            {% if field.type=="date"%}
+            {{ profile[field.fieldName]|date("Y-m-d") }}
+            {% else %}
+            {{ profile[field.fieldName] }}
+            {% endif %}
+          {% else %}
+            暂无
+          {% endif %}
+        </td>
+    </tr>
+  {% endfor %}
+  {% endif %}
+  </table>
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+    <script>app.load('daily/show-modal');</script>
+{% endblock %}

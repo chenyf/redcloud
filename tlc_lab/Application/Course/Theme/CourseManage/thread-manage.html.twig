@@ -1,0 +1,84 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+<!--课程管理 所有提问 -->
+<div class="ask-manage-box ">
+    <form id="search-form" action="{{ U('Course/CourseThread/getThreadList',{courseId:course.id}) }}" method="get" >
+        <div class="ask-manage-top">
+
+            <div class="ask-manage-radio mts">
+                <div class="ask-manage-select ask-manage-status mtl">
+                    <span>提问时间段：</span>
+                    <input type="text" name="startTime" class="form-control pull-left ask-select-time">
+                    <b class="pull-left">~</b>
+                    <input type="text" name="endTime" class="form-control pull-left ask-select-time">
+                </div>
+                <div class="ask-manage-status">
+                    <span>提问者身份：</span>
+                    <a href="javascript:;">
+                        <i name="identity" class="fa fa-circle-o" data-val="-1" ></i>全部
+                    </a>
+                    <a href="javascript:;">
+                        <i name="identity" class="fa fa-circle-thin" data-val="1"></i>本课程授课班学生
+                    </a>
+                    <a href="javascript:;">
+                        <i name="identity" class="fa fa-circle-thin" data-val="0"></i>非本课程授课班学生
+                    </a>
+                    <input type="hidden" name="identity" value="-1"/>
+                </div>
+                <div class="ask-manage-status" style="">
+                    <span>问题状态：</span>
+                    <a href="javascript:;" >
+                        <i name="state" class="fa fa-circle-o " data-val="-1"></i>全部
+                    </a>
+                    <a href="javascript:;" class="teacher-answer">
+                        <i name="state" class="fa fa-circle-thin" data-val="1"></i>老师已回答  
+                    </a>
+                    <a href="javascript:;">
+                        <i name="state" class="fa fa-circle-thin" data-val="0"></i>老师未回答
+                    </a>
+                    <div class="ask-status-already option-block" style="display: none;">
+                        <div class="ask-status-box">
+                            <span>回答老师：</span>
+                            <a href="javascript:;"><i name="teacher" class="fa fa-circle-o" data-val="-1"></i>全部</a>
+                            {% for teacher in teachers %}
+                            <a href="javascript:;"><i name="teacher" name="" class="fa fa-circle-thin" data-val="{{ teacher.userId }}"></i>{{ teacher.nickname }}</a>
+                            {% endfor %}
+                                <input type="hidden" name="teacher" value="-1"/>
+                            </div>
+                            <div class="ask-status-box">
+                                <span>回答得分：</span>
+                                <a href="javascript:;"><i name="comment" class="fa fa-circle-o" data-val="-1"></i>全部</a>
+                                <a href="javascript:;"><i name="comment" class="fa fa-circle-thin" data-val="5"></i>五星</a>
+                                <a href="javascript:;"><i name="comment" class="fa fa-circle-thin" data-val="4"></i>四星</a>
+                                <a href="javascript:;"><i name="comment" class="fa fa-circle-thin" data-val="3"></i>三星</a>
+                                <a href="javascript:;"><i name="comment" class="fa fa-circle-thin" data-val="2"></i>二星</a>
+                                <a href="javascript:;"><i name="comment" class="fa fa-circle-thin" data-val="1"></i>一星</a>
+                                <a href="javascript:;"><i name="comment" class="fa fa-circle-thin" data-val="0"></i>未打分</a>
+                                <input type="hidden" name="comment" value="-1"/>
+                            </div>
+                            <div class="ask-status-box">
+                                <span>是否有未回答的追问：</span>
+                                <a href="javascript:;"><i name="append" class="fa fa-circle-o" data-val="-1"></i>全部</a>
+                                <a href="javascript:;"><i name="append" class="fa fa-circle-thin" data-val="1"></i>是</a>
+                                <a href="javascript:;"><i name="append" class="fa fa-circle-thin" data-val="0"></i>否</a>
+                                <input type="hidden" name="append" value="-1"/>
+                            </div>
+                        </div>
+                        <input type="hidden" name="state" value="-1"/>
+                    </div>
+                </div>
+                <div class="ask-btn mtl">
+                    <p>
+                        <button type="button" class="btn btn-default btn-sm" id="reset">&nbsp;&nbsp;重置&nbsp;&nbsp;</button>
+                        <button type="submit" class="btn btn-primary btn-sm">确定筛选</button>
+                    </p>
+                </div>
+            </div>
+        </form>
+
+        <div id="ask-manage-list" class="ask-manage-list mtl">
+
+        </div>
+        <script>
+            app.load('thread/thread-manage');
+            </script>
+        </div>

@@ -1,0 +1,44 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class = 'modal-lg' %}
+
+{% block title %}<span class="text-muted">VPS虚拟机列表</span>{% endblock %}
+
+{% block body %}
+
+<table class="table mtm c-table">
+    <thead>
+        <tr class="active">
+            <td>实例名</td>
+            <td>虚拟机状态</td>
+            <td>镜像名</td>
+            <td>规格名</td>
+            <td>选择</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for vps in vpsList %}
+            <tr>
+                <td>
+					<span>{{ vps.serverName }}</span>
+				</td>
+				<td>{{ vps.serverState }}</td>
+                <td>{{ vps.imageName }}</td>
+                <td>{{ vps.flavorName }}</td>
+                <td><input type="radio" name="vps-choose" value="{{ vps.instanceId }}" /></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+    {% for vps in vpsList %}
+    {% else %}
+        <div><span class="txt-center no-tip-txt">暂无可用虚拟机</span></div>
+    {% endfor %}
+
+{% endblock %}
+
+{% block footer %}
+    <button class="btn btn-info" data-dismiss="modal">取消</button>
+    <button class="btn btn-danger" disabled="disabled">确定选择</button>
+{% endblock %}

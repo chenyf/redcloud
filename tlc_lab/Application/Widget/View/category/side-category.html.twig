@@ -1,0 +1,60 @@
+{% extends '@Widget/layout.html.twig' %}
+{% block main %}
+    <div class="categoryLayer course-category">
+        <span class="all-sortbtn active" onclick="window.location.href='{{ U(param.url,{center:app.request.get('center')}) }}'"><em>&gt;</em><a href="javascript:void(0)">课程分类</a></span>
+
+        <div id="allList" class="all-navside-box">
+            <ul class='index_cate' style="display:block">
+                {% for cate in treeCate %}
+                    <li>
+                <span>
+                    <i>&gt;</i>
+                    <a href="{{ U(param.url, {category:cate.id,center:app.request.get('center')}) }}">{{ cate.name }}</a>
+                </span>
+
+                        <div class="department-course-box subContent" style="display:none">
+                            {% for child in cate.child %}
+                                {% if child.threeChild|length > 0 %}
+                                    <div class="department-course-con">
+                                        <h4><a href="{{ U(param.url, {category:child.id,center:app.request.get('center')}) }}">{{ child.name }}</a></h4>
+                                        {% for threeChild in child.threeChild %}
+                                            <a href="{{ U(param.url, {category:threeChild.id,center:app.request.get('center')}) }}">{{ threeChild.name }}</a>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <div class="department-course-con">
+                                        <h4 class="a-third"><a href="{{ U(param.url, {category:child.id,center:app.request.get('center')}) }}">{{ child.name }}</a></h4>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <script>
+        seajs.use(['$'], function ($) {
+            $("ul.index_cate li").mouseenter(function () {
+
+                if($(this).find("div.subContent .department-course-con").length > 0) {
+                    $(this).find("div.subContent").show();
+                }
+                $("ul.index_cate li").removeClass("active");
+                $(this).addClass("active");
+                addActiveClass();
+            }).mouseleave(function () {
+                $(this).find("div.subContent").hide();
+                $(this).removeClass("active");
+                addActiveClass();
+            })
+            addActiveClass();
+            function addActiveClass() {
+                $("ul.index_cate a").each(function (k, v) {
+                    if ( $(this).html() == "{{ getCrumbs(app.request.get('category'))[0]['name'] }}" )
+                        $(this).parent().parent().addClass("active");
+                });
+            }
+        })
+    </script>
+{% endblock %}

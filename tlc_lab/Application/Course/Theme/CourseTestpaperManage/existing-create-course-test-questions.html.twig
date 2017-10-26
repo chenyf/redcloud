@@ -1,0 +1,77 @@
+{% set type = app.request.get('type') %}
+{% if type == 0 %}
+    {% set menu = 'test' %}
+    {% set typeText = '考试' %}
+{% elseif type == 1 %}
+    {% set menu = 'homework' %}
+    {% set typeText = '作业' %}
+{% else %}
+    {% set menu = 'lesson' %}
+    {% set typeText = '练习' %}
+{% endif %}
+
+{% set parentId = parentId | default(null) %}
+{% set script_controller = 'test-paper/existing-course' %}
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+{% import '@Home/macro.html.twig' as macro %}
+{% block title %}{{ tyepText }}管理 - {{ parent() }}{% endblock %}
+{% block side %}
+
+{% endblock %}
+{% block courseContent %}
+{# 创建试卷（选择历史试卷） #}
+<div class="choose-shiti-tit">
+    <ol class="breadcrumb">
+        <li><a href="#">{{ typeText }}管理</a></li>
+        <li><a href="#">创建{{ typeText }}</a></li>
+        <li><a href="#">选择已创建的{{ typeText }}</a></li>
+        <li class="active">{{ name }}</li>
+    </ol>
+</div>
+<div class="t-course-set-box">
+    <div class="c-tiku-head c-exam-head">
+        <form class="form-horizontal " action="{{ U('Course/CourseTestpaperManage/getTestpaperQuestionList',{courseId:course.id,type:app.request.get('type'),id:app.request.get('id'),center:app.request.get('center')}) }}" method="get" novalidate="" data-url="{{ U('Course/CourseTestpaperManage/existingCreateCourseTestQuestions',{courseId:course.id,id:app.request.get('id'),type:app.request.get('type'),center:app.request.get('center')}) }}">
+            <div class="form-group" style="border-top:none;">
+                <div class="col-md-7" style="padding: 0;">
+                    <label class="pull-left pts">历史作业/考试所属授课班：</label>
+                    <select class="form-control pull-left" {% if perfect|default(false) %} disabled {% endif %} name="classId" style="width: 240px;">
+                        {% for value in courseClass %}
+                            <option value="{{ value.id }}">{{ value.className }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-5">
+                    <label class="pull-left pts">所属类型：</label>
+                    <select class="form-control pull-left" {% if perfect|default(false) %} disabled {% endif %} name="type" style="width: 160px;">
+                        <option value="-1">全部</option>
+                        <option value="1">作业</option>
+                        <option value="0">考试</option>
+                    </select>
+                </div> 
+            </div>
+            <div class="form-group text-center history-homework">
+            试卷加载中。。。   
+            </div>
+        </form>
+    </div>
+    {% include '@Course/CourseTestpaperManage/question-type/batch-sum.html.twig' %}
+    <input type="hidden" name="refreshUrl" value="{{ U('Course/CourseTestpaperManage/getTestpaperQuestionList',{courseId:course.id,type:app.request.get('type'),id:app.request.get('id'),center:app.request.get('center')}) }}" data-url="{{ U('Course/CourseTestpaperManage/getselectedStatistic',{type:app.request.get('type')}) }}" />
+    <div class="mbl" >
+        <table class="table table-striped table-hover mtm" id="quiz-table">
+            <thead>
+                <tr class="active" id="group_111000" data-id="111000">
+                    <th width="90px"><label class="checkbox-inline"><input name="checkAll" type="checkbox" name="groups" value="111000" autocomplete="off" > 全选</label></th>
+                    <th width="40%">习题名称</th>
+                    <th>题型</th>
+                    <th>题目难度</th>
+                    {% if type != 2 %}<th>分数</th>{% endif %}
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody id="group_list">
+            </tbody>
+        </table>
+    </div>
+    <div class="text-right mtl" id="page"></div>
+ </div>
+{% endblock %}

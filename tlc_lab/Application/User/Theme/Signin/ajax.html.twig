@@ -1,0 +1,11 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% block title %}登录{{ setting('site.name') }}{% endblock %}
+{% set hide_footer = true %}
+{% block body %}
+{% include '@User/Signin/login-form.html.twig' with {'studNumLogin':studNumLogin,'errorNum':errorNum}%}
+<span id="headerUser" data-url="{{ U('User/User/headerUser') }}"></span>
+<div style="padding: 15px;text-align: right;"></div>
+<script>
+    app.load('auth/login');
+</script>
+{% endblock %}

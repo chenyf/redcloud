@@ -1,0 +1,179 @@
+{% extends '@Course/CourseTestpaperManage/create-course-test-layout.html.twig' %}
+
+{% set step = 3 %}
+{% set script_controller = 'course-test/finish-course-test' %}
+
+
+{% block  create %}
+
+
+    <form class="form-horizontal" action="{{ U('Course/CourseTestpaperManage/finishCourseTest',{center:app.request.get('center')}) }}" method="post"
+
+          data-preview = "{{ U('My/Testpaper/previewTest',{testId:testId,center:app.request.get('center')}) }}"
+
+          data-list = "{{ U('Course/CourseTestpaperManage/courseTest',{courseId:courseId,classId:classId,type:type,center:app.request.get('center')}) }}"
+
+          data-publish = "{{ U('Course/CourseTestpaperManage/publishClassTest',{courseId:courseId,id:id,testId:testId,center:app.request.get('center')}) }}"
+
+            >
+        <input type="hidden" name="id" value="{{ id }}"/>
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="title">{{ tyepText }}名称</label></div>
+            <input id="typeTextId" type="hidden" value="{{ tyepText }}" />
+            <div class="col-md-6 controls">
+                <input type="text" name="title" value="{{ course_test.title }}" class="form-control"/>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="correct">是否批卷</label></div>
+            <div class="col-md-6 controls ">
+                {% if edit == 1 %}
+                    <label class="radio-inline">
+                        <input type="radio" name="correct"  value="1"  {% if course_test.correct == 1  %}checked{% endif %}> 是
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="correct"  value="0"  {% if course_test.correct == 0  %}checked{% endif %}> 否
+                    </label>
+                {% else %}
+                    <label class="radio-inline">
+                        <input type="radio" name="correct"  value="1"  checked> 是
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="correct"  value="0"> 否
+                    </label>
+                {% endif %}
+                {% if piyue != 0 %}
+                    <div class="help-block">问答题必须批阅</div>
+                {% else %}
+                     <div class="help-block">选择题不需要批阅</div>
+                {% endif %}
+            </div>
+          
+        </div>
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="show">是否显示答案</label></div>
+            <div class="col-md-6 controls ">
+                {% if edit == 1 %}
+                    <label class="radio-inline">
+                        <input type="radio" name="show"  value="1" {% if course_test.show == 1  %}checked{% endif %}> 是
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="show"  value="0" {% if course_test.show == 0  %}checked{% endif %}> 否
+                    </label>
+                {% else %}
+                    <label class="radio-inline">
+                        <input type="radio" name="show"  value="1" checked> 是
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="show"  value="0"> 否
+                    </label>
+                {% endif %}
+
+            </div>
+        </div>
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="startTime">开始时间</label></div>
+            <div class="col-md-4 controls">
+                <div class='input-group date datetimepicker'>
+                    <input type='text' class="form-control" value="{% if edit == 1 %} {{ course_test.startTime |date('Y-m-d H:i:s') }} {% else %} {{ app.request.server.get('REQUEST_TIME')|date('Y-m-d H:i:s') }} {% endif %}" name="startTime"/>
+                </div>
+                <div class="help-block">做题开始时间</div>
+            </div>
+        </div>
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="endTime">截止时间</label></div>
+            <div class="col-md-4 controls">
+                <div class='input-group date datetimepicker'>
+                    <input type='text' class="form-control" value="{% if edit == 1 %} {{ course_test.endTime |date('Y-m-d H:i:s') }} {% else %}{% endif %}" name="endTime" />
+              
+                </div>
+                <div class="help-block">做题结束时间</div>
+            </div>
+        </div>
+        {# 考试与作业分数设置模块 #}
+         <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="title">设置{{ tyepText }}总分数</label></div>
+            <div class="col-md-6 controls">
+                <input type="text" id="inputScore" name="totalScore" style="width:30%;"  value="" class="form-control"/>
+            </div>
+        </div>
+        <div class="set-score-box" >
+            <!--<div class="alert alert-danger alert-dismissable" id="errorTip" style="display:none;">
+                <button type="button" class="close" data-dismiss="alert" 
+                   aria-hidden="true">
+                   &times;
+                </button>
+                <span id="errorMessage">错误！请进行一些更改。</span>
+             </div>-->
+            <div class="set-score-tit">
+                <a id="Questions" class="btn btn-default btn-sm mrs active" href="###">按题型设置分数</a><a id="Topic" class="btn btn-default btn-sm" href="###">按题目设置分数</a>
+            </div>
+            <div class="set-score-con" id="QuestionsDiv">
+                <h2><span class="scoreId">当前考试总分数为<b>0</b>分</span><span>考试共<b>{{ itemCount }}</b>题</span><span>未设置分数为<b style="color:red;" id="SurplusScore">0</b>分</span></h2>
+                <table class="table table-striped table-hover" id="QuestionsTable" style="margin-bottom:0;">
+                    <input type="hidden" name="scoreSetType" value="0">
+                    <thead>
+                        <tr>
+                            <th width="25%">数量 / 题目类型</th>
+                            <th>题目总分</th>
+                            <th width="25%">单题分数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for Question in Questions %}
+                            <tr>
+                                <td>{{ Question.QuestionsNumber }}道 / {% if Question.Questions == 'choice' %}多选题{% elseif Question.Questions == 'essay' %}问答题{% elseif Question.Questions == 'fill' %}填空题{% elseif Question.Questions == 'determine' %}判断题{% elseif Question.Questions == 'single_choice' %}单选题{% endif %}</td>
+                                <td>共<input class="mls mrs" name="questionScore"   type="text" style="width:80px;padding:0 10px;" class="form-control" />分
+                                      <input type="hidden" value="{{ Question.QuestionsNumber }}" />
+                                      <input type="hidden" name="questions[{{ Question.Questions }}]" value="" />
+                                </td>
+                                <td>每题0分</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {# 按题型内容类型 #}
+            <div class="set-score-con" id="TopicDiv" style="display:none;">
+                <h2><span class="scoreId">当前考试总分数为<b>0</b>分</span><span>考试共<b>{{ itemCount }}</b>题</span><span>未设置分数为<b id="shengyufen" style="color:red;" >0</b>分</span></h2>
+                <table class="table table-bordered" style="margin-bottom:0;">
+                    <input type="hidden" name="scoreSetType" value="1" >
+                    <thead>
+                        <tr>
+                            <th width="25%">题目类型</th>
+                            <th>题目内容</th>
+                            <th width="25%">题目分数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for Topic in Topics%}
+                        <tr>
+                            <td>{% if Topic.questionType == 'choice' %}多选题{% elseif Topic.questionType == 'essay' %}问答题{% elseif Topic.questionType == 'fill' %}填空题{% elseif Topic.questionType == 'determine' %}判断题{% elseif Topic.questionType == 'single_choice' %}单选题{% endif %}</td>
+                            <td>{{ Topic.stem|striptags|slice(0,16) }}</td>
+                            <td>每题<input class="topic mls mrs" type="text" name="singleScore[{{ Topic.id }}]" style="width:60px;padding:0 10px;" />分</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <p></p>
+        <hr/>
+        <input type="hidden" id="lock" value='0'/>
+        
+        
+        <button id="subconfrim"  class="btn btn-primary pull-right" class="btn btn-link">保存</button>
+    </form>
+<button  id="showModal" style="display: none;" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false" data-url="{{ U('Course/CourseTestpaperManage/getTestpaperConfirm',{testId:testId,classId:classId,type:type,center:app.request.get('center')}) }}" class="btn btn-link">显示</button>
+{% endblock %}
+
+

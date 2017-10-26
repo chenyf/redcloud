@@ -1,0 +1,162 @@
+﻿/*** CLOUD--INDEX MAIN STYLE ***/
+
+/*** banner-scroll ***/
+.banner-scroll-img a img{width: 100%;}
+.banner-scroll-btn{position: absolute;bottom: 10px;text-align: center;}
+.banner-scroll-btn span{font-family: arial;font-size: 40px;width: 16px;height: 16px;margin:0 5px;display: inline-block;color: #bbb;cursor: pointer;line-height: 18px;}
+.banner-scroll-btn span.active{color: #ffb400;}
+
+.change-mobile{cursor:pointer;color:#0078d0;}
+
+@media (max-width: 767px){
+  .banner-scroll-btn{width:100%;}
+  .banner-template-box{width: 100%;height: 320px;}
+  .banner-template-con{height: 320px;margin: 0 auto;display: table;width: 100%;} 
+  .banner-scroll-box{vertical-align: middle;display: table-cell;height: 320px;position: relative;}
+  .banner-scroll-img{padding:0 15px;height: 320px;overflow: hidden;}
+  .banner-scroll-img a{display: block;text-align: center;height: 320px;line-height: 320px;}
+}
+
+@media (min-width: 768px){
+  .banner-template-con{width: 750px;height: 520px;margin: 0 auto;display: table;}
+  .banner-template-box{width: 100%;height: 520px;}
+  .banner-scroll-box{padding-left: 240px;vertical-align: middle;display: table-cell;height: 520px;position: relative;}
+  .banner-scroll-img{padding:0 15px;height: 520px;overflow: hidden;}
+  .banner-scroll-img a{display: block;text-align: center;height: 520px;line-height: 520px;}
+  .banner-scroll-btn{width:510px;}      
+}
+
+@media (min-width:992px){
+  .banner-template-con {width: 970px;}
+  .banner-scroll-box{padding-left: 240px;}
+  .banner-scroll-btn{width:700px;} 
+  .app-popupcon{width: 300px;height:100px;margin:0 auto;}
+  .app-popupcon img{float:left;}
+  .app-popupcon span{float:left;line-height:30px;text-align:left;font-size:20px;color: #fff;margin-top:20px;}
+  .p-close-btn{position: absolute;top: 0;right: 0;width:60px;height:60px;line-height:200px;overflow: hidden;background: url(../img/close-btn.png) 0 0 no-repeat;background-size: 100% 100%;opacity: 0.8;filter:alpha(opacity=80);}
+  .p-close-btn:hover{opacity: 1;filter:alpha(opacity=100);}
+  .down-app-btn{display: none;}
+}
+@media (max-width: 991px){
+    .app-popupcon{display: none;}
+    .p-close-btn{position: absolute;top: 0;right: 0;width:40px;height:40px;line-height:200px;overflow: hidden;background: url(../img/close-btn.png) 0 0 no-repeat;background-size: 100% 100%;opacity: 0.8;filter:alpha(opacity=80);}
+    .p-close-btn:hover{opacity: 1;filter:alpha(opacity=100);}
+    .down-app-btn{height:40px;line-height:40px;padding:0 15px;}
+    .down-app-btn span{margin-right: 3px;top: 1px;}
+    }
+@media (min-width:1200px){
+  .banner-template-con {width: 1170px;}
+  .banner-scroll-box{padding-left: 240px;}
+  .banner-scroll-btn{width:900px;}
+}
+
+/*** 第二版首页部分样式 ***/
+.all-navside-box ul.second-list li{height:102px;}
+.all-navside-box ul.second-list li i{float: right;color: #ddd;font-size: 16px;font-family: "黑体";margin:25px 5px 0 0;}
+.all-navside-box ul.second-list li p{line-height:30px;padding:0 10px;}
+.all-navside-box ul.second-list li p a{font-size:12px;color:#fff;margin:0 10px;}
+
+/*** 第二版最新课程样式 ***/
+.second-course-tit{margin: 0 0 40px;padding: 30px 0 10px;overflow: hidden;}
+.second-course-tit h3{font-size:32px;text-align:center;border-bottom: 1px solid #ccc;line-height:50px;width:315px;margin:0 auto}
+.second-course-tit h3 i img{width:40px;height:40px;margin-right:20px;margin-bottom: 3px;}
+.second-course-tit h3 b{border-bottom: 3px solid #0093f0;font-weight: normal;padding-bottom:6px;}
+.second-course-list{margin-bottom: 20px;}
+.second-course-list ul{list-style: none;padding: 0;margin-left: -25px;}
+.second-course-list ul li.course-item {margin-bottom: 20px;padding: 0 0 0 25px;}
+.second-course-list ul li:hover .second-course-box{-webkit-box-shadow: 0 10px 20px rgba(0,0,0,0.1);box-shadow: 0 10px 20px rgba(0,0,0,0.1);-webkit-transform: translate3d(0, -2px, 0);transform: translate3d(0, -2px, 0);-webkit-transition: all 0.2s linear;transition: all 0.2s linear;}
+.second-course-box .second-course-link .course-picture {width: 100%;}
+.second-course-box .second-course-text .course-body {margin: 10px 10px 0;}
+.second-course-text .course-body .course-title {word-break:break-all;height:30px;line-height:30px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;}
+.second-course-text .course-body .course-title a {color: #000;font-size:14px;}
+.second-course-text .course-body .course-footer {overflow:hidden;height: 55px;}
+.second-course-text .course-body .course-metas {height:30px;margin-top: 5px;}
+.second-course-text .course-body .course-metas .course-price {color: #a7adb3;font-size: 14px;}
+.second-course-text .course-body .course-metas .course-price i{float:left;margin:2px;}
+.second-course-text .course-body .course-metas .course-price em{float:right;font-style:oblique;}
+.second-course-btn {overflow: hidden;clear:both;}
+.second-course-btn a{width:130px;height:40px;border:1px solid #666;font-size:14px;color:#666;text-align: center;line-height:40px;border-radius:20px;display:block;margin:20px auto;text-decoration: none;}
+.second-course-btn a i {float: right;color: #666;font-size: 16px;font-family: "黑体";margin: -1px 25px 0 0;}
+.second-course-btn a b{float:left;margin-left:25px;font-weight:normal;}
+.second-course-btn a:hover {background-color:#e2e2e2;}
+
+/*** 校园新闻 ***/
+.bgcolor-blue{background-color:#f2f2f2;overflow:hidden;}
+.school-news{margin-bottom:20px;}
+.school-news-tit{margin: 0 0 40px;padding: 30px 0 10px;overflow: hidden;}
+.school-news-tit h3{font-size:32px;text-align:center;border-bottom: 1px solid #ccc;line-height:50px;width:315px;margin:0 auto;}
+.school-news-tit h3 i img{width:45px;height:40px;margin-right:20px;}
+.school-news-tit h3 b{border-bottom: 3px solid #0093f0;font-weight: normal;padding-bottom:6px;}
+.bgcolor-blue .school-news-list{background-color: #fff;padding:10px 30px;margin-bottom: 20px;}
+.bgcolor-blue .school-news-list ul li{width:100%;padding:36px 0;border-top:1px solid #e4e4e4;overflow:hidden;}
+.bgcolor-blue .school-news-list ul li:first-child{border-top:none;}
+.school-news-pic img {width:200px;height:110px;float:left;margin-right:20px;}
+.school-news-text h4{line-height:35px;color:#333;font-size:18px;font-weight:bold;}
+.school-news-text p{font-size:14px;color:#666;line-height:20px;}
+.school-news-text span{float:right;color:#a7adb3;}
+.school-news-text span b{font-size:12px;color:#0078d0;margin:0 5px;}
+.school-news-text span a{color:#666;font-size:12px;}
+.school-news-text span i{float:left;margin:2px;}
+
+/*** 名师风采 ***/
+.es-box{margin-bottom:20px;}
+.es-box-tit{margin:0 0 40px;padding:30px 0 10px;overflow:hidden;}
+.es-box-tit h2{font-size:32px;text-align:center;border-bottom: 1px solid #ccc;line-height:50px;width:315px;margin:0 auto}
+.es-box-tit h2 i {display:inline-block;}
+.es-box-tit h2 i img{width:40px;height:40px;margin-right:20px;}
+.es-box-tit h2 b{border-bottom: 3px solid #0093f0;font-weight: normal;padding-bottom:6px;}
+
+
+.es-box-tit a.a-more{float:right;height:21px;line-height:21px;margin-top:2px;font-size: 14px;color:#999;padding-right:25px;background: url(/Public/themes/redcloud-all/theme-img/more_arrow_1c2969.png) right 0 no-repeat;}
+.es-box-tit a.a-more:hover{text-decoration: none;background-position:right -29px;}
+
+.es-teacher-box{margin:0 -15px;}
+.promoted-teacher{margin:10px 0 20px;}
+.promoted-teacher-con{padding: 20px 0;-webkit-box-shadow:0 1px 4px rgba(0,0,0,0.15);box-shadow:0 1px 4px rgba(0,0,0,0.15);}
+.promoted-teacher-con:hover{-webkit-box-shadow: 0 10px 20px rgba(0,0,0,0.1);box-shadow: 0 10px 20px rgba(0,0,0,0.1);-webkit-transform: translate3d(0, -2px, 0);transform: translate3d(0, -2px, 0);-webkit-transition: all 0.2s linear;transition: all 0.2s linear;}
+.promoted-teacher .promoted-teacher-con .teacher-pic{display: block;width: 70%;margin:0 auto;border:none;}
+.promoted-teacher-con .teacher-pic .avatar{border:3px solid #f8f8f8;width:100%;border-radius: 50%;}
+.promoted-teacher .nickname{text-align: center;display: block;padding:10px 0;font-size:18px;line-height:30px;color:#000;margin:0 10px;text-decoration: none;}
+.promoted-teacher .title{text-align: center;display: block;color:#666;height:30px;margin:0 10px;font-size:14px;}
+.promoted-teacher .about{margin:10px;border-top:none;}
+.promoted-teacher .about p{height:48px;line-height:24px;font-size:14px;color:#777;overflow: hidden;}
+
+.promoted-btn{padding-top:10px;}
+.promoted-btn a{width:80px;height:25px;line-height:25px;display: block;border:1px solid #666;background-color:#fff;color:#666;margin:0 auto;text-align:center;text-decoration: none;}
+.promoted-btn a:hover{background-color:#666;color:#fff;}
+.promoted-btn a.active{background-color:#666;color:#fff;}
+
+/*** 焦点海报 ***/
+.bgcolor-e4eef2{background-color:#e4eef2;padding-bottom: 20px;}
+.poster-box{padding-bottom: 50px;}
+.poster-box .poster-tit {margin:0 0 40px;padding:30px 0 10px;overflow:hidden;}
+.poster-box .poster-tit  h3{font-size:32px;text-align:center;border-bottom: 1px solid #ccc;line-height:50px;width:315px;margin:0 auto}
+.poster-box .poster-tit  h3 i img{width:40px;height:40px;margin-right:20px;}
+.poster-box .poster-tit  h3 b{border-bottom: 3px solid #0093f0;font-weight: normal;padding-bottom:6px;}
+.poster-more{background-color:#00aff0;}
+.poster-more .second-course-btn a{border:1px solid #fff;color:#fff;}
+.poster-more .second-course-btn a i {color: #fff;}
+.poster-more .second-course-btn a:hover {background-color:#3dbff1}
+.poster-more .second-course-btn em {font-size: 28px;top: -7px;left: 50%;margin-left: -14px;color: #e4eef2;}
+
+.poster-content{margin-left:-15px;overflow:hidden;}
+.poster-content ul{padding: 0;}
+.poster-content ul li{margin-bottom: 20px;}
+.poster-content .poster-item-con{padding:10px;margin-left:15px;background:#fff;position: relative;}
+.poster-content ul li:hover .poster-item-con{-webkit-box-shadow: 0 10px 15px rgba(0,0,0,0.1);box-shadow: 0 10px 15px rgba(0,0,0,0.1);-webkit-transform: translate3d(0, -2px, 0);transform: translate3d(0, -2px, 0);
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+.poster-content ul li .poster-con{cursor: pointer;overflow: hidden;min-height: 45px; max-height: 600px;}
+.poster-content .poster-img{position: relative;text-align: center;width: 100%;}
+.poster-content .poster-img img{max-width: 100%;}
+.poster-content .poster-pic-text{position: absolute;left: 0;top: 0;z-index: 3;width: 100%;height: 100%;overflow: hidden;}
+.poster-content .poster-table-cell{display: table;width:100%;height: 100%;}
+.poster-content .poster-pic-text p{display: table-cell;vertical-align: middle;padding:10px;font-size: 14px;color: #fff;word-break:break-all;}
+.poster-content .bgcolor-text{min-height:236px;}
+
+
+
+/*** 底部浮动下载App ***/
+.app-popupbox{width:100%;padding:20px 0;background:rgba(0,0,0,0.7);text-align: center;position: fixed;bottom: 0;left: 0;z-index: 11111;}
+

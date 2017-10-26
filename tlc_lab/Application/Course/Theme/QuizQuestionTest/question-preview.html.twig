@@ -1,0 +1,16 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <style>
+    body {
+      background-color: #fff;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <div style="padding:20px;">
+  {% include '@Course/QuizQuestionTest/do-test-' ~ type ~ '.html.twig' %}
+  </div>
+{% endblock %}

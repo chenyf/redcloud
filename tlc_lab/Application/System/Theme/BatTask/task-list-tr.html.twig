@@ -1,0 +1,37 @@
+<tr id="{{ code }}-{{ strId }}-{{ taskItem['microtime'] }}">
+    {% for taskKey,taskTd in task %}
+        {% if taskKey == "uid" %}
+            <td>{{ getUserNameById(taskItem[taskKey]) }}</td>
+        {% elseif taskKey == "createTm" %}
+            <td>{{ taskItem[taskKey]|date('Y-m-d H:i:s') }}</td>
+        {% elseif taskKey == "lastModifyTm" %}
+            <td>
+                {% if taskItem[taskKey] %}
+                    {{ taskItem[taskKey]|date('Y-m-d H:i:s') }}
+                {% endif %}
+            </td>
+        {% elseif taskKey == "status" %}
+            <td>
+                {% if taskItem[taskKey] == "nostart" %}未开始{% endif %}
+                {% if taskItem[taskKey] == "doing" %}进行中{% endif %}
+                {% if taskItem[taskKey] == "finish" %}已完成{% endif %}
+                {% if taskItem[taskKey] == "stop" %}已停止{% endif %}
+            </td>
+        {% else %}
+            <td>{{ taskItem[taskKey] }}</td>
+        {% endif %}
+    {% endfor %}
+    <td>
+        {% if taskItem['status'] == "nostart" %}
+            <button class="btn btn-primary btn-xs start-task" data-code="{{code}}" data-strid="{{strId}}" data-microtime="{{taskItem['microtime']}}">开始</button>
+            <button class="btn btn-primary btn-xs stop-task" data-code="{{code}}" data-strid="{{strId}}" data-microtime="{{taskItem['microtime']}}">停止</button>
+        {% endif %}
+        {% if taskItem['status'] == "doing" %}
+            <button class="btn btn-primary btn-xs stop-task" data-code="{{code}}" data-strid="{{strId}}" data-microtime="{{taskItem['microtime']}}">停止</button>
+        {% endif %}
+        <button class="btn btn-primary btn-xs get-item-list" data-code="{{code}}" data-strid="{{strId}}" data-microtime="{{taskItem['microtime']}}" >查看列表</button>
+        {% if taskItem['status'] == "doing" %}
+            <button class="btn btn-primary btn-xs poll-item-list" data-code="{{code}}" data-strid="{{strId}}" data-microtime="{{taskItem['microtime']}}">实时查看</button>
+        {% endif %}
+    </td>
+</tr>

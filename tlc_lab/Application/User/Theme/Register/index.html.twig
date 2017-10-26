@@ -1,0 +1,41 @@
+{% extends '@User/layout.html.twig' %}
+{% block title %}注册 - {{ parent() }}{% endblock %}
+{% set script_controller = 'auth/register' %}
+{% set containerClassBlock = 'index_container' %}
+{% set two_nav = '欢迎注册' %}
+{% block content %}
+    <div class="redcloud-bggray">
+        <div class="container">
+            <div class="row row-6">
+                <div class="col-md-8 col-md-offset-2 ptl">
+                    {# table切换 #}
+                    <div class="course-nav-tabs register-heading">
+                        <ul class="nav nav-pills course-tabs-sort affix-top pull-left" id="course-nav-tabs">
+                            <li {% if registerType=='mobile' %} class="active" {% endif %}>
+                                <a class="btn-index " href="{{path('register',{type:'mobile'})}}">手机注册</a>
+                            </li>
+                            <li {% if registerType=='email' %} class="active" {% endif %}>
+                                <a class="btn-index borN" href="{{path('register',{type:'email'})}}">邮箱注册</a>
+                            </li>
+                        </ul>
+                        <p class="pull-right">我已经注册过，现在去<a href="{{ path('login') }}" style="color:#0078d0;line-height:42px;">登录</a></p>
+                    </div>
+                    <div class="panel panel-default panel-page register-box" style="clear:both">
+                        {# 注册 #}
+                        <div class="col-md-8 login-left">
+                            {% if registerType == 'email' %}
+                                {% include '@User/Register/email-register-form.html.twig' %}
+                            {%else%}
+                                {% include '@User/Register/mobile-register-form.html.twig' %}
+                            {% endif %}
+                        </div>
+                        {# 注册右侧banner #}
+                        <div class="login-zc-banner col-md-4" style="padding:0">
+                            <img src="{{register_poster_pic_path()}}" />
+                        </div>
+                    </div>
+              </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

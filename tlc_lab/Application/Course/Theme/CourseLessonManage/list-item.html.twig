@@ -1,0 +1,127 @@
+<li class="item-lesson clearfix {% if lesson.show == 0 and deploy == false %}hide{% endif %}" id="lesson-{{ lesson.id }}" data-id="{{ lesson.id }}" data-pid="{{ lesson.chapterId }}" {% if lesson.lessonLevel == 'unit' %}style="margin-left: 40px;"{% endif %}>
+	<div class="item-line {% if lesson.lessonLevel == 'unit' %}item-line-unit{% else %}item-line-chapter{% endif %}"></div>
+	<div class="item-content pull-left">
+	  {% set mediaStatus = lesson.mediaStatus|default(null) %}
+
+		{% if lesson.type == 'video' %}
+                    {% if mediaStatus == 'waiting' %}
+                        <i class="fa fa-play-circle-o pull-left text-warning"></i>
+                    {% elseif mediaStatus == 'doing' %}
+                        <i class="fa fa-play-circle-o pull-left text-info"></i>
+                    {% elseif mediaStatus == 'error' %}
+                        <i class="fa fa-play-circle-o pull-left text-danger"></i>
+                    {% else %}
+                        <i class="fa fa-play-circle-o pull-left text-success"></i>
+                    {% endif %}
+		{% elseif lesson.type == 'live' %}
+                    {% if mediaStatus == 'waiting' %}
+                        <i class="fa fa-video-camera text-warning"></i>
+                    {% elseif mediaStatus == 'doing' %}
+                        <i class="fa fa-video-camera text-info"></i>
+                    {% elseif mediaStatus == 'error' %}
+                        <i class="fa fa-video-camera text-danger"></i>
+                    {% else %}
+                        <i class="fa fa-video-camera text-success"></i>
+                    {% endif %}
+		{% elseif lesson.type == 'audio' %}
+                    <i class="fa fa-file-audio-o text-success"></i>
+		{% elseif lesson.type == 'testpaper' %}
+                    <i class="fa fa-file-text-o text-success"></i>
+		{% elseif lesson.type == 'text' %}
+                    <i class="fa fa-picture-o pull-left text-success"></i>
+		{% elseif lesson.type == 'document' %}
+
+            {% if file.ext == 'pdf' %}
+                    <i class="fa fa-file-pdf-o pull-left text-success"></i>
+            {% elseif file.ext == 'ppt' or file.ext == 'pptx' %}
+                    <i class="fa fa-powerpoint-ppt-o pull-left text-success"></i>
+            {% else %}
+                    <i class="fa fa-file-word-o pull-left text-success"></i>
+            {% endif %}
+		{% elseif lesson.type == 'flash' %}
+                    <i class="fa fa-film text-success"></i>
+		{% else %}
+                    <i class="fa fa-pencil-square-o pull-left text-success"></i>
+		{% endif %}
+		{#课时 <span class="number">{{ lesson.number }}</span>：#}{% if lesson.free == 1 %}<span class="label label-danger prs">免费</span>{% endif %}
+		
+		{% if lesson.type != 'text' and lesson.type != 'live' and lesson.type != 'testpaper' and lesson.type != 'testtask'  and lesson.type!='practice' and lesson.mediaId != 0 and not file|default(false) %}
+                    <span class="label label-danger fileDeletedLesson" title="课程内容文件已删除">无效课程内容</span>
+		{% endif %}
+		{{ lesson.title }}
+
+		{% if lesson.type in ['video', 'audio'] %}
+                    {#<span class="text-muted mlm">时长：{{ lesson.length|duration }}</span>#}
+		{% endif %}
+
+		{% if lesson.type in ['live'] %}
+                    <span class="text-muted">{{ lesson.startTime|data_format }}</span>
+		{% endif %}
+
+		{% if lesson.giveCredit > 0 %}
+                    <small class="text-muted">({{ lesson.giveCredit }}学分)</small>
+		{% endif %}
+
+                {% if lesson.requireCredit > 0 %}
+                    <small class="text-muted">(需{{ lesson.requireCredit }}学分)</small>
+                {% endif %}
+
+                {% if lesson.type != 'practice' %}
+                    {% set mediaTypeName = lesson.type == 'video' ? '视频' : (lesson.type == 'audio' ? '音频' : '文件') %}
+                    {% if mediaStatus == 'waiting' %}
+                        <span class="text-warning">(正在等待{{ mediaTypeName }}格式转换)</span>
+                    {% elseif mediaStatus == 'doing' %}
+                        <span class="text-info">(正在转换{{ mediaTypeName }}格式)</span>
+                    {% elseif mediaStatus == 'error' %}
+                        <span class="text-danger">({{ mediaTypeName }}格式转换失败{% if lesson.type == 'document' %}<a href="javascript:;" style="color:#a94442;text-decoration:none"  class="document-new-convert" data-url="{{path('document_convert')}}" data-fileid="{{lesson.mediaId}}">【重新转码】</a>{% endif %})</span>
+                    {% elseif mediaStatus == 'del' %}
+                        <span class="text-danger">({{ mediaTypeName }}已删除)</span>
+                    {% endif %}
+                {% endif  %}
+
+                {% if lesson.status == 'unpublished' %}
+                    <span class="unpublish-warning text-warning">(未发布)</span>
+                {% endif %}
+	</div>
+
+	<div class="item-actions">
+           {% if lesson.type == 'practice'%}
+                {%if lesson.testCount != lesson.itemCount %}
+                <a class="btn btn-link" href="{{U('Course/CourseTestpaperManage/createCourseLessonQuestions',{id:lesson.id,center:app.request.get('center')})}}"><span class="glyphicon glyphicon-edit prs"></span>编辑</a>
+                {%endif%}
+           {%else%}
+                <a class="btn btn-link" data-toggle="modal" data-target="#modal" data-backdrop="static" data-keyboard="false"
+			{% if lesson.type == 'testpaper' %}
+                            data-url="{{ path('course_manage_lesson_edit_testpaper', {courseId:course.id, lessonId:lesson.id,center:app.request.get('center')}) }}"
+			{% elseif lesson.type == 'testtask' %}
+                            data-url="{{ path('course_manage_lesson_edit_testpaper', {courseId:course.id, lessonId:lesson.id,type:1,center:app.request.get('center')}) }}"
+                        {#{% elseif lesson.type == 'practice' %}
+                            data-url="{{ path('course_manage_lesson_edit_testpaper', {courseId:course.id, lessonId:lesson.id,type:2,center:app.request.get('center')}) }}"#}
+			{% elseif lesson.type == 'live' %}
+                            data-url="{{ path('live_course_manage_lesson_edit', {courseId:course.id, lessonId:lesson.id,center:app.request.get('center')}) }}"
+			{% else %}
+                            data-url="{{ path('course_manage_lesson_edit', {courseId:course.id, lessonId:lesson.id,center:app.request.get('center')}) }}"
+			{% endif %}
+                ><span class="glyphicon glyphicon-pencil"></span>编辑</a>
+           {%endif%}
+            
+            {% if lesson.type == 'practice' %}
+                <a class="btn btn-link" href="{{ path('course_manage_preview_test', {testId:lesson.mediaId,center:app.request.get('center')}) }}" target="_blank"><span class="glyphicon glyphicon-eye-open prs"></span>预览</a>
+            {% else %}
+                <a class="btn btn-link" href="{{ path('course_learn', {id:course.id, preview:1,center:app.request.get('center')}) }}#lesson/{{ lesson.id }}" target="_blank"><span class="glyphicon glyphicon-eye-open prs"></span>预览</a>
+            {% endif %}
+
+            <a href="javascript:;" class="publish-lesson-btn btn btn-link {% if lesson.status == 'published' %}hidden {% endif %} {% if lesson.type == 'practice' and lesson.testCount != lesson.itemCount %}hidden {% endif %}" data-url="{{ path('course_manage_lesson_publish', {courseId:course.id, lessonId:lesson.id,
+                center:app.request.get('center')}) }}">
+                <span class="glyphicon glyphicon-ok-circle prs"></span>发布
+            </a>
+
+            <a href="javascript:;" class="unpublish-lesson-btn btn btn-link  {% if lesson.status == 'unpublished' %}hidden {% endif %}" data-url="{{ path('course_manage_lesson_unpublish', {courseId:course.id, lessonId:lesson.id,center:app.request.get('center')}) }}">
+                <span class="glyphicon glyphicon-remove-circle prs"></span>取消发布
+            </a>
+
+            <a href="javascript:;" class="delete-lesson-btn btn btn-link" data-url="{{ path('course_manage_lesson_delete', {courseId:course.id, lessonId:lesson.id,center:app.request.get('center')}) }}">
+                <span class="glyphicon glyphicon-trash prs"></span>删除
+            </a>
+	</div>
+</li>

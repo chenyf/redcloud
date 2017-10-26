@@ -1,0 +1,46 @@
+{% set deploy = intval(setting('course.chapter_deploy_enabled','0'))%}
+  
+<ul class="lesson-list sortable-list" id="course-item-list">
+    {% for id,group in groupedItems %}
+        {% if group.type == 'chapter' %}
+            {% set chapter = group.data %}
+            {% if chapter.type == 'unit' %}
+        <li class="item-chapter item-chapter-unit clearfix hide"  style="word-break: break-all;" data-id="{{ chapter.id }}" data-pid="{{ chapter.parentId }}">
+            <div class="item-line item-line-chapter"></div>
+            <div class="item-content">
+                <i class="fa fa-file-text-o pull-left"></i>第 <span class="number">{{ chapter.number }}</span> 节： {{ chapter.title }}
+            </div>
+        </li>
+            {% else %}
+        <li class="item-chapter item-chapter-chapter clearfix {% if chapter.show == 0 and deploy %}hide{% endif %}"  style="word-break: break-all;" data-id="{{ chapter.id }}" data-pid="{{ chapter.parentId }}">
+            <div class="item-content">
+                <i class="fa fa-list-ul pull-left deploy"></i>第 <span class="number">{{ chapter.number }}</span> 章： {{ chapter.title }}<em class="deploy fa pull-right fa-plus"></em>
+            </div>
+        </li>
+            {% endif %}
+        {% else %}
+            {% for item in group.data %}
+                {% set icon = {"text":"fa-picture-o","video":"fa-play-circle-o","practice":"fa-pencil-square-o","document":"fa-file-word-o"} %}
+                {% set lessonUrl = path('course_learn',{id:item.courseId,"#lesson":item.id}) %}
+            <li class="item-lesson clearfix hide" href="javascript:;" style="word-break: break-all;{% if item.lessonLevel == 'unit' %}margin-left: 40px;{% endif %}"  data-url="{{ lessonUrl }}" data-id="{{ item.id }}" data-pid="{{ item.chapterId }}">
+                <div class="item-line {% if item.lessonLevel == 'unit' %}item-line-unit{% else %}item-line-chapter{% endif %}"></div>
+                <div class="item-content pull-left {% if member==false %} tietleWidth {% endif %}">
+                    {% if item.type == 'document' and item.fileExt == 'pdf' %}
+                        <i class="fa fa-file-pdf-o pull-left"></i>
+                    {% elseif item.type == 'document' and ( item.fileExt == 'ppt' or item.fileExt == 'pptx' )  %}
+                        <i class="fa fa-file-powerpoint-o pull-left"></i>
+                    {% else %}
+                        <i class="fa {{ icon[item.type] }} pull-left"></i>
+                    {% endif %}
+
+                    {{ item.title }}
+                </div>
+                {% if item.type == 'video' %}
+                {#<span class="class-hours text-muted pull-right mrm {% if member==false %} hoverTime {% endif %}">时长：{{ item.length|duration }}</span>#}
+                {% endif %}
+            </li>
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+        </ul>
+

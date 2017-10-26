@@ -1,0 +1,35 @@
+{% extends '@User/User/layout.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% set pageNav = 'friend' %}
+
+{% block main %}
+
+<div class="panel-body">
+    <ul class="nav nav-tabline">
+        <li {% if friendNav == 'following' %}class="active"{% endif %}><a href="{{ path('user_following', {id:user.id}) }}">关注</a></li>
+        <li {% if friendNav == 'follower' %}class="active"{% endif %}><a href="{{ path('user_follower', {id:user.id}) }}">粉丝</a></li>
+    </ul>
+    <div class="row fans-list">
+	{% for friend in friends %}
+                <div class="fans-list-item col-md-4">
+                    <div class="friendcard clearfix user-avatar-link">
+                            <a href="{{ path('user_show', {id:friend.id}) }}"><img  loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/pic-error.png?5.1.4';"   src="{{ user_default_path(friend.id, 'middle')  }}" class="avatar"></a>
+                            <div class="infos">
+                                    <a href="{{ path('user_show', {id:friend.id}) }}" class="nickname">{{ friend.nickname }}</a>
+                                    <div class="title">{{ friend.title }}</div>
+                            </div>
+                    </div>
+                </div>
+        {% else %}
+            {% if friendNav == 'following' %}
+                    <div class="empty">无关注的人</div>
+            {% elseif friendNav == 'follower' %}
+                    <div class="empty">无粉丝</div>
+            {% endif %}
+	{% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+<template id="component-modal">
+    <div class="modal fade" id="[[ id ]]" tabindex="-1" role="dialog" aria-labelledby="[[ title_id ]]">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="[[ title_id ]]">给[[ title ]]添加新建项</h4>
+                </div>
+                <div class="modal-body">
+                    <input v-model="new_item" v-on:keyup.enter="addNewItem" class="form-control" type="text" value="[[ new_item ]]"/>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button @click="addNewItem" type="button" data-dismiss="modal" class="btn btn-primary">添加</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<script>
+    var AddModal = Vue.extend({
+        template: '#component-modal',
+        data:function () {
+            return{
+                new_item: ""
+            }
+        },
+        methods: {
+            addNewItem: function () {
+                this.$dispatch('add-new-item', this.new_item);
+                this.new_item = "";
+                $("#" + this.id).modal('hide');
+            }
+        },
+        props:{
+            id: String,
+            title: String,
+            title_id: String
+        }
+    });
+
+</script>

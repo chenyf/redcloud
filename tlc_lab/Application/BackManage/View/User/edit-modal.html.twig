@@ -1,0 +1,62 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+
+{% block title %}编辑用户信息{% endblock %}
+{% block body %}
+
+<form id="user-edit-form" class="form-horizontal" method="post" action="{{ url('admin_user_edit', {id:user.id}) }}">
+    
+  <div class="row form-group">
+    <div class="col-md-2 control-label">
+      <label for="nickname">姓名</label>
+    </div>
+    <div class="col-md-7 controls">
+      <strong>{{user.nickname}}</strong>
+    </div>
+  </div>
+
+    {% if 'ROLE_TEACHER' in user.roles %}
+    <div class="row form-group">
+        <div class="col-md-2 control-label">
+            <label for="research">研究方向</label>
+        </div>
+        <div class="col-md-7 controls">
+            <input type="text" id="research" name="research" class="form-control" value="{{ profile.research|default('') }}">
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-2 control-label">
+            <label for="telephone">办公室电话</label>
+        </div>
+        <div class="col-md-7 controls">
+            <input type="text" id="telephone" name="telephone" class="form-control" value="{{ profile.telephone|default('') }}">
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row form-group">
+        <div class="col-md-2 control-label">
+            <label for="cellphone">移动电话</label>
+        </div>
+        <div class="col-md-7 controls">
+            <input type="text" id="cellphone" name="cellphone" class="form-control" value="{{ profile.cellphone|default('') }}">
+        </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-md-2 control-label">
+            <label for="email">电子邮箱</label>
+        </div>
+        <div class="col-md-7 controls">
+            <input type="text" id="email" name="email" class="form-control" value="{{ profile.email|default('') }}">
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer %}
+  <button id="edit-user-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary pull-right" data-toggle="form-submit" data-target="#user-edit-form">保存</button>
+  <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+  <script>app.load('user/edit-modal')</script>
+{% endblock %}

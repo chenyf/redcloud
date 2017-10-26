@@ -1,0 +1,57 @@
+<tbody>
+  {% for category in categories %}
+		<tr id="category-tr-{{ category.id }}"  pid = "{{ category.parentId }}">
+		  <td>
+		    {#% for i in 0..(category.depth-1)*2 %}&nbsp;&nbsp;&nbsp;&nbsp;{% endfor %}└─ {{ category.name }#}
+                    <div class="td-content" title="{{ category.name }}">
+                    <span class="mlt{{ category.level-1 }}" >Lv{{ category.level }}</span>{{ category.name }}
+                        {% if category.isDelete %}<label class="label label-danger">已删除</label>{% endif %}
+                        {% if category.isRecommend == 1 %}<label class="label label-success">推荐专业</label>{% endif %}
+                    </div>
+		  </td>
+		  <td width="15%">{{ category.code }}</td>
+		  <td width="10%" style="text-align: center">{{ category.weight }}</td>
+                  <td width="10%" style="text-align: center">
+                    {% if category.isLeafNode == 1 %}
+                        <label class="label label-success">是</label>
+                    {% else %} 
+                        否
+                    {% endif %}
+                  </td>
+                  <td width="10%" style="text-align: center">{{ getUserNickNameById(category.createUid) }}</td>
+		  <td width="20%" >
+              <div class="btn-group">
+                  <a href="javascript:void(0)"  class="btn btn-default btn-sm">操作</a>
+                  <a href="#" type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">
+                      <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu">
+                    {% if category.level == '1' and (is_granted('ROLE_SUPER_ADMIN') == false)%}
+
+                    {% else %}
+                        {% if category.perm == '1' %}
+                           <li><a href="javascript:;" data-url="{{ path('admin_category_edit', {id:category.id,type:type}) }}" data-backdrop="static" data-toggle="modal" data-target="#modal"><i class="glyphicon glyphicon-edit"></i> 编辑</a></li>
+                        {% endif %}
+                    {% endif %}
+                        
+                    {% if category.isLeafNode != 1%}
+                        {% if category.perm == '1' and category.isDelete == 0 %}
+                      <li> <a href="javascript:;"  data-url="{{ path('admin_category_create', {parentId:category.id}) }}" data-backdrop="static" data-toggle="modal" data-target="#modal"><i class="glyphicon glyphicon-plus"></i> 添加子分类</a></li>
+                        {% endif %}
+                    {% endif %}
+                      {% if  category.isLeafNode == 1  and  category.isDelete == 0 %}
+                          {% if category.isRecommend != 1 %}
+                          <li> <a href="{{ U('BackManage/Category/recommend',{id:category.id,status:1}) }}"  data-url=""  class="ajax-click"><i class="glyphicon glyphicon-hand-up"></i> 推荐专业</a></li>
+                              {% else %}
+                          <li> <a href="{{ U('BackManage/Category/recommend',{id:category.id,status:0}) }}"  data-url=""  class="ajax-click"><i class="glyphicon glyphicon-hand-down"></i>取消推荐 </a></li>
+                              {% endif %}
+                      {% endif %}
+                  </ul>
+              </div>
+
+		  </td>
+		</tr>
+	{% else %}
+	  <tr><td colspan="20"><div class="empty">暂无分类记录</div></td></tr>
+  {% endfor %}
+</tbody>

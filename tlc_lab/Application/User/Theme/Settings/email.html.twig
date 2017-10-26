@@ -1,0 +1,63 @@
+{% extends '@User/Settings/layout.html.twig' %}
+{% block title %}邮箱设置 - {{ parent() }}{% endblock %}
+{% set script_controller = 'settings/email' %}
+{% set side_nav = 'email' %}
+{% block main %}
+    {% embed "@Home/Bootstrap/panel.html.twig" with {class:'panel-col'} %}
+        {% block heading %}邮箱设置{% endblock %}
+        {% block body %}
+            <div class="panel-body"> 
+                {% if mailer.enabled == 1 %}
+                    <form id="setting-email-form" class="form-horizontal" method="post" >
+                        {% if message != '' %}<div class="alert alert-{{res}}">{{ message }}</div>{% endif %}
+                        {% if app.user.email %}
+                            <div class="form-group">
+                                <div class="col-md-2 control-label"><label>当前登录邮箱</label></div>
+                                <div class="col-md-8 controls mts">
+                                    <span class="control-text">
+                                        {{ app.user.email }}
+                                        {% if app.user.emailVerified %}
+                                            <span class="text-success">(已验证)</span>
+                                        {% else %}
+                                            <p class="help-block mtm">
+                                              邮箱地址尚未验证，
+                                              <a id="send-verify-email" class="btn btn-info btn-sm" href="javascript:;" data-url="{{ path('settings_email_verify') }}">去验证</a>
+                                            </p>
+                                        {% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <div class="form-group">
+                            <div class="col-md-2 control-label">
+                                <label for="form_password" class="required">网站登录密码</label>
+                            </div>
+                            <div class="col-md-8 controls">
+                                <input type="password" id="form_password" name="form[password]" required="required" class="form-control" data-widget-cid="widget-1" data-explain="设置新的登录邮箱，需要校验当前的网站登录密码">
+                                <p class="help-block">设置新的登录邮箱，需要校验当前的网站登录密码</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 control-label">
+                                <label for="form_email" class="required">新登录邮箱</label>
+                            </div>
+                            <div class="col-md-8 controls">
+                                <input type="text" id="form_email" name="form[email]" required="required" class="form-control" data-widget-cid="widget-2" data-explain="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-2 control-label"></div>
+                            <div class="col-md-8 controls">
+                                <input type="hidden" id="form__token" name="form[_token]" value="138aad852ccb9e4ace9e338faa9e828fc1fd7ee2">
+                                <button id="email-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary">提交</button>
+                            </div>
+                        </div>
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+                    </form>
+                {% else %}
+                    <div class="alert alert-danger">管理员尚未设置邮件服务器，不能更改邮箱地址。</div>
+                {% endif %}
+            </div>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

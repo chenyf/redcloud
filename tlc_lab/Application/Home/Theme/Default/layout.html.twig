@@ -1,0 +1,100 @@
+{% extends '@Home/layout.html.twig' %}
+{#% extends getTwigExtendsStr('/layout.html.twig',"@Web") %#}
+
+{% block keywords %}{{ setting('site.seo_keywords') }}{% endblock %}
+{% block description %}{{ setting('site.seo_description') }}{% endblock %}
+
+{% set bodyClass = 'homepage' %}
+{% set script_controller = 'index' %}
+
+{% block home_page_new_banner %}
+  <div>
+    {% if blocks.home_top_banner %}
+          {%if blocksImgsize == 'big'%}
+                <div class="homepage-feature homepage-feature-slides mbl">
+                  <div class="cycle-pager"></div>
+                  {{ blocks.home_top_banner|raw }}
+                </div>
+          {%else%}
+        <div class="banner-template-box">
+            <div class="banner-template-con">
+                <div class="banner-scroll-box">
+                    <div class="banner-scroll-img">
+                        {#<a href="###" yanse="#3999e3"><img src="/Public/themes/hebei/img/img1.jpg"></a>
+                        <a href="###" yanse="#ece3d2"><img src="/Public/themes/hebei/img/img2.jpg"></a>#}
+                            {{ blocks.home_top_banner|raw }}
+                    </div>
+                    <div class="banner-scroll-btn"><span class="active">•</span></div>
+                </div>
+            </div>
+        </div>
+              <script type="text/javascript" src="{{ asset('assets/libs/jquery/1.11.3/jquery-1.11.3.min.js') }}"></script>
+              <script type="text/javascript">
+                  var index = 0;
+                  timer = null;
+                  len=$(".banner-scroll-img a").length;
+                  //by yjl start
+                  if(len > 1){
+                      var str = '';
+                      for(var i = 0; i < len-1; i ++ ){
+                          str +="<span>•</span>";
+                      }
+                      $(".banner-scroll-btn").append(str);
+                  }
+                  //by yjl end
+                  function NextPage(){
+                      if (index > len-1)
+                          index = 0;
+                      $(".banner-scroll-img a").stop(true,false).filter(":visible").fadeOut(500).parent().children().eq(index).fadeIn(1000);
+                      $('.banner-scroll-btn span').removeClass('active');
+                      $('.banner-scroll-btn span').eq(index).addClass('active');
+                      bgColor();
+                  }
+                  function PrevPage(){
+                      if(index<0)
+                          index = len-1;
+                      $(".banner-scroll-img a").stop(true,false).filter(":visible").fadeOut(500).parent().children().eq(index).fadeIn(1000);
+                      $('.banner-scroll-btn span').removeClass('active');
+                      $('.banner-scroll-btn span').eq(index).addClass('active');
+                      bgColor();
+                  }
+                  function bgColor(){
+                      var yanse= $(".banner-scroll-img a").eq(index).attr('yanse') ;
+                          yanse = yanse ?  yanse : '';
+                      var dataimg=$(".banner-scroll-img a").eq(index).attr('data-img');
+                          dataimg = dataimg ?  dataimg : '';
+                       if (dataimg.replace(/(^s*)|(s*$)/g, "").length != 0 && yanse.replace(/(^s*)|(s*$)/g, "").length == 0){
+                        $('.banner-template-box').removeAttr("style");
+                        $('.banner-template-box').css("background",'url(' + dataimg + ')');
+                        $('.banner-template-box').css("backgroundPosition","center center");
+                        }
+                      if (dataimg.replace(/(^s*)|(s*$)/g, "").length == 0 && yanse.replace(/(^s*)|(s*$)/g, "").length != 0){
+                        $('.banner-template-box').removeAttr("style");
+                        $('.banner-template-box').css({"background-color":yanse}); 
+                        }
+                      if (dataimg.replace(/(^s*)|(s*$)/g, "").length != 0 && yanse.replace(/(^s*)|(s*$)/g, "").length != 0){
+                        $('.banner-template-box').removeAttr("style");
+                        $('.banner-template-box').css("background",'url(' + dataimg + ')');
+                        $('.banner-template-box').css("backgroundPosition","center center"); 
+                        $('.banner-template-box').css({"background-color":yanse}); 
+                        }
+                        
+                  }
+                  var timer = setInterval(function(){index++ ;NextPage();},3000)
+                  $(".banner-template-box").hover(function(){
+                      clearInterval(timer);
+                  },function(){
+                      timer = setInterval(function(){index++ ;NextPage();},3000)
+                  })
+
+                  $('.banner-scroll-btn span').click(function(){
+                      index=$(this).index();
+                      NextPage();
+                  });
+                  bgColor();
+              </script>
+        {% endif %}
+  {% endif %}
+    </div>
+{% endblock %}
+

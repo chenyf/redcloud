@@ -1,0 +1,63 @@
+{% import '@BackManage/macro.html.twig' as admin_macro %}
+<tr id="apply-table-tr-{{ apply.id }}">
+    <td>
+        <span class="text-sm">
+            {% set userInfo = getUserInfo(apply.applyUid,['nickname','email','verifiedMobile']) %}
+            {{ userInfo.nickname }}<br/>
+            {% if userInfo.verifiedMobile and userInfo.email %}
+                {{ userInfo.verifiedMobile }}/{{ userInfo.email }}
+            {% elseif userInfo.verifiedMobile %}
+                {{ userInfo.verifiedMobile }}
+            {% elseif userInfo.email %}
+                {{ userInfo.email }}
+            {% endif %}
+        </span>
+    </td>
+    <td>
+        <p class="text-sm" style="word-wrap:break-word;word-break:break-all">{{ apply.applyName }}</p>
+    </td>
+    <td>
+        <p class="text-sm" style="word-wrap:break-word;word-break:break-all">{{ categoryName(apply.applyCateid) }}</p>
+    </td>
+    <td>
+        <p class="text-sm" style="word-wrap:break-word;word-break:break-all">{{ apply.applyEmail }}</p>
+    </td>
+    <td>
+        <span class="text-sm">{{ apply.applyMobile }}</span>
+    </td>
+    <td>
+        <span class="text-sm">
+            {% if apply.applyTm %}
+                {{ apply.applyTm|date('Y-n-d H:i:s') }}
+            {% else %}
+                --
+            {% endif %}
+        </span>
+    </td>
+    <td>
+        <a href="#modal" data-toggle="modal" data-url="{{ U('BackManage/UserApply/applyRemark',{id:apply.id}) }}" class="btn btn-default btn-sm">查看</a>
+    </td>
+    <td>
+        {% if apply.status == 1 %}
+            <span class="text-success">已通过</span>
+        {% elseif apply.status == 2 %}
+            <span class="text-danger">未通过</span>
+        {% elseif apply.status == 3 %}
+            <span class="text-muted">已取消</span>
+        {% else %}
+            <span class="text-muted">未审核</span>
+        {% endif %}
+    </td>
+    <td>
+        {% if apply.status != 3 %}
+            <div class="btn-group">
+                {% if apply.status == 1 or apply.status == 2 %}
+                    <button class="btn btn-default btn-sm" disabled>已审核</button>
+                    <a href="#modal" data-toggle="modal" class="btn btn-default btn-sm" data-url="{{ U('BackManage/UserApply/applyRecords',{id:apply.id}) }}">审核记录</a>
+                {% else %}
+                    <a href="#modal" data-toggle="modal" class="btn btn-primary btn-sm" data-url="{{ U('BackManage/UserApply/checkApply',{id:apply.id}) }}">审核</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </td>
+</tr>

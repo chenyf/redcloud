@@ -1,0 +1,182 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+{% set block = block|default(null) %}
+
+{% block title %}编辑内容 : {{block.title}}{% endblock %}
+
+{% set modal_class = 'modal-lg' %}
+
+{% block body %}
+
+
+{#<h5>编辑区名称：{{block.title}}</h5>#}
+
+<form id="block-form"  {% if block.mode == 'template' %}class="form-horizontal" {% endif %} action="{{ path('admin_block_update', {block:block.id}) }}" method="post">
+    {#%if blockType==1%#}
+    {%if block.isTheme== 'yes' %}
+        <!-- <strong>默认：</strong><input  type="radio" {%if block.imgsize == 'big'%}checked='true'{%endif%} name="imgsize" value = 'big'> 通 屏  &nbsp;&nbsp;&nbsp;
+        <input  type="radio" {%if block.imgsize == 'small'%}checked='true'{%endif%} name="imgsize" value = 'small'> 窄 屏 <br/> -->
+        <div class="c-modal-banner">
+            <strong>默认：</strong>
+            <label class="mod-banner1"><input  type="radio" {%if block.imgsize == 'big'%}checked='true'{%endif%} name="imgsize" value = 'big'> 通 屏</label>
+            <label class="mod-banner2"><input  type="radio" {%if block.imgsize == 'small'%}checked='true'{%endif%} name="imgsize" value = 'small'> 窄 屏 </label>
+        </div>
+        
+        
+        
+        
+    {%endif%}
+    {%if block.isTheme== 'yes' %}
+    {#%if blockType==1%#}
+        <ul id="ImgTab" class="nav nav-tabs mbl">
+            <li type="big" {%if block.imgsize == 'big'%}class="active"{%endif%}><a href="#">通屏图片</a></li>
+            <li type="small" {%if block.imgsize == 'small'%}class="active"{%endif%}><a href="#">窄屏图片</a></li>
+        </ul>
+    {%endif%}
+    {#%if blockType==1%}
+    大图片<input  type="radio" {%if name="imgsize" == 'big'%}checked='true'{%endif%} name="imgsize" value = 'big'>
+    小图片<input  type="radio" {%if block.imgsize == 'small'%}checked='true'{%endif%} name="imgsize" value = 'small'>
+    {%endif%#}
+  {% if block.mode == 'html' %}
+  <div class="form-group">
+      <div class="controls">
+      
+        <textarea {%if block.imgsize == 'small'%}style="display:none"{%endif%} {%if block.isTheme== 'yes' %}style="display:none" {%endif%} class="form-control" id="blockContent" rows="10" name="content" data-role="editor-field" style="z-index:1000;">{{ block.content }}</textarea>
+        <textarea {%if block.imgsize == 'big'%}style="display:none"{%endif%} style="display:none" class="form-control" id="blockContentSmall" rows="10" name="contentsmall" data-role="editor-field" style="z-index:1000;">{{ block.contentsmall }}</textarea>
+      </div>
+  </div>
+  {% else %}
+    {% for item in templateItems %}
+      {% set join = [item.title,item.type]|join(':') %}
+      {% set template = templateData[join]|default(null) %}
+      {% if item.type == 'a' or item.type == 'text' %}
+        <div class="form-group">
+          <div class="col-md-2 control-label"><label for="{{ item.title }}:{{ item.type }}">{{ item.title }}</label></div>
+          <div class="col-md-8 controls"> 
+          <input class="form-control" type="text" id="{{ item.title }}:{{ item.type }}" value="{{ template }}" name="{{ item.title }}:{{ item.type }}"></div>
+        </div>
+      {% else %}
+        <div class="form-group">
+          <div class="col-md-2 control-label"><label for="{{ item.title }}:{{ item.type }}">{{ item.title }}</label></div>
+          <div class="col-md-8 controls">
+            <button class="btn btn-default btn-sm upload-img" id="{{ item.title}}:{{ item.type }}" type="button" data-url="{{ path('file_upload', {group:'default'}) }}" data-name="{{ item.title}}:{{ item.type }}" >上传</button>       
+            <button class="btn btn-default btn-sm upload-img-del" type="button"  data-name="{{ item.title}}:{{ item.type }}" {% if not template %}style="display:none;"{% endif %}>删除</button>
+            <input type="hidden" name="{{ item.title }}:{{ item.type }}" value="{{ template }}">
+            <a href="{{ template }}" target="_blank" {% if not template %}style="display:none;"{% endif %}>{{ item.title }}</a>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+</form>
+<input type="hidden" id="isTheme" value="{{block.isTheme}}">
+{% if block.mode == 'html' %}
+{%if block.isTheme== 'yes' %}
+ <div class="form-group" id="blockInput" {%if block.imgsize == 'small'%}style="display:none"{%endif%}>
+     {% for key,item in block.bkContent %}
+      <div class="controls" style="margin:5px 0;">
+                <input class="form-control content" id="imageColor{{ key}}" type="text" name="content" value="{{ item }}"  style="width:350px;display:inline-block;">
+                <div style="width:110px;display:inline-block;">
+                 <select id="colorImg{{ key}}" class="form-control colorImg" name="beijing">
+                       {# <option id="beiImg{{ key}}"  value="beiImg">背景图片</option>#}
+                        <option class="beijing" id="beiColor{{ key}}" selected="selected" value="beiColor">背景颜色</option>
+                </select>
+             </div>
+             <button class="btn btn-default delete-btn blockDel" id="blockDel{{ key }}" >删除</button>
+                <div style="display:inline-block;" id="choiceColor{{ key}}" class="choiceColor" >
+                      <input style="display:inline-block;width:90px;" type="text" id="themeFontColor{{ key}}"  class="form-control blockTheme">
+                      <img src="/Public/assets/libs/colorpicker/colorpicker.png" id="imgFontColor{{ key}}" class="imgFontColor" style="cursor:pointer;margin:0 0 0 10px;"/>
+                </div>
+      </div>
+         {% endfor %}
+  </div>
+  
+   
+   
+   <div class="form-group" id="blockInputSmall" {%if block.imgsize == 'big'%}style="display:none"{%endif%}>
+      {% for keys,ites in block.bkContentsmall %}
+      <div class="controls" style="margin:5px 0;">
+                <input class="form-control content" id="imageColorSmall{{ keys }}" type="text" name="content" value="{{ ites }}"  style="width:350px;display:inline-block;">
+                <div  style="width:110px;display:inline-block;">
+                 <select id="colorImgSmall{{keys}}" class="form-control colorImgSmall" name="beijing">
+                        <option id="beiImgSmall{{ keys}}" class="beiImgSmall" value="beiImg">背景图片</option>
+                        <option class="beijingSmall" id="beiColorSmall{{ keys}}"  value="beiColor">背景颜色</option>
+                </select>
+             </div>
+                <button class="btn btn-default delete-btn blockDel" id="blockDelSmall{{ keys }}" >删除</button>
+              <div style="display:inline-block;" class="imgFileSmall" id="imgFileSmall{{ keys }}" >
+                <form id="block-image-upload-formSmall{{ keys }}" class="block-image-upload-form" action="{{ path('file_upload', {group:'default'}) }}"  method="post" enctype="multipart/form-data">
+                    <input class="btn btn-default"  type="file" name="file" value="上传" style="display:inline-block;width:200px;">
+
+                    <button id="subTypeSmall{{ keys }}" type="big" class="btn btn-default">上传图片</button>
+                    </form>
+               </div>
+                <div style="display:inline-block;" id="choiceColorSmall{{ keys }}"  class="hide choiceColorSmall" >
+                      <input style="display:inline-block;width:90px;" type="text" id="themeFontColorSmall{{ keys }}"   class="form-control blockThemeSmall">
+                      <img src="/Public/assets/libs/colorpicker/colorpicker.png" id="imgFontColorSmall{{ keys }}" class="imgFontColorSmall" style="cursor:pointer;margin:0 0 0 10px;"/>
+                </div>
+      </div>
+   {% endfor %}
+  </div>
+{% endif %}
+<form id="block-image-upload-form" action="{{ path('file_upload', {group:'default'}) }}" method="post" enctype="multipart/form-data">
+  <input class="btn btn-default btn-sm" type="file" name="file" value="上传" style="display:inline-block;">
+  
+  <button id="subType" type="big" class="btn btn-default btn-sm">上传图片</button>
+  
+  
+</form>
+{% endif %}
+
+<div class="mbm mtl"><strong>编辑帮助</strong></div>
+<div class="text-info">{{ block.tips|nl2br }}</div>
+
+<div class="mbm mtl"><strong>变更记录</strong></div>
+  <table id="block-history-table" class="table table-striped table-condensed">
+    <tbody>
+      {% for blockHistory in blockHistorys %}
+      {% set templateData = blockHistory.templateData %}
+        <tr id="{{ blockHistory.id }}">
+          <td>{{ blockHistory.createdTime |date('Y-n-d H:i:s') }}</td>
+          <td>{{ historyUsers[blockHistory.userId].nickname }}</td>
+          <td>
+            {% if block.isTheme == 'yes' %}
+                <a class="btn btn-xs btn-default edit-btn" 
+                href="{{ path('admin_blockhistory_preview', {id:blockHistory.id}) }}/type/big" target="_blank"> 预览大图 </a>&nbsp;&nbsp;&nbsp;
+
+                      <a class="btn btn-xs btn-default edit-btn" 
+                href="{{ path('admin_blockhistory_preview', {id:blockHistory.id}) }}/type/small" target="_blank"> 预览小图 </a>
+            {%else%}
+                    <a class="btn btn-xs btn-default edit-btn" 
+                href="{{ path('admin_blockhistory_preview', {id:blockHistory.id}) }}/type/big" target="_blank"> 预览 </a>
+           {%endif%}
+          </td>
+          {% if block.mode == 'template' %}
+          <td>
+            <button class="btn-recover-template btn btn-xs btn-default edit-btn">恢复内容</button>
+            <div class="data-role-content" style="display:none">{{ templateData|json_encode() }}</div>
+          </td>
+          {% else %}
+          <td>
+              {% if block.isTheme == 'yes' %}
+                    <button type="big" class="btn-recover-content btn btn-xs btn-default edit-btn">恢复大图内容</button>
+                    <button type="small" class="btn-recover-content btn btn-xs btn-default edit-btn">恢复小图内容</button>
+              {%else%}
+                    <button type="big" class="btn-recover-content btn btn-xs btn-default edit-btn">恢复内容</button>
+              {%endif%}
+            <div class="big-data-role-content data-role-content" style="display:none"> {{ blockHistory.content }} </div>
+            <div class="small-data-role-content data-role-content" style="display:none"> {{ blockHistory.contentsmall }} </div>
+          </td>
+          {% endif %}
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+   {{ web_macro.paginator(paginator) }} 
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-link" data-dismiss="modal">取消</button>
+  <button id="block-update-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#block-form">保存</button>
+  <script type="text/javascript">app.load('block/update')</script>
+{% endblock %}

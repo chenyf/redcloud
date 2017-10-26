@@ -1,0 +1,86 @@
+{% extends  '@Home/Default/layout.html.twig' %}
+{% set siteNav = '/' %}
+{% set bodyClass = 'career_course_plan' %}
+{% set containerClassBlock = 'container' %}
+
+{% block styleBolck %}
+    #content-container{
+        width: 100% !important;
+    }
+{% endblock %}
+
+{% block content %}
+
+<div class="career_course_plan_banner">
+    <div class="career_course_plan_container">
+        <div class="path">
+            <a href="/">职业路径</a>
+            /
+            <a href="#">{{ career.name }}</a>
+        </div>
+        <p class="career_name">{{ career.name }}</p>
+        <div class="sc-info clearfix">
+            <dl class="info-wrap">
+                <dt>阶段总数</dt>
+                <dd>{{ career.stages|length }}</dd>
+            </dl>
+            <dl class="info-wrap">
+                <dt>课程总数</dt>
+                <dd>{{ career.courseCount }}</dd>
+            </dl>
+            <dl class="info-wrap">
+                <dt>浏览次数</dt>
+                <dd>{{ career.viewCount }}</dd>
+            </dl>
+            <dl class="info-wrap">
+                <dt>学习人数</dt>
+                <dd>{{ career.learnerCount }}</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+<div id="career_scmain" class="career_scmain">
+    <div class="career-desc">{{ career.description }}</div>
+    <div class="stage-wrap" id="step">
+        <h1 class="stage-big-title">课程安排计划如下</h1>
+        {% set stage_num = 0 %}
+        {% for stage in career.stages %}
+            {% set stage_num = stage_num + 1 %}
+            <div class="stage-title">
+                <span>第{{ stage_num }}阶段：</span>{{ stage.name }}
+                <div class="stage-option"></div>
+            </div>
+            <p class="stage-desc">{{ stage.description }}</p>
+            <ul class="clearfix">
+                {% set course_num = 1 %}
+                {% for plan in stage.plans %}
+                    {% set course_num = course_num + 1 %}
+                    <div class="sc-course-cart" data-id="{{ plan.id }}">
+                        <a href="{{ path('course_show',{id:plan.course.id}) }}">
+                            <div class="sc-course-cart-wrap">
+                                <div class="sc-cart-t">
+                                    第{{ course_num }}课
+                                </div>
+                                <div class="sc-cart-b">
+                                    <h3>{{ plan.course.title }}</h3>
+                                    <p class="sc-cart-info">{{ plan.course.about|raw }}</p>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="sc-course-cart-axis">
+                            <div class="relative">
+                                <div class="axisx"></div>
+                                <div class="axisy"></div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}
+

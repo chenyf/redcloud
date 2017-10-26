@@ -1,0 +1,29 @@
+<tr id="config-{{ config.id }}">
+	<td>{{config.id}}</td>
+	<td>
+        {{ config.name }}
+	</td>
+    <td>
+        {{ config.title }}
+    </td>
+	<td>
+
+	</td>
+    <td>
+
+    </td>
+    <td>
+        {% if config.status == 1 %}
+        <span class="text-success">启用</span>
+        {% else %}
+        <span class="text-danger">关闭</span>
+        {% endif %}
+    </td>
+	<td>
+		<div class="btn-group">
+            <button class="btn btn-sm btn-default edit-btn" data-url="{{ path('mobile_config_edit', {id:config.id}) }}" data-toggle="modal" data-target="#modal"><span class="glyphicon glyphicon-edit"></span>  编辑</button>
+            <button class="btn btn-sm btn-default delete-btn" data-url="{{ path('mobile_config_del', {id:config.id}) }}" data-target="{{ config.id }}"><span class="glyphicon glyphicon-ban-circle"></span>  禁用</button>
+		</div>
+	</td>
+
+</tr>

@@ -1,0 +1,57 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class = 'modal-lg' %}
+{% block title %}{{name}}详情列表{% endblock %}
+{% block body %}
+
+<div>
+{% if itemTaskList %}
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>序号</th>
+                {% for itemTh in itemTask %}
+                    <th>{{ itemTh }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itemTaskList %}
+                <tr>
+                    <td>{{ item.num }}</td>
+                    {% for itemKey,itemTd in itemTask %}
+                        {% if itemKey == "processTm" %}
+                            <td>
+                                {% if item[itemKey] %}
+                                    {{ item[itemKey] }}
+                                {% endif %}
+                            </td>
+                        {% elseif itemKey == "status" %}
+                            <td>
+                                {% if item[itemKey] == "failure" %}失败{% endif %}
+                                {% if item[itemKey] == "success" %}成功{% endif %}
+                                {% if item[itemKey] == "nostart" %}未开始{% endif %}
+                            </td>
+                        {% elseif itemKey == "itemData" %}
+                            <td>
+                                <pre style="font-weight:bold">{% if is_array(item[itemKey]) %}{{ item[itemKey]|join(';') }}{% else %}{{ item[itemKey] }}{% endif %}</pre>
+                            </td>
+                        {% else %}
+                            <td>{{ item[itemKey] }}</td>
+                        {%  endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="empty">暂无记录</div>
+{% endif %}
+{{ web_macro.paginator(paginator) }}
+</div>
+
+{% endblock %}
+
+{% block footer %}
+  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+{% endblock %}

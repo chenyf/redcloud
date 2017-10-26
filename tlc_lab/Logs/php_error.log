@@ -1,0 +1,1 @@
+[24-Oct-2017 22:10:19 Asia/Shanghai] PHP Fatal error:  Call to undefined function System\Common\Common\curl_init() in /home/master/workspace/cstarcloud/tlc_lab/Application/System/Common/Common/RequestBase.php on line 65

@@ -1,0 +1,35 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set menu = 'cms' %}
+
+{% block title %}{% endblock %}
+{% block body %}
+
+<form id="create-form" class="form-horizontal" method="post" action="{{ U('Cms/consult') }}">
+
+    <div class="row form-group col-md-3">
+       <div style="margin-left:15px">
+         图片地址
+       </div>
+       <div class="col-md-3 ">
+            <input type="text" name="picurl" value="">
+       </div>
+    </div>
+
+    <div class="row form-group" style="margin-left:250px">
+       <div style="margin-left:15px">
+         链接地址
+       </div>
+       <div class="col-md-3 ">
+            <input type="text" name="picurl" value="">
+       </div>
+    </div>
+    
+</form>
+{% endblock %}
+
+{% block footer %}
+  <button id="create-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary pull-right" data-toggle="form-submit" data-target="#create-form">提交</button>
+  <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+  <script>app.load('cms/create_list')</script>
+{% endblock %}

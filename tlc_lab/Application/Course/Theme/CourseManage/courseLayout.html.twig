@@ -1,0 +1,36 @@
+{% set side_nav = 'my-teaching-courses' %}
+{% extends '@My/My/layout.html.twig' %}
+{% block title %}在教课程 - 基本信息 - {{ parent() }}{% endblock %}
+{% block main %}   
+       
+        {% include '@Course/CourseManage/course-manage-header.html.twig' %}
+        {# 课程内容管理 #}
+            <div class="reload-container">
+                <div class="panel" id="panel-body">
+                    <span class="controller-js hidden" data-name="{{ script_controller }}"></span>
+                    <div class="course-list-tit t-course-set-tit">
+                            <div class="tabs-screen">
+                                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-content" aria-expanded="false" aria-controls="nav-content">
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                    <span class="icon-bar"></span>
+                                </button>
+                                <ul class="nav nav-tabs collapse in" id="nav-content">
+                                    <li {% if menu == 'lesson' %}class="active"{% endif %}><a class="ajaxLoad" href="{{ U('Course/CourseLessonManage/index',{id:course.id}) }}">课程内容</a></li>
+                                    <li {% if menu == 'question' %}class="active"{% endif %}><a class="ajaxLoad"  href="{{ U('Course/CourseQuestionManage/index',{courseId:course.id}) }}">题库管理</a></li>
+                                    <li {% if menu == 'base' %}class="active"{% endif %}><a class="ajaxLoad"  href="{{ U('Course/CourseManage/base',{id:course.id}) }}">课程信息</a></li>
+                                    <li {% if menu == 'courseResource' %}class="active"{% endif %}><a class="ajaxLoad"  href="{{ U('Course/CourseResource/index',{id:course.id}) }}">课程资料</a></li>
+                                    <li {% if menu == 'resourcePacket' %}class="active"{% endif %}><a class="ajaxLoad"  href="{{ U('Course/CourseResourcePacket/index',{id:course.id}) }}">课程资源包</a></li>
+                                </ul>
+                            </div>
+                            
+                    </div>
+                    <div class="panel-body" id="panel-main-box">
+                        {% block side %} {% endblock %}
+                        {% block courseContent %}  {% endblock %}
+                    </div>
+                </div>
+            </div>
+            {{ load_script('course-manage/course-layout') }}  
+
+{% endblock %}

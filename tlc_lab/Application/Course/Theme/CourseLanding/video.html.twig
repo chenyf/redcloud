@@ -1,0 +1,78 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modal_class = 'modal-lg' %}
+
+{% block title %}<span class="text-muted">免费课程内容预览:</span> {{order.title}}{% endblock %}
+
+{% block body %}
+
+                <div id="lesson-preview-swf-player" data-url="{{ order.videoPath }}" data-mediaSource="{{ order.mediaSource }}" data-vid="{{order.polyvVid}}"></div>
+                {% if order.mediaSource == 'polyv' %}
+                    <script src="{{ asset('assets/libs/polyv/polyvplayer_v2.0.min.js') }}"></script>
+                {% endif %}
+       
+   
+           
+           
+
+   
+        <script>app.load('course/lesson-preview')</script>
+{% endblock %}
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+{% block footer %}
+{% if is_plugin_installed('Classroom') %}
+    {% if lesson.status == 'published' %}
+        {% if  isCourseFree(course.id)  %}
+                <a id="buy-btn" type="button" class="btn btn-primary" 
+                {% if setting("course.buy_fill_userinfo")|default(false) %}
+                href="#modal" 
+                data-toggle="modal" 
+                data-url="{{ path('course_buy', {id:course.id, targetType:'course'}) }}"
+                {% else %}
+                href="{{ path('order_show', {targetId:course.id, targetType:'course'}) }}"
+                {% endif %}
+                >
+                    {% if user.id %}免费加入学习
+                    {% else %}登录后加入学习
+                    {% endif %}
+                </a>
+        {% else %}
+                <a id="buy-btn" type="button" class="btn btn-primary" 
+                {% if setting("course.buy_fill_userinfo")|default(false) %}
+                href="#modal" 
+                data-toggle="modal" 
+                data-url="{{ path('course_buy', {id:course.id, targetType:'course'}) }}"
+                {% else %}
+                href="{{ path('order_show', {targetId:course.id, targetType:'course'}) }}"
+                {% endif %}
+                >
+                    {% if user.id %}觉得不错？点击购买此课程（{{ course.price }}元）
+                    
+                    {% else %}登录后购买学习完整的课程
+                    {% endif %}
+                </a>
+        {% endif %}
+        {% endif %}
+    {% else %}
+        <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+    {% endif %}
+{% endblock %}

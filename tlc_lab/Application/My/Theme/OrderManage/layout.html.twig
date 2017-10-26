@@ -1,0 +1,21 @@
+{% extends '@My/My/layout.html.twig' %}
+
+{% block title %}我的订单 - {{ parent() }}{% endblock %}
+
+{% set side_nav = 'my_order' %}
+
+{% set script_controller = 'user/order_manage' %}
+
+{% block main %}
+    <div class="panel panel-default panel-col">
+        <div class="panel-body cc-panel-body">
+
+            <ul class="nav nav-tabline">
+                <li{% if tab_nav == 'order_list' %} class="active"{% endif %}><a href="{{ path('order_manage') }}">订单列表</a></li>
+            </ul>
+
+            {% block main_content %}{% endblock %}
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,225 @@
+/*** CLOUD--ASK STYLE ***/
+
+/*** 问答列表 ***/
+.ask-search-text input.form-control{width: auto;border-radius: 4px 0 0 4px;}
+.new-ask-list ul {padding:10px 0;}
+.new-ask-list ul li{padding:10px 0;}
+
+.ask-item-icon .a-list-icon{float: left;width: 40px;height:56px;padding:8px 0;background: #f2f2f2;border-radius: 4px;margin-right:10px;}
+
+.ask-item-icon .a-list-icon span{display: block;height: 24px;line-height: 24px;overflow: hidden;}
+
+.ask-media{padding-left:160px;padding-top:5px;}
+
+.ask-status{margin-left: 20px;}
+.ask-status span{color: #0078d0;font-size: 14px;display: block;line-height: 24px;}
+.ask-list-con p{line-height:24px;}
+.ask-list-con a.link-muted{color: #999;}
+.ask-list-con a:hover.link-muted{color: #0078d0;}
+
+
+
+
+/*** 问答详情 ***/
+.ask-details-con{padding: 15px;border:1px solid #e4e4e4;margin-top: 15px;}
+.a-user-pic{position: relative;}
+.a-user-pic .sm-userpic{position: absolute;bottom: 0;right: 0;width: 19px;height: 19px;}
+.a-user-pic .sm-user-teacher{background: url(../img/sm-icon-teacher.png) 0 0 no-repeat;}
+.a-user-pic .sm-user-student{background: url(../img/sm-icon-student.png) 0 0 no-repeat;}
+.a-user-pic img{width: 48px;height: 48px;border-radius: 50%;}
+.ask-media-body{margin-left: 65px;}
+.a-uesr-info{line-height: 30px;}
+.a-user-name a{font-size: 14px;font-weight: bold;margin-right:10px;}
+.a-uesr-info .thread-footer a{color: #0078d0;}
+.ask-details-con .ask-content{padding-bottom: 10px;}
+.ask-details-con .ask-content h3{font-size: 14px;font-weight: bold;line-height: 24px;padding: 5px 0;}
+.ask-details-con .ask-content p{font-size: 14px;line-height: 20px;color: #999;}
+
+.ask-hover a{font-size: 12px;color: #0078d0;}
+.alink{color: #0078d0;}
+
+.topics-details-bot .ask-hover{margin-top:7px;font-size: 12px;}
+.ask-details-con .thread-footer,.ask-details-con .ask-hover,.answer-content-box .ask-hover{display:none;}
+.ask-details-con:hover .thread-footer,.ask-details-con:hover .ask-hover,.answer-content-box:hover .ask-hover{display:block;}
+
+
+/*** 回答列表 ***/
+.answer-details-con{margin-top: 15px;}
+.answer-details-con h2{font-size: 18px;font-weight: bold;padding: 0 15px;}
+.answer-details-con h2 .answer-remind{font-size: 16px;}
+.answer-details-con h2 .answer-remind em{font-size: 20px;}
+.answer-details-list li.answer-item{padding: 15px 15px 0;margin-top:15px;border-top: 1px dotted #e4e4e4;}
+.answer-details-list .best-answer-icon{background-color: #d9534f;font-size: 14px;padding: 6px 15px;color:#fff;}
+
+
+.answer-text{padding:5px 0;}
+.answer-text p{font-size: 14px;line-height: 20px;color: #999;}
+.answer-details-bot a{color: #0078d0;font-size: 12px;}
+
+.answer-children-list{padding-left:65px;}
+.answer-children-list li.answer-item{padding:15px 0 0;border-top: 1px solid #e4e4e4;}
+.answer-children-list .answer-textarea-con{padding: 15px 0 0;}
+
+
+.new-ask-ico{position: absolute;top: -10px;left: -56px;width: 54px;height: 27px;background: url(../img/new-ask-icon.png) 0 0 no-repeat;}
+
+
+/*** 回答输入框 ***/
+.answer-textarea-box h2{font-size: 18px;font-weight: bold;padding: 0 15px;}
+.answer-textarea-con{padding: 15px;}
+
+/*** 提问弹层 ***/
+.tit-color{color:#0078d0;}
+.question-popupbox label em{color: #0078d0;}
+span.text-count{font-size: 12px;}
+span.text-count em{color: #0078d0;margin:0 5px;}
+.gold-text{line-height: 34px;}
+.gold-text em{font-size:18px;color: #f8b541;}
+
+/*** 评价老师 ***/
+.evaluate-teacher p{font-size: 18px;line-height: 30px;padding-bottom: 10px;}
+.evaluate-stars{line-height: 30px;}
+.stars-rankpane{margin: 3px 0 0 5px;}
+.stars-rankpane i{font-size: 24px;color: #f8b541;margin-right: 5px;}
+
+.stars-rankpane a i.fa-star,.stars-rankpane a:hover i.fa-star{color: #f8b541;}
+
+/*** 举报 ***/
+.report-radio a{margin-right: 15px;}
+.report-radio i.fa {margin:0 3px 0 0;font-size: 16px;color: #0078d0;}
+
+
+
+
+
+/*** 我的云课堂--问答相关 ***/
+/* 所有提问 */
+.ask-manage-box .ask-manage-select {overflow:hidden}
+.ask-manage-box .ask-manage-select .ask-select-time{width:25%;}
+.ask-manage-box .ask-manage-select b {font-size:16px;margin:0 10px;line-height:35px;}
+.ask-manage-radio {clear:both;}
+.ask-manage-radio .ask-manage-status {height:35px;position:relative}
+.ask-manage-radio .ask-manage-status span,.ask-status-box span{font-size:14px;line-height:35px;width:150px;float:left;text-align:right;}
+.ask-manage-status a,.ask-status-box a{float:left;line-height:35px;margin-right:10px;text-decoration:none;padding:0 5px;}
+.ask-manage-status a i,.ask-status-box a i{float:left;margin:10px 5px 0;font-size:16px;color:#0078d0;}
+.ask-manage-radio .ask-manage-status a.active {border:1px solid #ccc;border-bottom:1px solid #fff;position: relative;z-index: 3;}
+.ask-btn p {margin:0 auto;width:200px;}
+.ask-btn p button {font-size:14px;margin:0 10px;}
+.ask-btn p button.btn-default{border:1px solid #0078d0;color:#0078d0;}
+.ask-manage-list table {width:100%;border:1px solid #ccc;}
+.ask-manage-list table tr {line-height:30px;}
+.ask-manage-list table tr th{font-size:14px;border-bottom:1px solid #ccc;font-weight:normal;padding-left:20px;line-height:50px;}
+.ask-manage-list table tr td {font-size:14px;padding:10px 20px;}
+.ask-manage-list table tr td h2{font-size:14px;color:#333;line-height:30px;}
+.ask-manage-list table tr td em,.ask-manage-list table tr td b,.ask-manage-list table tr td strong{font-size:12px;color:#8c8c8d;font-weight:normal;margin-right:20px;}
+
+.ask-status-already {position:absolute;top:35px;border:1px solid #ccc;padding:0 20px;left:140px;background-color:#fff;margin-top:1px;z-index:2;}
+.ask-status-already .ask-status-box {height:35px;}
+
+/* 数据统计 */
+.ask-manage-data {}
+.ask-manage-data h2,.ask-manage-set h2{font-size:16px;color:#0078d0;line-height:35px;}
+.ask-data-status {height:60px;background-color:#f6f6f6;padding:0 10px;}
+.ask-data-status span{font-size:14px;line-height:60px;float:left;text-align:right;display:block}
+.ask-data-status a{float:left;line-height:60px;margin-right:10px;text-decoration:none;padding:0 5px;}
+.ask-data-status a i{float:left;margin:23px 5px 0;font-size:16px;color:#0078d0;}
+.ask-data-status p {float:right;width:35%;}
+.ask-data-status p b {font-size:14px;line-height:60px;float:left;font-weight:normal;}
+.ask-data-status p input{float:right;width:80%;margin-top:13px;}
+.ask-data-table {height:200px;overflow-y:scroll;border:1px solid #ccc;}
+.ask-manage-data table,.ask-manage-set table{width:100%;}
+.ask-manage-data table tr th,.ask-manage-set table tr th{height:50px;font-size:14px;font-weight:normal;line-height:50px;border-bottom:1px solid #ccc;margin-left:20px;text-align:center;}
+.ask-manage-data table tr td,.ask-manage-set table tr td{line-height:35px;font-size:14px;text-align:center;}
+
+#scrollbar::-webkit-scrollbar-track,#scrollbar2::-webkit-scrollbar-track
+{
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 10px;
+    background-color: #8c8c8d;
+}
+
+#scrollbar::-webkit-scrollbar,#scrollbar2::-webkit-scrollbar
+{
+    width: 5px;
+    background-color: #fff;
+}
+
+#scrollbar::-webkit-scrollbar-thumb,#scrollbar2::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+    background-color: #fff;
+}
+
+/* 问答设置 */
+.ask-manage-set {}
+.ask-manage-set table {border:1px solid #ccc;}
+.ask-manage-set table tr th {text-align:left;padding-left:20px;}
+.ask-manage-set table tr td {text-align:left;padding-left:20px;}
+.ask-manage-set table tr td button.btn-default{border: 1px solid #0078d0;color: #0078d0;}
+
+.ask-set-box {}
+.ask-set-box .ask-set-text p {font-size:14px;line-height:35px;}
+.ask-set-box .ask-set-text p span {float:left;margin-right:20px;}
+.ask-set-box .ask-set-text p span i {margin:0 10px;color:#0078d0;font-size:16px;cursor:pointer;}
+.ask-set-box .ask-set-text p b {font-size:12px;color:#8c8c8d;}
+.ask-set-question {border:1px solid #ccc;padding:20px;overflow:hidden;}
+.ask-set-question p {line-height:35px;margin:5px 0;}
+.ask-set-question p input {height:30px;margin:5px 10px 0 0;width:120px;line-height:30px;padding:0 5px;font-size:14px;}
+.ask-set-question p b {color:#8c8c8d;font-weight:normal}
+.ask-set-question p span i {margin:0 10px;color:#0078d0;font-size:16px;cursor:pointer;}
+.ask-set-question label {font-size:12px;line-height:20px;color:#8c8c8d;padding:0 15px;}
+.ask-set-btn {width:180px;margin:20px auto 0;}
+.ask-set-btn button{margin-right:10px;}
+.ask-set-btn a {display:inline-block;line-height:35px;color:#0078d0;}
+
+
+/*** 我的问答 ***/
+.my-ask-box {}
+.my-ask-data {overflow:hidden;background-color:#f6f6f6;padding:5px 0;}
+.my-ask-data p {float:right;width:30%;}
+.my-ask-data p b {float:left;line-height:35px;}
+.my-ask-data p select {width:60%;float:left;}
+
+.my-ask-box .my-data-table table,.ask-student-table table{width:100%;border:1px solid #ccc;}
+.my-ask-box .my-data-table table tr th,.ask-student-table table tr th{border-bottom:1px solid #ccc;height:50px;line-height:50px;padding-left:20px;}
+.my-ask-box .my-data-table table tr td,.ask-student-table table tr td{font-size:14px;padding:20px 0 20px 20px;}
+.my-ask-box .my-data-table table tr td h2,.ask-student-table table tr td h2{font-size:14px;color:#333;line-height:30px;}
+.my-ask-box .my-data-table table tr td em,.my-ask-box .my-data-table table tr td b,.my-ask-box .my-data-table table tr td strong,.ask-student-table table tr td em,.ask-student-table table tr td b,.ask-student-table table tr strong{font-size:12px;color:#8c8c8d;font-weight:normal;margin-right:20px;}
+.my-ask-box .my-data-table table tr td:nth-of-type(3){width:150px;}
+.my-ask-box .my-data-table table tr td button{margin:5px 0;}
+.my-data-table .btn-default{border:1px solid #0093f0;color:#0093f0;}
+.my-ask-list{heiht:50px;line-height:50px;}
+.my-ask-list ul li{font-size:14px;color:#0078d0;float:left;width:32%;text-align: center;}
+
+/*** 学员问答 ***/
+.ask-student-table{}
+.ask-student-table table tr td{padding:10px 20px;}
+.ask-student-table table tr td:nth-of-type(1){width:450px;}
+.ask-student-table table tr td:nth-of-type(3){width:150px;}
+.ask-student-table table tr td button{margin:3px 0;}
+.ask-student-table table tr td p strong.ask-student-time{color:#d9534f;}
+.ask-student-data {overflow:hidden;background-color:#f6f6f6;padding:5px 0;}
+.ask-student-data p {float:left;width:30%;margin-top:4px;}
+.ask-student-data p b {float:left;line-height:35px;padding-left:10px;}
+.ask-student-data p select {width:60%;float:left;}
+.ask-student-data label{float:right;widtH:220px;margin-top:4px;}
+.ask-student-data label input{width:150px;float:left;}
+.ask-student-data label button{float:right;}
+.ask-refresh{overflow: hidden;}
+.ask-student-answer .ask-student-table table tr td:nth-of-type(3){width:auto;}
+.ask-student-answer .my-ask-list ul li{width:25%;}
+
+/*** 添加答疑老师 ***/
+.add-teacher{overflow:hidden;}
+.add-teacher p input{width:50%;height:35px;line-height:30px;padding:0 5px;border:1px solid #ccc;margin-right: 10px;}
+.add-teacher .add-teacher-box{border:1px solid #ccc;margin-top:20px;}
+.add-teacher .add-teacher-box dl{overflow: hidden;}
+.add-teacher .add-teacher-box dl dt{padding:20px;float:left;width:90px;}
+.add-teacher .add-teacher-box dl dt img{width:50px;height:50px;border-radius: 50%;}
+.add-teacher .add-teacher-box dl dd{float:left;margin-top:15px;width:80%;}
+.add-teacher .add-teacher-box dl dd p{font-size:14px;color:#333;line-height:30px;}
+.add-teacher .add-teacher-box dl dd p b{color:#0078d0;}
+.add-teacher .add-teacher-box dl dd p i{font-size:16px;color:#0078d0;cursor:pointer;margin-bottom: 10px;}
+.add-teacher p a{float:right;line-height:35px;margin-right: 10px;color:#0078d0;}
+

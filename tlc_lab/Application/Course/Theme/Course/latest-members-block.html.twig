@@ -1,0 +1,19 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+{% if students %}
+<div class="panel panel-default">
+	<div class="c-panel-heading">
+		<h3 class="panel-title">最新{% if setting('default.user_name') %}{{setting('default.user_name')|default('学员')}}{% else %}学员{% endif %}</h3>
+	</div>
+	<div class="panel-body">
+		<ul class="user-grids">
+		{% for  student in students %}
+			{% set user = users[student.userId] %}
+			<li>
+				{{ web_macro.user_avatar(user, '', app.request.get('center')) }}
+				<p>{{ web_macro.user_link(user, '', app.request.get('center')) }}</p>
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+</div>
+{% endif %}

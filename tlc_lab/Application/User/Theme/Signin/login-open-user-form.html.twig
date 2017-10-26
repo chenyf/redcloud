@@ -1,0 +1,81 @@
+{% if isLogin %}
+<style>
+.openuser {
+    background-color: #fff;
+    border-left: none;
+    border-right: none;
+  }
+</style>
+<ul class="nav nav-tabs openuser">
+    <li class=" active"><a href="#quickLogon" data-toggle="tab">快速登录</a></li>
+    <li class=""><a href="#passWordLogin" data-toggle="tab">账号密码登录</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="quickLogon" class="tab-pane active panel panel-default panel-page" style="padding:10px 0 10px">
+        <div class="col-md-12 text-center">
+            <p><a href="{{U('User/LoginOpenUser/index',{backUrl:'quickLogon'})}}"><img src="{{userInfo.userFace}}" title="{{userInfo.nickname}}" class="avatar"></a></p>
+            <a href="{{U('User/LoginOpenUser/index',{backUrl:'quickLogon'})}}" title="{{userInfo.nickname}}">{{userInfo.nickname}}</a>
+        </div>
+    </div>
+    <div id="passWordLogin" class="tab-pane">
+{% endif %}
+        <form id="login-form" class="form-vertical" style="margin:0 40px" method="post" data-url="{{U('User/LoginOpenUser/checkLogin')}}" data-goto="{{U('User/LoginOpenUser/index',{backUrl:'quickLogon'})}}">
+            <div class="form-group dl-box">
+                <div class="input-group">
+                    <span class="input-group-addon dl-icon-left" id="basic-addon1">
+                        <i class="fa fa-user dl-icon"></i>
+                    </span>
+                    <input type="text" class="form-control" id="login_username" name="username"  placeholder="请输入手机号/邮箱{% if studNumLogin %}/学号{% endif %}" aria-describedby="basic-addon1" >
+                </div>
+                <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                    <i class="glyphicon pull-left"></i>
+                    <span class="text-danger mls"></span>
+                </p>
+            </div>
+            <div class="form-group dl-box">
+                <div class="input-group">
+                    <span class="input-group-addon dl-icon-left" id="basic-addon1">
+                        <i class="fa fa-lock dl-icon"></i>
+                    </span>
+                    <input type="password" class="form-control" id="login_password" name="password"  placeholder="请输入密码" aria-describedby="basic-addon1">
+                </div>
+                <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                    <i class=" glyphicon pull-left"></i>
+                    <span class="text-danger mls"></span>
+                </p>
+            </div>
+            <div class="form-group dl-box {% if errorNum < 3 %}hide{% endif %}" data-errornum="{{errorNum}}">
+                <div class="controls row">
+                    <div class="col-md-6 col-sm-6 col-xs-6" >
+                        <input type="text" class="form-control" placeholder="请输入验证码" id="captcha_num" name="captcha_num" maxlength="5"  data-url="{{path('register_captcha_check')}}">
+                        <p class="help-block glyphicon hide" style="color:#a94442;margin-top:10px;">
+                            <i class=" glyphicon pull-left"></i>
+                            <span class="text-danger mls"></span>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <img src="{{ path('register_captcha_num') }}" data-url="{{ path('register_captcha_num') }}" id="getcode_num" title="看不清，点击换一张" style="max-width:100%;height:32px;cursor:pointer;" >
+                    </div>
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <i class="fa fa-refresh" style="cursor:pointer;font-size:20px;color:#666;margin-top:5px;"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group dl-box">
+                <div class="controls">
+                    <button type="button" class="btn btn-fat btn-primary btn-large btn-block mbl" id="login-btn">登录</button>
+                </div>
+            </div>
+        </form>
+    {% if isLogin %}</div>{% endif %}
+    <div class="col-md-12">
+        <label class="dl-text-right pull-right">
+            <a href="{{ path('register') }}" style="color:#0078d0">立即注册</a>
+            <a href="{{ path('password_reset') }}">忘记密码?</a>
+        </label>
+    </div>
+{% if isLogin %}</div>{% endif %}
+                    
+                    
+                    

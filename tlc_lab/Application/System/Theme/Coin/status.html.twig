@@ -1,0 +1,53 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set school = school|default(null) %}
+
+
+{% block title %}
+申请结算
+{% endblock %}
+
+{% block body %}
+
+{%if orders.amount==0%}
+     <h4>此提现单提没有您的课程卖出</h4>
+{%else%}
+    <form class="form-horizontal" id="school-form" action="{{ U('System/Coin/apply') }}"  method="post">
+         <table class="table">
+             <thead>
+                <tr>
+                   <th>此提现单提您可以结算</th>
+                </tr>
+             </thead>
+              <tbody>
+                  <input type="hidden" value="{{info.id}}" name="id">
+               <tr>
+                   <td style="width: 300px;text-align: center;">提现单名称</td><td>{{info.title}}</td>
+               </tr>
+               <tr>
+                   <td style="width: 300px;text-align: center;">销售课程提现总金额（学校）</td><td>{{orders.amount}}（元）</td>
+               </tr>
+               <tr>
+                    <td style="width: 300px;text-align: center;">手机号码</td>
+                    <td>{%if app.user.verifiedMobile%}{{app.user.verifiedMobile}}{%else%}<a class="btn btn-sm btn-primary"  href="{{U('User/Settings/profile')}}">完善手机号</a>{%endif%}</td>
+                </tr>
+                
+            </tbody>
+         </table>
+    </form>
+{%endif%}
+ <script type="text/javascript">
+        app.load('coin/create-orders')
+    </script>
+{% endblock %}
+{% block footer %}
+    {%if orders.amount==0%}
+    <button type="button" class="btn btn-primary" data-dismiss="modal" id="cancel-btn">确定</button>
+    {%else%}
+    {%if app.user.verifiedMobile!=''%}
+    <button id="school-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#school-form">确定</button>
+   {%endif%}
+    {%endif%}
+{% endblock %}
+
+{% set hideFooter = true %}

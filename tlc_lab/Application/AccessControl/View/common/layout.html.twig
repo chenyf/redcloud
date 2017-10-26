@@ -1,0 +1,14 @@
+{% extends '@AccessControl/layout.html.twig' %}
+
+{% block content %}
+  <div class="col-md-2">
+    {% block sidebar %}
+      <div class="list-group">
+          <a href="{{ U('AccessControl/Role/index') }}" class="list-group-item {% if menu == "role" %}active{% endif %}">角色管理</a>
+      </div>
+    {% endblock %}
+  </div>
+  <div class="col-md-10">
+      {% block main %}{% endblock %}
+  </div>
+{% endblock %}

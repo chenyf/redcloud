@@ -1,0 +1,88 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set config = config|default(null) %}
+{% set modal_class = 'modal-lg' %}
+
+
+{% block title %}
+添加{{ tyepText }}
+{% endblock %}
+
+{% block body %}
+
+<form class="form-horizontal" id="config-form"  action="{{ U('Course/CourseTestpaperManage/getTestpaper',{courseId:courseId,classId:classId,type:type, goto:app.request.server.get('REQUEST_URI'),center:app.request.get('center')}) }}" method="post">
+          <div class="row form-group">
+              <div class="col-md-2 control-label"><label for="title">标题</label></div>
+              <div class="col-md-8 controls">
+                  <input class="form-control" type="text" id="title" value="" name="title" >
+              </div>
+          </div>
+          <p></p>
+          <div class="row form-group">
+              <div class="col-md-2 control-label"><label for="testId">选择{{ tyepText }}</label></div>
+              <div class="col-md-6 controls ">
+                  
+                  <select class="form-control" name="testId" id="testId" style="float:left;width:68%">
+                      {{select_options(paperOptions, lesson.mediaId|default(0), '请选择试卷')}}
+                  </select>
+                  {% if paperOptions %}
+                  {% else %}
+                  <div style="float:left;line-height: 34px;margin-left: 30px;"><a href="{{ path('course_manage_testpaper', {courseId:courseId}) }}">创建试卷</a></div>
+                  {% endif%}
+                  <div class="help-block" style="clear:both">选择要用的{{ tyepText }}</div>
+              </div>
+          </div>
+          <p></p>
+          <div class="row form-group">
+              <div class="col-md-2 control-label"><label for="correct">是否批阅</label></div>
+              <div class="col-md-6 controls ">
+                  <input type="checkbox"  autocomplete="off" {% if type == 0 %}checked="checked"{% endif %}  data-role="batch-select" name="correct" value="1">
+                  <div class="help-block">批阅</div>
+              </div>
+          </div>
+          <p></p>
+          <div class="row form-group">
+              <div class="col-md-2 control-label"><label for="show">是否显示答案</label></div>
+              <div class="col-md-6 controls ">
+                  <input type="checkbox"  autocomplete="off"  {% if type == 1 %}checked="checked"{% endif %} data-role="batch-select"  name="show" value="1">
+                  <div class="help-block">显示答案</div>
+              </div>
+          </div>
+          <p></p>
+          <div class="row form-group">
+              <div class="col-md-2 control-label"><label for="startTime">开始时间</label></div>
+              <div class="col-md-8 controls">
+                  <div class='input-group date datetimepicker'>
+                      <input type='text' class="form-control" value="" name="startTime"/>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div>
+                  <div class="help-block">做题开始时间</div>
+              </div>
+          </div>
+          <p></p>
+          <div class="row form-group">
+              <div class="col-md-2 control-label"><label for="endTime">截止时间</label></div>
+              <div class="col-md-8 controls">
+                  <div class='input-group date datetimepicker'>
+                      <input type='text' class="form-control" value="" name="endTime"/>
+                      <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                  </div> <div class="help-block">做题结束时间</div>
+              </div>
+          </div>
+          <p></p>
+      </form>
+      <script type="text/javascript">
+          app.load('testpaper/get-testpaper')
+          </script>
+
+{% endblock %}
+{% block footer %}
+          <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+          <button id="config-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#config-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

@@ -1,0 +1,90 @@
+{%- macro user_avatar(user, class, center) -%}
+  <a class="user-link user-avatar-link {{ class }}" href="{{ path('user_show', {id:user.id,center:center}) }}">
+    <img src="{{ user_default_path(user.id, 'small') }}"   loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/pic-error.png?5.1.4';" >
+  </a>
+{%- endmacro -%}
+
+{% macro user_link(user, class, center) %}
+  {% if user %}
+    <a {% if class %}class="{{ class }}"{% endif %} href="{{ path('user_show', {id:user.id,center:center}) }}">{{ user.nickname }}</a>
+  {% else %}
+    <span class="text-muted">用户已删除</span>
+  {% endif %}
+{% endmacro %}
+    
+{# qzw add 2015-09-16 #}
+{% macro user_link_blank(user, class, center) %}
+  {% if user %}
+    <a {% if class %}class="{{ class }}"{% endif %} target="_blank" href="{{ path('user_show', {id:user.id,center:center}) }}">{{ user.nickname }}</a>
+  {% else %}
+    <span class="text-muted">用户已删除</span>
+  {% endif %}
+{% endmacro %}
+
+{% macro flash_messages() %}  
+  {% for type, flashMessages in app.session.flashbag.all() %}
+    {% for flashMessage in flashMessages %}
+      <div class="alert alert-{{ type }}">{{ flashMessage|raw }}</div>
+    {% endfor %}
+  {% endfor %}
+{% endmacro %}
+
+{% macro bytesToSize(bytes) %}
+  {% spaceless %}
+
+      {% set kilobyte = 1024 %}
+      {% set megabyte = kilobyte * 1024 %}
+      {% set gigabyte = megabyte * 1024 %}
+      {% set terabyte = gigabyte * 1024 %}
+
+      {% if bytes < kilobyte %}
+          {{ bytes ~ ' B' }}
+      {% elseif bytes < megabyte %}
+          {{ (bytes / kilobyte)|number_format(2, '.') ~ ' KB' }}
+      {% elseif bytes < gigabyte %}
+          {{ (bytes / megabyte)|number_format(2, '.') ~ ' MB' }}
+      {% elseif bytes < terabyte %}
+          {{ (bytes / gigabyte)|number_format(2, '.') ~ ' GB' }}
+      {% else %}
+          {{ (bytes / terabyte)|number_format(2, '.') ~ ' TB' }}
+      {% endif %}
+
+  {% endspaceless %}
+{% endmacro %}
+
+
+{% macro paginator(paginator, class ,aClass = 'ajax-load',pageRecord=1) %}
+    {% set maxPage = ceil(paginator.itemCount/paginator.perPageCount) %}
+    {% if paginator.lastPage > 1 %}
+        <ul class="pagination {{ class }}" data-maxPage = "{{ maxPage }}"  >
+            {% if paginator.currentPage > 6 %}
+                <li class="{{ aClass }}"><a  href="{{ paginator.getPageUrl(paginator.firstPage) }}">首页</a></li>
+            {% endif %}
+            {% if paginator.currentPage == paginator.firstPage %}
+                <li class="disabled"><span>上一页</span></li>
+            {% else %}
+                <li><a class="{{ aClass }}" href="{{ paginator.getPageUrl(paginator.previousPage) }}">上一页</a></li>
+            {% endif %}
+            {% for page in paginator.pages %}
+                <li {% if page == paginator.currentPage %}class="active"{% endif %}><a class="{{ aClass }}" href="{{ paginator.getPageUrl(page) }}">{{ page }}</a></li>
+            {% endfor %}
+
+            {% if paginator.currentPage == paginator.lastPage %}
+                <li class="disabled"><span>下一页</span></li>
+            {% else %}
+                <li><a class="{{ aClass }}" href="{{ paginator.getPageUrl(paginator.nextPage) }}" id="next-page">下一页</a></li>
+            {% endif %}
+            {% if paginator.currentPage != paginator.lastPage %}
+                <li class="{{ aClass }}" ><a href="{{ paginator.getPageUrl(paginator.lastPage) }}">末页</a></li>
+            {% endif %}
+        </ul>
+        {% if pageRecord == 1 %}
+            <ul class="pagination">
+                <li><span class="text-muted">第{{ paginator.currentPage }}/{{ maxPage }}页</span></li>
+                <li><span class="text-muted">共{{ paginator.itemCount }}条记录</span></li>
+            </ul>
+        {% endif %}
+    {% endif %}
+
+
+{% endmacro %}

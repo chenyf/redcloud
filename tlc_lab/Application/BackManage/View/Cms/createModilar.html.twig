@@ -1,0 +1,79 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set modalSize = 'large' %}
+{% set modal_class = 'modal-lg' %}
+{% block title %}{{order.title}}{% endblock %}
+
+{% block body %}
+
+
+
+<form role="form"  class="form-group" >
+    <label for="nickname">模块名称</label>
+    <input type="text" id="title" name="nav" data-type="addUser" class="form-control" ><br>
+    <table class="table table-striped">
+        <tbody>
+            <tr>
+                <td style="width:30%;vertical-align: initial;">
+                    <div class="form-group">
+                        <label for="nickname">图片地址</label>
+                        <input type="text" id="url_1" name="picPath[]" data-type="addUser" class="form-control" style="margin-left:0" >
+                    </div>
+                </td>
+                <td style="width:10%; text-align: center">
+                    <i class="glyphicon glyphicon-picture"></i><input type="hidden" value="1" id="btnNum"/>
+                </td>
+                <td style="width:30%">
+                    <label for="nickname">链接地址</label>
+                    <input type="text" name="url[]" id="path_1" data-type="addUser" class="form-control" style="margin-left:0"><br>
+                    <label for="nickname">选择颜色</label>
+                    <input id="{{order.id}}"  value="000000" name="color[]"  class="form-control" style="margin-left:0">
+                    <img src="/Public/assets/libs/colorpicker/colorpicker.png" id="imgFontColorSmall1" class="imgFontColorSmall" style="cursor:pointer;margin:0 0 0 10px;">
+                </td>
+                <td>
+                    <label for="nickname">操作</label><br>
+                    <button  class="btn btn-default"> <i class="glyphicon glyphicon-menu-down"></i> </button>
+                    <button  class="btn btn-default"> <i class="glyphicon glyphicon-menu-up"></i> </button>
+                    <button  class="btn btn-default"> <i class="glyphicon glyphicon-remove"></i> </button>
+                </td>
+            </tr>
+            <tr>
+                <td style="width:30%;vertical-align: initial;">
+                    <div class="form-group">
+                        <label for="nickname">图片地址</label>
+                        <input type="text" id="url_1" name="picPath[]" data-type="addUser" class="form-control" style="margin-left:0" >
+                    </div>
+                </td>
+                <td style="width:5%; text-align: center">
+                    <i class="glyphicon glyphicon-picture"></i><input type="hidden" value="1" id="btnNum"/>
+                </td>
+                <td style="width:30%">
+                    <label for="nickname">链接地址</label>
+                    <input type="text" name="url[]" id="path_1" data-type="addUser" class="form-control" style="margin-left:0"><br>
+                    <label for="nickname">选择颜色</label>
+                    <input id="{{order.id}}"  value="000000" name="color[]"  class="form-control" style="margin-left:0">
+                    <img src="/Public/assets/libs/colorpicker/colorpicker.png" id="imgFontColorSmall1" class="imgFontColorSmall" style="cursor:pointer;margin:0 0 0 10px;">
+                </td>
+                <td>
+                    <label for="nickname">操作</label><br>
+                    <button  class="btn btn-default"> <i class="glyphicon glyphicon-menu-down"></i> </button>
+                    <button  class="btn btn-default"> <i class="glyphicon glyphicon-menu-up"></i> </button>
+                    <button  class="btn btn-default"> <i class="glyphicon glyphicon-remove"></i> </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+    <button  class="btn btn-primary pull-right">添加</button>
+    <br>
+</form>
+
+{% endblock %}
+{% block footer %}
+<button id="user-create-btn" data-submiting-text="正在提交" type="submit" class="btn ajax-click btn-primary pull-right" data-toggle="form-submit" data-target="#user-create-form">提交</button>
+<button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+<script>app.load('cms/create')</script>
+
+{% endblock %}

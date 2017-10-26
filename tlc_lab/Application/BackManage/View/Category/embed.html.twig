@@ -1,0 +1,44 @@
+{% extends '@BackManage/System/layout.html.twig' %}
+
+{% block title %}
+    组织机构设置 - {{ parent() }}
+{% endblock %}
+
+{% set menu = 'category' %}
+
+{% block main %}
+
+<div class="page-header clearfix">
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <button class="btn btn-sm btn-info pull-right add-category" data-toggle="modal" data-backdrop="static" data-target="#modal" data-url="{{ path('admin_category_create') }}">添加分类</button>
+    {% endif %}
+    <form class="form-inline pull-right" method="get" novalidate style="margin-right:50px;margin-bottom: 5px">
+        <div class="form-group">
+            <select class="form-control" noautochange="1" name="type" style="width:150px">
+                <option value='0' {% if type == 0 %}selected{% endif %}>展示中</option>
+                <option value='1' {% if type == 1 %}selected{% endif %}>已删除</option>
+                <option value='2' {% if type == 2 %}selected{% endif %}>全部</option>
+            </select>
+        </div>
+        &nbsp;&nbsp;
+        <button class="btn btn-primary">搜索</button>
+    </form>
+    <h1 class="pull-left">
+        组织机构设置
+    </h1>
+</div>
+
+<table class="table table-hover" id="category-table" >
+  <thead>
+    <tr>
+      <th width="30%">名称</th>
+      <th width="15%">编码</th>
+      <th width="10%" style="text-align: center">显示序号</th>
+      <th width="10%" style="text-align: center">是否专业</th>
+      <th width="20%" style="text-align: center">创建者</th>
+      <th width="10%" >操作</th>
+    </tr>
+  </thead>
+  {% include '@BackManage/Category/tbody.html.twig' %}
+</table>
+{% endblock %}

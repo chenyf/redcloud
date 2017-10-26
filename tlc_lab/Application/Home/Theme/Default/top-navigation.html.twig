@@ -1,0 +1,37 @@
+<ul class="nav navbar-nav">
+    <li class="{% if siteNav and siteNav == '/' %}active {% endif %}">
+        <a href="/">首页</a>
+    </li>
+    <li class="{% if siteNav and siteNav == '/Course/Course/exploreAction' %}active {% endif %}">
+        <a href="/Course/Course/exploreAction">选课中心</a>
+    </li>
+    {% if isOpenPublicCourse() %}
+    <li class="{% if siteNav and siteNav == '/Course/Course/exploreAction/center/1' %}active {% endif %}">
+        <a href="/Course/Course/exploreAction/center/1">{{navbarPublicCourseName()}}</a>
+    </li>
+    {% endif %}
+    
+
+     <li class="{% if siteNav and siteNav == '/Poster/Poster' %}active {% endif %}">
+        <a href="{{U('/Poster/Poster')}}">海报墙</a>
+     </li>
+       
+    
+  {% for nav in navigations %}
+    {% if nav.isOpen %}
+    {% set subNavs = nav.children|default([]) %}
+      <li data-siteNav="{{siteNav}}" data-navurl="{{nav.url}}" class="{% if subNavs %} dropdown {% endif %}{% if siteNav and siteNav == nav.url %}active {% endif %}">
+        <a href="{% if nav.url %}{{ nav.url|navigation_url }}{% else %}javascript:;{% endif %}" class="{% if subNavs %} dropdown-toggle {% endif %}" {% if nav.isNewWin %}target="_blank"{% endif %} {% if subNavs %} data-toggle="dropdown" {% endif %}>{{ nav.name }} {% if subNavs %} <b class="caret"></b>{% endif %}</a>
+        {% if subNavs %}
+          <ul class="dropdown-menu">
+            {% for subNav in subNavs %}
+              {% if subNav.isOpen %}
+              <li><a href="{{ subNav.url|navigation_url }}"  {% if subNav.isNewWin %}target="_blank"{% endif %}>{{ subNav.name }}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>

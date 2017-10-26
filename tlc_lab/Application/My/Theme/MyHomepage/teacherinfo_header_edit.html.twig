@@ -1,0 +1,34 @@
+<table class="table mtm" id="teacherinfo_edit_header_table">
+    <caption>基本信息填写</caption>
+    <tbody>
+        <tr>
+            <td width="20%" class="txt-right">性别</td>
+            <td width="30%" class="txt-center">
+                <label for="profile_gender_0" class="required mrl"><input type="radio" id="profile_gender_0" name="profile[gender]" required="required" value="male" {% if profile.gender == 'male' %}checked="checked"{% endif %}>
+                    男</label>
+                <label for="profile_gender_1" class="required"><input type="radio" id="profile_gender_1" name="profile[gender]" required="required" value="female" {% if profile.gender == 'female' %}checked="checked"{% endif %}>
+                    女</label>
+            </td>
+            <td width="20%" class="txt-right">邮箱</td>
+            <td width="30%" class="txt-center">
+                <input type="text" id="profile_signature" name="profile[signature]" class="form-control" value="{{ profile.email|default('') }}">
+                <div class="help-block" style="display:none;"></div>
+            </td>
+        </tr>
+        <tr><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+</table>
+<table class="table">
+    <tbody>
+        <tr>
+            <td width="20%" class="txt-right">自我介绍</td>
+            <td width="70%" class="txt-center">
+                <textarea name="profile[about]" rows="6" id="profile_about" class="form-control" >{{ html_decode(profile.about)|striptags }}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>

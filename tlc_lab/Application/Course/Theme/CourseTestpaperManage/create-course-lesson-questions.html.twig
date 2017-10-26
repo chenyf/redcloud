@@ -1,0 +1,170 @@
+{% extends '@Course/CourseTestpaperManage/create-course-test-layout.html.twig' %}
+
+{% set step = 2 %}
+{% set script_controller = 'course-test/course-test-question' %}
+
+{% block  create %}
+    <div id="question-creator-widget"
+         data-upload-url="{{ path('course_manage_question_upload', {courseId:course.id, type:question.type,center:app.request.get('center')}) }}"
+         data-media-upload-params-url="{{ path('uploadfile_params', {targetType:'question', targetId:0,center:app.request.get('center')}) }}"
+         data-media-upload-callback-url="{{ path('uploadfile_cloud_callback', {targetType:'question', targetId:0,center:app.request.get('center')}) }}"
+
+            >
+
+        <form class="form-horizontal" data-role=question-form action="{{ U('Course/CourseTestpaperManage/createCourseLessonQuestions',{id:id,center:app.request.get('center')}) }}" method="post">
+            <input type="hidden" name="question_type" value="{{ question.type | default('choice') }}"/>
+            <input type="hidden" name="difficulty" value="normal">
+            <input type="hidden" name="submission">
+            <input type="hidden" name="id" value="{{ id }}">
+            <input type="hidden" name="parentId" value="{{ parentQuestion.id|default(0) }}">
+
+            <div class="row form-group">
+                <div class="col-md-2 control-label"><label for="title">{{ tyepText }}名称</label></div>
+                <div class="col-md-8 controls">
+                    <p class="form-control-static">{{ title }}</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-2 control-label"><label>从属</label></div>
+                <div class="col-md-8 controls">
+                    <select class="form-control width-input width-input-large" name="target" data-role="target">
+                        {{ select_options(targetsChoices, question.target|default(null)) }}
+                    </select>
+
+                    <div class="help-block">可以针对本课程或者某个课程内容出题</div>
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col-md-2 control-label"><label for="title">选择题型</label></div>
+                <div class="col-md-8 controls">
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" {% if question.type == 'choice' or question.type == '' %}class="active"{% endif %}><a data-url="choice" href="{{ U('Course/CourseTestpaperManage/createCourseLessonQuestions',{question_type:'choice',id:id,center:app
+                                .request
+                                .get('center')}) }}">选择题</a></li>
+                        <li role="presentation" {% if question.type == 'fill' %}class="active"{% endif %}><a data-url="fill" href="{{ U('Course/CourseTestpaperManage/createCourseLessonQuestions',{question_type:'fill',id:id,center:app.request.get('center')}) }}">填空题</a></li>
+                        <li role="presentation" {% if question.type == 'determine' %}class="active"{% endif %}><a data-url="determine" href="{{ U('Course/CourseTestpaperManage/createCourseLessonQuestions',{question_type:'determine',id:id,center:app.request.get('center')}) }}">判断题</a>
+                        </li>
+                        <li role="presentation" {% if question.type == 'essay' %}class="active"{% endif %}><a data-url="essay" href="{{ U('Course/CourseTestpaperManage/createCourseLessonQuestions',{question_type:'essay',id:id,center:app.request.get('center')}) }}">问答题</a></li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-2 control-label"><label for="question-stem-field">题干</label></div>
+                <div class="col-md-8 controls">
+                    <textarea class="form-control" id="question-stem-field" name="stem" style="height:180px;"></textarea>
+                    {% if question.type == 'fill' %}
+                        <div class="help-block">点击编辑器按钮 <span style="color: #FF3900">【 】</span>可以插入填空项；也可手工输入，例如“今年是[[2014|马]]年”，回答“2014”或者“马”都算答对</div>{% endif %}
+
+                </div>
+                <div class="col-md-2" style="padding-left:0;">
+                    <div id="question-stem-uploader" class="btn btn-sm btn-default webuploader-container" type="button" data-target="#question-stem-field"><i class="glyphicon glyphicon-picture"></i></div>
+                </div>
+            </div>
+
+
+            {% if question.type == 'choice' or question.type == '' %}
+                <div data-role="choices"></div>
+                <div class="form-group">
+                    <div class="col-md-2 control-label"></div>
+                    <div class="col-md-8 controls">
+                        <button class="btn btn-success btn-sm pull-right" data-role="add-choice" type="button">新增选项</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-2 control-label"><label>不定项选择题</label></div>
+                    <div class="col-md-8 controls radios">
+                        {{ radios('uncertain', {'0':'否', '1':'是'}, question.type|default('choice') == 'uncertain_choice' ? 1 : 0) }}
+                    </div>
+                </div>
+                <script type="text/x-handlebars-template" data-role="choice-template">
+                    {% verbatim %}
+                    <div class="form-group" data-role="choice">
+                        <div class="col-sm-2 control-label"><label class="choice-label" for="item-input-{{ id }}">选项{{ code }}</label></div>
+                        <div class="col-sm-8 controls">
+                            <div class=" input-group">
+                                <input class="form-control item-input col-md-8" id="item-input-{{ id }}" name="choices[]" type="text" value="{{ content }}" data-display="选项内容">
+            <span class="input-group-addon choice-answer">
+              <label><input type="checkbox" class="answer-checkbox" {{#if isAnswer }}checked="checked"{{/if}}> 正确答案</label>
+            </span>
+                            </div>
+                        </div>
+                        <div class="col-sm-2" style="padding-left:0;">
+                            <div id="item-upload-{{ id }}" class="btn btn-default btn-sm webuploader-container" data-target="#item-input-{{ id }}"><i class="glyphicon glyphicon-picture"></i></div>
+                            <div id="item-audio-upload-{{ id }}" class="btn btn-sm btn-default item-audio-upload webuploader-container hide" data-target="#item-input-{{ id }}"><i class="glyphicon glyphicon-volume-up"></i></div>
+
+                            <a class="btn btn-default btn-sm delete-choice mlm" data-role="delete-choice" href="javascript:void(null)"><i class="glyphicon glyphicon-trash"></i></a>
+                        </div>
+                    </div>
+                    {% endverbatim %}
+                </script>
+            {% endif %}
+
+            {% if question.type == 'determine' %}
+                <div class="form-group">
+                    <div class="col-md-2 control-label"><label>答案</label></div>
+                    <div class="col-md-8 controls radios ">
+                        {{ radios('answer[]', {'1':'正确', '0':'错误'}, question.answer|default(['-1'])|join) }}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if question.type == 'essay' %}
+                <div class="form-group">
+                    <div class="col-md-2 control-label"><label for="question-answer-field">答案</label></div>
+                    <div class="col-md-8 controls">
+                        <textarea class="form-control" id="question-answer-field" name="answer[]">{{ question.answer|default('')|join }}</textarea>
+                    </div>
+                    <div class="col-md-2" style="padding-left:0;">
+                        <div class="btn btn-sm btn-default " data-role="answer-uploader" data-target="#question-answer-field" id="answer-stem-uploader"><i class="glyphicon glyphicon-picture"></i></div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="form-group">
+                <div class="col-md-8 col-md-offset-2 controls ">
+                    <a data-toggle="collapse" data-role="advanced-collapse" style="cursor:pointer" data-target="#advanced-collapse" class="text-success collapsed">&raquo; 显示/隐藏 高级选项 ...</a>
+                </div>
+            </div>
+            <div id="advanced-collapse" class="advanced-collapse collapse">
+                <div class="form-group">
+                    <div class="col-md-2 control-label"><label for="question-analysis-field">解析</label></div>
+                    <div class="col-md-8 controls">
+                        <textarea class="form-control" id="question-analysis-field" name="analysis">{{ question.analysis|default('') }}</textarea>
+                    </div>
+                    <div class="col-md-2" style="padding-left:0;">
+                        <div id="question-analysis-uploader" class="btn btn-sm btn-default  webuploader-container" data-role="analysis-uploader" data-target="#question-analysis-field"><i class="glyphicon glyphicon-picture"></i></div>
+                    </div>
+                </div>
+
+                {#<div class="form-group">#}
+                    {#<div class="col-md-2 control-label"><label for="question-score-field">分值</label></div>#}
+                    {#<div class="col-md-4 controls">#}
+                        {#<input class="form-control" value="{{ question.score|default(2) }}" type="text" id="question-score-field" name="score"/>#}
+                    {#</div>#}
+                {#</div>#}
+            </div>
+            <div class="form-group">
+                <div class="col-md-5 col-md-offset-2 controls" >
+                    <button type="submit" data-role="submit" class="btn btn-primary submit-btn" data-submission="submit" {% if needCount == false %} disabled {% endif %}> 添加题目</button>
+                </div>
+                <div class="col-md-5">
+                    {% if needCount %}
+                        <span class="text-danger item-alert">还需要添加 <span style="font-weight: bold" class="needCount">{{ needCount }}</span> 道题目才能进行下一步</span>
+                    {% else %}
+                        <span class="text-success ">题目全部添加完成，请点击下一步 </span>
+                    {% endif %}
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <hr/>
+    <a type="button" class="btn btn-primary pull-right next-step" {% if needCount %}  disabled {% endif %} href="{{ path('course_manage_lesson', {id:courseId,center:app.request.get('center')}) }}" >下一步</a>
+
+{% endblock %}
+
+

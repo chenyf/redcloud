@@ -1,0 +1,67 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set theme = theme|default(null) %}
+
+
+{% block title %}
+    {% if theme %}编辑样式 {% else %} 添加样式{% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <form class="form-horizontal" id="theme-form"
+            {% if theme.id == 0 %}
+                action="{{ path('mobile_theme_create') }}"
+            {% else %}
+                action="{{ path('mobile_theme_edit', {id:theme.id}) }}"
+            {% endif %}
+          method="post" enctype="multipart/form-data">
+
+        {% if module %} <input type="hidden" name="module" value="{{ module }}"/>{% endif %}
+        {% if type %} <input type="hidden" name="type" value="{{ type }}"/>{% endif %}
+        <input type="hidden" name="id" value="{{ theme.id }}"/>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="name">样式标识</label></div>
+            <div class="col-md-9 controls">
+                <input class="form-control" type="text" id="name" value="{{ theme.name }}" name="name">
+
+                <div class="help-block">最好为大写英文字母+下划线, 如: NORMAL</div>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="title">样式标题</label></div>
+            <div class="col-md-9 controls">
+                <input class="form-control" type="text" id="title" value="{{ theme.title }}" name="title">
+
+                <div class="help-block">样式中文名 如：默认样式</div>
+            </div>
+        </div>
+
+        <p></p>
+
+        <div class="row form-group">
+            <div class="col-md-2 control-label"><label for="img">样式图片</label></div>
+            <div class="col-md-9 controls">
+                <input type="file" name="img" id="img"/>
+                <div class="help-block">样式预览时的图片</div>
+            </div>
+        </div>
+
+        <p></p>
+
+    </form>
+    <script type="text/javascript">
+        app.load('mobile/create-theme-modal')
+    </script>
+
+{% endblock %}
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="theme-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#theme-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

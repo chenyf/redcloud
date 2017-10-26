@@ -1,0 +1,35 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% block title %}
+   添加用户
+{% endblock %}
+
+{% block body %}
+    <form class="form-horizontal" id="pub-form"  action="{{ U('AccessControl/Role/createUser',{id:role.id}) }}"  method="post">
+        <div class="row form-group">
+            <div class="col-md-3 control-label">
+                <label for="name">所属角色</label>
+            </div>
+            <div class="col-md-7 controls ">
+                <p class="form-control-static">{{ role.name }}</p>
+            </div>
+        </div>
+        <p></p>
+        <div class="row form-group">
+            <div class="col-md-3 control-label"><label for="stud_num">用户</label></div>
+            <div class="col-md-7 controls">
+                <input type="text" name="user_id" id="user_id" style="width: 300px">
+            </div>
+        </div>
+        <input type="hidden" name="role_id" value="{{ role.id }}">
+    </form>
+    <script type="text/javascript">
+        app.load('access-control/create-user-role')
+    </script>
+{% endblock %}
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="role-save-btn"  type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#pub-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

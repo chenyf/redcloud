@@ -1,0 +1,78 @@
+{% set menu = 'homework' %}
+
+{% set script_controller = 'test-paper/file_homework' %}
+{% extends "@Course/CourseManage/courseLayout.html.twig" %}
+{% import '@Home/macro.html.twig' as macro %}
+{% block title %}作业管理 - {{ parent() }}{% endblock %}
+{% block side %}{% endblock %}
+{% block courseContent %}
+
+    {# 创建{{ typeText }}-手动选择试题 #}
+    <div class="choose-shiti-tit">
+        <ol class="breadcrumb">
+            <li><a href="#">作业管理</a></li>
+            <li><a href="#">创建作业</a></li>
+            <li><a href="#">上传作业文件</a></li>
+            <li class="active">{{ name }}</li>
+        </ol>
+    </div>
+    <div class="t-course-set-box" id="quiz-table-container">
+        <div class="t-add-explain">
+            <div class="c-tit-search">
+                <h3>请上传作业相关的题目文件</h3>
+            </div>
+            <p>1.题目文件只能上传1-3个；</p>
+            <p>3.文件只支持doc,docx,pdf,ppt,pptx,xls,xlsx,zip,rar,tar.gz格式;</p>
+            <p>3.单个文件最大100M。</p>
+        </div>
+
+        <div class="c-choose-result mtm">
+            <div id="fileUploadedStatistic">
+                <div class="c-result-text">
+                    <span class="text-color">已上传文件数量：<b class="total-counts">{{fileCount}}</b>个</span></span>
+                </div>
+            </div>
+            <form id="file_form" method="POST">
+                <div class="c-result-btn text-center ptm pbm">
+                    <a class="homework-file-upload-btn" data-url="{{ U('Course/CourseTestpaperManage/upHomeworkFile',{courseId:courseId,id:id}) }}">
+                        <span>上传文件</span>
+                        <input type="file" name="file" id="upload_homework_file" />
+                    </a>
+                </div>
+            </form>
+            <div class="text-muted"  id="the_file_list">
+                {% for file in fileList %}
+                    <div class="uploaded_file_item" data-id="{{ file.id }}" data-path="{{ file.fileuri }}">
+                        <a target="_blank" href="{{ U('Course/CourseTestpaperManage/downloadHomeworkFile',{id:file.id}) }}">{{ file.filename }}</a>
+                        <a class="mlm del_file" href="javascript:void(0);">删除</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <form action="" method="post">
+
+            <input type="hidden" name="homework_file_media_field" value="{{ fileListJson|default("") }}" />
+            <div class="t-add-textarea mtm form-group">
+                <label for="remark">作业说明</label>
+                <textarea id="homework-remark" class="form-control" rows="4" placeholder="请输入作业说明" name="remark" data-image-upload-url="{{ path('editor_upload', {token:upload_token('homework')}) }}">{{ remark|default("") }}</textarea>
+            </div>
+            <div class="t-add-input mtm form-group">
+                <label for="score">分值</label>
+                <input id="homework-score" class="form-control" placeholder="作业分值" name="score" style="width: auto;" value="{{score}}" />
+            </div>
+
+            <input type="hidden" name="remove_file_url" value="{{ path('course_manage_testpaper_homework_file_remove') }}">
+            <a class="btn btn-fat btn-primary pull-right mrm mlm" data-loading-text="生成作业中" id="create_file_homework" data-post="" data-url="{{ U('/Course/CourseTestpaperManage/finishCourseTestAction',{id:courseClassId,type:1}) }}">
+                <i class="glyphicon glyphicon-duplicate mrs"></i>确认创建作业
+            </a>
+
+        </form>
+
+        <div class="modal fade" id="buildModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        </div>
+    </div>
+{% endblock %}
+
+
+

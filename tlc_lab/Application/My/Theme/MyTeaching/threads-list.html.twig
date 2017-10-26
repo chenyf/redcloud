@@ -1,0 +1,76 @@
+
+<div class="ask-student-table mtl">
+    <table>
+        <tbody>
+            <tr><th>问题</th><th>所属课程</th>{% if type == 'posted' %}<th width="180">最佳答案及评分</th>{% endif %}<th>操作</th></tr>
+            {% for thread in threads %}
+                <tr>
+                    <td> 
+                        <h2>{{ thread.title }}</h2>
+                        <p>
+                            <em>提问人：{{ thread.userName }}</em>
+                            <b>{{ thread.groupName }}</b>
+                            <strong class="ask-student-time">
+                                {% if type == 'newReply' %}
+                                   回复时间：{{ thread.latestPostTime | date('Y-m-d H:i:s')}}
+                                {% elseif type == 'locked' %}   
+                                   剩余回答时间：{{ thread.timeRemaining | date('H:i:s')}}
+                                {% elseif type == 'append' %}
+                                   追问时间：{{ thread.latestPostTime | date('Y-m-d H:i:s')}}
+                                {% elseif type == 'reply'%}
+                                   回复时间：{{ thread.latestPostTime | date('Y-m-d H:i:s')}}
+                                {% elseif type == 'closed'%}
+                                   删除时间：{{ thread.closedTime | date('Y-m-d H:i:s')}}
+                                {% else %}
+                                   提问时间：{{ thread.createdTime | date('Y-m-d H:i:s')}}
+                                 {% endif %}
+                                </strong>
+                        </p>
+                    </td>
+                    <td>{{ thread.courseName }}</td>
+                    {% if type == 'posted' %}
+                        <td>
+                            {% if thread.bestAnswerId != 0 %}
+                                <button type="button" class="btn btn-success btn-sm">最佳答案</button>
+                            {% endif %}
+                            {% if thread.satisficing != 0 %}
+                                <button type="button" class="btn btn-warning btn-sm">{{ thread.satisficing }}星</button>
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                    <td>
+                        {% if type=="reply" %}
+                            <a href="{{ U('Course/CourseThread/show',{courseId:thread.courseId,id:thread.id,ceneter:app.request.get('center')}) }}" target="_blank" ><button type="button" class="btn btn-primary btn-sm">立即回复</button></a>
+                        {% elseif type == 'closed' %}
+                           <button type="button" class="btn btn-primary btn-sm recover-thread" data-url="{{ U('Course/CourseThread/recover',{courseId:thread.courseId,id:thread.id,center:app.request.get('center')}) }}" >恢复问题</button>
+                         {% elseif type == 'MyCollection' or type== "myReply" or type == "myPost" or type == "myThread" or type == "posted" or type == "newReply" %}
+                           <a href="{{ U('Course/CourseThread/show',{courseId:thread.courseId,id:thread.id,ceneter:app.request.get('center')}) }}" target="_blank" ><button type="button" class="btn btn-primary btn-sm recover-thread">立即查看</button></a>
+                         {% else %}
+                            <a href="{{ U('Course/CourseThread/show',{courseId:thread.courseId,id:thread.id,ceneter:app.request.get('center')}) }}" target="_blank" ><button type="button" class="btn btn-primary btn-sm">立即回答</button></a>
+                        {% endif %}
+
+                        {% if type=="unanswered" %}
+                            <button type="button" class="btn btn-default btn-sm delete-thread" data-url="{{ U('Course/CourseThread/delete',{courseId:thread.courseId,id:thread.id,center:app.request.get('center')}) }}" {% if not thread.isMyCourse %}disabled{% endif %}>删除问题</button>
+                        {% elseif type=="locked" %}
+                            <button type="button" class="btn btn-default btn-sm giveup-grabpost" data-url="{{ U('My/MyTeaching/giveupGrabAnswer',{courseId:thread.courseId,id:thread.id,center:app.request.get('center')}) }}">放弃回答</button>
+                        {% elseif type== 'MyCollection' %}
+                            <button type="button" class="btn btn-default btn-sm remove-collection" data-url="{{ U('Course/CourseThread/uncollect',{courseId:thread.courseId,id:thread.id,center:app.request.get('center')}) }}">移除收藏</button>
+                        {% endif %}
+
+                    </td>
+                </tr>
+            {% else %}
+                {% if type == 'closed' %}
+                    <tr>
+                        <td colspan="3">暂无删除的提问！</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3">没有提问题！</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{{ web_macro.paginator(paginator) }} 

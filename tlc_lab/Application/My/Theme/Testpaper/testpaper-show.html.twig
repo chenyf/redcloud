@@ -1,0 +1,39 @@
+{% extends '@My/Testpaper/testpaper-layout.html.twig' %}
+
+{% if paper.testpaperType == 1 %}
+  {% set testpaperText = '作业' %}
+{% else %}
+  {% set testpaperText = '试卷' %}
+{% endif %}
+
+{% block testpaper_heading_status %}
+  {% if isPreview|default(false) %}
+    <div class="label label-warning">{{ testpaperText }}预览中</div>
+  {% else %}
+    {% if paperResult.status|default(null) == 'doing' %}
+      <div class="label label-primary testpaper-status-doing">答题中</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block testpaper_heading_content %}
+  <div class="testpaper-description">{{ paper.description|bbCode2Html|raw }}</div>
+  {% if paper.isFileHomework %}
+    <div class="testpaper-metas">
+      共{{ items|length }}个文件。
+    </div>
+  {% else %}
+  <div class="testpaper-metas">
+    共 {{ paper.itemCount }} 题{% if testpaperType != 2 %}，总分 {{ paper.score }} 分{% endif %}
+    {% if paper.passedScore > 0 %}，及格为 {{ paper.passedScore }} 分{% endif %}
+    {% if paper.limitedTime >0 %}，请在 {{ paper.limitedTime }} 分钟内作答{% endif %}
+    。
+  </div>
+  {% endif %}
+{% endblock %}
+
+{% block testpaper_body_sidebar %}
+  <div class="testpaper-card" data-spy="affix" data-offset-top="200">    
+    {% include '@My/Testpaper/test-paper-card.html.twig' %}
+  </div>
+{% endblock %}

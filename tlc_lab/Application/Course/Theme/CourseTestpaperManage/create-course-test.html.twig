@@ -1,0 +1,71 @@
+{% import "@Home/macro.html.twig" as web_macro %}
+{% set modal_class = 'modal-lg' %}
+{% if app.request.get('type') != '2' %}
+    <form class="form-horizontal"  id="testpaper-form" buildCheckUrl="{{ U('Course/CourseTestpaperManage/getCourseQes',{courseId:courseId, goto:app.request.server.get('REQUEST_URI')}) }}" action="{{ U('Course/CourseTestpaperManage/createCourseTest',{courseId:courseId,type:type}) }}" method="post">
+{% else %}
+    <form class="form-horizontal"  id="testpaper-form" buildCheckUrl="{{ U('Course/CourseTestpaperManage/getCourseQes',{courseId:courseId, goto:app.request.server.get('REQUEST_URI')}) }}" action="{{ U('Course/CourseTestpaperManage/createCourseLesson',{courseId:courseId,type:type,parentId:app.request.get('parentId'),lessonId:lesson.id,center:app.request.get('center')}) }}" method="post">
+{% endif %}
+    <div class="modal-dialog {% if modal_class|default('') %} {{ modal_class }}{% endif %}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">创建{{tyepText}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="create-popup-box">
+                    <div class="t-course-handle" style="margin-top:0;">
+                        <div class="t-add-content pull-right">
+                            <a id="myId" type="button" class="btn btn-info btn-sm" href="{{ U('Course/CourseQuestionManage/index',{courseId:course.id,center:app.request.get('center')}) }}"><i class="glyphicon glyphicon-plus mrs"></i>录入新题目</a>
+                        </div>
+                    </div>
+                    <div class="t-work-set mtl">
+                            {% if app.request.get('type') != '2' %}
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" style="padding-left:0;padding-right: 0;">布置{{ tyepText }}的授课班</label>
+                                    <div class="col-md-8 controls" style="padding-right: 0;width: 76%;">
+                                        {{ render(controller('Course:CourseManage:selectClass', {courseId:course.id,id:app.request.get('classId'),createTest:1})) }}
+                                    </div>
+                                </div>
+
+                                <div class="row form-group">
+                                    <div class="col-md-2 control-label"><label for="correct">是否批阅</label></div>
+                                    <div class="col-md-6 controls ">
+                                        <input type="checkbox"  autocomplete="off" checked="checked"  data-role="batch-select" name="correct" value="1">
+                                        <div class="help-block" style="display: inline-block;">批阅</div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="form-group" >
+                                <div class="col-md-2 control-label"><label for="testpaper-name-field">{{tyepText}}名称</label></div>
+                                <div class="col-md-8 controls" style="width:78%">
+                                    <input type="hidden" name="tyepText" value="{{ tyepText }}">
+                                    <input class="form-control"  value="" name="name"   id="testpaper-name-field"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-2 control-label" style="padding-left:0;padding-right: 0;">添加{{ typeText }}题目的方式</label>
+                                <div class="col-md-8 controls btn-choose" style="padding-right: 0;width:80%;">
+                                    <a class="a-choose  select-Method active" href="javascript:void(0)" data-val="manually">手动选择题目<span>（{{ questionsCount }}道）</span><em class="fa fa-check-square-o selected-icon"></em></a>
+                                    <a class="a-choose  select-Method" href="javascript:void(0)" data-val="random">随机选择题目<span>（{{ questionsCount }}道）</span></a>
+                                    <a class="a-choose  select-Method" href="javascript:void(0)" data-val="existing">选择已创建的作业/考试<span>（{{ testpaperCount }}份）</span></a>
+                                    {% if app.request.get('type') != '2' %}<a class="a-choose  select-Method" href="javascript:void(0)" data-val="file">上传文件作业</a>{% endif %}
+                                    <input type="hidden" name="mode" value="manually" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    {% if not hide_footer|default(false) %}
+                <div class="modal-footer">
+                    <button id="create-btn" type="submit" class=" btn btn-primary pull-right" data-url="">创建并添加题目</button>
+                    <button type="button" class="btn btn-link pull-right" data-dismiss="modal">取消</button>
+
+                    <script>
+                        app.load('testpaper/create-course-test');
+                        </script>
+                    </div>
+    {% endif %}
+                </div>
+            </div>
+        </form>
+

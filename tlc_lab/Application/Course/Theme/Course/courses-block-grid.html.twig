@@ -1,0 +1,110 @@
+<style>
+.classroomPicture{
+
+  width: 24px;
+  height: 24px;
+}
+</style>
+{% set mode = mode|default('default') %}
+<ul class="course-grids clearfix">
+  {% for course in courses %}
+    <li class="course-grid col-md-4 col-sm-6 clearfix">
+        <div class="course-con">
+            <div class="course-grid-img">
+                <a href="{{ path('course_show', {id:course.id}) }}" class="grid-body">
+                    <img src="{% if course.selectPicture == "" %}{{ default_path('coursePicture',course.largePicture, 'large') }}{% else %} {{ course.selectPicture }}{% endif %}"  class="img-responsive thumb">
+                </a>
+            </div>
+          {% if course.status == 'draft' %}
+            <span class="label  label-warning course-status">未发布</span>
+          {% elseif course.status == 'closed' %}
+            <span class="label label-danger course-status">已关闭</span>
+          {% endif %}
+
+        <a href="{{ path('course_show', {id:course.id}) }}" class="title">{{ course.title }}</a>
+        {% if mode in ['default', 'teach'] %}
+
+          {% if course.type == 'live' %}
+            {% set lesson = course['lesson']|default(null) %}
+            {% if lesson %}
+              <span class="live-course-lesson metas">
+                <span class="text-success mrm">{{ lesson.startTime|date('n月j日 H:i') }} ~ {{ lesson.endTime|date('H:i') }}</span>
+                <span class="text-muted mrm">第{{ lesson.number }}课程内容</span>
+              </span>
+            {% endif %}
+          {% endif %}
+
+          <span class="metas clearfix">
+
+            {% if setting('course.show_student_num_enabled', '1') == 1 %}
+            <span class="student-col">
+              <span class="meta-label">{{ course.lessonNum }}课时</span>
+              <span class="student-num">{{ course.studentCount }}人在学</span>
+            </span>
+            {% endif %}
+
+          </span>
+        {% endif %}
+
+        {% if mode in ['default'] %}
+          {% set user = users[course.teacherIds|first]|default(null) %}
+          {% if user %}
+            <span class="teacher clearfix">
+              <img src="{{ user_default_path(user.id, 'small') }}" class="thumb">
+              <span class="nickname ellipsis">{{ user.nickname }}</span>
+              {#<span class="user-title ellipsis">{{ user.title }}</span>#}
+            </span>
+          {% endif %}
+        {% endif  %}
+
+        {% if mode in ['learn'] %}
+          <div class="learn-status">
+
+            {% if is_plugin_installed('Classroom') and setting('classroom.enabled')|default(0) %}
+              <div class="mbm">
+              {% if course.classroomCount > 0 %}
+                {% set classroom = course.classroom %}
+                <img class="classroomPicture" src="{{ default_path('classroomPicture',classroom.smallPicture, '') }}"> <span class="text-muted">{{classroom.title}}
+                {% if course.classroomCount > 1 %}
+                等
+                {% endif %}</span>
+              {% endif %}
+              </div>
+            {% endif %}
+
+
+            {% if course.memberIsLearned %}
+              <div class="progress">
+                <div class="progress-bar progress-bar-success" style="width: 100%;"></div>
+              </div>
+              学习总时长:{{course.learnTime}}
+              <div class="action clearfix"><span class="btn btn-default btn-sm pull-right"><a href="{{ path('course_show', {id:course.id}) }}">查看课程</a></span></div>
+            {% else %}
+              <div class="progress">
+                <div class="progress-bar progress-bar-success" style="width: {{ percent(course.memberLearnedNum, course.lessonNum) }}"></div>
+              </div>
+              <div class="action"><a href="{{ path('course_show', {id:course.id}) }}" class="btn btn-primary btn-sm">继续学习</a></div>
+            {% endif %}
+          </div>
+          {% if course.status == 'draft' %}
+            <span class="label  label-warning course-status">未发布</span>
+          {% elseif course.status == 'closed' %}
+            <span class="label label-danger course-status">已关闭</span>
+          {% endif %}
+        {% endif %}
+
+        {% if mode == 'teach' %}
+          {% if course.status == 'published' %}
+            <span class="label label-success course-status">已发布</span>
+          {% elseif course.status == 'draft' %}
+            <span class="label  label-warning course-status">未发布</span>
+          {% elseif course.status == 'closed' %}
+            <span class="label label-danger course-status">已关闭</span>
+          {% endif %}
+        {% endif %}
+
+      
+   </div>
+    </li>
+  {% endfor %}
+</ul>

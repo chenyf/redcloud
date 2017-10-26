@@ -1,0 +1,32 @@
+<div class="footer-box">
+            <div class="footer-top-con">
+                <div class="container">
+                    {% if site.friend_link_enable == 1 %}
+                    <div class="blogroll-box">
+                        <h2><img src="/Public/static/img/blogroll-img.png"/>友情链接</h2>
+                        <ul class="ft-link-con clearfix">
+                            {% for key ,value in site.friend_link  if value %}
+                            <li><a href="{{site.friend_link[key]['url']}}" target="_blank">{{site.friend_link[key]['title']}}</a></li>
+                        
+                            {% endfor  %} 
+                        </ul>
+                    </div>
+                    {% endif %}
+                    {% if site.about_us_enable == 1 %}
+                    <div class="about-box">
+                        <h2><img src="/Public/static/img/about-img.png"/>{{site.about_us_title}}</h2>
+                        <ul class="ft-link-con clearfix">
+                            {% for key, value in about_us if value %} 
+                            <li><a href="{{test~U('/Home/AboutUs/aboutAction',{ id:value['id'] })}}" target="_blank">{{value['title']}}</a></li>
+                            {% endfor  %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="copyright-bar">
+                <div class="container">
+                    <p>{{site.icp}} &nbsp;&nbsp;{% if site.contact %}联系方式：{{site.contact}}{% endif %}</p>
+                </div>
+            </div>
+        </div>

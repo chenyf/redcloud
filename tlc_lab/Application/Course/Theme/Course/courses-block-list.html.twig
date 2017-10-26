@@ -1,0 +1,45 @@
+<ul class="course-wide-list clearfix">
+    {% for course in courses %}
+        <li class="course-item col-md-{{md}} col-sm-6 clearfix ">
+            <div class="course-con">
+                <a class="course-picture-link" href="{{ path('course_show', {id:course.id,center:app.request.get('center')}) }}">
+                    <img class="course-picture" loaderrimg="1" onerror="javascript:this.src='/Public/assets/img/default/loading-error.jpg?5.1.4';" src="{% if course.selectPicture == "" %}{{ default_path('coursePicture', course.middlePicture, 'large') }}{% else %} {{ course.selectPicture }}{% endif %}" alt="{{ course.title }}">
+                </a>
+                <div class="course-body">
+                    <h4 class="course-title">
+                        {% if course.serializeMode=='serialize' %}
+                            <span class="label label-success ">更新中</span>
+                        {% elseif course.serializeMode=='finished' %}
+                            <span class="label label-warning ">已完结</span>
+                        {% endif %}
+                        <a href="{{ path('course_show', {id:course.id,center:app.request.get('center')}) }}">{{ course.title }}</a>
+                    </h4>
+                    {% if course.type == 'live' %}
+                        {% set lesson = course.lesson|default(null) %}
+                        {% if lesson %}
+                            <div class="live-course-lesson mbm">
+                                <span class="text-success fsm mrm">{{ lesson.startTime|date('n月j日 H:i') }} ~ {{ lesson.endTime|date('H:i') }}</span>
+                                <span class="text-muted fsm mrm">第{{ lesson.number }}课程内容</span>
+                            </div>
+                        {% endif %}
+                    {% else %}
+
+                    {% endif %}
+                    <div class="course-footer clearfix">
+                        <div class="course-metas">
+                            <div class="text-muted mrm mls">
+                                <span class="course-lessonHour"><i class="glyphicon glyphicon-time"></i><em>{{ course.lessonNum }}课时</em></span>
+                            </div>
+                        </div>
+
+                        <div class="course-teach">
+                            <span class="text-muted mrm mls f-rt">浏览量：<strong>{{ course.viewCount }}</strong></span>
+                            <div class="teacher">讲师：<a class="teacher-nickname ellipsis" href="/teacher/homepage/{{ course.teacher.userNum }}/index.html" target="_blank">{{ course.teacher.nickname }}</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+        {#{% include '@Course/Course/course-item.html.twig' with {course: course,mode:mode} %}#}
+    {% endfor %}
+</ul>

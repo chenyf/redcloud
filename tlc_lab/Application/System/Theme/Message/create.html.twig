@@ -1,0 +1,82 @@
+{#% extends '@Home/layout.html.twig' %#}
+{% extends '@Home/layout.html.twig' %}
+{% block title %}写私信 - {{ parent() }}{% endblock %}
+{% set script_controller = 'message/create' %}
+{% 
+  set script_arguments = {
+    followingMatchByNickname: path('following_match_bynickname')
+  } 
+%}
+
+{% block content %}
+<style>
+
+.ui-autocomplete {
+    border:1px solid #ccc;
+    background-color: #FFFFFF;
+    box-shadow: 2px 2px 3px #EEEEEE;
+}
+.ui-autocomplete-ctn{
+    margin:0;
+    padding:0;
+}
+.ui-autocomplete-item {
+    width: 180px;
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 30px;
+    padding:0 10px 0 10px;
+    cursor: default;
+}
+.ui-autocomplete-item-hover {
+    background:#f2f2f2;
+}
+.ui-autocomplete-item-hl {
+    background:#F6FF94;
+}
+
+</style>
+<div class="row row-8 mtl">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default panel-page">
+            <div class="c-panel-heading">
+                <a href="{{ path('message')}}" class="btn btn-default pull-right" style="margin-top:-3px;">返回我的私信</a>
+                <h3>写私信</h3>
+            </div>
+                <div class="panel-body">
+      <form id="message-create-form" class="form-horizontal" method="post">
+
+        <div class="form-group">
+          <div class="col-md-12 controls">
+            {#{ form_widget(form.receiver, {attr:{class:'form-control', placeholder:'收信人昵称', 'data-auto-url':script_arguments.followingMatchByNickname, 'data-url':path('message_check_receiver'), 'data-display':'收信人昵称'}})  }#}
+            <input type="text" id="message_receiver" name="message[receiver]" required="required"    class="form-control" placeholder="收信人姓名" data-auto-url="/System/Message/matchAction" data-url="/System/Message/checkReceiverAction" data-display="收信人姓名"  />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12 controls">
+            {#{ form_widget(form.content, {attr:{class:'form-control', rows:5, placeholder:'想要说的话', 'data-display': '想要说的话'}}) }#}
+            <textarea id="message_content" name="message[content]" required="required"    class="form-control" rows="5" placeholder="想要说的话" data-display="想要说的话" ></textarea>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-12 controls">
+            {#{ form_rest(form) }#}
+              <input type="hidden" id="message__token" name="message[_token]" value="b24b8048140192ec35afa5b413a792c51439082e" />
+            {% if not isCloseUserWrite() %}
+                <input id="message-create-btn" class="btn btn-primary pull-right" type="submit" value="发送">
+            {% endif %}
+          </div>
+        </div>
+
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('site') }}">
+      </form>
+
+</div>
+    </div><!-- /panel -->
+  </div>
+</div>
+
+{% endblock %}

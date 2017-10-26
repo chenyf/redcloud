@@ -1,0 +1,97 @@
+/*** CLOUD--USER-CENTER STYLE ***/
+
+/*** 师资力量 ***/
+.es-row-wrap {background: #fff;}
+.es-row-wrap .row {margin-left: 10px;margin-right: 10px;}
+.es-row-wrap .page-header {margin-top: 25px;}
+.es-row-wrap .page-header h1 {font-size: 24px;}
+
+.teacher-list{margin:0 -15px;}
+.teacher-list li{margin: 10px 0;}
+.teacher-list li .teacher-item-con{padding:15px; -webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.15); box-shadow: 0 1px 4px rgba(0,0,0,0.15);background: #f9f9f9;border: 1px solid #D7D7D7;  border-radius: 4px;}
+.teacher-list li .teacher-item-con .teacher-pic{display:block;width: 60%;margin: 0 auto; }
+.teacher-list li .teacher-item-con .teacher-pic img{border: 3px solid #f8f8f8;width: 100%;height:100%;border-radius: 50%}
+.teacher-list li .teacher-item-con .nickname{display:block;height:30px;line-height: 30px;margin:10px 0;font-size:18px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;}
+.teacher-list li .teacher-item-con .title{height:24px;line-height: 24px;font-size:14px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;color:#666;}
+.teacher-list li .teacher-item-con .about{margin: 10px 0;height:48px;line-height: 24px;font-size: 14px;overflow: hidden;}
+.teacher-list li .teacher-item-con .about p{color: #666;}
+.teacher-list li .teacher-item-con .sixinbtn{height:54px;padding:10px 0;}
+.teacher-list li .teacher-item-con .sixinbtn button{display: none;}
+.teacher-list li:hover .teacher-item-con .sixinbtn button{display: block;margin: 0 auto;}
+
+.teacher-list li:hover .teacher-item-con{
+    -webkit-box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    -webkit-transform: translate3d(0, -2px, 0);transform: translate3d(0, -2px, 0);
+    -webkit-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+}
+
+/*** 用户主页 ***/
+.userpage-header .row {padding-top: 25px;padding-bottom: 25px;}
+.userpage-header .avatar {float: left;width: 128px;height: 128px;border-radius: 50%;margin-right:50px;}
+.userpage-header-info h1 {margin-top: 0px;margin-bottom: 15px;font-size: 28px;}
+.userpage-header-info h1 small {font-size: 16px;color: #0078d0;}
+.userpage-header-info .actions {float: right;}
+
+/* 用户主页课程列表--------样式和course.css冲突 */
+/* 
+.category-filters {margin-bottom: 20px;line-height:36px;border-bottom:1px solid #e4e4e4;overflow:hidden;}
+.category-filters-rt{float:right;}
+.category-filters-rt a {color: #aaa;text-decoration: none;margin-left:20px;display: inline-block;font-size: 16px;}
+.category-filters-rt a:hover {color: #0078d0;text-decoration: none;}
+.category-filters-rt a.selected {color: #0078d0;font-weight: bold;border-bottom:2px solid #0078d0;}
+.category-filters .breadcrumb{background: none;padding:0;margin: 0;}
+.course-wide-list{margin-left:-15px;padding:0;}
+.course-wide-list li.course-item{margin-bottom: 20px;padding:0;border:none;}
+.course-wide-list li .course-con{box-shadow: 0 1px 2px #ddd;margin-left:15px;}
+.course-wide-list .course-picture {width: 100%;}
+.course-wide-list li .course-picture-link{display:block;overflow:hidden;}
+.course-wide-list .course-body {margin: 10px 10px 0;}
+.courses-selected .course-body {margin: 15px 15px 0px 300px;}
+.course-wide-list .course-title {word-break:break-all;height:30px;line-height:30px;overflow:hidden;text-overflow: ellipsis;white-space: nowrap;}
+.course-wide-list .course-title span.label{padding:.3em .6em .2em;}
+.course-wide-list .course-title a {color: #000;font-size:14px;}
+.course-wide-list .course-about {margin: 0 0 15px;color: #666;}
+.course-wide-list .course-footer {overflow:hidden;}
+.course-wide-list .teacher {float: left;font-size: 12px;line-height:24px;max-width:160px;color:#999;overflow:hidden;}
+.course-wide-list .teacher-avatar {float: left;display: block;width: 30px;height: 30px;border-radius: 3px;margin-right: 5px;}
+.course-wide-list .teacher-nickname {font-size: 12px;color: #666;}
+.course-wide-list .teacher-nickname:hover{color: #0078d0;}
+.course-wide-list .teacher-title {color: #777;font-size: 12px}
+.course-wide-list .course-metas {height:30px;margin-top: 5px;}
+.course-wide-list .course-price { font-style: oblique;}
+.course-coinPrice {color: #e57259;font-size: 16px;}
+.course-wide-list .divider {width: 1px;border-left: 1px solid #ccc;margin: 0 5px;}
+.course-wide-list .course-item:hover .course-con{-webkit-box-shadow: 0 10px 20px rgba(0,0,0,0.1);box-shadow: 0 10px 20px rgba(0,0,0,0.1);-webkit-transform: translate3d(0, -2px, 0);transform: translate3d(0, -2px, 0);-webkit-transition: all 0.2s linear;transition: all 0.2s linear;}
+ */
+ 
+/*** 关注/粉丝 ***/
+.fans-list{margin:20px 0 0 0 !important;}
+.fans-list .fans-list-item{padding:0 0 0 -15px;}
+.friendcard {border: 1px solid #eee;border-radius: 4px;padding: 10px; margin-bottom: 20px;}
+.friendcard:hover {border: 1px solid #ddd;background-color: #f7f7f7;}
+.friendcard .avatar {width: 48px;height: 48px;float: left;border-radius: 50%;}
+.friendcard .infos {margin-left: 65px;}
+.friendcard .nickname {display: block;margin-bottom: 5px;}
+.friendcard .title {color: #999;}
+
+
+/*** 私信 ***/
+.conversation-list .media-heading {font-size: 14px;margin-bottom: 10px;}
+.conversation-list .media {cursor: pointer;}
+.conversation-list .media .actions {visibility: hidden;}
+.conversation-list .media:hover .actions {visibility: visible;}
+.conversation-list .conversation-footer {color: #999;font-size: 13px;}
+.message-list .popover {position: relative;display: block;margin: 0 20px 0 20px;max-width: 100%;}
+.message-list .message-me .popover {margin-left: 70px;background: #fafafa;}
+.message-list .message-she .popover {margin-right: 70px;}
+.message-list .popover .arrow {top: 24px;}
+.message-list .message-me .popover .arrow:after {border-left-color: #fafafa;}
+.message-list .message-content {margin-bottom: 10px;}
+.message-list .message-footer {font-size: 12px;}
+.message-list .message-actions {float: right;visibility: hidden;}
+.message-list .media:hover .message-actions {visibility: visible;}
+
+
+

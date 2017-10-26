@@ -1,0 +1,5 @@
+.fixed-right-bot{position:fixed;right:20px;bottom:60px;width:82px;height:32px;border:1px solid #999;background:#fff;}
+.fixed-right-bot a{float:left;width:39px;height:30px;line-height:30px;text-align:center;font-size:14px;color:#0593d3;font-family:"Arial";font-weight:bold;}
+.fixed-right-bot a:hover{text-decoration:none;background-color:#f1f1f1;}
+.fixed-right-bot .fixed-img{line-height:30px;width:40px;border-left:1px solid #999;background:url(/Public/bundles/web/img/d-pic.png) center center no-repeat;}
+.fixed-right-bot .fixed-img img{vertical-align: middle;} 

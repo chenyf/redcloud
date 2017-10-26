@@ -1,0 +1,12 @@
+<div>
+    <ul class="nav nav-tabline">
+        <li class="{% if type == "unanswered" %}active{% endif %}"><a href="{{ U('My/MyTeaching/threads',{type:'unanswered'}) }}">待回答问题列表({{ counts.unansweredCounts|default(0) }})</a></li>
+        <li class="{% if type == "locked" %}active{% endif %}"><a  href="{{ U('My/MyTeaching/relatedThread',{type:'locked'}) }}">我锁定的问题({{ counts.lockedCounts|default(0) }})</a></li>
+        <li class="{% if type == "append" %}active{% endif %}"><a href="{{ U('My/MyTeaching/relatedThread',{type:'append'}) }}">追问我的问题({{ counts.appendCounts|default(0) }})</a></li>
+        <li class="{% if type == "reply" %}active{% endif %}"><a href="{{ U('My/MyTeaching/relatedThread',{type:'reply'}) }}">回复我的问题({{ counts.replyCounts|default(0) }})</a></li>
+        <li class="{% if type == "posted" %}active{% endif %}"><a href="{{ U('My/MyTeaching/postedThread',{type:'posted'}) }}">我已回答的问题</a></li>
+        {% if not isAnswerTeacher %}
+            <li class="{% if type == "closed" %}active{% endif %}"><a href="{{ U('My/MyTeaching/threads',{type:'closed'}) }}">我已删除的问题</a></li>
+        {% endif %}
+    </ul>
+</div>

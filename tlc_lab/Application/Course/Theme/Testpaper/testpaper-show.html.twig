@@ -1,0 +1,28 @@
+{% extends '@Course/Testpaper/testpaper-layout.html.twig' %}
+
+{% block testpaper_heading_status %}
+  {% if isPreview|default(false) %}
+    <div class="label label-warning">试卷预览中</div>
+  {% else %}
+    {% if paperResult.status|default(null) == 'doing' %}
+      <div class="label label-primary testpaper-status-doing">答题中</div>
+    {% elseif paperResult.status|default(null) == 'submitted' %}
+      <div class="label label-danger testpaper-status-submitted">已提交,待批阅</div>
+    {% elseif paperResult.status|default(null) == 'finished' %}
+      <div class="label label-warning testpaper-status-finished">批阅完成</div>
+    {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block testpaper_heading_content %}
+  <div class="testpaper-description">{{ paper.description|bbCode2Html|raw }}</div>
+  <div class="testpaper-metas">
+    共 {{ paper.itemCount }} 题。
+  </div>
+{% endblock %}
+
+{% block testpaper_body_sidebar %}
+  <div class="testpaper-card" data-spy="affix" data-offset-top="200">    
+    {% include '@Course/Testpaper/test-paper-card.html.twig' %}
+  </div>
+{% endblock %}

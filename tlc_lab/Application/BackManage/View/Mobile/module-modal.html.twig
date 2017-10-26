@@ -1,0 +1,146 @@
+{% extends '@Home/bootstrap-modal-layout.html.twig' %}
+
+{% set module = module|default(null) %}
+{% set modal_class = 'modal-lg' %}
+
+
+{% block title %}
+    {% if module %}编辑模块{% elseif pid %} 添加子模块{% else %} 添加模块{% endif %}
+{% endblock %}
+
+{% block body %}
+    <style>
+        .thumbnail-bg{
+            border: 1px solid #006A00;
+        }
+    </style>
+
+    <form class="form-horizontal" id="module-form"
+            {% if module.id == 0 %}
+                action="{{ path('mobile_module_create') }}"
+            {% else %}
+                action="{{ path('mobile_module_edit', {id:module.id}) }}"
+            {% endif %}
+          method="post">
+
+        {% if type %} <input type="hidden" name="type" value="{{ type }}"/>{% endif %}
+        {% if pid %} <input type="hidden" name="pid" value="{{ pid }}"/>{% endif %}
+        <input type="hidden" name="id" value="{{ module.id }}"/>
+
+        {#<div class="row form-group">#}
+            {#<div class="col-md-2 control-label"><label for="name">模块标识</label></div>#}
+            {#<div class="col-md-7 controls">#}
+                {#<input class="form-control" type="text" id="name" value="{{ module.name }}" name="name">#}
+
+                {#<div class="help-block">最好为大写英文字母+下划线,且不能重复.如: INDEX_HEADER</div>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#<p></p>#}
+
+        {#<div class="row form-group">#}
+            {#<div class="col-md-2 control-label"><label for="title">模块标题</label></div>#}
+            {#<div class="col-md-7 controls">#}
+                {#<input class="form-control" type="text" id="title" value="{{ module.title }}" name="title">#}
+
+                {#<div class="help-block">模块中文名 如：首页</div>#}
+            {#</div>#}
+        {#</div>#}
+
+        {#<p></p>#}
+
+        {% if pid == undefined or  pid == 0 %}
+            {% if pid == undefined %}
+                <div class="row form-group">
+                    <div class="col-md-2 control-label"><label for="type">客户端类型</label></div>
+                    <div class="col-md-6 controls ">
+                        <select class="form-control" name="type" id="type">
+                            <option value="0">通用</option>
+                            <option value="1" {% if module.type ==1 %} selected {% endif %}>安卓</option>
+                            <option value="2" {% if module.type ==2 %} selected {% endif %}>ios</option>
+                        </select>
+
+                        <div class="help-block">模块所属客户端类型</div>
+                    </div>
+                </div>
+
+                <p></p>
+            {% endif %}
+
+            <div class="row form-group">
+                <div class="col-md-2 control-label"><label for="extra">模块配置项</label></div>
+                <div class="col-md-8 controls">
+                    <textarea name="extra" id="extra" cols="30" rows="3" class="form-control">{{ module.extra }}</textarea>
+
+                    <div class="help-block">模块通用配置项,选填 （例：page:20;max_page:50）</div>
+                </div>
+            </div>
+
+            <p></p>
+
+            <div class="row form-group">
+                <div class="col-md-2 control-label"><label for="remark">模块说明</label></div>
+                <div class="col-md-8 controls">
+                    <textarea name="remark" id="remark" cols="30" rows="5" class="form-control">{{ module.remark }}</textarea>
+
+                    <div class="help-block">模块说明，选填</div>
+                </div>
+            </div>
+
+            <p></p>
+
+        {% endif %}
+        {% if theme %}
+            <div class="row form-group">
+                <div class="col-md-2 control-label">
+                    <label>模块样式</label>
+                </div>
+                <div class="col-md-5 controls" >
+                    <div class="radio">
+                        {% for vo in theme %}
+                            <label>
+                                <input type="radio" name="theme" value="{{ vo.name }}" {% if module.theme == vo.name %}checked{% endif %}>
+                                <a class="thumbnail {% if module.theme == vo.name %}thumbnail-bg {% endif %}">
+                                    <img src="{{ path('mobile_theme_img',{id:vo.id}) }}" alt="{{ vo.title }}">
+                                    <div class="caption">
+                                        <h5>{{ vo.title }}</h5><span class="text-muted">{{ vo.name }}</span>
+                                    </div>
+                                </a>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if pid != 0 %}
+
+            <div class="row form-group">
+                <div class="col-md-2 control-label">
+                    <label>是否启用</label>
+                </div>
+                <div class="col-md-8 controls radios">
+                    <div>
+                        <input type="radio" name="status" value="1"
+                                {% if module.status == 1 or module.status == undefined %} checked="checked" {% endif %}>
+                        <label>是</label>
+                        <input type="radio" name="status" value="2"
+                                {% if module.status == 2 %} checked="checked" {% endif %}>
+                        <label>否</label>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <input type="hidden" name="id" value="{{ module.id|default(0) }}">
+
+    </form>
+    <script type="text/javascript">
+        app.load('mobile/create-module-modal')
+    </script>
+
+{% endblock %}
+{% block footer %}
+    <button type="button" class="btn btn-link" data-dismiss="modal" id="cancel-btn">取消</button>
+    <button id="module-save-btn" data-submiting-text="正在提交" type="submit" class="btn btn-primary" data-toggle="form-submit" data-target="#module-form">保存</button>
+{% endblock %}
+
+{% set hideFooter = true %}

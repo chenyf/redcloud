@@ -1,0 +1,60 @@
+{# 我的云课堂--申请记录 #}
+{% set hide_record_btn = 1 %}
+{% extends "@My/MyTeaching/teaching-layout.html.twig" %}
+{% block teachingBlock %}
+    <div>
+        <ol class="breadcrumb">
+            <li>
+                <a href="{{path('my_teaching_courses',{center:1})}}">{{publicCourseName()}}</a>
+            </li>
+            <li class="active">
+                查看申请记录
+            </li>
+            <form class="pull-right" method="get" style="margin-top:-7px" >
+                <select class="form-control" name="status" style="width:150px" onchange="return submit();">
+                    <option value='-1' {% if status == -1 %}selected{% endif %}>全部</option>
+                    <option value='0' {% if status == 0 %}selected{% endif %}>审核中</option>
+                    <option value='1' {% if status == 1 %}selected{% endif %}>不通过</option>
+                    <option value='2' {% if status == 2 %}selected{% endif %}>已通过</option>
+                    <option value='3' {% if status == 3 %}selected{% endif %}>已取消</option>
+                </select>
+            </form>
+        </ol>
+    </div>
+    <div class="panel-body" style="padding:0;">
+        <table class="table table-bordered table-middle" style="word-break:break-all;text-align:center;">
+            <tbody>
+                <tr class="active">
+                    <td>申请者</td>
+                    <td>申请课程</td>
+                    <td>申请时间</td>
+                    <td>审核结果</td>
+                    <td>操作</td>
+                </tr>
+                {% for record in records %}
+                    <tr>
+                        <td> {{ getUserNameById(record.applyUid) }} </td>
+                        <td> {{ record.courseName }} </td>
+                        <td> {{ record.applyTm|date('Y.m.d H:i') }} </td>
+                        <td>
+                            {% if record.status == 0 %}<span class="glyphicon glyphicon-pencil"> 审核中</span>{% endif %}
+                            {% if record.status == 1 %}<span class="glyphicon glyphicon-remove"> 不通过</span>{% endif %}
+                            {% if record.status == 2 %}<span class="glyphicon glyphicon-ok"> 已通过</span>{% endif %}
+                            {% if record.status == 3 %}<span class="glyphicon glyphicon-remove"> 已取消</span>{% endif %}
+                        </td>
+                        <td>
+                            <a data-toggle="modal" data-target="#modal" data-url="{{path('course_apply_record_info',{applyId:record.id,center:app.request.get('center')})}}" class="btn btn-default btn-sm">
+                                查看详细
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr class="empty">
+                        <td colspan="20">暂无申请记录</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {{ web_macro.paginator(paginator) }}
+    </div>
+{% endblock %}

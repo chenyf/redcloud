@@ -1,0 +1,99 @@
+{% extends '@BackManage/System/layout.html.twig' %}
+
+{% block title %}app版本管理 - {{ parent() }}{% endblock %}
+
+{% set script_controller = 'mobile/theme-list' %}
+
+{% set menu = 'mobile_theme' %}
+
+{% block main %}
+    <style>
+
+        .create_access_primary {
+            display: block;
+            border: 2px dotted #d9dadc;
+            line-height: 145px;
+            font-size: 0;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .create_access_primary:hover {
+            border: 2px dotted #a9aadc;
+        }
+        .icon20_common {
+            width: 20px;
+            height: 20px;
+            vertical-align: middle;
+            display: inline-block;
+            line-height: 100px;
+            overflow: hidden;
+        }
+        .icon20_common.add_gray {
+            background: url("/Public/assets/img/default/base_z264f38.png") 0 -2809px no-repeat;
+        }
+        .thumbnail-bg {
+            border: 1px solid #A94442;
+        }
+    </style>
+    <div class="page-header clearfix">
+        <h1 class="pull-left">模块样式</h1>
+    </div>
+    <ul class="nav nav-tabs mbl">
+        <li role="presentation" {% if type == 1 %}class="active"{% endif %}><a href="{{ path('mobile_theme',{type:1,mainModule:mainModule}) }}">安卓</a></li>
+        <li role="presentation" {% if type == 2 %}class="active"{% endif %}><a href="{{ path('mobile_theme',{type:2,mainModule:mainModule}) }}">IOS</a></li>
+        <li role="presentation" class="pull-right dropdown">
+            <div class="btn-group">
+                <button class="btn btn-primary btn-sm">{{ currentModule.title }}  </button>
+                <button class="btn btn-primary dropdown-toggle  btn-sm" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                </button>
+                <ul class="dropdown-menu">
+                    {% for vo in mainModules %}
+                        <li><a href="{{ path('mobile_theme',{type:type,mainModule:vo.name}) }}">{{ vo.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="list-group">
+                {% for vo in ModuleList %}
+                    <a class="list-group-item {% if name == vo.name %}active{% endif %}" href="{{ path('mobile_theme',{name:vo.name,type:type,mainModule:mainModule}) }}">{{ vo.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                {% if ModuleList %}
+                    {% for vo in list %}
+                        <div class="col-md-8">
+                            <div class="thumbnail {% if vo.name == defaultTheme %} thumbnail-bg  {% endif %}">
+                                <img src="{% if vo.img %} {{ path('mobile_theme_img',{id:vo.id}) }} {% else %} /Public/assets/img/common/no-picture.png {% endif %}" alt="">
+
+                                <div class="caption">
+                                    <h5>{{ vo.title }}  <span class="text-muted">({{ vo.name }})</span></h5>
+
+                                    <p><a href="#" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#modal" data-url="{{ path('mobile_theme_edit',{id:vo.id}) }}" {% if vo.name == defaultTheme %}disabled{% endif %}>编辑</a>
+                                        <a href="javascript:void(0)" class="btn btn-default btn-sm btn-del" role="button" data-url="{{ path('mobile_theme_delete',{id:vo.id}) }}" {% if vo.name == defaultTheme %}disabled{% endif %}>删除</a>
+                                    </p>
+                                    {% if vo.name == defaultTheme %}
+                                        <strong class="text-danger">默认样式</strong>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <div class="col-md-8">
+                        <a class="create_access_primary appmsg_add" href="javascript:void(0);" title="添加样式" data-toggle="modal" data-target="#modal" data-url="{{ path('mobile_theme_create',{module:name,type:type}) }}">
+                            <i class="icon20_common add_gray">增加一条</i>
+                        </a>
+                    </div>
+                {% else %}
+                    <p class="text-muted">暂无数据...</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
